@@ -1,0 +1,33 @@
+/* Test circuit for project 4 - Courtesy of Matt Kimbel */
+
+#include "basic.h"
+#include "clock.h"
+
+/* ----
+   Reset and Clk tick switches
+   ---- */
+Switch aa Reset ZERO;
+Switch da Tick ZERO;
+  
+/* ----
+   Place the components
+   ---- */
+Four-Phase-Clock ab Reset Tick | Phase[4..1];
+MPC-With-Reset cb-db Reset Phase[1] | MPC[7..0] ;
+
+/* ----
+   Probe the outputs of the clock component
+   ---- */
+Probe "Ph 4" ac Phase[4];
+Probe "Ph 3" ac Phase[3];
+Probe "Ph 2" ac Phase[2];
+Probe "Ph 1" ac Phase[1];
+
+Probe "MPC[7]" cc-dc MPC[7];
+Probe "MPC[6]" cc-dc MPC[6];
+Probe "MPC[5]" cc-dc MPC[5];
+Probe "MPC[4]" cc-dc MPC[4];
+Probe "MPC[3]" cc-dc MPC[3];
+Probe "MPC[2]" cc-dc MPC[2];
+Probe "MPC[1]" cc-dc MPC[1];
+Probe "MPC[0]" cc-dc MPC[0];

@@ -1,0 +1,7 @@
+Grade= 100
+
+Comments:
+Good job!!!
+Works for input files, and stdin.
+Tested on one line input, two lines input, many duplicate lines input,
+and non-existent input.

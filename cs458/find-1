@@ -1,0 +1,43 @@
+;;   ------------------ find1 ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+; find1.  This program takes two lists as arguments.  The first list
+; is the characters to be matched in the second list.  Note:  There
+; must exist two elements in the first argument list and the second list
+; may have infinite elements.  The program first checks to see if the
+; two elements exist in the second list and then checks to make sure
+; they are in the same order.
+
+(defun find1 (in l)
+  (cond ((subsetp in l) 
+	(if (= 2 (correct_order (first in) (second in) l)) 'T))
+  (t 'nil) ))
+
+
+
+(defun correct_order (f s listl)
+  (let ((result 0))
+      
+      (dolist (element listl result)
+	(cond ((= result 0) (if (eql element f) (setf result (+ result 1))))
+	      ((= result 1) (if (eql element s) (setf result (+ result 1))))
+	      ((= result 2) 'T)))))
+
+
+;sample input:
+;(find1 '(a b) '(a b))
+;(find1 '(a b) '(a x c b g b))
+;(find1 '(a b) '(b x c b g a))
+;(find1 '(a b) '(a x c b g b m l a))
+;(find1 '(a b) '(b a b))
+;(find1 '(a b) '(a c))
+;(find1 '(a b) '( ))
+;(find1 '(a b) '(x y z))

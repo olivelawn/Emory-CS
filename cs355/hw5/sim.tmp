@@ -1,0 +1,3431 @@
+Alias Reset Tick Phase[4] Phase[3] Phase[2] Phase[1] | ZZ0r ZZ0t ZZ0Phase[3] ZZ0Phase[2] ZZ0Phase[1] ZZ0Phase[0]  ;
+Module  "Four-Phase-Clock"  ac-bd ZZ0r ZZ0t | ZZ0Phase[3] ZZ0Phase[2] ZZ0Phase[1] ZZ0Phase[0]  ;
+  Switch "Switch" ac-bd.aa ZZ0set 
+ONE 
+
+ ;
+  Switch "Switch" ac-bd.aa ZZ0reset 
+ONE 
+
+ ;
+  Dff "Dff" ac-bd.aa ONE 
+ZZ0sw1 ZZ0t ONE ZZ0q1 ZZ0q1x 
+
+ ;
+  Dff "Dff" ac-bd.aa ONE 
+ZZ0sw2 ZZ0t ONE ZZ0q2 ZZ0q2x 
+
+ ;
+  Not "Not" ac-bd.aa ZZ0r 
+ZZ0not-r 
+
+ ;
+  Xor "Xor" ac-bd.aa ZZ0q1 
+ZZ0q2 ZZ0q1-xor-q2 
+
+ ;
+  And "And" ac-bd.aa ZZ0not-r 
+ZZ0q1-xor-q2 ZZ0sw1 
+
+ ;
+  And "And" ac-bd.aa ZZ0q2x 
+ZZ0not-r ZZ0sw2 
+
+ ;
+  And "And" ac-bd.aa ZZ0q1x 
+ZZ0q2x ZZ0Phase[0] 
+
+ ;
+  And "And" ac-bd.aa ZZ0q1x 
+ZZ0q2 ZZ0Phase[1] 
+
+ ;
+  And "And" ac-bd.aa ZZ0q1 
+ZZ0q2x ZZ0Phase[2] 
+
+ ;
+  And "And" ac-bd.aa ZZ0q1 
+ZZ0q2 ZZ0Phase[3] 
+
+ ;
+ End ; /* Four-Phase-Clock */
+Alias Addr[5] Addr[4] Addr[3] Addr[2] Addr[1] Addr[0] mir[31] mir[30] mir[29] mir[28] mir[27] mir[26] mir[25] mir[24] mir[23] mir[22] mir[21] mir[20] mir[19] mir[18] mir[17] mir[16] mir[15] mir[14] mir[13] mir[12] mir[11] mir[10] mir[9] mir[8] mir[7] mir[6] mir[5] mir[4] mir[3] mir[2] mir[1] mir[0] | ZZ1Addr[5] ZZ1Addr[4] ZZ1Addr[3] ZZ1Addr[2] ZZ1Addr[1] ZZ1Addr[0] ZZ1MIR[31] ZZ1MIR[30] ZZ1MIR[29] ZZ1MIR[28] ZZ1MIR[27] ZZ1MIR[26] ZZ1MIR[25] ZZ1MIR[24] ZZ1MIR[23] ZZ1MIR[22] ZZ1MIR[21] ZZ1MIR[20] ZZ1MIR[19] ZZ1MIR[18] ZZ1MIR[17] ZZ1MIR[16] ZZ1MIR[15] ZZ1MIR[14] ZZ1MIR[13] ZZ1MIR[12] ZZ1MIR[11] ZZ1MIR[10] ZZ1MIR[9] ZZ1MIR[8] ZZ1MIR[7] ZZ1MIR[6] ZZ1MIR[5] ZZ1MIR[4] ZZ1MIR[3] ZZ1MIR[2] ZZ1MIR[1] ZZ1MIR[0]  ;
+Module  "MIR"  cb-jb ZZ1Addr[5] ZZ1Addr[4] ZZ1Addr[3] ZZ1Addr[2] ZZ1Addr[1] ZZ1Addr[0] | ZZ1MIR[31] ZZ1MIR[30] ZZ1MIR[29] ZZ1MIR[28] ZZ1MIR[27] ZZ1MIR[26] ZZ1MIR[25] ZZ1MIR[24] ZZ1MIR[23] ZZ1MIR[22] ZZ1MIR[21] ZZ1MIR[20] ZZ1MIR[19] ZZ1MIR[18] ZZ1MIR[17] ZZ1MIR[16] ZZ1MIR[15] ZZ1MIR[14] ZZ1MIR[13] ZZ1MIR[12] ZZ1MIR[11] ZZ1MIR[10] ZZ1MIR[9] ZZ1MIR[8] ZZ1MIR[7] ZZ1MIR[6] ZZ1MIR[5] ZZ1MIR[4] ZZ1MIR[3] ZZ1MIR[2] ZZ1MIR[1] ZZ1MIR[0]  ;
+  Rom64x32 "Rom64x32" cb-jb.ab-bb ZZ1Addr[5] 
+ZZ1Addr[4] ZZ1Addr[3] ZZ1Addr[2] ZZ1Addr[1] ZZ1Addr[0] ZERO ZZ1MIR[31] ZZ1MIR[30] ZZ1MIR[29] ZZ1MIR[28] ZZ1MIR[27] ZZ1MIR[26] ZZ1MIR[25] ZZ1MIR[24] ZZ1MIR[23] ZZ1MIR[22] 
+ZZ1MIR[21] ZZ1MIR[20] ZZ1MIR[19] ZZ1MIR[18] ZZ1MIR[17] ZZ1MIR[16] ZZ1MIR[15] ZZ1MIR[14] ZZ1MIR[13] ZZ1MIR[12] ZZ1MIR[11] ZZ1MIR[10] ZZ1MIR[9] ZZ1MIR[8] ZZ1MIR[7] ZZ1MIR[6] 
+ZZ1MIR[5] ZZ1MIR[4] ZZ1MIR[3] ZZ1MIR[2] ZZ1MIR[1] ZZ1MIR[0] 16 16 5 0 16 17 5 0 16 16 
+10 0 16 17 10 0 16 16 12 0 16 17 12 0 16 16 
+13 0 16 17 13 0 144 16 0 0 144 17 0 0 0 16 
+1 0 8 16 1 0 24 16 0 0 20 16 0 0 18 16 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 
+
+ ;
+ End ; /* MIR */
+Alias mbr[15] mbr[14] mbr[13] mbr[12] mbr[11] mbr[10] mbr[9] mbr[8] mbr[7] mbr[6] mbr[5] mbr[4] mbr[3] mbr[2] mbr[1] mbr[0] | ZZ2MBR-out[15] ZZ2MBR-out[14] ZZ2MBR-out[13] ZZ2MBR-out[12] ZZ2MBR-out[11] ZZ2MBR-out[10] ZZ2MBR-out[9] ZZ2MBR-out[8] ZZ2MBR-out[7] ZZ2MBR-out[6] ZZ2MBR-out[5] ZZ2MBR-out[4] ZZ2MBR-out[3] ZZ2MBR-out[2] ZZ2MBR-out[1] ZZ2MBR-out[0]  ;
+Module  "MBR"  lc | ZZ2MBR-out[15] ZZ2MBR-out[14] ZZ2MBR-out[13] ZZ2MBR-out[12] ZZ2MBR-out[11] ZZ2MBR-out[10] ZZ2MBR-out[9] ZZ2MBR-out[8] ZZ2MBR-out[7] ZZ2MBR-out[6] ZZ2MBR-out[5] ZZ2MBR-out[4] ZZ2MBR-out[3] ZZ2MBR-out[2] ZZ2MBR-out[1] ZZ2MBR-out[0]  ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[15] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[14] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[13] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[12] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[11] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[10] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[9] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[8] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[7] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[6] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[5] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[4] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[3] 
+
+ ;
+  Or "Or" lc.aa ONE 
+ZZ2MBR-out[2] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[1] 
+
+ ;
+  Or "Or" lc.aa ZERO 
+ZZ2MBR-out[0] 
+
+ ;
+ End ; /* MBR */
+Alias mir[31] mir[30] mir[29] mir[28] mir[27] mir[26] mir[25] mir[24] mir[23] mir[22] mir[21] mir[20] mir[19] mir[18] mir[17] mir[16] mir[15] mir[14] mir[13] mir[12] mir[11] mir[10] mir[9] mir[8] mir[7] mir[6] mir[5] mir[4] mir[3] mir[2] mir[1] mir[0] mbr[15] mbr[14] mbr[13] mbr[12] mbr[11] mbr[10] mbr[9] mbr[8] mbr[7] mbr[6] mbr[5] mbr[4] mbr[3] mbr[2] mbr[1] mbr[0] Phase[4] Phase[3] Phase[2] Phase[1] Reset R0[15] R0[14] R0[13] R0[12] R0[11] R0[10] R0[9] R0[8] R0[7] R0[6] R0[5] R0[4] R0[3] R0[2] R0[1] R0[0] R1[15] R1[14] R1[13] R1[12] R1[11] R1[10] R1[9] R1[8] R1[7] R1[6] R1[5] R1[4] R1[3] R1[2] R1[1] R1[0] R2[15] R2[14] R2[13] R2[12] R2[11] R2[10] R2[9] R2[8] R2[7] R2[6] R2[5] R2[4] R2[3] R2[2] R2[1] R2[0] R3[15] R3[14] R3[13] R3[12] R3[11] R3[10] R3[9] R3[8] R3[7] R3[6] R3[5] R3[4] R3[3] R3[2] R3[1] R3[0] R4[15] R4[14] R4[13] R4[12] R4[11] R4[10] R4[9] R4[8] R4[7] R4[6] R4[5] R4[4] R4[3] R4[2] R4[1] R4[0] R5[15] R5[14] R5[13] R5[12] R5[11] R5[10] R5[9] R5[8] R5[7] R5[6] R5[5] R5[4] R5[3] R5[2] R5[1] R5[0] R6[15] R6[14] R6[13] R6[12] R6[11] R6[10] R6[9] R6[8] R6[7] R6[6] R6[5] R6[4] R6[3] R6[2] R6[1] R6[0] R7[15] R7[14] R7[13] R7[12] R7[11] R7[10] R7[9] R7[8] R7[7] R7[6] R7[5] R7[4] R7[3] R7[2] R7[1] R7[0] R8[15] R8[14] R8[13] R8[12] R8[11] R8[10] R8[9] R8[8] R8[7] R8[6] R8[5] R8[4] R8[3] R8[2] R8[1] R8[0] R9[15] R9[14] R9[13] R9[12] R9[11] R9[10] R9[9] R9[8] R9[7] R9[6] R9[5] R9[4] R9[3] R9[2] R9[1] R9[0] R10[15] R10[14] R10[13] R10[12] R10[11] R10[10] R10[9] R10[8] R10[7] R10[6] R10[5] R10[4] R10[3] R10[2] R10[1] R10[0] R11[15] R11[14] R11[13] R11[12] R11[11] R11[10] R11[9] R11[8] R11[7] R11[6] R11[5] R11[4] R11[3] R11[2] R11[1] R11[0] R12[15] R12[14] R12[13] R12[12] R12[11] R12[10] R12[9] R12[8] R12[7] R12[6] R12[5] R12[4] R12[3] R12[2] R12[1] R12[0] R13[15] R13[14] R13[13] R13[12] R13[11] R13[10] R13[9] R13[8] R13[7] R13[6] R13[5] R13[4] R13[3] R13[2] R13[1] R13[0] R14[15] R14[14] R14[13] R14[12] R14[11] R14[10] R14[9] R14[8] R14[7] R14[6] R14[5] R14[4] R14[3] R14[2] R14[1] R14[0] R15[15] R15[14] R15[13] R15[12] R15[11] R15[10] R15[9] R15[8] R15[7] R15[6] R15[5] R15[4] R15[3] R15[2] R15[1] R15[0] A[15] A[14] A[13] A[12] A[11] A[10] A[9] A[8] A[7] A[6] A[5] A[4] A[3] A[2] A[1] A[0] B[15] B[14] B[13] B[12] B[11] B[10] B[9] B[8] B[7] B[6] B[5] B[4] B[3] B[2] B[1] B[0] AMUX[15] AMUX[14] AMUX[13] AMUX[12] AMUX[11] AMUX[10] AMUX[9] AMUX[8] AMUX[7] AMUX[6] AMUX[5] AMUX[4] AMUX[3] AMUX[2] AMUX[1] AMUX[0] C[15] C[14] C[13] C[12] C[11] C[10] C[9] C[8] C[7] C[6] C[5] C[4] C[3] C[2] C[1] C[0] N Z | ZZ3MIR[31] ZZ3MIR[30] ZZ3MIR[29] ZZ3MIR[28] ZZ3MIR[27] ZZ3MIR[26] ZZ3MIR[25] ZZ3MIR[24] ZZ3MIR[23] ZZ3MIR[22] ZZ3MIR[21] ZZ3MIR[20] ZZ3MIR[19] ZZ3MIR[18] ZZ3MIR[17] ZZ3MIR[16] ZZ3MIR[15] ZZ3MIR[14] ZZ3MIR[13] ZZ3MIR[12] ZZ3MIR[11] ZZ3MIR[10] ZZ3MIR[9] ZZ3MIR[8] ZZ3MIR[7] ZZ3MIR[6] ZZ3MIR[5] ZZ3MIR[4] ZZ3MIR[3] ZZ3MIR[2] ZZ3MIR[1] ZZ3MIR[0] ZZ3mbr[15] ZZ3mbr[14] ZZ3mbr[13] ZZ3mbr[12] ZZ3mbr[11] ZZ3mbr[10] ZZ3mbr[9] ZZ3mbr[8] ZZ3mbr[7] ZZ3mbr[6] ZZ3mbr[5] ZZ3mbr[4] ZZ3mbr[3] ZZ3mbr[2] ZZ3mbr[1] ZZ3mbr[0] ZZ3Phase[3] ZZ3Phase[2] ZZ3Phase[1] ZZ3Phase[0] ZZ3Reset ZZ3R0[15] ZZ3R0[14] ZZ3R0[13] ZZ3R0[12] ZZ3R0[11] ZZ3R0[10] ZZ3R0[9] ZZ3R0[8] ZZ3R0[7] ZZ3R0[6] ZZ3R0[5] ZZ3R0[4] ZZ3R0[3] ZZ3R0[2] ZZ3R0[1] ZZ3R0[0] ZZ3R1[15] ZZ3R1[14] ZZ3R1[13] ZZ3R1[12] ZZ3R1[11] ZZ3R1[10] ZZ3R1[9] ZZ3R1[8] ZZ3R1[7] ZZ3R1[6] ZZ3R1[5] ZZ3R1[4] ZZ3R1[3] ZZ3R1[2] ZZ3R1[1] ZZ3R1[0] ZZ3R2[15] ZZ3R2[14] ZZ3R2[13] ZZ3R2[12] ZZ3R2[11] ZZ3R2[10] ZZ3R2[9] ZZ3R2[8] ZZ3R2[7] ZZ3R2[6] ZZ3R2[5] ZZ3R2[4] ZZ3R2[3] ZZ3R2[2] ZZ3R2[1] ZZ3R2[0] ZZ3R3[15] ZZ3R3[14] ZZ3R3[13] ZZ3R3[12] ZZ3R3[11] ZZ3R3[10] ZZ3R3[9] ZZ3R3[8] ZZ3R3[7] ZZ3R3[6] ZZ3R3[5] ZZ3R3[4] ZZ3R3[3] ZZ3R3[2] ZZ3R3[1] ZZ3R3[0] ZZ3R4[15] ZZ3R4[14] ZZ3R4[13] ZZ3R4[12] ZZ3R4[11] ZZ3R4[10] ZZ3R4[9] ZZ3R4[8] ZZ3R4[7] ZZ3R4[6] ZZ3R4[5] ZZ3R4[4] ZZ3R4[3] ZZ3R4[2] ZZ3R4[1] ZZ3R4[0] ZZ3R5[15] ZZ3R5[14] ZZ3R5[13] ZZ3R5[12] ZZ3R5[11] ZZ3R5[10] ZZ3R5[9] ZZ3R5[8] ZZ3R5[7] ZZ3R5[6] ZZ3R5[5] ZZ3R5[4] ZZ3R5[3] ZZ3R5[2] ZZ3R5[1] ZZ3R5[0] ZZ3R6[15] ZZ3R6[14] ZZ3R6[13] ZZ3R6[12] ZZ3R6[11] ZZ3R6[10] ZZ3R6[9] ZZ3R6[8] ZZ3R6[7] ZZ3R6[6] ZZ3R6[5] ZZ3R6[4] ZZ3R6[3] ZZ3R6[2] ZZ3R6[1] ZZ3R6[0] ZZ3R7[15] ZZ3R7[14] ZZ3R7[13] ZZ3R7[12] ZZ3R7[11] ZZ3R7[10] ZZ3R7[9] ZZ3R7[8] ZZ3R7[7] ZZ3R7[6] ZZ3R7[5] ZZ3R7[4] ZZ3R7[3] ZZ3R7[2] ZZ3R7[1] ZZ3R7[0] ZZ3R8[15] ZZ3R8[14] ZZ3R8[13] ZZ3R8[12] ZZ3R8[11] ZZ3R8[10] ZZ3R8[9] ZZ3R8[8] ZZ3R8[7] ZZ3R8[6] ZZ3R8[5] ZZ3R8[4] ZZ3R8[3] ZZ3R8[2] ZZ3R8[1] ZZ3R8[0] ZZ3R9[15] ZZ3R9[14] ZZ3R9[13] ZZ3R9[12] ZZ3R9[11] ZZ3R9[10] ZZ3R9[9] ZZ3R9[8] ZZ3R9[7] ZZ3R9[6] ZZ3R9[5] ZZ3R9[4] ZZ3R9[3] ZZ3R9[2] ZZ3R9[1] ZZ3R9[0] ZZ3R10[15] ZZ3R10[14] ZZ3R10[13] ZZ3R10[12] ZZ3R10[11] ZZ3R10[10] ZZ3R10[9] ZZ3R10[8] ZZ3R10[7] ZZ3R10[6] ZZ3R10[5] ZZ3R10[4] ZZ3R10[3] ZZ3R10[2] ZZ3R10[1] ZZ3R10[0] ZZ3R11[15] ZZ3R11[14] ZZ3R11[13] ZZ3R11[12] ZZ3R11[11] ZZ3R11[10] ZZ3R11[9] ZZ3R11[8] ZZ3R11[7] ZZ3R11[6] ZZ3R11[5] ZZ3R11[4] ZZ3R11[3] ZZ3R11[2] ZZ3R11[1] ZZ3R11[0] ZZ3R12[15] ZZ3R12[14] ZZ3R12[13] ZZ3R12[12] ZZ3R12[11] ZZ3R12[10] ZZ3R12[9] ZZ3R12[8] ZZ3R12[7] ZZ3R12[6] ZZ3R12[5] ZZ3R12[4] ZZ3R12[3] ZZ3R12[2] ZZ3R12[1] ZZ3R12[0] ZZ3R13[15] ZZ3R13[14] ZZ3R13[13] ZZ3R13[12] ZZ3R13[11] ZZ3R13[10] ZZ3R13[9] ZZ3R13[8] ZZ3R13[7] ZZ3R13[6] ZZ3R13[5] ZZ3R13[4] ZZ3R13[3] ZZ3R13[2] ZZ3R13[1] ZZ3R13[0] ZZ3R14[15] ZZ3R14[14] ZZ3R14[13] ZZ3R14[12] ZZ3R14[11] ZZ3R14[10] ZZ3R14[9] ZZ3R14[8] ZZ3R14[7] ZZ3R14[6] ZZ3R14[5] ZZ3R14[4] ZZ3R14[3] ZZ3R14[2] ZZ3R14[1] ZZ3R14[0] ZZ3R15[15] ZZ3R15[14] ZZ3R15[13] ZZ3R15[12] ZZ3R15[11] ZZ3R15[10] ZZ3R15[9] ZZ3R15[8] ZZ3R15[7] ZZ3R15[6] ZZ3R15[5] ZZ3R15[4] ZZ3R15[3] ZZ3R15[2] ZZ3R15[1] ZZ3R15[0] ZZ3A[15] ZZ3A[14] ZZ3A[13] ZZ3A[12] ZZ3A[11] ZZ3A[10] ZZ3A[9] ZZ3A[8] ZZ3A[7] ZZ3A[6] ZZ3A[5] ZZ3A[4] ZZ3A[3] ZZ3A[2] ZZ3A[1] ZZ3A[0] ZZ3B[15] ZZ3B[14] ZZ3B[13] ZZ3B[12] ZZ3B[11] ZZ3B[10] ZZ3B[9] ZZ3B[8] ZZ3B[7] ZZ3B[6] ZZ3B[5] ZZ3B[4] ZZ3B[3] ZZ3B[2] ZZ3B[1] ZZ3B[0] ZZ3AMUX[15] ZZ3AMUX[14] ZZ3AMUX[13] ZZ3AMUX[12] ZZ3AMUX[11] ZZ3AMUX[10] ZZ3AMUX[9] ZZ3AMUX[8] ZZ3AMUX[7] ZZ3AMUX[6] ZZ3AMUX[5] ZZ3AMUX[4] ZZ3AMUX[3] ZZ3AMUX[2] ZZ3AMUX[1] ZZ3AMUX[0] ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3N ZZ3Z  ;
+Module  "DataPath"  cd-jd ZZ3MIR[31] ZZ3MIR[30] ZZ3MIR[29] ZZ3MIR[28] ZZ3MIR[27] ZZ3MIR[26] ZZ3MIR[25] ZZ3MIR[24] ZZ3MIR[23] ZZ3MIR[22] ZZ3MIR[21] ZZ3MIR[20] ZZ3MIR[19] ZZ3MIR[18] ZZ3MIR[17] ZZ3MIR[16] ZZ3MIR[15] ZZ3MIR[14] ZZ3MIR[13] ZZ3MIR[12] ZZ3MIR[11] ZZ3MIR[10] ZZ3MIR[9] ZZ3MIR[8] ZZ3MIR[7] ZZ3MIR[6] ZZ3MIR[5] ZZ3MIR[4] ZZ3MIR[3] ZZ3MIR[2] ZZ3MIR[1] ZZ3MIR[0] ZZ3mbr[15] ZZ3mbr[14] ZZ3mbr[13] ZZ3mbr[12] ZZ3mbr[11] ZZ3mbr[10] ZZ3mbr[9] ZZ3mbr[8] ZZ3mbr[7] ZZ3mbr[6] ZZ3mbr[5] ZZ3mbr[4] ZZ3mbr[3] ZZ3mbr[2] ZZ3mbr[1] ZZ3mbr[0] ZZ3Phase[3] ZZ3Phase[2] ZZ3Phase[1] ZZ3Phase[0] ZZ3Reset | ZZ3R0[15] ZZ3R0[14] ZZ3R0[13] ZZ3R0[12] ZZ3R0[11] ZZ3R0[10] ZZ3R0[9] ZZ3R0[8] ZZ3R0[7] ZZ3R0[6] ZZ3R0[5] ZZ3R0[4] ZZ3R0[3] ZZ3R0[2] ZZ3R0[1] ZZ3R0[0] ZZ3R1[15] ZZ3R1[14] ZZ3R1[13] ZZ3R1[12] ZZ3R1[11] ZZ3R1[10] ZZ3R1[9] ZZ3R1[8] ZZ3R1[7] ZZ3R1[6] ZZ3R1[5] ZZ3R1[4] ZZ3R1[3] ZZ3R1[2] ZZ3R1[1] ZZ3R1[0] ZZ3R2[15] ZZ3R2[14] ZZ3R2[13] ZZ3R2[12] ZZ3R2[11] ZZ3R2[10] ZZ3R2[9] ZZ3R2[8] ZZ3R2[7] ZZ3R2[6] ZZ3R2[5] ZZ3R2[4] ZZ3R2[3] ZZ3R2[2] ZZ3R2[1] ZZ3R2[0] ZZ3R3[15] ZZ3R3[14] ZZ3R3[13] ZZ3R3[12] ZZ3R3[11] ZZ3R3[10] ZZ3R3[9] ZZ3R3[8] ZZ3R3[7] ZZ3R3[6] ZZ3R3[5] ZZ3R3[4] ZZ3R3[3] ZZ3R3[2] ZZ3R3[1] ZZ3R3[0] ZZ3R4[15] ZZ3R4[14] ZZ3R4[13] ZZ3R4[12] ZZ3R4[11] ZZ3R4[10] ZZ3R4[9] ZZ3R4[8] ZZ3R4[7] ZZ3R4[6] ZZ3R4[5] ZZ3R4[4] ZZ3R4[3] ZZ3R4[2] ZZ3R4[1] ZZ3R4[0] ZZ3R5[15] ZZ3R5[14] ZZ3R5[13] ZZ3R5[12] ZZ3R5[11] ZZ3R5[10] ZZ3R5[9] ZZ3R5[8] ZZ3R5[7] ZZ3R5[6] ZZ3R5[5] ZZ3R5[4] ZZ3R5[3] ZZ3R5[2] ZZ3R5[1] ZZ3R5[0] ZZ3R6[15] ZZ3R6[14] ZZ3R6[13] ZZ3R6[12] ZZ3R6[11] ZZ3R6[10] ZZ3R6[9] ZZ3R6[8] ZZ3R6[7] ZZ3R6[6] ZZ3R6[5] ZZ3R6[4] ZZ3R6[3] ZZ3R6[2] ZZ3R6[1] ZZ3R6[0] ZZ3R7[15] ZZ3R7[14] ZZ3R7[13] ZZ3R7[12] ZZ3R7[11] ZZ3R7[10] ZZ3R7[9] ZZ3R7[8] ZZ3R7[7] ZZ3R7[6] ZZ3R7[5] ZZ3R7[4] ZZ3R7[3] ZZ3R7[2] ZZ3R7[1] ZZ3R7[0] ZZ3R8[15] ZZ3R8[14] ZZ3R8[13] ZZ3R8[12] ZZ3R8[11] ZZ3R8[10] ZZ3R8[9] ZZ3R8[8] ZZ3R8[7] ZZ3R8[6] ZZ3R8[5] ZZ3R8[4] ZZ3R8[3] ZZ3R8[2] ZZ3R8[1] ZZ3R8[0] ZZ3R9[15] ZZ3R9[14] ZZ3R9[13] ZZ3R9[12] ZZ3R9[11] ZZ3R9[10] ZZ3R9[9] ZZ3R9[8] ZZ3R9[7] ZZ3R9[6] ZZ3R9[5] ZZ3R9[4] ZZ3R9[3] ZZ3R9[2] ZZ3R9[1] ZZ3R9[0] ZZ3R10[15] ZZ3R10[14] ZZ3R10[13] ZZ3R10[12] ZZ3R10[11] ZZ3R10[10] ZZ3R10[9] ZZ3R10[8] ZZ3R10[7] ZZ3R10[6] ZZ3R10[5] ZZ3R10[4] ZZ3R10[3] ZZ3R10[2] ZZ3R10[1] ZZ3R10[0] ZZ3R11[15] ZZ3R11[14] ZZ3R11[13] ZZ3R11[12] ZZ3R11[11] ZZ3R11[10] ZZ3R11[9] ZZ3R11[8] ZZ3R11[7] ZZ3R11[6] ZZ3R11[5] ZZ3R11[4] ZZ3R11[3] ZZ3R11[2] ZZ3R11[1] ZZ3R11[0] ZZ3R12[15] ZZ3R12[14] ZZ3R12[13] ZZ3R12[12] ZZ3R12[11] ZZ3R12[10] ZZ3R12[9] ZZ3R12[8] ZZ3R12[7] ZZ3R12[6] ZZ3R12[5] ZZ3R12[4] ZZ3R12[3] ZZ3R12[2] ZZ3R12[1] ZZ3R12[0] ZZ3R13[15] ZZ3R13[14] ZZ3R13[13] ZZ3R13[12] ZZ3R13[11] ZZ3R13[10] ZZ3R13[9] ZZ3R13[8] ZZ3R13[7] ZZ3R13[6] ZZ3R13[5] ZZ3R13[4] ZZ3R13[3] ZZ3R13[2] ZZ3R13[1] ZZ3R13[0] ZZ3R14[15] ZZ3R14[14] ZZ3R14[13] ZZ3R14[12] ZZ3R14[11] ZZ3R14[10] ZZ3R14[9] ZZ3R14[8] ZZ3R14[7] ZZ3R14[6] ZZ3R14[5] ZZ3R14[4] ZZ3R14[3] ZZ3R14[2] ZZ3R14[1] ZZ3R14[0] ZZ3R15[15] ZZ3R15[14] ZZ3R15[13] ZZ3R15[12] ZZ3R15[11] ZZ3R15[10] ZZ3R15[9] ZZ3R15[8] ZZ3R15[7] ZZ3R15[6] ZZ3R15[5] ZZ3R15[4] ZZ3R15[3] ZZ3R15[2] ZZ3R15[1] ZZ3R15[0] ZZ3A[15] ZZ3A[14] ZZ3A[13] ZZ3A[12] ZZ3A[11] ZZ3A[10] ZZ3A[9] ZZ3A[8] ZZ3A[7] ZZ3A[6] ZZ3A[5] ZZ3A[4] ZZ3A[3] ZZ3A[2] ZZ3A[1] ZZ3A[0] ZZ3B[15] ZZ3B[14] ZZ3B[13] ZZ3B[12] ZZ3B[11] ZZ3B[10] ZZ3B[9] ZZ3B[8] ZZ3B[7] ZZ3B[6] ZZ3B[5] ZZ3B[4] ZZ3B[3] ZZ3B[2] ZZ3B[1] ZZ3B[0] ZZ3AMUX[15] ZZ3AMUX[14] ZZ3AMUX[13] ZZ3AMUX[12] ZZ3AMUX[11] ZZ3AMUX[10] ZZ3AMUX[9] ZZ3AMUX[8] ZZ3AMUX[7] ZZ3AMUX[6] ZZ3AMUX[5] ZZ3AMUX[4] ZZ3AMUX[3] ZZ3AMUX[2] ZZ3AMUX[1] ZZ3AMUX[0] ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3N ZZ3Z  ;
+  And "And" cd-jd.aa ZZ3Phase[3] 
+ZZ3MIR[20] ZZ3ENC 
+
+ ;
+  Not "Not" cd-jd.aa ZZ3ENC 
+ZZ3notENC 
+
+ ;
+  Dec4x16 "4x16" cd-jd.aa ZZ3MIR[19] 
+ZZ3MIR[18] ZZ3MIR[17] ZZ3MIR[16] ZZ3notENC ZZ3O[15] ZZ3O[14] ZZ3O[13] ZZ3O[12] ZZ3O[11] ZZ3O[10] ZZ3O[9] ZZ3O[8] ZZ3O[7] ZZ3O[6] ZZ3O[5] ZZ3O[4] 
+ZZ3O[3] ZZ3O[2] ZZ3O[1] ZZ3O[0] 
+
+ ;
+  Not "Not" cd-jd.ab ZZ3Reset 
+ZZ3notReset 
+
+ ;
+  Not "Not" cd-jd.ab ZZ3O[0] 
+ZZ3notO0 
+
+ ;
+  Not "Not" cd-jd.ab ZZ3O[1] 
+ZZ3notO1 
+
+ ;
+  Not "Not" cd-jd.ab ZZ3O[2] 
+ZZ3notO2 
+
+ ;
+  Not "Not" cd-jd.ab ZZ3O[3] 
+ZZ3notO3 
+
+ ;
+  Not "Not" cd-jd.ab ZZ3O[4] 
+ZZ3notO4 
+
+ ;
+Alias ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3notO0 ZZ3notReset ZZ3R0[15] ZZ3R0[14] ZZ3R0[13] ZZ3R0[12] ZZ3R0[11] ZZ3R0[10] ZZ3R0[9] ZZ3R0[8] ZZ3R0[7] ZZ3R0[6] ZZ3R0[5] ZZ3R0[4] ZZ3R0[3] ZZ3R0[2] ZZ3R0[1] ZZ3R0[0] | ZZ4i[15] ZZ4i[14] ZZ4i[13] ZZ4i[12] ZZ4i[11] ZZ4i[10] ZZ4i[9] ZZ4i[8] ZZ4i[7] ZZ4i[6] ZZ4i[5] ZZ4i[4] ZZ4i[3] ZZ4i[2] ZZ4i[1] ZZ4i[0] ZZ4TICK ZZ4RESET ZZ4o[15] ZZ4o[14] ZZ4o[13] ZZ4o[12] ZZ4o[11] ZZ4o[10] ZZ4o[9] ZZ4o[8] ZZ4o[7] ZZ4o[6] ZZ4o[5] ZZ4o[4] ZZ4o[3] ZZ4o[2] ZZ4o[1] ZZ4o[0] ZZ4nq[15] ZZ4nq[14] ZZ4nq[13] ZZ4nq[12] ZZ4nq[11] ZZ4nq[10] ZZ4nq[9] ZZ4nq[8] ZZ4nq[7] ZZ4nq[6] ZZ4nq[5] ZZ4nq[4] ZZ4nq[3] ZZ4nq[2] ZZ4nq[1] ZZ4nq[0]  ;
+Module  "R0"  cd-jd.ac ZZ4i[15] ZZ4i[14] ZZ4i[13] ZZ4i[12] ZZ4i[11] ZZ4i[10] ZZ4i[9] ZZ4i[8] ZZ4i[7] ZZ4i[6] ZZ4i[5] ZZ4i[4] ZZ4i[3] ZZ4i[2] ZZ4i[1] ZZ4i[0] ZZ4TICK ZZ4RESET | ZZ4o[15] ZZ4o[14] ZZ4o[13] ZZ4o[12] ZZ4o[11] ZZ4o[10] ZZ4o[9] ZZ4o[8] ZZ4o[7] ZZ4o[6] ZZ4o[5] ZZ4o[4] ZZ4o[3] ZZ4o[2] ZZ4o[1] ZZ4o[0] ZZ4nq[15] ZZ4nq[14] ZZ4nq[13] ZZ4nq[12] ZZ4nq[11] ZZ4nq[10] ZZ4nq[9] ZZ4nq[8] ZZ4nq[7] ZZ4nq[6] ZZ4nq[5] ZZ4nq[4] ZZ4nq[3] ZZ4nq[2] ZZ4nq[1] ZZ4nq[0]  ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[0] ZZ4TICK ZZ4RESET ZZ4o[0] ZZ4nq[0] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[1] ZZ4TICK ZZ4RESET ZZ4o[1] ZZ4nq[1] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[2] ZZ4TICK ZZ4RESET ZZ4o[2] ZZ4nq[2] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[3] ZZ4TICK ZZ4RESET ZZ4o[3] ZZ4nq[3] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[4] ZZ4TICK ZZ4RESET ZZ4o[4] ZZ4nq[4] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[5] ZZ4TICK ZZ4RESET ZZ4o[5] ZZ4nq[5] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[6] ZZ4TICK ZZ4RESET ZZ4o[6] ZZ4nq[6] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[7] ZZ4TICK ZZ4RESET ZZ4o[7] ZZ4nq[7] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[8] ZZ4TICK ZZ4RESET ZZ4o[8] ZZ4nq[8] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[9] ZZ4TICK ZZ4RESET ZZ4o[9] ZZ4nq[9] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[10] ZZ4TICK ZZ4RESET ZZ4o[10] ZZ4nq[10] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[11] ZZ4TICK ZZ4RESET ZZ4o[11] ZZ4nq[11] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[12] ZZ4TICK ZZ4RESET ZZ4o[12] ZZ4nq[12] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[13] ZZ4TICK ZZ4RESET ZZ4o[13] ZZ4nq[13] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[14] ZZ4TICK ZZ4RESET ZZ4o[14] ZZ4nq[14] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ4i[15] ZZ4TICK ZZ4RESET ZZ4o[15] ZZ4nq[15] 
+
+ ;
+ End ; /* R0 */
+Alias ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3notO1 ZZ3notReset ZZ3R1[15] ZZ3R1[14] ZZ3R1[13] ZZ3R1[12] ZZ3R1[11] ZZ3R1[10] ZZ3R1[9] ZZ3R1[8] ZZ3R1[7] ZZ3R1[6] ZZ3R1[5] ZZ3R1[4] ZZ3R1[3] ZZ3R1[2] ZZ3R1[1] ZZ3R1[0] | ZZ5i[15] ZZ5i[14] ZZ5i[13] ZZ5i[12] ZZ5i[11] ZZ5i[10] ZZ5i[9] ZZ5i[8] ZZ5i[7] ZZ5i[6] ZZ5i[5] ZZ5i[4] ZZ5i[3] ZZ5i[2] ZZ5i[1] ZZ5i[0] ZZ5TICK ZZ5RESET ZZ5o[15] ZZ5o[14] ZZ5o[13] ZZ5o[12] ZZ5o[11] ZZ5o[10] ZZ5o[9] ZZ5o[8] ZZ5o[7] ZZ5o[6] ZZ5o[5] ZZ5o[4] ZZ5o[3] ZZ5o[2] ZZ5o[1] ZZ5o[0] ZZ5nq[15] ZZ5nq[14] ZZ5nq[13] ZZ5nq[12] ZZ5nq[11] ZZ5nq[10] ZZ5nq[9] ZZ5nq[8] ZZ5nq[7] ZZ5nq[6] ZZ5nq[5] ZZ5nq[4] ZZ5nq[3] ZZ5nq[2] ZZ5nq[1] ZZ5nq[0]  ;
+Module  "R1"  cd-jd.ac ZZ5i[15] ZZ5i[14] ZZ5i[13] ZZ5i[12] ZZ5i[11] ZZ5i[10] ZZ5i[9] ZZ5i[8] ZZ5i[7] ZZ5i[6] ZZ5i[5] ZZ5i[4] ZZ5i[3] ZZ5i[2] ZZ5i[1] ZZ5i[0] ZZ5TICK ZZ5RESET | ZZ5o[15] ZZ5o[14] ZZ5o[13] ZZ5o[12] ZZ5o[11] ZZ5o[10] ZZ5o[9] ZZ5o[8] ZZ5o[7] ZZ5o[6] ZZ5o[5] ZZ5o[4] ZZ5o[3] ZZ5o[2] ZZ5o[1] ZZ5o[0] ZZ5nq[15] ZZ5nq[14] ZZ5nq[13] ZZ5nq[12] ZZ5nq[11] ZZ5nq[10] ZZ5nq[9] ZZ5nq[8] ZZ5nq[7] ZZ5nq[6] ZZ5nq[5] ZZ5nq[4] ZZ5nq[3] ZZ5nq[2] ZZ5nq[1] ZZ5nq[0]  ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[0] ZZ5TICK ZZ5RESET ZZ5o[0] ZZ5nq[0] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[1] ZZ5TICK ZZ5RESET ZZ5o[1] ZZ5nq[1] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[2] ZZ5TICK ZZ5RESET ZZ5o[2] ZZ5nq[2] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[3] ZZ5TICK ZZ5RESET ZZ5o[3] ZZ5nq[3] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[4] ZZ5TICK ZZ5RESET ZZ5o[4] ZZ5nq[4] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[5] ZZ5TICK ZZ5RESET ZZ5o[5] ZZ5nq[5] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[6] ZZ5TICK ZZ5RESET ZZ5o[6] ZZ5nq[6] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[7] ZZ5TICK ZZ5RESET ZZ5o[7] ZZ5nq[7] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[8] ZZ5TICK ZZ5RESET ZZ5o[8] ZZ5nq[8] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[9] ZZ5TICK ZZ5RESET ZZ5o[9] ZZ5nq[9] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[10] ZZ5TICK ZZ5RESET ZZ5o[10] ZZ5nq[10] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[11] ZZ5TICK ZZ5RESET ZZ5o[11] ZZ5nq[11] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[12] ZZ5TICK ZZ5RESET ZZ5o[12] ZZ5nq[12] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[13] ZZ5TICK ZZ5RESET ZZ5o[13] ZZ5nq[13] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[14] ZZ5TICK ZZ5RESET ZZ5o[14] ZZ5nq[14] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ5i[15] ZZ5TICK ZZ5RESET ZZ5o[15] ZZ5nq[15] 
+
+ ;
+ End ; /* R1 */
+Alias ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3notO2 ZZ3notReset ZZ3R2[15] ZZ3R2[14] ZZ3R2[13] ZZ3R2[12] ZZ3R2[11] ZZ3R2[10] ZZ3R2[9] ZZ3R2[8] ZZ3R2[7] ZZ3R2[6] ZZ3R2[5] ZZ3R2[4] ZZ3R2[3] ZZ3R2[2] ZZ3R2[1] ZZ3R2[0] | ZZ6i[15] ZZ6i[14] ZZ6i[13] ZZ6i[12] ZZ6i[11] ZZ6i[10] ZZ6i[9] ZZ6i[8] ZZ6i[7] ZZ6i[6] ZZ6i[5] ZZ6i[4] ZZ6i[3] ZZ6i[2] ZZ6i[1] ZZ6i[0] ZZ6TICK ZZ6RESET ZZ6o[15] ZZ6o[14] ZZ6o[13] ZZ6o[12] ZZ6o[11] ZZ6o[10] ZZ6o[9] ZZ6o[8] ZZ6o[7] ZZ6o[6] ZZ6o[5] ZZ6o[4] ZZ6o[3] ZZ6o[2] ZZ6o[1] ZZ6o[0] ZZ6nq[15] ZZ6nq[14] ZZ6nq[13] ZZ6nq[12] ZZ6nq[11] ZZ6nq[10] ZZ6nq[9] ZZ6nq[8] ZZ6nq[7] ZZ6nq[6] ZZ6nq[5] ZZ6nq[4] ZZ6nq[3] ZZ6nq[2] ZZ6nq[1] ZZ6nq[0]  ;
+Module  "R2"  cd-jd.ac ZZ6i[15] ZZ6i[14] ZZ6i[13] ZZ6i[12] ZZ6i[11] ZZ6i[10] ZZ6i[9] ZZ6i[8] ZZ6i[7] ZZ6i[6] ZZ6i[5] ZZ6i[4] ZZ6i[3] ZZ6i[2] ZZ6i[1] ZZ6i[0] ZZ6TICK ZZ6RESET | ZZ6o[15] ZZ6o[14] ZZ6o[13] ZZ6o[12] ZZ6o[11] ZZ6o[10] ZZ6o[9] ZZ6o[8] ZZ6o[7] ZZ6o[6] ZZ6o[5] ZZ6o[4] ZZ6o[3] ZZ6o[2] ZZ6o[1] ZZ6o[0] ZZ6nq[15] ZZ6nq[14] ZZ6nq[13] ZZ6nq[12] ZZ6nq[11] ZZ6nq[10] ZZ6nq[9] ZZ6nq[8] ZZ6nq[7] ZZ6nq[6] ZZ6nq[5] ZZ6nq[4] ZZ6nq[3] ZZ6nq[2] ZZ6nq[1] ZZ6nq[0]  ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[0] ZZ6TICK ZZ6RESET ZZ6o[0] ZZ6nq[0] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[1] ZZ6TICK ZZ6RESET ZZ6o[1] ZZ6nq[1] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[2] ZZ6TICK ZZ6RESET ZZ6o[2] ZZ6nq[2] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[3] ZZ6TICK ZZ6RESET ZZ6o[3] ZZ6nq[3] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[4] ZZ6TICK ZZ6RESET ZZ6o[4] ZZ6nq[4] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[5] ZZ6TICK ZZ6RESET ZZ6o[5] ZZ6nq[5] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[6] ZZ6TICK ZZ6RESET ZZ6o[6] ZZ6nq[6] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[7] ZZ6TICK ZZ6RESET ZZ6o[7] ZZ6nq[7] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[8] ZZ6TICK ZZ6RESET ZZ6o[8] ZZ6nq[8] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[9] ZZ6TICK ZZ6RESET ZZ6o[9] ZZ6nq[9] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[10] ZZ6TICK ZZ6RESET ZZ6o[10] ZZ6nq[10] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[11] ZZ6TICK ZZ6RESET ZZ6o[11] ZZ6nq[11] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[12] ZZ6TICK ZZ6RESET ZZ6o[12] ZZ6nq[12] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[13] ZZ6TICK ZZ6RESET ZZ6o[13] ZZ6nq[13] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[14] ZZ6TICK ZZ6RESET ZZ6o[14] ZZ6nq[14] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ6i[15] ZZ6TICK ZZ6RESET ZZ6o[15] ZZ6nq[15] 
+
+ ;
+ End ; /* R2 */
+Alias ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3notO3 ZZ3notReset ZZ3R3[15] ZZ3R3[14] ZZ3R3[13] ZZ3R3[12] ZZ3R3[11] ZZ3R3[10] ZZ3R3[9] ZZ3R3[8] ZZ3R3[7] ZZ3R3[6] ZZ3R3[5] ZZ3R3[4] ZZ3R3[3] ZZ3R3[2] ZZ3R3[1] ZZ3R3[0] | ZZ7i[15] ZZ7i[14] ZZ7i[13] ZZ7i[12] ZZ7i[11] ZZ7i[10] ZZ7i[9] ZZ7i[8] ZZ7i[7] ZZ7i[6] ZZ7i[5] ZZ7i[4] ZZ7i[3] ZZ7i[2] ZZ7i[1] ZZ7i[0] ZZ7TICK ZZ7RESET ZZ7o[15] ZZ7o[14] ZZ7o[13] ZZ7o[12] ZZ7o[11] ZZ7o[10] ZZ7o[9] ZZ7o[8] ZZ7o[7] ZZ7o[6] ZZ7o[5] ZZ7o[4] ZZ7o[3] ZZ7o[2] ZZ7o[1] ZZ7o[0] ZZ7nq[15] ZZ7nq[14] ZZ7nq[13] ZZ7nq[12] ZZ7nq[11] ZZ7nq[10] ZZ7nq[9] ZZ7nq[8] ZZ7nq[7] ZZ7nq[6] ZZ7nq[5] ZZ7nq[4] ZZ7nq[3] ZZ7nq[2] ZZ7nq[1] ZZ7nq[0]  ;
+Module  "R3"  cd-jd.ac ZZ7i[15] ZZ7i[14] ZZ7i[13] ZZ7i[12] ZZ7i[11] ZZ7i[10] ZZ7i[9] ZZ7i[8] ZZ7i[7] ZZ7i[6] ZZ7i[5] ZZ7i[4] ZZ7i[3] ZZ7i[2] ZZ7i[1] ZZ7i[0] ZZ7TICK ZZ7RESET | ZZ7o[15] ZZ7o[14] ZZ7o[13] ZZ7o[12] ZZ7o[11] ZZ7o[10] ZZ7o[9] ZZ7o[8] ZZ7o[7] ZZ7o[6] ZZ7o[5] ZZ7o[4] ZZ7o[3] ZZ7o[2] ZZ7o[1] ZZ7o[0] ZZ7nq[15] ZZ7nq[14] ZZ7nq[13] ZZ7nq[12] ZZ7nq[11] ZZ7nq[10] ZZ7nq[9] ZZ7nq[8] ZZ7nq[7] ZZ7nq[6] ZZ7nq[5] ZZ7nq[4] ZZ7nq[3] ZZ7nq[2] ZZ7nq[1] ZZ7nq[0]  ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[0] ZZ7TICK ZZ7RESET ZZ7o[0] ZZ7nq[0] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[1] ZZ7TICK ZZ7RESET ZZ7o[1] ZZ7nq[1] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[2] ZZ7TICK ZZ7RESET ZZ7o[2] ZZ7nq[2] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[3] ZZ7TICK ZZ7RESET ZZ7o[3] ZZ7nq[3] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[4] ZZ7TICK ZZ7RESET ZZ7o[4] ZZ7nq[4] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[5] ZZ7TICK ZZ7RESET ZZ7o[5] ZZ7nq[5] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[6] ZZ7TICK ZZ7RESET ZZ7o[6] ZZ7nq[6] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[7] ZZ7TICK ZZ7RESET ZZ7o[7] ZZ7nq[7] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[8] ZZ7TICK ZZ7RESET ZZ7o[8] ZZ7nq[8] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[9] ZZ7TICK ZZ7RESET ZZ7o[9] ZZ7nq[9] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[10] ZZ7TICK ZZ7RESET ZZ7o[10] ZZ7nq[10] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[11] ZZ7TICK ZZ7RESET ZZ7o[11] ZZ7nq[11] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[12] ZZ7TICK ZZ7RESET ZZ7o[12] ZZ7nq[12] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[13] ZZ7TICK ZZ7RESET ZZ7o[13] ZZ7nq[13] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[14] ZZ7TICK ZZ7RESET ZZ7o[14] ZZ7nq[14] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ7i[15] ZZ7TICK ZZ7RESET ZZ7o[15] ZZ7nq[15] 
+
+ ;
+ End ; /* R3 */
+Alias ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] ZZ3notO4 ZZ3notReset ZZ3R4[15] ZZ3R4[14] ZZ3R4[13] ZZ3R4[12] ZZ3R4[11] ZZ3R4[10] ZZ3R4[9] ZZ3R4[8] ZZ3R4[7] ZZ3R4[6] ZZ3R4[5] ZZ3R4[4] ZZ3R4[3] ZZ3R4[2] ZZ3R4[1] ZZ3R4[0] | ZZ8i[15] ZZ8i[14] ZZ8i[13] ZZ8i[12] ZZ8i[11] ZZ8i[10] ZZ8i[9] ZZ8i[8] ZZ8i[7] ZZ8i[6] ZZ8i[5] ZZ8i[4] ZZ8i[3] ZZ8i[2] ZZ8i[1] ZZ8i[0] ZZ8TICK ZZ8RESET ZZ8o[15] ZZ8o[14] ZZ8o[13] ZZ8o[12] ZZ8o[11] ZZ8o[10] ZZ8o[9] ZZ8o[8] ZZ8o[7] ZZ8o[6] ZZ8o[5] ZZ8o[4] ZZ8o[3] ZZ8o[2] ZZ8o[1] ZZ8o[0] ZZ8nq[15] ZZ8nq[14] ZZ8nq[13] ZZ8nq[12] ZZ8nq[11] ZZ8nq[10] ZZ8nq[9] ZZ8nq[8] ZZ8nq[7] ZZ8nq[6] ZZ8nq[5] ZZ8nq[4] ZZ8nq[3] ZZ8nq[2] ZZ8nq[1] ZZ8nq[0]  ;
+Module  "R4"  cd-jd.ac ZZ8i[15] ZZ8i[14] ZZ8i[13] ZZ8i[12] ZZ8i[11] ZZ8i[10] ZZ8i[9] ZZ8i[8] ZZ8i[7] ZZ8i[6] ZZ8i[5] ZZ8i[4] ZZ8i[3] ZZ8i[2] ZZ8i[1] ZZ8i[0] ZZ8TICK ZZ8RESET | ZZ8o[15] ZZ8o[14] ZZ8o[13] ZZ8o[12] ZZ8o[11] ZZ8o[10] ZZ8o[9] ZZ8o[8] ZZ8o[7] ZZ8o[6] ZZ8o[5] ZZ8o[4] ZZ8o[3] ZZ8o[2] ZZ8o[1] ZZ8o[0] ZZ8nq[15] ZZ8nq[14] ZZ8nq[13] ZZ8nq[12] ZZ8nq[11] ZZ8nq[10] ZZ8nq[9] ZZ8nq[8] ZZ8nq[7] ZZ8nq[6] ZZ8nq[5] ZZ8nq[4] ZZ8nq[3] ZZ8nq[2] ZZ8nq[1] ZZ8nq[0]  ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[0] ZZ8TICK ZZ8RESET ZZ8o[0] ZZ8nq[0] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[1] ZZ8TICK ZZ8RESET ZZ8o[1] ZZ8nq[1] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[2] ZZ8TICK ZZ8RESET ZZ8o[2] ZZ8nq[2] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[3] ZZ8TICK ZZ8RESET ZZ8o[3] ZZ8nq[3] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[4] ZZ8TICK ZZ8RESET ZZ8o[4] ZZ8nq[4] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[5] ZZ8TICK ZZ8RESET ZZ8o[5] ZZ8nq[5] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[6] ZZ8TICK ZZ8RESET ZZ8o[6] ZZ8nq[6] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[7] ZZ8TICK ZZ8RESET ZZ8o[7] ZZ8nq[7] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[8] ZZ8TICK ZZ8RESET ZZ8o[8] ZZ8nq[8] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[9] ZZ8TICK ZZ8RESET ZZ8o[9] ZZ8nq[9] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[10] ZZ8TICK ZZ8RESET ZZ8o[10] ZZ8nq[10] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[11] ZZ8TICK ZZ8RESET ZZ8o[11] ZZ8nq[11] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[12] ZZ8TICK ZZ8RESET ZZ8o[12] ZZ8nq[12] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[13] ZZ8TICK ZZ8RESET ZZ8o[13] ZZ8nq[13] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[14] ZZ8TICK ZZ8RESET ZZ8o[14] ZZ8nq[14] 
+
+ ;
+  Dff "Dff" cd-jd.ac.aa ONE 
+ZZ8i[15] ZZ8TICK ZZ8RESET ZZ8o[15] ZZ8nq[15] 
+
+ ;
+ End ; /* R4 */
+Alias ZZ3R5[15] ZZ3R5[14] ZZ3R5[13] ZZ3R5[12] ZZ3R5[11] ZZ3R5[10] ZZ3R5[9] ZZ3R5[8] ZZ3R5[7] ZZ3R5[6] ZZ3R5[5] ZZ3R5[4] ZZ3R5[3] ZZ3R5[2] ZZ3R5[1] ZZ3R5[0] | ZZ9D[15] ZZ9D[14] ZZ9D[13] ZZ9D[12] ZZ9D[11] ZZ9D[10] ZZ9D[9] ZZ9D[8] ZZ9D[7] ZZ9D[6] ZZ9D[5] ZZ9D[4] ZZ9D[3] ZZ9D[2] ZZ9D[1] ZZ9D[0]  ;
+Module  "R5"  cd-jd.ac | ZZ9D[15] ZZ9D[14] ZZ9D[13] ZZ9D[12] ZZ9D[11] ZZ9D[10] ZZ9D[9] ZZ9D[8] ZZ9D[7] ZZ9D[6] ZZ9D[5] ZZ9D[4] ZZ9D[3] ZZ9D[2] ZZ9D[1] ZZ9D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ9D[0] 
+
+ ;
+ End ; /* R5 */
+Alias ZZ3R6[15] ZZ3R6[14] ZZ3R6[13] ZZ3R6[12] ZZ3R6[11] ZZ3R6[10] ZZ3R6[9] ZZ3R6[8] ZZ3R6[7] ZZ3R6[6] ZZ3R6[5] ZZ3R6[4] ZZ3R6[3] ZZ3R6[2] ZZ3R6[1] ZZ3R6[0] | ZZ10D[15] ZZ10D[14] ZZ10D[13] ZZ10D[12] ZZ10D[11] ZZ10D[10] ZZ10D[9] ZZ10D[8] ZZ10D[7] ZZ10D[6] ZZ10D[5] ZZ10D[4] ZZ10D[3] ZZ10D[2] ZZ10D[1] ZZ10D[0]  ;
+Module  "R6"  cd-jd.ac | ZZ10D[15] ZZ10D[14] ZZ10D[13] ZZ10D[12] ZZ10D[11] ZZ10D[10] ZZ10D[9] ZZ10D[8] ZZ10D[7] ZZ10D[6] ZZ10D[5] ZZ10D[4] ZZ10D[3] ZZ10D[2] ZZ10D[1] ZZ10D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ10D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ10D[0] 
+
+ ;
+ End ; /* R6 */
+Alias ZZ3R7[15] ZZ3R7[14] ZZ3R7[13] ZZ3R7[12] ZZ3R7[11] ZZ3R7[10] ZZ3R7[9] ZZ3R7[8] ZZ3R7[7] ZZ3R7[6] ZZ3R7[5] ZZ3R7[4] ZZ3R7[3] ZZ3R7[2] ZZ3R7[1] ZZ3R7[0] | ZZ11D[15] ZZ11D[14] ZZ11D[13] ZZ11D[12] ZZ11D[11] ZZ11D[10] ZZ11D[9] ZZ11D[8] ZZ11D[7] ZZ11D[6] ZZ11D[5] ZZ11D[4] ZZ11D[3] ZZ11D[2] ZZ11D[1] ZZ11D[0]  ;
+Module  "R7"  cd-jd.ac | ZZ11D[15] ZZ11D[14] ZZ11D[13] ZZ11D[12] ZZ11D[11] ZZ11D[10] ZZ11D[9] ZZ11D[8] ZZ11D[7] ZZ11D[6] ZZ11D[5] ZZ11D[4] ZZ11D[3] ZZ11D[2] ZZ11D[1] ZZ11D[0]  ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ11D[0] 
+
+ ;
+ End ; /* R7 */
+Alias ZZ3R8[15] ZZ3R8[14] ZZ3R8[13] ZZ3R8[12] ZZ3R8[11] ZZ3R8[10] ZZ3R8[9] ZZ3R8[8] ZZ3R8[7] ZZ3R8[6] ZZ3R8[5] ZZ3R8[4] ZZ3R8[3] ZZ3R8[2] ZZ3R8[1] ZZ3R8[0] | ZZ12D[15] ZZ12D[14] ZZ12D[13] ZZ12D[12] ZZ12D[11] ZZ12D[10] ZZ12D[9] ZZ12D[8] ZZ12D[7] ZZ12D[6] ZZ12D[5] ZZ12D[4] ZZ12D[3] ZZ12D[2] ZZ12D[1] ZZ12D[0]  ;
+Module  "R8"  cd-jd.ac | ZZ12D[15] ZZ12D[14] ZZ12D[13] ZZ12D[12] ZZ12D[11] ZZ12D[10] ZZ12D[9] ZZ12D[8] ZZ12D[7] ZZ12D[6] ZZ12D[5] ZZ12D[4] ZZ12D[3] ZZ12D[2] ZZ12D[1] ZZ12D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ12D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ12D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ12D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ12D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ12D[0] 
+
+ ;
+ End ; /* R8 */
+Alias ZZ3R9[15] ZZ3R9[14] ZZ3R9[13] ZZ3R9[12] ZZ3R9[11] ZZ3R9[10] ZZ3R9[9] ZZ3R9[8] ZZ3R9[7] ZZ3R9[6] ZZ3R9[5] ZZ3R9[4] ZZ3R9[3] ZZ3R9[2] ZZ3R9[1] ZZ3R9[0] | ZZ13D[15] ZZ13D[14] ZZ13D[13] ZZ13D[12] ZZ13D[11] ZZ13D[10] ZZ13D[9] ZZ13D[8] ZZ13D[7] ZZ13D[6] ZZ13D[5] ZZ13D[4] ZZ13D[3] ZZ13D[2] ZZ13D[1] ZZ13D[0]  ;
+Module  "R9"  cd-jd.ac | ZZ13D[15] ZZ13D[14] ZZ13D[13] ZZ13D[12] ZZ13D[11] ZZ13D[10] ZZ13D[9] ZZ13D[8] ZZ13D[7] ZZ13D[6] ZZ13D[5] ZZ13D[4] ZZ13D[3] ZZ13D[2] ZZ13D[1] ZZ13D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ13D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ13D[0] 
+
+ ;
+ End ; /* R9 */
+Alias ZZ3R10[15] ZZ3R10[14] ZZ3R10[13] ZZ3R10[12] ZZ3R10[11] ZZ3R10[10] ZZ3R10[9] ZZ3R10[8] ZZ3R10[7] ZZ3R10[6] ZZ3R10[5] ZZ3R10[4] ZZ3R10[3] ZZ3R10[2] ZZ3R10[1] ZZ3R10[0] | ZZ14D[15] ZZ14D[14] ZZ14D[13] ZZ14D[12] ZZ14D[11] ZZ14D[10] ZZ14D[9] ZZ14D[8] ZZ14D[7] ZZ14D[6] ZZ14D[5] ZZ14D[4] ZZ14D[3] ZZ14D[2] ZZ14D[1] ZZ14D[0]  ;
+Module  "R10"  cd-jd.ac | ZZ14D[15] ZZ14D[14] ZZ14D[13] ZZ14D[12] ZZ14D[11] ZZ14D[10] ZZ14D[9] ZZ14D[8] ZZ14D[7] ZZ14D[6] ZZ14D[5] ZZ14D[4] ZZ14D[3] ZZ14D[2] ZZ14D[1] ZZ14D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ14D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ14D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ14D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ14D[0] 
+
+ ;
+ End ; /* R10 */
+Alias ZZ3R11[15] ZZ3R11[14] ZZ3R11[13] ZZ3R11[12] ZZ3R11[11] ZZ3R11[10] ZZ3R11[9] ZZ3R11[8] ZZ3R11[7] ZZ3R11[6] ZZ3R11[5] ZZ3R11[4] ZZ3R11[3] ZZ3R11[2] ZZ3R11[1] ZZ3R11[0] | ZZ15D[15] ZZ15D[14] ZZ15D[13] ZZ15D[12] ZZ15D[11] ZZ15D[10] ZZ15D[9] ZZ15D[8] ZZ15D[7] ZZ15D[6] ZZ15D[5] ZZ15D[4] ZZ15D[3] ZZ15D[2] ZZ15D[1] ZZ15D[0]  ;
+Module  "R11"  cd-jd.ac | ZZ15D[15] ZZ15D[14] ZZ15D[13] ZZ15D[12] ZZ15D[11] ZZ15D[10] ZZ15D[9] ZZ15D[8] ZZ15D[7] ZZ15D[6] ZZ15D[5] ZZ15D[4] ZZ15D[3] ZZ15D[2] ZZ15D[1] ZZ15D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ15D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ15D[0] 
+
+ ;
+ End ; /* R11 */
+Alias ZZ3R12[15] ZZ3R12[14] ZZ3R12[13] ZZ3R12[12] ZZ3R12[11] ZZ3R12[10] ZZ3R12[9] ZZ3R12[8] ZZ3R12[7] ZZ3R12[6] ZZ3R12[5] ZZ3R12[4] ZZ3R12[3] ZZ3R12[2] ZZ3R12[1] ZZ3R12[0] | ZZ16D[15] ZZ16D[14] ZZ16D[13] ZZ16D[12] ZZ16D[11] ZZ16D[10] ZZ16D[9] ZZ16D[8] ZZ16D[7] ZZ16D[6] ZZ16D[5] ZZ16D[4] ZZ16D[3] ZZ16D[2] ZZ16D[1] ZZ16D[0]  ;
+Module  "R12"  cd-jd.ac | ZZ16D[15] ZZ16D[14] ZZ16D[13] ZZ16D[12] ZZ16D[11] ZZ16D[10] ZZ16D[9] ZZ16D[8] ZZ16D[7] ZZ16D[6] ZZ16D[5] ZZ16D[4] ZZ16D[3] ZZ16D[2] ZZ16D[1] ZZ16D[0]  ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ16D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ16D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ16D[0] 
+
+ ;
+ End ; /* R12 */
+Alias ZZ3R13[15] ZZ3R13[14] ZZ3R13[13] ZZ3R13[12] ZZ3R13[11] ZZ3R13[10] ZZ3R13[9] ZZ3R13[8] ZZ3R13[7] ZZ3R13[6] ZZ3R13[5] ZZ3R13[4] ZZ3R13[3] ZZ3R13[2] ZZ3R13[1] ZZ3R13[0] | ZZ17D[15] ZZ17D[14] ZZ17D[13] ZZ17D[12] ZZ17D[11] ZZ17D[10] ZZ17D[9] ZZ17D[8] ZZ17D[7] ZZ17D[6] ZZ17D[5] ZZ17D[4] ZZ17D[3] ZZ17D[2] ZZ17D[1] ZZ17D[0]  ;
+Module  "R13"  cd-jd.ac | ZZ17D[15] ZZ17D[14] ZZ17D[13] ZZ17D[12] ZZ17D[11] ZZ17D[10] ZZ17D[9] ZZ17D[8] ZZ17D[7] ZZ17D[6] ZZ17D[5] ZZ17D[4] ZZ17D[3] ZZ17D[2] ZZ17D[1] ZZ17D[0]  ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ17D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ17D[0] 
+
+ ;
+ End ; /* R13 */
+Alias ZZ3R14[15] ZZ3R14[14] ZZ3R14[13] ZZ3R14[12] ZZ3R14[11] ZZ3R14[10] ZZ3R14[9] ZZ3R14[8] ZZ3R14[7] ZZ3R14[6] ZZ3R14[5] ZZ3R14[4] ZZ3R14[3] ZZ3R14[2] ZZ3R14[1] ZZ3R14[0] | ZZ18D[15] ZZ18D[14] ZZ18D[13] ZZ18D[12] ZZ18D[11] ZZ18D[10] ZZ18D[9] ZZ18D[8] ZZ18D[7] ZZ18D[6] ZZ18D[5] ZZ18D[4] ZZ18D[3] ZZ18D[2] ZZ18D[1] ZZ18D[0]  ;
+Module  "R14"  cd-jd.ac | ZZ18D[15] ZZ18D[14] ZZ18D[13] ZZ18D[12] ZZ18D[11] ZZ18D[10] ZZ18D[9] ZZ18D[8] ZZ18D[7] ZZ18D[6] ZZ18D[5] ZZ18D[4] ZZ18D[3] ZZ18D[2] ZZ18D[1] ZZ18D[0]  ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ18D[0] 
+
+ ;
+ End ; /* R14 */
+Alias ZZ3R15[15] ZZ3R15[14] ZZ3R15[13] ZZ3R15[12] ZZ3R15[11] ZZ3R15[10] ZZ3R15[9] ZZ3R15[8] ZZ3R15[7] ZZ3R15[6] ZZ3R15[5] ZZ3R15[4] ZZ3R15[3] ZZ3R15[2] ZZ3R15[1] ZZ3R15[0] | ZZ19D[15] ZZ19D[14] ZZ19D[13] ZZ19D[12] ZZ19D[11] ZZ19D[10] ZZ19D[9] ZZ19D[8] ZZ19D[7] ZZ19D[6] ZZ19D[5] ZZ19D[4] ZZ19D[3] ZZ19D[2] ZZ19D[1] ZZ19D[0]  ;
+Module  "R15"  cd-jd.ac | ZZ19D[15] ZZ19D[14] ZZ19D[13] ZZ19D[12] ZZ19D[11] ZZ19D[10] ZZ19D[9] ZZ19D[8] ZZ19D[7] ZZ19D[6] ZZ19D[5] ZZ19D[4] ZZ19D[3] ZZ19D[2] ZZ19D[1] ZZ19D[0]  ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[15] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[14] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[13] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[12] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[11] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[10] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[9] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[8] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[7] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[6] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[5] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ONE 
+ZZ19D[4] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[3] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[2] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[1] 
+
+ ;
+  Or "Or" cd-jd.ac.aa ZERO 
+ZZ19D[0] 
+
+ ;
+ End ; /* R15 */
+  Mux-mxn "a-mul" cd-jd.dc ZZ3R15[15] 
+ZZ3R15[14] ZZ3R15[13] ZZ3R15[12] ZZ3R15[11] ZZ3R15[10] ZZ3R15[9] ZZ3R15[8] ZZ3R15[7] ZZ3R15[6] ZZ3R15[5] ZZ3R15[4] ZZ3R15[3] ZZ3R15[2] ZZ3R15[1] ZZ3R15[0] ZZ3R14[15] 
+ZZ3R14[14] ZZ3R14[13] ZZ3R14[12] ZZ3R14[11] ZZ3R14[10] ZZ3R14[9] ZZ3R14[8] ZZ3R14[7] ZZ3R14[6] ZZ3R14[5] ZZ3R14[4] ZZ3R14[3] ZZ3R14[2] ZZ3R14[1] ZZ3R14[0] ZZ3R13[15] 
+ZZ3R13[14] ZZ3R13[13] ZZ3R13[12] ZZ3R13[11] ZZ3R13[10] ZZ3R13[9] ZZ3R13[8] ZZ3R13[7] ZZ3R13[6] ZZ3R13[5] ZZ3R13[4] ZZ3R13[3] ZZ3R13[2] ZZ3R13[1] ZZ3R13[0] ZZ3R12[15] 
+ZZ3R12[14] ZZ3R12[13] ZZ3R12[12] ZZ3R12[11] ZZ3R12[10] ZZ3R12[9] ZZ3R12[8] ZZ3R12[7] ZZ3R12[6] ZZ3R12[5] ZZ3R12[4] ZZ3R12[3] ZZ3R12[2] ZZ3R12[1] ZZ3R12[0] ZZ3R11[15] 
+ZZ3R11[14] ZZ3R11[13] ZZ3R11[12] ZZ3R11[11] ZZ3R11[10] ZZ3R11[9] ZZ3R11[8] ZZ3R11[7] ZZ3R11[6] ZZ3R11[5] ZZ3R11[4] ZZ3R11[3] ZZ3R11[2] ZZ3R11[1] ZZ3R11[0] ZZ3R10[15] 
+ZZ3R10[14] ZZ3R10[13] ZZ3R10[12] ZZ3R10[11] ZZ3R10[10] ZZ3R10[9] ZZ3R10[8] ZZ3R10[7] ZZ3R10[6] ZZ3R10[5] ZZ3R10[4] ZZ3R10[3] ZZ3R10[2] ZZ3R10[1] ZZ3R10[0] ZZ3R9[15] 
+ZZ3R9[14] ZZ3R9[13] ZZ3R9[12] ZZ3R9[11] ZZ3R9[10] ZZ3R9[9] ZZ3R9[8] ZZ3R9[7] ZZ3R9[6] ZZ3R9[5] ZZ3R9[4] ZZ3R9[3] ZZ3R9[2] ZZ3R9[1] ZZ3R9[0] ZZ3R8[15] 
+ZZ3R8[14] ZZ3R8[13] ZZ3R8[12] ZZ3R8[11] ZZ3R8[10] ZZ3R8[9] ZZ3R8[8] ZZ3R8[7] ZZ3R8[6] ZZ3R8[5] ZZ3R8[4] ZZ3R8[3] ZZ3R8[2] ZZ3R8[1] ZZ3R8[0] ZZ3R7[15] 
+ZZ3R7[14] ZZ3R7[13] ZZ3R7[12] ZZ3R7[11] ZZ3R7[10] ZZ3R7[9] ZZ3R7[8] ZZ3R7[7] ZZ3R7[6] ZZ3R7[5] ZZ3R7[4] ZZ3R7[3] ZZ3R7[2] ZZ3R7[1] ZZ3R7[0] ZZ3R6[15] 
+ZZ3R6[14] ZZ3R6[13] ZZ3R6[12] ZZ3R6[11] ZZ3R6[10] ZZ3R6[9] ZZ3R6[8] ZZ3R6[7] ZZ3R6[6] ZZ3R6[5] ZZ3R6[4] ZZ3R6[3] ZZ3R6[2] ZZ3R6[1] ZZ3R6[0] ZZ3R5[15] 
+ZZ3R5[14] ZZ3R5[13] ZZ3R5[12] ZZ3R5[11] ZZ3R5[10] ZZ3R5[9] ZZ3R5[8] ZZ3R5[7] ZZ3R5[6] ZZ3R5[5] ZZ3R5[4] ZZ3R5[3] ZZ3R5[2] ZZ3R5[1] ZZ3R5[0] ZZ3R4[15] 
+ZZ3R4[14] ZZ3R4[13] ZZ3R4[12] ZZ3R4[11] ZZ3R4[10] ZZ3R4[9] ZZ3R4[8] ZZ3R4[7] ZZ3R4[6] ZZ3R4[5] ZZ3R4[4] ZZ3R4[3] ZZ3R4[2] ZZ3R4[1] ZZ3R4[0] ZZ3R3[15] 
+ZZ3R3[14] ZZ3R3[13] ZZ3R3[12] ZZ3R3[11] ZZ3R3[10] ZZ3R3[9] ZZ3R3[8] ZZ3R3[7] ZZ3R3[6] ZZ3R3[5] ZZ3R3[4] ZZ3R3[3] ZZ3R3[2] ZZ3R3[1] ZZ3R3[0] ZZ3R2[15] 
+ZZ3R2[14] ZZ3R2[13] ZZ3R2[12] ZZ3R2[11] ZZ3R2[10] ZZ3R2[9] ZZ3R2[8] ZZ3R2[7] ZZ3R2[6] ZZ3R2[5] ZZ3R2[4] ZZ3R2[3] ZZ3R2[2] ZZ3R2[1] ZZ3R2[0] ZZ3R1[15] 
+ZZ3R1[14] ZZ3R1[13] ZZ3R1[12] ZZ3R1[11] ZZ3R1[10] ZZ3R1[9] ZZ3R1[8] ZZ3R1[7] ZZ3R1[6] ZZ3R1[5] ZZ3R1[4] ZZ3R1[3] ZZ3R1[2] ZZ3R1[1] ZZ3R1[0] ZZ3R0[15] 
+ZZ3R0[14] ZZ3R0[13] ZZ3R0[12] ZZ3R0[11] ZZ3R0[10] ZZ3R0[9] ZZ3R0[8] ZZ3R0[7] ZZ3R0[6] ZZ3R0[5] ZZ3R0[4] ZZ3R0[3] ZZ3R0[2] ZZ3R0[1] ZZ3R0[0] ZZ3MIR[11] 
+ZZ3MIR[10] ZZ3MIR[9] ZZ3MIR[8] 
+| ZZ3aout[15] 
+ZZ3aout[14] ZZ3aout[13] ZZ3aout[12] ZZ3aout[11] ZZ3aout[10] ZZ3aout[9] ZZ3aout[8] ZZ3aout[7] ZZ3aout[6] ZZ3aout[5] ZZ3aout[4] ZZ3aout[3] ZZ3aout[2] ZZ3aout[1] ZZ3aout[0] 
+ ;
+  Mux-mxn "b-mul" cd-jd.dd ZZ3R15[15] 
+ZZ3R15[14] ZZ3R15[13] ZZ3R15[12] ZZ3R15[11] ZZ3R15[10] ZZ3R15[9] ZZ3R15[8] ZZ3R15[7] ZZ3R15[6] ZZ3R15[5] ZZ3R15[4] ZZ3R15[3] ZZ3R15[2] ZZ3R15[1] ZZ3R15[0] ZZ3R14[15] 
+ZZ3R14[14] ZZ3R14[13] ZZ3R14[12] ZZ3R14[11] ZZ3R14[10] ZZ3R14[9] ZZ3R14[8] ZZ3R14[7] ZZ3R14[6] ZZ3R14[5] ZZ3R14[4] ZZ3R14[3] ZZ3R14[2] ZZ3R14[1] ZZ3R14[0] ZZ3R13[15] 
+ZZ3R13[14] ZZ3R13[13] ZZ3R13[12] ZZ3R13[11] ZZ3R13[10] ZZ3R13[9] ZZ3R13[8] ZZ3R13[7] ZZ3R13[6] ZZ3R13[5] ZZ3R13[4] ZZ3R13[3] ZZ3R13[2] ZZ3R13[1] ZZ3R13[0] ZZ3R12[15] 
+ZZ3R12[14] ZZ3R12[13] ZZ3R12[12] ZZ3R12[11] ZZ3R12[10] ZZ3R12[9] ZZ3R12[8] ZZ3R12[7] ZZ3R12[6] ZZ3R12[5] ZZ3R12[4] ZZ3R12[3] ZZ3R12[2] ZZ3R12[1] ZZ3R12[0] ZZ3R11[15] 
+ZZ3R11[14] ZZ3R11[13] ZZ3R11[12] ZZ3R11[11] ZZ3R11[10] ZZ3R11[9] ZZ3R11[8] ZZ3R11[7] ZZ3R11[6] ZZ3R11[5] ZZ3R11[4] ZZ3R11[3] ZZ3R11[2] ZZ3R11[1] ZZ3R11[0] ZZ3R10[15] 
+ZZ3R10[14] ZZ3R10[13] ZZ3R10[12] ZZ3R10[11] ZZ3R10[10] ZZ3R10[9] ZZ3R10[8] ZZ3R10[7] ZZ3R10[6] ZZ3R10[5] ZZ3R10[4] ZZ3R10[3] ZZ3R10[2] ZZ3R10[1] ZZ3R10[0] ZZ3R9[15] 
+ZZ3R9[14] ZZ3R9[13] ZZ3R9[12] ZZ3R9[11] ZZ3R9[10] ZZ3R9[9] ZZ3R9[8] ZZ3R9[7] ZZ3R9[6] ZZ3R9[5] ZZ3R9[4] ZZ3R9[3] ZZ3R9[2] ZZ3R9[1] ZZ3R9[0] ZZ3R8[15] 
+ZZ3R8[14] ZZ3R8[13] ZZ3R8[12] ZZ3R8[11] ZZ3R8[10] ZZ3R8[9] ZZ3R8[8] ZZ3R8[7] ZZ3R8[6] ZZ3R8[5] ZZ3R8[4] ZZ3R8[3] ZZ3R8[2] ZZ3R8[1] ZZ3R8[0] ZZ3R7[15] 
+ZZ3R7[14] ZZ3R7[13] ZZ3R7[12] ZZ3R7[11] ZZ3R7[10] ZZ3R7[9] ZZ3R7[8] ZZ3R7[7] ZZ3R7[6] ZZ3R7[5] ZZ3R7[4] ZZ3R7[3] ZZ3R7[2] ZZ3R7[1] ZZ3R7[0] ZZ3R6[15] 
+ZZ3R6[14] ZZ3R6[13] ZZ3R6[12] ZZ3R6[11] ZZ3R6[10] ZZ3R6[9] ZZ3R6[8] ZZ3R6[7] ZZ3R6[6] ZZ3R6[5] ZZ3R6[4] ZZ3R6[3] ZZ3R6[2] ZZ3R6[1] ZZ3R6[0] ZZ3R5[15] 
+ZZ3R5[14] ZZ3R5[13] ZZ3R5[12] ZZ3R5[11] ZZ3R5[10] ZZ3R5[9] ZZ3R5[8] ZZ3R5[7] ZZ3R5[6] ZZ3R5[5] ZZ3R5[4] ZZ3R5[3] ZZ3R5[2] ZZ3R5[1] ZZ3R5[0] ZZ3R4[15] 
+ZZ3R4[14] ZZ3R4[13] ZZ3R4[12] ZZ3R4[11] ZZ3R4[10] ZZ3R4[9] ZZ3R4[8] ZZ3R4[7] ZZ3R4[6] ZZ3R4[5] ZZ3R4[4] ZZ3R4[3] ZZ3R4[2] ZZ3R4[1] ZZ3R4[0] ZZ3R3[15] 
+ZZ3R3[14] ZZ3R3[13] ZZ3R3[12] ZZ3R3[11] ZZ3R3[10] ZZ3R3[9] ZZ3R3[8] ZZ3R3[7] ZZ3R3[6] ZZ3R3[5] ZZ3R3[4] ZZ3R3[3] ZZ3R3[2] ZZ3R3[1] ZZ3R3[0] ZZ3R2[15] 
+ZZ3R2[14] ZZ3R2[13] ZZ3R2[12] ZZ3R2[11] ZZ3R2[10] ZZ3R2[9] ZZ3R2[8] ZZ3R2[7] ZZ3R2[6] ZZ3R2[5] ZZ3R2[4] ZZ3R2[3] ZZ3R2[2] ZZ3R2[1] ZZ3R2[0] ZZ3R1[15] 
+ZZ3R1[14] ZZ3R1[13] ZZ3R1[12] ZZ3R1[11] ZZ3R1[10] ZZ3R1[9] ZZ3R1[8] ZZ3R1[7] ZZ3R1[6] ZZ3R1[5] ZZ3R1[4] ZZ3R1[3] ZZ3R1[2] ZZ3R1[1] ZZ3R1[0] ZZ3R0[15] 
+ZZ3R0[14] ZZ3R0[13] ZZ3R0[12] ZZ3R0[11] ZZ3R0[10] ZZ3R0[9] ZZ3R0[8] ZZ3R0[7] ZZ3R0[6] ZZ3R0[5] ZZ3R0[4] ZZ3R0[3] ZZ3R0[2] ZZ3R0[1] ZZ3R0[0] ZZ3MIR[15] 
+ZZ3MIR[14] ZZ3MIR[13] ZZ3MIR[12] 
+| ZZ3bout[15] 
+ZZ3bout[14] ZZ3bout[13] ZZ3bout[12] ZZ3bout[11] ZZ3bout[10] ZZ3bout[9] ZZ3bout[8] ZZ3bout[7] ZZ3bout[6] ZZ3bout[5] ZZ3bout[4] ZZ3bout[3] ZZ3bout[2] ZZ3bout[1] ZZ3bout[0] 
+ ;
+  Not "Not" cd-jd.ec ZZ3Phase[1] 
+ZZ3notPhase[1] 
+
+ ;
+  Register "a-latch" cd-jd.ec ZZ3aout[15] 
+ZZ3aout[14] ZZ3aout[13] ZZ3aout[12] ZZ3aout[11] ZZ3aout[10] ZZ3aout[9] ZZ3aout[8] ZZ3aout[7] ZZ3aout[6] ZZ3aout[5] ZZ3aout[4] ZZ3aout[3] ZZ3aout[2] ZZ3aout[1] ZZ3aout[0] ZZ3notPhase[1] 
+
+| ZZ3A[15] 
+ZZ3A[14] ZZ3A[13] ZZ3A[12] ZZ3A[11] ZZ3A[10] ZZ3A[9] ZZ3A[8] ZZ3A[7] ZZ3A[6] ZZ3A[5] ZZ3A[4] ZZ3A[3] ZZ3A[2] ZZ3A[1] ZZ3A[0] 
+ ;
+  Register "b-latch" cd-jd.ee ZZ3bout[15] 
+ZZ3bout[14] ZZ3bout[13] ZZ3bout[12] ZZ3bout[11] ZZ3bout[10] ZZ3bout[9] ZZ3bout[8] ZZ3bout[7] ZZ3bout[6] ZZ3bout[5] ZZ3bout[4] ZZ3bout[3] ZZ3bout[2] ZZ3bout[1] ZZ3bout[0] ZZ3notPhase[1] 
+
+| ZZ3B[15] 
+ZZ3B[14] ZZ3B[13] ZZ3B[12] ZZ3B[11] ZZ3B[10] ZZ3B[9] ZZ3B[8] ZZ3B[7] ZZ3B[6] ZZ3B[5] ZZ3B[4] ZZ3B[3] ZZ3B[2] ZZ3B[1] ZZ3B[0] 
+ ;
+  Mux-mxn "A-MUX" cd-jd.fc ZZ3mbr[15] 
+ZZ3mbr[14] ZZ3mbr[13] ZZ3mbr[12] ZZ3mbr[11] ZZ3mbr[10] ZZ3mbr[9] ZZ3mbr[8] ZZ3mbr[7] ZZ3mbr[6] ZZ3mbr[5] ZZ3mbr[4] ZZ3mbr[3] ZZ3mbr[2] ZZ3mbr[1] ZZ3mbr[0] ZZ3A[15] 
+ZZ3A[14] ZZ3A[13] ZZ3A[12] ZZ3A[11] ZZ3A[10] ZZ3A[9] ZZ3A[8] ZZ3A[7] ZZ3A[6] ZZ3A[5] ZZ3A[4] ZZ3A[3] ZZ3A[2] ZZ3A[1] ZZ3A[0] ZZ3MIR[31] 
+
+| ZZ3AMUX[15] 
+ZZ3AMUX[14] ZZ3AMUX[13] ZZ3AMUX[12] ZZ3AMUX[11] ZZ3AMUX[10] ZZ3AMUX[9] ZZ3AMUX[8] ZZ3AMUX[7] ZZ3AMUX[6] ZZ3AMUX[5] ZZ3AMUX[4] ZZ3AMUX[3] ZZ3AMUX[2] ZZ3AMUX[1] ZZ3AMUX[0] 
+ ;
+Alias ZZ3AMUX[15] ZZ3AMUX[14] ZZ3AMUX[13] ZZ3AMUX[12] ZZ3AMUX[11] ZZ3AMUX[10] ZZ3AMUX[9] ZZ3AMUX[8] ZZ3AMUX[7] ZZ3AMUX[6] ZZ3AMUX[5] ZZ3AMUX[4] ZZ3AMUX[3] ZZ3AMUX[2] ZZ3AMUX[1] ZZ3AMUX[0] ZZ3B[15] ZZ3B[14] ZZ3B[13] ZZ3B[12] ZZ3B[11] ZZ3B[10] ZZ3B[9] ZZ3B[8] ZZ3B[7] ZZ3B[6] ZZ3B[5] ZZ3B[4] ZZ3B[3] ZZ3B[2] ZZ3B[1] ZZ3B[0] ZZ3MIR[28] ZZ3MIR[27] ZZ3ALUOUT[15] ZZ3ALUOUT[14] ZZ3ALUOUT[13] ZZ3ALUOUT[12] ZZ3ALUOUT[11] ZZ3ALUOUT[10] ZZ3ALUOUT[9] ZZ3ALUOUT[8] ZZ3ALUOUT[7] ZZ3ALUOUT[6] ZZ3ALUOUT[5] ZZ3ALUOUT[4] ZZ3ALUOUT[3] ZZ3ALUOUT[2] ZZ3ALUOUT[1] ZZ3ALUOUT[0] ZZ3N ZZ3Z | ZZ20a[15] ZZ20a[14] ZZ20a[13] ZZ20a[12] ZZ20a[11] ZZ20a[10] ZZ20a[9] ZZ20a[8] ZZ20a[7] ZZ20a[6] ZZ20a[5] ZZ20a[4] ZZ20a[3] ZZ20a[2] ZZ20a[1] ZZ20a[0] ZZ20b[15] ZZ20b[14] ZZ20b[13] ZZ20b[12] ZZ20b[11] ZZ20b[10] ZZ20b[9] ZZ20b[8] ZZ20b[7] ZZ20b[6] ZZ20b[5] ZZ20b[4] ZZ20b[3] ZZ20b[2] ZZ20b[1] ZZ20b[0] ZZ20s[1] ZZ20s[0] ZZ20z[15] ZZ20z[14] ZZ20z[13] ZZ20z[12] ZZ20z[11] ZZ20z[10] ZZ20z[9] ZZ20z[8] ZZ20z[7] ZZ20z[6] ZZ20z[5] ZZ20z[4] ZZ20z[3] ZZ20z[2] ZZ20z[1] ZZ20z[0] ZZ20N ZZ20Z  ;
+Module  "ALU16"  cd-jd.gd ZZ20a[15] ZZ20a[14] ZZ20a[13] ZZ20a[12] ZZ20a[11] ZZ20a[10] ZZ20a[9] ZZ20a[8] ZZ20a[7] ZZ20a[6] ZZ20a[5] ZZ20a[4] ZZ20a[3] ZZ20a[2] ZZ20a[1] ZZ20a[0] ZZ20b[15] ZZ20b[14] ZZ20b[13] ZZ20b[12] ZZ20b[11] ZZ20b[10] ZZ20b[9] ZZ20b[8] ZZ20b[7] ZZ20b[6] ZZ20b[5] ZZ20b[4] ZZ20b[3] ZZ20b[2] ZZ20b[1] ZZ20b[0] ZZ20s[1] ZZ20s[0] | ZZ20z[15] ZZ20z[14] ZZ20z[13] ZZ20z[12] ZZ20z[11] ZZ20z[10] ZZ20z[9] ZZ20z[8] ZZ20z[7] ZZ20z[6] ZZ20z[5] ZZ20z[4] ZZ20z[3] ZZ20z[2] ZZ20z[1] ZZ20z[0] ZZ20N ZZ20Z  ;
+Alias ZZ20a[0] ZZ20b[0] ZERO ZZ20s[1] ZZ20s[0] ZZ20z[0] ZZ20out0 | ZZ21a ZZ21b ZZ21c-in ZZ21s[1] ZZ21s[0] ZZ21z ZZ21c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.aa ZZ21a ZZ21b ZZ21c-in ZZ21s[1] ZZ21s[0] | ZZ21z ZZ21c-out  ;
+  And "And" cd-jd.gd.aa.1a ZZ21a 
+ZZ21b ZZ21Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.aa.1a ZZ21a 
+ZZ21Out-Not 
+
+ ;
+Alias ZZ21a ZZ21b ZZ21c-in ZZ21c-out1 ZZ21Out-Sum | ZZ22CarryIn ZZ22a ZZ22b ZZ22CarryOut ZZ22Sum  ;
+Module  "Full_Adder"  cd-jd.gd.aa.1a ZZ22CarryIn ZZ22a ZZ22b | ZZ22CarryOut ZZ22Sum  ;
+  Xor "Xor" cd-jd.gd.aa.1a.aa ZZ22a 
+ZZ22b ZZ22x 
+
+ ;
+  Xor "Xor" cd-jd.gd.aa.1a.ab ZZ22x 
+ZZ22CarryIn ZZ22Sum 
+
+ ;
+  And "And" cd-jd.gd.aa.1a.bb ZZ22a 
+ZZ22b ZZ22y 
+
+ ;
+  And "And" cd-jd.gd.aa.1a.cb ZZ22CarryIn 
+ZZ22x ZZ22z 
+
+ ;
+  Or "Or" cd-jd.gd.aa.1a.bc-cc ZZ22y 
+ZZ22z ZZ22CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ21s[1] ZZ21s[0] ZZ21l3 ZZ21l2 ZZ21l1 ZZ21l0 | ZZ23c[1] ZZ23c[0] ZZ23s[3] ZZ23s[2] ZZ23s[1] ZZ23s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.aa.2a ZZ23c[1] ZZ23c[0] | ZZ23s[3] ZZ23s[2] ZZ23s[1] ZZ23s[0]  ;
+  Not "Not" cd-jd.gd.aa.2a.1a ZZ23c[1] 
+ZZ23not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.aa.2a.2a ZZ23c[0] 
+ZZ23not-c0 
+
+ ;
+  And "And" cd-jd.gd.aa.2a.2a ZZ23c[1] 
+ZZ23c[0] ZZ23s[3] 
+
+ ;
+  And "And" cd-jd.gd.aa.2a.2b ZZ23c[1] 
+ZZ23not-c0 ZZ23s[2] 
+
+ ;
+  And "And" cd-jd.gd.aa.2a.2c ZZ23not-c1 
+ZZ23c[0] ZZ23s[1] 
+
+ ;
+  And "And" cd-jd.gd.aa.2a.2d ZZ23not-c1 
+ZZ23not-c0 ZZ23s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.aa.2c ZZ21l3 
+ZZ21Out-Not ZZ21Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.aa.2c ZZ21l2 
+ZZ21a ZZ21Out-a 
+
+ ;
+  And "And" cd-jd.gd.aa.2c ZZ21l1 
+ZZ21Out-And2 ZZ21Out-And1 
+
+ ;
+  And "And" cd-jd.gd.aa.2c ZZ21l0 
+ZZ21Out-Sum ZZ21Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.aa.2c ZZ21l0 
+ZZ21c-out1 ZZ21c-out 
+
+ ;
+  Or "Or" cd-jd.gd.aa.2c ZZ21Out-Not1 
+ZZ21Out-a ZZ21Out-And1 ZZ21Out-Sum1 ZZ21z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[1] ZZ20b[1] ZZ20out0 ZZ20s[1] ZZ20s[0] ZZ20z[1] ZZ20out1 | ZZ24a ZZ24b ZZ24c-in ZZ24s[1] ZZ24s[0] ZZ24z ZZ24c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ab ZZ24a ZZ24b ZZ24c-in ZZ24s[1] ZZ24s[0] | ZZ24z ZZ24c-out  ;
+  And "And" cd-jd.gd.ab.1a ZZ24a 
+ZZ24b ZZ24Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ab.1a ZZ24a 
+ZZ24Out-Not 
+
+ ;
+Alias ZZ24a ZZ24b ZZ24c-in ZZ24c-out1 ZZ24Out-Sum | ZZ25CarryIn ZZ25a ZZ25b ZZ25CarryOut ZZ25Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ab.1a ZZ25CarryIn ZZ25a ZZ25b | ZZ25CarryOut ZZ25Sum  ;
+  Xor "Xor" cd-jd.gd.ab.1a.aa ZZ25a 
+ZZ25b ZZ25x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ab.1a.ab ZZ25x 
+ZZ25CarryIn ZZ25Sum 
+
+ ;
+  And "And" cd-jd.gd.ab.1a.bb ZZ25a 
+ZZ25b ZZ25y 
+
+ ;
+  And "And" cd-jd.gd.ab.1a.cb ZZ25CarryIn 
+ZZ25x ZZ25z 
+
+ ;
+  Or "Or" cd-jd.gd.ab.1a.bc-cc ZZ25y 
+ZZ25z ZZ25CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ24s[1] ZZ24s[0] ZZ24l3 ZZ24l2 ZZ24l1 ZZ24l0 | ZZ26c[1] ZZ26c[0] ZZ26s[3] ZZ26s[2] ZZ26s[1] ZZ26s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ab.2a ZZ26c[1] ZZ26c[0] | ZZ26s[3] ZZ26s[2] ZZ26s[1] ZZ26s[0]  ;
+  Not "Not" cd-jd.gd.ab.2a.1a ZZ26c[1] 
+ZZ26not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ab.2a.2a ZZ26c[0] 
+ZZ26not-c0 
+
+ ;
+  And "And" cd-jd.gd.ab.2a.2a ZZ26c[1] 
+ZZ26c[0] ZZ26s[3] 
+
+ ;
+  And "And" cd-jd.gd.ab.2a.2b ZZ26c[1] 
+ZZ26not-c0 ZZ26s[2] 
+
+ ;
+  And "And" cd-jd.gd.ab.2a.2c ZZ26not-c1 
+ZZ26c[0] ZZ26s[1] 
+
+ ;
+  And "And" cd-jd.gd.ab.2a.2d ZZ26not-c1 
+ZZ26not-c0 ZZ26s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ab.2c ZZ24l3 
+ZZ24Out-Not ZZ24Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ab.2c ZZ24l2 
+ZZ24a ZZ24Out-a 
+
+ ;
+  And "And" cd-jd.gd.ab.2c ZZ24l1 
+ZZ24Out-And2 ZZ24Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ab.2c ZZ24l0 
+ZZ24Out-Sum ZZ24Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ab.2c ZZ24l0 
+ZZ24c-out1 ZZ24c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ab.2c ZZ24Out-Not1 
+ZZ24Out-a ZZ24Out-And1 ZZ24Out-Sum1 ZZ24z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[2] ZZ20b[2] ZZ20out1 ZZ20s[1] ZZ20s[0] ZZ20z[2] ZZ20out2 | ZZ27a ZZ27b ZZ27c-in ZZ27s[1] ZZ27s[0] ZZ27z ZZ27c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ac ZZ27a ZZ27b ZZ27c-in ZZ27s[1] ZZ27s[0] | ZZ27z ZZ27c-out  ;
+  And "And" cd-jd.gd.ac.1a ZZ27a 
+ZZ27b ZZ27Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ac.1a ZZ27a 
+ZZ27Out-Not 
+
+ ;
+Alias ZZ27a ZZ27b ZZ27c-in ZZ27c-out1 ZZ27Out-Sum | ZZ28CarryIn ZZ28a ZZ28b ZZ28CarryOut ZZ28Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ac.1a ZZ28CarryIn ZZ28a ZZ28b | ZZ28CarryOut ZZ28Sum  ;
+  Xor "Xor" cd-jd.gd.ac.1a.aa ZZ28a 
+ZZ28b ZZ28x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ac.1a.ab ZZ28x 
+ZZ28CarryIn ZZ28Sum 
+
+ ;
+  And "And" cd-jd.gd.ac.1a.bb ZZ28a 
+ZZ28b ZZ28y 
+
+ ;
+  And "And" cd-jd.gd.ac.1a.cb ZZ28CarryIn 
+ZZ28x ZZ28z 
+
+ ;
+  Or "Or" cd-jd.gd.ac.1a.bc-cc ZZ28y 
+ZZ28z ZZ28CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ27s[1] ZZ27s[0] ZZ27l3 ZZ27l2 ZZ27l1 ZZ27l0 | ZZ29c[1] ZZ29c[0] ZZ29s[3] ZZ29s[2] ZZ29s[1] ZZ29s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ac.2a ZZ29c[1] ZZ29c[0] | ZZ29s[3] ZZ29s[2] ZZ29s[1] ZZ29s[0]  ;
+  Not "Not" cd-jd.gd.ac.2a.1a ZZ29c[1] 
+ZZ29not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ac.2a.2a ZZ29c[0] 
+ZZ29not-c0 
+
+ ;
+  And "And" cd-jd.gd.ac.2a.2a ZZ29c[1] 
+ZZ29c[0] ZZ29s[3] 
+
+ ;
+  And "And" cd-jd.gd.ac.2a.2b ZZ29c[1] 
+ZZ29not-c0 ZZ29s[2] 
+
+ ;
+  And "And" cd-jd.gd.ac.2a.2c ZZ29not-c1 
+ZZ29c[0] ZZ29s[1] 
+
+ ;
+  And "And" cd-jd.gd.ac.2a.2d ZZ29not-c1 
+ZZ29not-c0 ZZ29s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ac.2c ZZ27l3 
+ZZ27Out-Not ZZ27Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ac.2c ZZ27l2 
+ZZ27a ZZ27Out-a 
+
+ ;
+  And "And" cd-jd.gd.ac.2c ZZ27l1 
+ZZ27Out-And2 ZZ27Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ac.2c ZZ27l0 
+ZZ27Out-Sum ZZ27Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ac.2c ZZ27l0 
+ZZ27c-out1 ZZ27c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ac.2c ZZ27Out-Not1 
+ZZ27Out-a ZZ27Out-And1 ZZ27Out-Sum1 ZZ27z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[3] ZZ20b[3] ZZ20out2 ZZ20s[1] ZZ20s[0] ZZ20z[3] ZZ20out3 | ZZ30a ZZ30b ZZ30c-in ZZ30s[1] ZZ30s[0] ZZ30z ZZ30c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ad ZZ30a ZZ30b ZZ30c-in ZZ30s[1] ZZ30s[0] | ZZ30z ZZ30c-out  ;
+  And "And" cd-jd.gd.ad.1a ZZ30a 
+ZZ30b ZZ30Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ad.1a ZZ30a 
+ZZ30Out-Not 
+
+ ;
+Alias ZZ30a ZZ30b ZZ30c-in ZZ30c-out1 ZZ30Out-Sum | ZZ31CarryIn ZZ31a ZZ31b ZZ31CarryOut ZZ31Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ad.1a ZZ31CarryIn ZZ31a ZZ31b | ZZ31CarryOut ZZ31Sum  ;
+  Xor "Xor" cd-jd.gd.ad.1a.aa ZZ31a 
+ZZ31b ZZ31x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ad.1a.ab ZZ31x 
+ZZ31CarryIn ZZ31Sum 
+
+ ;
+  And "And" cd-jd.gd.ad.1a.bb ZZ31a 
+ZZ31b ZZ31y 
+
+ ;
+  And "And" cd-jd.gd.ad.1a.cb ZZ31CarryIn 
+ZZ31x ZZ31z 
+
+ ;
+  Or "Or" cd-jd.gd.ad.1a.bc-cc ZZ31y 
+ZZ31z ZZ31CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ30s[1] ZZ30s[0] ZZ30l3 ZZ30l2 ZZ30l1 ZZ30l0 | ZZ32c[1] ZZ32c[0] ZZ32s[3] ZZ32s[2] ZZ32s[1] ZZ32s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ad.2a ZZ32c[1] ZZ32c[0] | ZZ32s[3] ZZ32s[2] ZZ32s[1] ZZ32s[0]  ;
+  Not "Not" cd-jd.gd.ad.2a.1a ZZ32c[1] 
+ZZ32not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ad.2a.2a ZZ32c[0] 
+ZZ32not-c0 
+
+ ;
+  And "And" cd-jd.gd.ad.2a.2a ZZ32c[1] 
+ZZ32c[0] ZZ32s[3] 
+
+ ;
+  And "And" cd-jd.gd.ad.2a.2b ZZ32c[1] 
+ZZ32not-c0 ZZ32s[2] 
+
+ ;
+  And "And" cd-jd.gd.ad.2a.2c ZZ32not-c1 
+ZZ32c[0] ZZ32s[1] 
+
+ ;
+  And "And" cd-jd.gd.ad.2a.2d ZZ32not-c1 
+ZZ32not-c0 ZZ32s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ad.2c ZZ30l3 
+ZZ30Out-Not ZZ30Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ad.2c ZZ30l2 
+ZZ30a ZZ30Out-a 
+
+ ;
+  And "And" cd-jd.gd.ad.2c ZZ30l1 
+ZZ30Out-And2 ZZ30Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ad.2c ZZ30l0 
+ZZ30Out-Sum ZZ30Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ad.2c ZZ30l0 
+ZZ30c-out1 ZZ30c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ad.2c ZZ30Out-Not1 
+ZZ30Out-a ZZ30Out-And1 ZZ30Out-Sum1 ZZ30z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[4] ZZ20b[4] ZZ20out3 ZZ20s[1] ZZ20s[0] ZZ20z[4] ZZ20out4 | ZZ33a ZZ33b ZZ33c-in ZZ33s[1] ZZ33s[0] ZZ33z ZZ33c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ae ZZ33a ZZ33b ZZ33c-in ZZ33s[1] ZZ33s[0] | ZZ33z ZZ33c-out  ;
+  And "And" cd-jd.gd.ae.1a ZZ33a 
+ZZ33b ZZ33Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ae.1a ZZ33a 
+ZZ33Out-Not 
+
+ ;
+Alias ZZ33a ZZ33b ZZ33c-in ZZ33c-out1 ZZ33Out-Sum | ZZ34CarryIn ZZ34a ZZ34b ZZ34CarryOut ZZ34Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ae.1a ZZ34CarryIn ZZ34a ZZ34b | ZZ34CarryOut ZZ34Sum  ;
+  Xor "Xor" cd-jd.gd.ae.1a.aa ZZ34a 
+ZZ34b ZZ34x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ae.1a.ab ZZ34x 
+ZZ34CarryIn ZZ34Sum 
+
+ ;
+  And "And" cd-jd.gd.ae.1a.bb ZZ34a 
+ZZ34b ZZ34y 
+
+ ;
+  And "And" cd-jd.gd.ae.1a.cb ZZ34CarryIn 
+ZZ34x ZZ34z 
+
+ ;
+  Or "Or" cd-jd.gd.ae.1a.bc-cc ZZ34y 
+ZZ34z ZZ34CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ33s[1] ZZ33s[0] ZZ33l3 ZZ33l2 ZZ33l1 ZZ33l0 | ZZ35c[1] ZZ35c[0] ZZ35s[3] ZZ35s[2] ZZ35s[1] ZZ35s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ae.2a ZZ35c[1] ZZ35c[0] | ZZ35s[3] ZZ35s[2] ZZ35s[1] ZZ35s[0]  ;
+  Not "Not" cd-jd.gd.ae.2a.1a ZZ35c[1] 
+ZZ35not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ae.2a.2a ZZ35c[0] 
+ZZ35not-c0 
+
+ ;
+  And "And" cd-jd.gd.ae.2a.2a ZZ35c[1] 
+ZZ35c[0] ZZ35s[3] 
+
+ ;
+  And "And" cd-jd.gd.ae.2a.2b ZZ35c[1] 
+ZZ35not-c0 ZZ35s[2] 
+
+ ;
+  And "And" cd-jd.gd.ae.2a.2c ZZ35not-c1 
+ZZ35c[0] ZZ35s[1] 
+
+ ;
+  And "And" cd-jd.gd.ae.2a.2d ZZ35not-c1 
+ZZ35not-c0 ZZ35s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ae.2c ZZ33l3 
+ZZ33Out-Not ZZ33Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ae.2c ZZ33l2 
+ZZ33a ZZ33Out-a 
+
+ ;
+  And "And" cd-jd.gd.ae.2c ZZ33l1 
+ZZ33Out-And2 ZZ33Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ae.2c ZZ33l0 
+ZZ33Out-Sum ZZ33Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ae.2c ZZ33l0 
+ZZ33c-out1 ZZ33c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ae.2c ZZ33Out-Not1 
+ZZ33Out-a ZZ33Out-And1 ZZ33Out-Sum1 ZZ33z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[5] ZZ20b[5] ZZ20out4 ZZ20s[1] ZZ20s[0] ZZ20z[5] ZZ20out5 | ZZ36a ZZ36b ZZ36c-in ZZ36s[1] ZZ36s[0] ZZ36z ZZ36c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.af ZZ36a ZZ36b ZZ36c-in ZZ36s[1] ZZ36s[0] | ZZ36z ZZ36c-out  ;
+  And "And" cd-jd.gd.af.1a ZZ36a 
+ZZ36b ZZ36Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.af.1a ZZ36a 
+ZZ36Out-Not 
+
+ ;
+Alias ZZ36a ZZ36b ZZ36c-in ZZ36c-out1 ZZ36Out-Sum | ZZ37CarryIn ZZ37a ZZ37b ZZ37CarryOut ZZ37Sum  ;
+Module  "Full_Adder"  cd-jd.gd.af.1a ZZ37CarryIn ZZ37a ZZ37b | ZZ37CarryOut ZZ37Sum  ;
+  Xor "Xor" cd-jd.gd.af.1a.aa ZZ37a 
+ZZ37b ZZ37x 
+
+ ;
+  Xor "Xor" cd-jd.gd.af.1a.ab ZZ37x 
+ZZ37CarryIn ZZ37Sum 
+
+ ;
+  And "And" cd-jd.gd.af.1a.bb ZZ37a 
+ZZ37b ZZ37y 
+
+ ;
+  And "And" cd-jd.gd.af.1a.cb ZZ37CarryIn 
+ZZ37x ZZ37z 
+
+ ;
+  Or "Or" cd-jd.gd.af.1a.bc-cc ZZ37y 
+ZZ37z ZZ37CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ36s[1] ZZ36s[0] ZZ36l3 ZZ36l2 ZZ36l1 ZZ36l0 | ZZ38c[1] ZZ38c[0] ZZ38s[3] ZZ38s[2] ZZ38s[1] ZZ38s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.af.2a ZZ38c[1] ZZ38c[0] | ZZ38s[3] ZZ38s[2] ZZ38s[1] ZZ38s[0]  ;
+  Not "Not" cd-jd.gd.af.2a.1a ZZ38c[1] 
+ZZ38not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.af.2a.2a ZZ38c[0] 
+ZZ38not-c0 
+
+ ;
+  And "And" cd-jd.gd.af.2a.2a ZZ38c[1] 
+ZZ38c[0] ZZ38s[3] 
+
+ ;
+  And "And" cd-jd.gd.af.2a.2b ZZ38c[1] 
+ZZ38not-c0 ZZ38s[2] 
+
+ ;
+  And "And" cd-jd.gd.af.2a.2c ZZ38not-c1 
+ZZ38c[0] ZZ38s[1] 
+
+ ;
+  And "And" cd-jd.gd.af.2a.2d ZZ38not-c1 
+ZZ38not-c0 ZZ38s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.af.2c ZZ36l3 
+ZZ36Out-Not ZZ36Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.af.2c ZZ36l2 
+ZZ36a ZZ36Out-a 
+
+ ;
+  And "And" cd-jd.gd.af.2c ZZ36l1 
+ZZ36Out-And2 ZZ36Out-And1 
+
+ ;
+  And "And" cd-jd.gd.af.2c ZZ36l0 
+ZZ36Out-Sum ZZ36Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.af.2c ZZ36l0 
+ZZ36c-out1 ZZ36c-out 
+
+ ;
+  Or "Or" cd-jd.gd.af.2c ZZ36Out-Not1 
+ZZ36Out-a ZZ36Out-And1 ZZ36Out-Sum1 ZZ36z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[6] ZZ20b[6] ZZ20out5 ZZ20s[1] ZZ20s[0] ZZ20z[6] ZZ20out6 | ZZ39a ZZ39b ZZ39c-in ZZ39s[1] ZZ39s[0] ZZ39z ZZ39c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ag ZZ39a ZZ39b ZZ39c-in ZZ39s[1] ZZ39s[0] | ZZ39z ZZ39c-out  ;
+  And "And" cd-jd.gd.ag.1a ZZ39a 
+ZZ39b ZZ39Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ag.1a ZZ39a 
+ZZ39Out-Not 
+
+ ;
+Alias ZZ39a ZZ39b ZZ39c-in ZZ39c-out1 ZZ39Out-Sum | ZZ40CarryIn ZZ40a ZZ40b ZZ40CarryOut ZZ40Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ag.1a ZZ40CarryIn ZZ40a ZZ40b | ZZ40CarryOut ZZ40Sum  ;
+  Xor "Xor" cd-jd.gd.ag.1a.aa ZZ40a 
+ZZ40b ZZ40x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ag.1a.ab ZZ40x 
+ZZ40CarryIn ZZ40Sum 
+
+ ;
+  And "And" cd-jd.gd.ag.1a.bb ZZ40a 
+ZZ40b ZZ40y 
+
+ ;
+  And "And" cd-jd.gd.ag.1a.cb ZZ40CarryIn 
+ZZ40x ZZ40z 
+
+ ;
+  Or "Or" cd-jd.gd.ag.1a.bc-cc ZZ40y 
+ZZ40z ZZ40CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ39s[1] ZZ39s[0] ZZ39l3 ZZ39l2 ZZ39l1 ZZ39l0 | ZZ41c[1] ZZ41c[0] ZZ41s[3] ZZ41s[2] ZZ41s[1] ZZ41s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ag.2a ZZ41c[1] ZZ41c[0] | ZZ41s[3] ZZ41s[2] ZZ41s[1] ZZ41s[0]  ;
+  Not "Not" cd-jd.gd.ag.2a.1a ZZ41c[1] 
+ZZ41not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ag.2a.2a ZZ41c[0] 
+ZZ41not-c0 
+
+ ;
+  And "And" cd-jd.gd.ag.2a.2a ZZ41c[1] 
+ZZ41c[0] ZZ41s[3] 
+
+ ;
+  And "And" cd-jd.gd.ag.2a.2b ZZ41c[1] 
+ZZ41not-c0 ZZ41s[2] 
+
+ ;
+  And "And" cd-jd.gd.ag.2a.2c ZZ41not-c1 
+ZZ41c[0] ZZ41s[1] 
+
+ ;
+  And "And" cd-jd.gd.ag.2a.2d ZZ41not-c1 
+ZZ41not-c0 ZZ41s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ag.2c ZZ39l3 
+ZZ39Out-Not ZZ39Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ag.2c ZZ39l2 
+ZZ39a ZZ39Out-a 
+
+ ;
+  And "And" cd-jd.gd.ag.2c ZZ39l1 
+ZZ39Out-And2 ZZ39Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ag.2c ZZ39l0 
+ZZ39Out-Sum ZZ39Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ag.2c ZZ39l0 
+ZZ39c-out1 ZZ39c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ag.2c ZZ39Out-Not1 
+ZZ39Out-a ZZ39Out-And1 ZZ39Out-Sum1 ZZ39z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[7] ZZ20b[7] ZZ20out6 ZZ20s[1] ZZ20s[0] ZZ20z[7] ZZ20out7 | ZZ42a ZZ42b ZZ42c-in ZZ42s[1] ZZ42s[0] ZZ42z ZZ42c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ah ZZ42a ZZ42b ZZ42c-in ZZ42s[1] ZZ42s[0] | ZZ42z ZZ42c-out  ;
+  And "And" cd-jd.gd.ah.1a ZZ42a 
+ZZ42b ZZ42Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ah.1a ZZ42a 
+ZZ42Out-Not 
+
+ ;
+Alias ZZ42a ZZ42b ZZ42c-in ZZ42c-out1 ZZ42Out-Sum | ZZ43CarryIn ZZ43a ZZ43b ZZ43CarryOut ZZ43Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ah.1a ZZ43CarryIn ZZ43a ZZ43b | ZZ43CarryOut ZZ43Sum  ;
+  Xor "Xor" cd-jd.gd.ah.1a.aa ZZ43a 
+ZZ43b ZZ43x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ah.1a.ab ZZ43x 
+ZZ43CarryIn ZZ43Sum 
+
+ ;
+  And "And" cd-jd.gd.ah.1a.bb ZZ43a 
+ZZ43b ZZ43y 
+
+ ;
+  And "And" cd-jd.gd.ah.1a.cb ZZ43CarryIn 
+ZZ43x ZZ43z 
+
+ ;
+  Or "Or" cd-jd.gd.ah.1a.bc-cc ZZ43y 
+ZZ43z ZZ43CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ42s[1] ZZ42s[0] ZZ42l3 ZZ42l2 ZZ42l1 ZZ42l0 | ZZ44c[1] ZZ44c[0] ZZ44s[3] ZZ44s[2] ZZ44s[1] ZZ44s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ah.2a ZZ44c[1] ZZ44c[0] | ZZ44s[3] ZZ44s[2] ZZ44s[1] ZZ44s[0]  ;
+  Not "Not" cd-jd.gd.ah.2a.1a ZZ44c[1] 
+ZZ44not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ah.2a.2a ZZ44c[0] 
+ZZ44not-c0 
+
+ ;
+  And "And" cd-jd.gd.ah.2a.2a ZZ44c[1] 
+ZZ44c[0] ZZ44s[3] 
+
+ ;
+  And "And" cd-jd.gd.ah.2a.2b ZZ44c[1] 
+ZZ44not-c0 ZZ44s[2] 
+
+ ;
+  And "And" cd-jd.gd.ah.2a.2c ZZ44not-c1 
+ZZ44c[0] ZZ44s[1] 
+
+ ;
+  And "And" cd-jd.gd.ah.2a.2d ZZ44not-c1 
+ZZ44not-c0 ZZ44s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ah.2c ZZ42l3 
+ZZ42Out-Not ZZ42Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ah.2c ZZ42l2 
+ZZ42a ZZ42Out-a 
+
+ ;
+  And "And" cd-jd.gd.ah.2c ZZ42l1 
+ZZ42Out-And2 ZZ42Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ah.2c ZZ42l0 
+ZZ42Out-Sum ZZ42Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ah.2c ZZ42l0 
+ZZ42c-out1 ZZ42c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ah.2c ZZ42Out-Not1 
+ZZ42Out-a ZZ42Out-And1 ZZ42Out-Sum1 ZZ42z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[8] ZZ20b[8] ZZ20out7 ZZ20s[1] ZZ20s[0] ZZ20z[8] ZZ20out8 | ZZ45a ZZ45b ZZ45c-in ZZ45s[1] ZZ45s[0] ZZ45z ZZ45c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ai ZZ45a ZZ45b ZZ45c-in ZZ45s[1] ZZ45s[0] | ZZ45z ZZ45c-out  ;
+  And "And" cd-jd.gd.ai.1a ZZ45a 
+ZZ45b ZZ45Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ai.1a ZZ45a 
+ZZ45Out-Not 
+
+ ;
+Alias ZZ45a ZZ45b ZZ45c-in ZZ45c-out1 ZZ45Out-Sum | ZZ46CarryIn ZZ46a ZZ46b ZZ46CarryOut ZZ46Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ai.1a ZZ46CarryIn ZZ46a ZZ46b | ZZ46CarryOut ZZ46Sum  ;
+  Xor "Xor" cd-jd.gd.ai.1a.aa ZZ46a 
+ZZ46b ZZ46x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ai.1a.ab ZZ46x 
+ZZ46CarryIn ZZ46Sum 
+
+ ;
+  And "And" cd-jd.gd.ai.1a.bb ZZ46a 
+ZZ46b ZZ46y 
+
+ ;
+  And "And" cd-jd.gd.ai.1a.cb ZZ46CarryIn 
+ZZ46x ZZ46z 
+
+ ;
+  Or "Or" cd-jd.gd.ai.1a.bc-cc ZZ46y 
+ZZ46z ZZ46CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ45s[1] ZZ45s[0] ZZ45l3 ZZ45l2 ZZ45l1 ZZ45l0 | ZZ47c[1] ZZ47c[0] ZZ47s[3] ZZ47s[2] ZZ47s[1] ZZ47s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ai.2a ZZ47c[1] ZZ47c[0] | ZZ47s[3] ZZ47s[2] ZZ47s[1] ZZ47s[0]  ;
+  Not "Not" cd-jd.gd.ai.2a.1a ZZ47c[1] 
+ZZ47not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ai.2a.2a ZZ47c[0] 
+ZZ47not-c0 
+
+ ;
+  And "And" cd-jd.gd.ai.2a.2a ZZ47c[1] 
+ZZ47c[0] ZZ47s[3] 
+
+ ;
+  And "And" cd-jd.gd.ai.2a.2b ZZ47c[1] 
+ZZ47not-c0 ZZ47s[2] 
+
+ ;
+  And "And" cd-jd.gd.ai.2a.2c ZZ47not-c1 
+ZZ47c[0] ZZ47s[1] 
+
+ ;
+  And "And" cd-jd.gd.ai.2a.2d ZZ47not-c1 
+ZZ47not-c0 ZZ47s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ai.2c ZZ45l3 
+ZZ45Out-Not ZZ45Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ai.2c ZZ45l2 
+ZZ45a ZZ45Out-a 
+
+ ;
+  And "And" cd-jd.gd.ai.2c ZZ45l1 
+ZZ45Out-And2 ZZ45Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ai.2c ZZ45l0 
+ZZ45Out-Sum ZZ45Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ai.2c ZZ45l0 
+ZZ45c-out1 ZZ45c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ai.2c ZZ45Out-Not1 
+ZZ45Out-a ZZ45Out-And1 ZZ45Out-Sum1 ZZ45z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[9] ZZ20b[9] ZZ20out8 ZZ20s[1] ZZ20s[0] ZZ20z[9] ZZ20out9 | ZZ48a ZZ48b ZZ48c-in ZZ48s[1] ZZ48s[0] ZZ48z ZZ48c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.aj ZZ48a ZZ48b ZZ48c-in ZZ48s[1] ZZ48s[0] | ZZ48z ZZ48c-out  ;
+  And "And" cd-jd.gd.aj.1a ZZ48a 
+ZZ48b ZZ48Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.aj.1a ZZ48a 
+ZZ48Out-Not 
+
+ ;
+Alias ZZ48a ZZ48b ZZ48c-in ZZ48c-out1 ZZ48Out-Sum | ZZ49CarryIn ZZ49a ZZ49b ZZ49CarryOut ZZ49Sum  ;
+Module  "Full_Adder"  cd-jd.gd.aj.1a ZZ49CarryIn ZZ49a ZZ49b | ZZ49CarryOut ZZ49Sum  ;
+  Xor "Xor" cd-jd.gd.aj.1a.aa ZZ49a 
+ZZ49b ZZ49x 
+
+ ;
+  Xor "Xor" cd-jd.gd.aj.1a.ab ZZ49x 
+ZZ49CarryIn ZZ49Sum 
+
+ ;
+  And "And" cd-jd.gd.aj.1a.bb ZZ49a 
+ZZ49b ZZ49y 
+
+ ;
+  And "And" cd-jd.gd.aj.1a.cb ZZ49CarryIn 
+ZZ49x ZZ49z 
+
+ ;
+  Or "Or" cd-jd.gd.aj.1a.bc-cc ZZ49y 
+ZZ49z ZZ49CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ48s[1] ZZ48s[0] ZZ48l3 ZZ48l2 ZZ48l1 ZZ48l0 | ZZ50c[1] ZZ50c[0] ZZ50s[3] ZZ50s[2] ZZ50s[1] ZZ50s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.aj.2a ZZ50c[1] ZZ50c[0] | ZZ50s[3] ZZ50s[2] ZZ50s[1] ZZ50s[0]  ;
+  Not "Not" cd-jd.gd.aj.2a.1a ZZ50c[1] 
+ZZ50not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.aj.2a.2a ZZ50c[0] 
+ZZ50not-c0 
+
+ ;
+  And "And" cd-jd.gd.aj.2a.2a ZZ50c[1] 
+ZZ50c[0] ZZ50s[3] 
+
+ ;
+  And "And" cd-jd.gd.aj.2a.2b ZZ50c[1] 
+ZZ50not-c0 ZZ50s[2] 
+
+ ;
+  And "And" cd-jd.gd.aj.2a.2c ZZ50not-c1 
+ZZ50c[0] ZZ50s[1] 
+
+ ;
+  And "And" cd-jd.gd.aj.2a.2d ZZ50not-c1 
+ZZ50not-c0 ZZ50s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.aj.2c ZZ48l3 
+ZZ48Out-Not ZZ48Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.aj.2c ZZ48l2 
+ZZ48a ZZ48Out-a 
+
+ ;
+  And "And" cd-jd.gd.aj.2c ZZ48l1 
+ZZ48Out-And2 ZZ48Out-And1 
+
+ ;
+  And "And" cd-jd.gd.aj.2c ZZ48l0 
+ZZ48Out-Sum ZZ48Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.aj.2c ZZ48l0 
+ZZ48c-out1 ZZ48c-out 
+
+ ;
+  Or "Or" cd-jd.gd.aj.2c ZZ48Out-Not1 
+ZZ48Out-a ZZ48Out-And1 ZZ48Out-Sum1 ZZ48z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[10] ZZ20b[10] ZZ20out9 ZZ20s[1] ZZ20s[0] ZZ20z[10] ZZ20out10 | ZZ51a ZZ51b ZZ51c-in ZZ51s[1] ZZ51s[0] ZZ51z ZZ51c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ak ZZ51a ZZ51b ZZ51c-in ZZ51s[1] ZZ51s[0] | ZZ51z ZZ51c-out  ;
+  And "And" cd-jd.gd.ak.1a ZZ51a 
+ZZ51b ZZ51Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ak.1a ZZ51a 
+ZZ51Out-Not 
+
+ ;
+Alias ZZ51a ZZ51b ZZ51c-in ZZ51c-out1 ZZ51Out-Sum | ZZ52CarryIn ZZ52a ZZ52b ZZ52CarryOut ZZ52Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ak.1a ZZ52CarryIn ZZ52a ZZ52b | ZZ52CarryOut ZZ52Sum  ;
+  Xor "Xor" cd-jd.gd.ak.1a.aa ZZ52a 
+ZZ52b ZZ52x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ak.1a.ab ZZ52x 
+ZZ52CarryIn ZZ52Sum 
+
+ ;
+  And "And" cd-jd.gd.ak.1a.bb ZZ52a 
+ZZ52b ZZ52y 
+
+ ;
+  And "And" cd-jd.gd.ak.1a.cb ZZ52CarryIn 
+ZZ52x ZZ52z 
+
+ ;
+  Or "Or" cd-jd.gd.ak.1a.bc-cc ZZ52y 
+ZZ52z ZZ52CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ51s[1] ZZ51s[0] ZZ51l3 ZZ51l2 ZZ51l1 ZZ51l0 | ZZ53c[1] ZZ53c[0] ZZ53s[3] ZZ53s[2] ZZ53s[1] ZZ53s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ak.2a ZZ53c[1] ZZ53c[0] | ZZ53s[3] ZZ53s[2] ZZ53s[1] ZZ53s[0]  ;
+  Not "Not" cd-jd.gd.ak.2a.1a ZZ53c[1] 
+ZZ53not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ak.2a.2a ZZ53c[0] 
+ZZ53not-c0 
+
+ ;
+  And "And" cd-jd.gd.ak.2a.2a ZZ53c[1] 
+ZZ53c[0] ZZ53s[3] 
+
+ ;
+  And "And" cd-jd.gd.ak.2a.2b ZZ53c[1] 
+ZZ53not-c0 ZZ53s[2] 
+
+ ;
+  And "And" cd-jd.gd.ak.2a.2c ZZ53not-c1 
+ZZ53c[0] ZZ53s[1] 
+
+ ;
+  And "And" cd-jd.gd.ak.2a.2d ZZ53not-c1 
+ZZ53not-c0 ZZ53s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ak.2c ZZ51l3 
+ZZ51Out-Not ZZ51Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ak.2c ZZ51l2 
+ZZ51a ZZ51Out-a 
+
+ ;
+  And "And" cd-jd.gd.ak.2c ZZ51l1 
+ZZ51Out-And2 ZZ51Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ak.2c ZZ51l0 
+ZZ51Out-Sum ZZ51Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ak.2c ZZ51l0 
+ZZ51c-out1 ZZ51c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ak.2c ZZ51Out-Not1 
+ZZ51Out-a ZZ51Out-And1 ZZ51Out-Sum1 ZZ51z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[11] ZZ20b[11] ZZ20out10 ZZ20s[1] ZZ20s[0] ZZ20z[11] ZZ20out11 | ZZ54a ZZ54b ZZ54c-in ZZ54s[1] ZZ54s[0] ZZ54z ZZ54c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.al ZZ54a ZZ54b ZZ54c-in ZZ54s[1] ZZ54s[0] | ZZ54z ZZ54c-out  ;
+  And "And" cd-jd.gd.al.1a ZZ54a 
+ZZ54b ZZ54Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.al.1a ZZ54a 
+ZZ54Out-Not 
+
+ ;
+Alias ZZ54a ZZ54b ZZ54c-in ZZ54c-out1 ZZ54Out-Sum | ZZ55CarryIn ZZ55a ZZ55b ZZ55CarryOut ZZ55Sum  ;
+Module  "Full_Adder"  cd-jd.gd.al.1a ZZ55CarryIn ZZ55a ZZ55b | ZZ55CarryOut ZZ55Sum  ;
+  Xor "Xor" cd-jd.gd.al.1a.aa ZZ55a 
+ZZ55b ZZ55x 
+
+ ;
+  Xor "Xor" cd-jd.gd.al.1a.ab ZZ55x 
+ZZ55CarryIn ZZ55Sum 
+
+ ;
+  And "And" cd-jd.gd.al.1a.bb ZZ55a 
+ZZ55b ZZ55y 
+
+ ;
+  And "And" cd-jd.gd.al.1a.cb ZZ55CarryIn 
+ZZ55x ZZ55z 
+
+ ;
+  Or "Or" cd-jd.gd.al.1a.bc-cc ZZ55y 
+ZZ55z ZZ55CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ54s[1] ZZ54s[0] ZZ54l3 ZZ54l2 ZZ54l1 ZZ54l0 | ZZ56c[1] ZZ56c[0] ZZ56s[3] ZZ56s[2] ZZ56s[1] ZZ56s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.al.2a ZZ56c[1] ZZ56c[0] | ZZ56s[3] ZZ56s[2] ZZ56s[1] ZZ56s[0]  ;
+  Not "Not" cd-jd.gd.al.2a.1a ZZ56c[1] 
+ZZ56not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.al.2a.2a ZZ56c[0] 
+ZZ56not-c0 
+
+ ;
+  And "And" cd-jd.gd.al.2a.2a ZZ56c[1] 
+ZZ56c[0] ZZ56s[3] 
+
+ ;
+  And "And" cd-jd.gd.al.2a.2b ZZ56c[1] 
+ZZ56not-c0 ZZ56s[2] 
+
+ ;
+  And "And" cd-jd.gd.al.2a.2c ZZ56not-c1 
+ZZ56c[0] ZZ56s[1] 
+
+ ;
+  And "And" cd-jd.gd.al.2a.2d ZZ56not-c1 
+ZZ56not-c0 ZZ56s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.al.2c ZZ54l3 
+ZZ54Out-Not ZZ54Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.al.2c ZZ54l2 
+ZZ54a ZZ54Out-a 
+
+ ;
+  And "And" cd-jd.gd.al.2c ZZ54l1 
+ZZ54Out-And2 ZZ54Out-And1 
+
+ ;
+  And "And" cd-jd.gd.al.2c ZZ54l0 
+ZZ54Out-Sum ZZ54Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.al.2c ZZ54l0 
+ZZ54c-out1 ZZ54c-out 
+
+ ;
+  Or "Or" cd-jd.gd.al.2c ZZ54Out-Not1 
+ZZ54Out-a ZZ54Out-And1 ZZ54Out-Sum1 ZZ54z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[12] ZZ20b[12] ZZ20out11 ZZ20s[1] ZZ20s[0] ZZ20z[12] ZZ20out12 | ZZ57a ZZ57b ZZ57c-in ZZ57s[1] ZZ57s[0] ZZ57z ZZ57c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.am ZZ57a ZZ57b ZZ57c-in ZZ57s[1] ZZ57s[0] | ZZ57z ZZ57c-out  ;
+  And "And" cd-jd.gd.am.1a ZZ57a 
+ZZ57b ZZ57Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.am.1a ZZ57a 
+ZZ57Out-Not 
+
+ ;
+Alias ZZ57a ZZ57b ZZ57c-in ZZ57c-out1 ZZ57Out-Sum | ZZ58CarryIn ZZ58a ZZ58b ZZ58CarryOut ZZ58Sum  ;
+Module  "Full_Adder"  cd-jd.gd.am.1a ZZ58CarryIn ZZ58a ZZ58b | ZZ58CarryOut ZZ58Sum  ;
+  Xor "Xor" cd-jd.gd.am.1a.aa ZZ58a 
+ZZ58b ZZ58x 
+
+ ;
+  Xor "Xor" cd-jd.gd.am.1a.ab ZZ58x 
+ZZ58CarryIn ZZ58Sum 
+
+ ;
+  And "And" cd-jd.gd.am.1a.bb ZZ58a 
+ZZ58b ZZ58y 
+
+ ;
+  And "And" cd-jd.gd.am.1a.cb ZZ58CarryIn 
+ZZ58x ZZ58z 
+
+ ;
+  Or "Or" cd-jd.gd.am.1a.bc-cc ZZ58y 
+ZZ58z ZZ58CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ57s[1] ZZ57s[0] ZZ57l3 ZZ57l2 ZZ57l1 ZZ57l0 | ZZ59c[1] ZZ59c[0] ZZ59s[3] ZZ59s[2] ZZ59s[1] ZZ59s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.am.2a ZZ59c[1] ZZ59c[0] | ZZ59s[3] ZZ59s[2] ZZ59s[1] ZZ59s[0]  ;
+  Not "Not" cd-jd.gd.am.2a.1a ZZ59c[1] 
+ZZ59not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.am.2a.2a ZZ59c[0] 
+ZZ59not-c0 
+
+ ;
+  And "And" cd-jd.gd.am.2a.2a ZZ59c[1] 
+ZZ59c[0] ZZ59s[3] 
+
+ ;
+  And "And" cd-jd.gd.am.2a.2b ZZ59c[1] 
+ZZ59not-c0 ZZ59s[2] 
+
+ ;
+  And "And" cd-jd.gd.am.2a.2c ZZ59not-c1 
+ZZ59c[0] ZZ59s[1] 
+
+ ;
+  And "And" cd-jd.gd.am.2a.2d ZZ59not-c1 
+ZZ59not-c0 ZZ59s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.am.2c ZZ57l3 
+ZZ57Out-Not ZZ57Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.am.2c ZZ57l2 
+ZZ57a ZZ57Out-a 
+
+ ;
+  And "And" cd-jd.gd.am.2c ZZ57l1 
+ZZ57Out-And2 ZZ57Out-And1 
+
+ ;
+  And "And" cd-jd.gd.am.2c ZZ57l0 
+ZZ57Out-Sum ZZ57Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.am.2c ZZ57l0 
+ZZ57c-out1 ZZ57c-out 
+
+ ;
+  Or "Or" cd-jd.gd.am.2c ZZ57Out-Not1 
+ZZ57Out-a ZZ57Out-And1 ZZ57Out-Sum1 ZZ57z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[13] ZZ20b[13] ZZ20out12 ZZ20s[1] ZZ20s[0] ZZ20z[13] ZZ20out13 | ZZ60a ZZ60b ZZ60c-in ZZ60s[1] ZZ60s[0] ZZ60z ZZ60c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.an ZZ60a ZZ60b ZZ60c-in ZZ60s[1] ZZ60s[0] | ZZ60z ZZ60c-out  ;
+  And "And" cd-jd.gd.an.1a ZZ60a 
+ZZ60b ZZ60Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.an.1a ZZ60a 
+ZZ60Out-Not 
+
+ ;
+Alias ZZ60a ZZ60b ZZ60c-in ZZ60c-out1 ZZ60Out-Sum | ZZ61CarryIn ZZ61a ZZ61b ZZ61CarryOut ZZ61Sum  ;
+Module  "Full_Adder"  cd-jd.gd.an.1a ZZ61CarryIn ZZ61a ZZ61b | ZZ61CarryOut ZZ61Sum  ;
+  Xor "Xor" cd-jd.gd.an.1a.aa ZZ61a 
+ZZ61b ZZ61x 
+
+ ;
+  Xor "Xor" cd-jd.gd.an.1a.ab ZZ61x 
+ZZ61CarryIn ZZ61Sum 
+
+ ;
+  And "And" cd-jd.gd.an.1a.bb ZZ61a 
+ZZ61b ZZ61y 
+
+ ;
+  And "And" cd-jd.gd.an.1a.cb ZZ61CarryIn 
+ZZ61x ZZ61z 
+
+ ;
+  Or "Or" cd-jd.gd.an.1a.bc-cc ZZ61y 
+ZZ61z ZZ61CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ60s[1] ZZ60s[0] ZZ60l3 ZZ60l2 ZZ60l1 ZZ60l0 | ZZ62c[1] ZZ62c[0] ZZ62s[3] ZZ62s[2] ZZ62s[1] ZZ62s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.an.2a ZZ62c[1] ZZ62c[0] | ZZ62s[3] ZZ62s[2] ZZ62s[1] ZZ62s[0]  ;
+  Not "Not" cd-jd.gd.an.2a.1a ZZ62c[1] 
+ZZ62not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.an.2a.2a ZZ62c[0] 
+ZZ62not-c0 
+
+ ;
+  And "And" cd-jd.gd.an.2a.2a ZZ62c[1] 
+ZZ62c[0] ZZ62s[3] 
+
+ ;
+  And "And" cd-jd.gd.an.2a.2b ZZ62c[1] 
+ZZ62not-c0 ZZ62s[2] 
+
+ ;
+  And "And" cd-jd.gd.an.2a.2c ZZ62not-c1 
+ZZ62c[0] ZZ62s[1] 
+
+ ;
+  And "And" cd-jd.gd.an.2a.2d ZZ62not-c1 
+ZZ62not-c0 ZZ62s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.an.2c ZZ60l3 
+ZZ60Out-Not ZZ60Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.an.2c ZZ60l2 
+ZZ60a ZZ60Out-a 
+
+ ;
+  And "And" cd-jd.gd.an.2c ZZ60l1 
+ZZ60Out-And2 ZZ60Out-And1 
+
+ ;
+  And "And" cd-jd.gd.an.2c ZZ60l0 
+ZZ60Out-Sum ZZ60Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.an.2c ZZ60l0 
+ZZ60c-out1 ZZ60c-out 
+
+ ;
+  Or "Or" cd-jd.gd.an.2c ZZ60Out-Not1 
+ZZ60Out-a ZZ60Out-And1 ZZ60Out-Sum1 ZZ60z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[14] ZZ20b[14] ZZ20out13 ZZ20s[1] ZZ20s[0] ZZ20z[14] ZZ20out14 | ZZ63a ZZ63b ZZ63c-in ZZ63s[1] ZZ63s[0] ZZ63z ZZ63c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ao ZZ63a ZZ63b ZZ63c-in ZZ63s[1] ZZ63s[0] | ZZ63z ZZ63c-out  ;
+  And "And" cd-jd.gd.ao.1a ZZ63a 
+ZZ63b ZZ63Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ao.1a ZZ63a 
+ZZ63Out-Not 
+
+ ;
+Alias ZZ63a ZZ63b ZZ63c-in ZZ63c-out1 ZZ63Out-Sum | ZZ64CarryIn ZZ64a ZZ64b ZZ64CarryOut ZZ64Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ao.1a ZZ64CarryIn ZZ64a ZZ64b | ZZ64CarryOut ZZ64Sum  ;
+  Xor "Xor" cd-jd.gd.ao.1a.aa ZZ64a 
+ZZ64b ZZ64x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ao.1a.ab ZZ64x 
+ZZ64CarryIn ZZ64Sum 
+
+ ;
+  And "And" cd-jd.gd.ao.1a.bb ZZ64a 
+ZZ64b ZZ64y 
+
+ ;
+  And "And" cd-jd.gd.ao.1a.cb ZZ64CarryIn 
+ZZ64x ZZ64z 
+
+ ;
+  Or "Or" cd-jd.gd.ao.1a.bc-cc ZZ64y 
+ZZ64z ZZ64CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ63s[1] ZZ63s[0] ZZ63l3 ZZ63l2 ZZ63l1 ZZ63l0 | ZZ65c[1] ZZ65c[0] ZZ65s[3] ZZ65s[2] ZZ65s[1] ZZ65s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ao.2a ZZ65c[1] ZZ65c[0] | ZZ65s[3] ZZ65s[2] ZZ65s[1] ZZ65s[0]  ;
+  Not "Not" cd-jd.gd.ao.2a.1a ZZ65c[1] 
+ZZ65not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ao.2a.2a ZZ65c[0] 
+ZZ65not-c0 
+
+ ;
+  And "And" cd-jd.gd.ao.2a.2a ZZ65c[1] 
+ZZ65c[0] ZZ65s[3] 
+
+ ;
+  And "And" cd-jd.gd.ao.2a.2b ZZ65c[1] 
+ZZ65not-c0 ZZ65s[2] 
+
+ ;
+  And "And" cd-jd.gd.ao.2a.2c ZZ65not-c1 
+ZZ65c[0] ZZ65s[1] 
+
+ ;
+  And "And" cd-jd.gd.ao.2a.2d ZZ65not-c1 
+ZZ65not-c0 ZZ65s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ao.2c ZZ63l3 
+ZZ63Out-Not ZZ63Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ao.2c ZZ63l2 
+ZZ63a ZZ63Out-a 
+
+ ;
+  And "And" cd-jd.gd.ao.2c ZZ63l1 
+ZZ63Out-And2 ZZ63Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ao.2c ZZ63l0 
+ZZ63Out-Sum ZZ63Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ao.2c ZZ63l0 
+ZZ63c-out1 ZZ63c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ao.2c ZZ63Out-Not1 
+ZZ63Out-a ZZ63Out-And1 ZZ63Out-Sum1 ZZ63z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ20a[15] ZZ20b[15] ZZ20out14 ZZ20s[1] ZZ20s[0] ZZ20z[15] ZZ20out15 | ZZ66a ZZ66b ZZ66c-in ZZ66s[1] ZZ66s[0] ZZ66z ZZ66c-out  ;
+Module  "One_Bit_ALU"  cd-jd.gd.ap ZZ66a ZZ66b ZZ66c-in ZZ66s[1] ZZ66s[0] | ZZ66z ZZ66c-out  ;
+  And "And" cd-jd.gd.ap.1a ZZ66a 
+ZZ66b ZZ66Out-And2 
+
+ ;
+  Not "Not" cd-jd.gd.ap.1a ZZ66a 
+ZZ66Out-Not 
+
+ ;
+Alias ZZ66a ZZ66b ZZ66c-in ZZ66c-out1 ZZ66Out-Sum | ZZ67CarryIn ZZ67a ZZ67b ZZ67CarryOut ZZ67Sum  ;
+Module  "Full_Adder"  cd-jd.gd.ap.1a ZZ67CarryIn ZZ67a ZZ67b | ZZ67CarryOut ZZ67Sum  ;
+  Xor "Xor" cd-jd.gd.ap.1a.aa ZZ67a 
+ZZ67b ZZ67x 
+
+ ;
+  Xor "Xor" cd-jd.gd.ap.1a.ab ZZ67x 
+ZZ67CarryIn ZZ67Sum 
+
+ ;
+  And "And" cd-jd.gd.ap.1a.bb ZZ67a 
+ZZ67b ZZ67y 
+
+ ;
+  And "And" cd-jd.gd.ap.1a.cb ZZ67CarryIn 
+ZZ67x ZZ67z 
+
+ ;
+  Or "Or" cd-jd.gd.ap.1a.bc-cc ZZ67y 
+ZZ67z ZZ67CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ66s[1] ZZ66s[0] ZZ66l3 ZZ66l2 ZZ66l1 ZZ66l0 | ZZ68c[1] ZZ68c[0] ZZ68s[3] ZZ68s[2] ZZ68s[1] ZZ68s[0]  ;
+Module  "Decoder2x4"  cd-jd.gd.ap.2a ZZ68c[1] ZZ68c[0] | ZZ68s[3] ZZ68s[2] ZZ68s[1] ZZ68s[0]  ;
+  Not "Not" cd-jd.gd.ap.2a.1a ZZ68c[1] 
+ZZ68not-c1 
+
+ ;
+  Not "Not" cd-jd.gd.ap.2a.2a ZZ68c[0] 
+ZZ68not-c0 
+
+ ;
+  And "And" cd-jd.gd.ap.2a.2a ZZ68c[1] 
+ZZ68c[0] ZZ68s[3] 
+
+ ;
+  And "And" cd-jd.gd.ap.2a.2b ZZ68c[1] 
+ZZ68not-c0 ZZ68s[2] 
+
+ ;
+  And "And" cd-jd.gd.ap.2a.2c ZZ68not-c1 
+ZZ68c[0] ZZ68s[1] 
+
+ ;
+  And "And" cd-jd.gd.ap.2a.2d ZZ68not-c1 
+ZZ68not-c0 ZZ68s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.gd.ap.2c ZZ66l3 
+ZZ66Out-Not ZZ66Out-Not1 
+
+ ;
+  And "And" cd-jd.gd.ap.2c ZZ66l2 
+ZZ66a ZZ66Out-a 
+
+ ;
+  And "And" cd-jd.gd.ap.2c ZZ66l1 
+ZZ66Out-And2 ZZ66Out-And1 
+
+ ;
+  And "And" cd-jd.gd.ap.2c ZZ66l0 
+ZZ66Out-Sum ZZ66Out-Sum1 
+
+ ;
+  And "And" cd-jd.gd.ap.2c ZZ66l0 
+ZZ66c-out1 ZZ66c-out 
+
+ ;
+  Or "Or" cd-jd.gd.ap.2c ZZ66Out-Not1 
+ZZ66Out-a ZZ66Out-And1 ZZ66Out-Sum1 ZZ66z 
+
+ ;
+ End ; /* One_Bit_ALU */
+  And "And" cd-jd.gd.da ZZ20z[15] 
+ONE ZZ20N 
+
+ ;
+  Nor "Nor" cd-jd.gd.da ZZ20z[0] 
+ZZ20z[1] ZZ20z[2] ZZ20z[3] ZZ20z[4] ZZ20z[5] ZZ20z[6] ZZ20z[7] ZZ20z[8] ZZ20z[9] ZZ20z[10] ZZ20z[11] ZZ20z[12] ZZ20z[13] ZZ20z[14] ZZ20z[15] ZZ20Z 
+
+
+ ;
+ End ; /* ALU16 */
+Alias ZZ3ALUOUT[15] ZZ3ALUOUT[14] ZZ3ALUOUT[13] ZZ3ALUOUT[12] ZZ3ALUOUT[11] ZZ3ALUOUT[10] ZZ3ALUOUT[9] ZZ3ALUOUT[8] ZZ3ALUOUT[7] ZZ3ALUOUT[6] ZZ3ALUOUT[5] ZZ3ALUOUT[4] ZZ3ALUOUT[3] ZZ3ALUOUT[2] ZZ3ALUOUT[1] ZZ3ALUOUT[0] ZZ3MIR[26] ZZ3MIR[25] ZZ3C[15] ZZ3C[14] ZZ3C[13] ZZ3C[12] ZZ3C[11] ZZ3C[10] ZZ3C[9] ZZ3C[8] ZZ3C[7] ZZ3C[6] ZZ3C[5] ZZ3C[4] ZZ3C[3] ZZ3C[2] ZZ3C[1] ZZ3C[0] | ZZ69a[15] ZZ69a[14] ZZ69a[13] ZZ69a[12] ZZ69a[11] ZZ69a[10] ZZ69a[9] ZZ69a[8] ZZ69a[7] ZZ69a[6] ZZ69a[5] ZZ69a[4] ZZ69a[3] ZZ69a[2] ZZ69a[1] ZZ69a[0] ZZ69c1 ZZ69c0 ZZ69s[15] ZZ69s[14] ZZ69s[13] ZZ69s[12] ZZ69s[11] ZZ69s[10] ZZ69s[9] ZZ69s[8] ZZ69s[7] ZZ69s[6] ZZ69s[5] ZZ69s[4] ZZ69s[3] ZZ69s[2] ZZ69s[1] ZZ69s[0]  ;
+Module  "SHIFTER16"  cd-jd.ge ZZ69a[15] ZZ69a[14] ZZ69a[13] ZZ69a[12] ZZ69a[11] ZZ69a[10] ZZ69a[9] ZZ69a[8] ZZ69a[7] ZZ69a[6] ZZ69a[5] ZZ69a[4] ZZ69a[3] ZZ69a[2] ZZ69a[1] ZZ69a[0] ZZ69c1 ZZ69c0 | ZZ69s[15] ZZ69s[14] ZZ69s[13] ZZ69s[12] ZZ69s[11] ZZ69s[10] ZZ69s[9] ZZ69s[8] ZZ69s[7] ZZ69s[6] ZZ69s[5] ZZ69s[4] ZZ69s[3] ZZ69s[2] ZZ69s[1] ZZ69s[0]  ;
+Alias ZERO ZZ69a[15] ZZ69a[14] ZZ69c1 ZZ69c0 ZZ69s[15] | ZZ70l ZZ70c ZZ70r ZZ70c1 ZZ70c0 ZZ70z  ;
+Module  "Bit-shifter"  cd-jd.ge.aa ZZ70l ZZ70c ZZ70r ZZ70c1 ZZ70c0 | ZZ70z  ;
+Alias ZZ70c1 ZZ70c0 ZZ70s3 ZZ70s2 ZZ70s1 ZZ70s0 | ZZ71c[1] ZZ71c[0] ZZ71s[3] ZZ71s[2] ZZ71s[1] ZZ71s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.aa.bd ZZ71c[1] ZZ71c[0] | ZZ71s[3] ZZ71s[2] ZZ71s[1] ZZ71s[0]  ;
+  Not "Not" cd-jd.ge.aa.bd.1a ZZ71c[1] 
+ZZ71not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.aa.bd.2a ZZ71c[0] 
+ZZ71not-c0 
+
+ ;
+  And "And" cd-jd.ge.aa.bd.2a ZZ71c[1] 
+ZZ71c[0] ZZ71s[3] 
+
+ ;
+  And "And" cd-jd.ge.aa.bd.2b ZZ71c[1] 
+ZZ71not-c0 ZZ71s[2] 
+
+ ;
+  And "And" cd-jd.ge.aa.bd.2c ZZ71not-c1 
+ZZ71c[0] ZZ71s[1] 
+
+ ;
+  And "And" cd-jd.ge.aa.bd.2d ZZ71not-c1 
+ZZ71not-c0 ZZ71s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.aa.ae ZZ70s2 
+ZZ70r ZZ70right 
+
+ ;
+  And "And" cd-jd.ge.aa.be ZZ70s1 
+ZZ70l ZZ70center 
+
+ ;
+  And "And" cd-jd.ge.aa.ce ZZ70s0 
+ZZ70c ZZ70left 
+
+ ;
+  Or "Or" cd-jd.ge.aa.bg ZZ70right 
+ZZ70center ZZ70left ZZ70z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[15] ZZ69a[14] ZZ69a[13] ZZ69c1 ZZ69c0 ZZ69s[14] | ZZ72l ZZ72c ZZ72r ZZ72c1 ZZ72c0 ZZ72z  ;
+Module  "Bit-shifter"  cd-jd.ge.ab ZZ72l ZZ72c ZZ72r ZZ72c1 ZZ72c0 | ZZ72z  ;
+Alias ZZ72c1 ZZ72c0 ZZ72s3 ZZ72s2 ZZ72s1 ZZ72s0 | ZZ73c[1] ZZ73c[0] ZZ73s[3] ZZ73s[2] ZZ73s[1] ZZ73s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ab.bd ZZ73c[1] ZZ73c[0] | ZZ73s[3] ZZ73s[2] ZZ73s[1] ZZ73s[0]  ;
+  Not "Not" cd-jd.ge.ab.bd.1a ZZ73c[1] 
+ZZ73not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ab.bd.2a ZZ73c[0] 
+ZZ73not-c0 
+
+ ;
+  And "And" cd-jd.ge.ab.bd.2a ZZ73c[1] 
+ZZ73c[0] ZZ73s[3] 
+
+ ;
+  And "And" cd-jd.ge.ab.bd.2b ZZ73c[1] 
+ZZ73not-c0 ZZ73s[2] 
+
+ ;
+  And "And" cd-jd.ge.ab.bd.2c ZZ73not-c1 
+ZZ73c[0] ZZ73s[1] 
+
+ ;
+  And "And" cd-jd.ge.ab.bd.2d ZZ73not-c1 
+ZZ73not-c0 ZZ73s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ab.ae ZZ72s2 
+ZZ72r ZZ72right 
+
+ ;
+  And "And" cd-jd.ge.ab.be ZZ72s1 
+ZZ72l ZZ72center 
+
+ ;
+  And "And" cd-jd.ge.ab.ce ZZ72s0 
+ZZ72c ZZ72left 
+
+ ;
+  Or "Or" cd-jd.ge.ab.bg ZZ72right 
+ZZ72center ZZ72left ZZ72z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[14] ZZ69a[13] ZZ69a[12] ZZ69c1 ZZ69c0 ZZ69s[13] | ZZ74l ZZ74c ZZ74r ZZ74c1 ZZ74c0 ZZ74z  ;
+Module  "Bit-shifter"  cd-jd.ge.ac ZZ74l ZZ74c ZZ74r ZZ74c1 ZZ74c0 | ZZ74z  ;
+Alias ZZ74c1 ZZ74c0 ZZ74s3 ZZ74s2 ZZ74s1 ZZ74s0 | ZZ75c[1] ZZ75c[0] ZZ75s[3] ZZ75s[2] ZZ75s[1] ZZ75s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ac.bd ZZ75c[1] ZZ75c[0] | ZZ75s[3] ZZ75s[2] ZZ75s[1] ZZ75s[0]  ;
+  Not "Not" cd-jd.ge.ac.bd.1a ZZ75c[1] 
+ZZ75not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ac.bd.2a ZZ75c[0] 
+ZZ75not-c0 
+
+ ;
+  And "And" cd-jd.ge.ac.bd.2a ZZ75c[1] 
+ZZ75c[0] ZZ75s[3] 
+
+ ;
+  And "And" cd-jd.ge.ac.bd.2b ZZ75c[1] 
+ZZ75not-c0 ZZ75s[2] 
+
+ ;
+  And "And" cd-jd.ge.ac.bd.2c ZZ75not-c1 
+ZZ75c[0] ZZ75s[1] 
+
+ ;
+  And "And" cd-jd.ge.ac.bd.2d ZZ75not-c1 
+ZZ75not-c0 ZZ75s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ac.ae ZZ74s2 
+ZZ74r ZZ74right 
+
+ ;
+  And "And" cd-jd.ge.ac.be ZZ74s1 
+ZZ74l ZZ74center 
+
+ ;
+  And "And" cd-jd.ge.ac.ce ZZ74s0 
+ZZ74c ZZ74left 
+
+ ;
+  Or "Or" cd-jd.ge.ac.bg ZZ74right 
+ZZ74center ZZ74left ZZ74z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[13] ZZ69a[12] ZZ69a[11] ZZ69c1 ZZ69c0 ZZ69s[12] | ZZ76l ZZ76c ZZ76r ZZ76c1 ZZ76c0 ZZ76z  ;
+Module  "Bit-shifter"  cd-jd.ge.ad ZZ76l ZZ76c ZZ76r ZZ76c1 ZZ76c0 | ZZ76z  ;
+Alias ZZ76c1 ZZ76c0 ZZ76s3 ZZ76s2 ZZ76s1 ZZ76s0 | ZZ77c[1] ZZ77c[0] ZZ77s[3] ZZ77s[2] ZZ77s[1] ZZ77s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ad.bd ZZ77c[1] ZZ77c[0] | ZZ77s[3] ZZ77s[2] ZZ77s[1] ZZ77s[0]  ;
+  Not "Not" cd-jd.ge.ad.bd.1a ZZ77c[1] 
+ZZ77not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ad.bd.2a ZZ77c[0] 
+ZZ77not-c0 
+
+ ;
+  And "And" cd-jd.ge.ad.bd.2a ZZ77c[1] 
+ZZ77c[0] ZZ77s[3] 
+
+ ;
+  And "And" cd-jd.ge.ad.bd.2b ZZ77c[1] 
+ZZ77not-c0 ZZ77s[2] 
+
+ ;
+  And "And" cd-jd.ge.ad.bd.2c ZZ77not-c1 
+ZZ77c[0] ZZ77s[1] 
+
+ ;
+  And "And" cd-jd.ge.ad.bd.2d ZZ77not-c1 
+ZZ77not-c0 ZZ77s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ad.ae ZZ76s2 
+ZZ76r ZZ76right 
+
+ ;
+  And "And" cd-jd.ge.ad.be ZZ76s1 
+ZZ76l ZZ76center 
+
+ ;
+  And "And" cd-jd.ge.ad.ce ZZ76s0 
+ZZ76c ZZ76left 
+
+ ;
+  Or "Or" cd-jd.ge.ad.bg ZZ76right 
+ZZ76center ZZ76left ZZ76z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[12] ZZ69a[11] ZZ69a[10] ZZ69c1 ZZ69c0 ZZ69s[11] | ZZ78l ZZ78c ZZ78r ZZ78c1 ZZ78c0 ZZ78z  ;
+Module  "Bit-shifter"  cd-jd.ge.ae ZZ78l ZZ78c ZZ78r ZZ78c1 ZZ78c0 | ZZ78z  ;
+Alias ZZ78c1 ZZ78c0 ZZ78s3 ZZ78s2 ZZ78s1 ZZ78s0 | ZZ79c[1] ZZ79c[0] ZZ79s[3] ZZ79s[2] ZZ79s[1] ZZ79s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ae.bd ZZ79c[1] ZZ79c[0] | ZZ79s[3] ZZ79s[2] ZZ79s[1] ZZ79s[0]  ;
+  Not "Not" cd-jd.ge.ae.bd.1a ZZ79c[1] 
+ZZ79not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ae.bd.2a ZZ79c[0] 
+ZZ79not-c0 
+
+ ;
+  And "And" cd-jd.ge.ae.bd.2a ZZ79c[1] 
+ZZ79c[0] ZZ79s[3] 
+
+ ;
+  And "And" cd-jd.ge.ae.bd.2b ZZ79c[1] 
+ZZ79not-c0 ZZ79s[2] 
+
+ ;
+  And "And" cd-jd.ge.ae.bd.2c ZZ79not-c1 
+ZZ79c[0] ZZ79s[1] 
+
+ ;
+  And "And" cd-jd.ge.ae.bd.2d ZZ79not-c1 
+ZZ79not-c0 ZZ79s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ae.ae ZZ78s2 
+ZZ78r ZZ78right 
+
+ ;
+  And "And" cd-jd.ge.ae.be ZZ78s1 
+ZZ78l ZZ78center 
+
+ ;
+  And "And" cd-jd.ge.ae.ce ZZ78s0 
+ZZ78c ZZ78left 
+
+ ;
+  Or "Or" cd-jd.ge.ae.bg ZZ78right 
+ZZ78center ZZ78left ZZ78z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[11] ZZ69a[10] ZZ69a[9] ZZ69c1 ZZ69c0 ZZ69s[10] | ZZ80l ZZ80c ZZ80r ZZ80c1 ZZ80c0 ZZ80z  ;
+Module  "Bit-shifter"  cd-jd.ge.af ZZ80l ZZ80c ZZ80r ZZ80c1 ZZ80c0 | ZZ80z  ;
+Alias ZZ80c1 ZZ80c0 ZZ80s3 ZZ80s2 ZZ80s1 ZZ80s0 | ZZ81c[1] ZZ81c[0] ZZ81s[3] ZZ81s[2] ZZ81s[1] ZZ81s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.af.bd ZZ81c[1] ZZ81c[0] | ZZ81s[3] ZZ81s[2] ZZ81s[1] ZZ81s[0]  ;
+  Not "Not" cd-jd.ge.af.bd.1a ZZ81c[1] 
+ZZ81not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.af.bd.2a ZZ81c[0] 
+ZZ81not-c0 
+
+ ;
+  And "And" cd-jd.ge.af.bd.2a ZZ81c[1] 
+ZZ81c[0] ZZ81s[3] 
+
+ ;
+  And "And" cd-jd.ge.af.bd.2b ZZ81c[1] 
+ZZ81not-c0 ZZ81s[2] 
+
+ ;
+  And "And" cd-jd.ge.af.bd.2c ZZ81not-c1 
+ZZ81c[0] ZZ81s[1] 
+
+ ;
+  And "And" cd-jd.ge.af.bd.2d ZZ81not-c1 
+ZZ81not-c0 ZZ81s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.af.ae ZZ80s2 
+ZZ80r ZZ80right 
+
+ ;
+  And "And" cd-jd.ge.af.be ZZ80s1 
+ZZ80l ZZ80center 
+
+ ;
+  And "And" cd-jd.ge.af.ce ZZ80s0 
+ZZ80c ZZ80left 
+
+ ;
+  Or "Or" cd-jd.ge.af.bg ZZ80right 
+ZZ80center ZZ80left ZZ80z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[10] ZZ69a[9] ZZ69a[8] ZZ69c1 ZZ69c0 ZZ69s[9] | ZZ82l ZZ82c ZZ82r ZZ82c1 ZZ82c0 ZZ82z  ;
+Module  "Bit-shifter"  cd-jd.ge.ag ZZ82l ZZ82c ZZ82r ZZ82c1 ZZ82c0 | ZZ82z  ;
+Alias ZZ82c1 ZZ82c0 ZZ82s3 ZZ82s2 ZZ82s1 ZZ82s0 | ZZ83c[1] ZZ83c[0] ZZ83s[3] ZZ83s[2] ZZ83s[1] ZZ83s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ag.bd ZZ83c[1] ZZ83c[0] | ZZ83s[3] ZZ83s[2] ZZ83s[1] ZZ83s[0]  ;
+  Not "Not" cd-jd.ge.ag.bd.1a ZZ83c[1] 
+ZZ83not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ag.bd.2a ZZ83c[0] 
+ZZ83not-c0 
+
+ ;
+  And "And" cd-jd.ge.ag.bd.2a ZZ83c[1] 
+ZZ83c[0] ZZ83s[3] 
+
+ ;
+  And "And" cd-jd.ge.ag.bd.2b ZZ83c[1] 
+ZZ83not-c0 ZZ83s[2] 
+
+ ;
+  And "And" cd-jd.ge.ag.bd.2c ZZ83not-c1 
+ZZ83c[0] ZZ83s[1] 
+
+ ;
+  And "And" cd-jd.ge.ag.bd.2d ZZ83not-c1 
+ZZ83not-c0 ZZ83s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ag.ae ZZ82s2 
+ZZ82r ZZ82right 
+
+ ;
+  And "And" cd-jd.ge.ag.be ZZ82s1 
+ZZ82l ZZ82center 
+
+ ;
+  And "And" cd-jd.ge.ag.ce ZZ82s0 
+ZZ82c ZZ82left 
+
+ ;
+  Or "Or" cd-jd.ge.ag.bg ZZ82right 
+ZZ82center ZZ82left ZZ82z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[9] ZZ69a[8] ZZ69a[7] ZZ69c1 ZZ69c0 ZZ69s[8] | ZZ84l ZZ84c ZZ84r ZZ84c1 ZZ84c0 ZZ84z  ;
+Module  "Bit-shifter"  cd-jd.ge.ah ZZ84l ZZ84c ZZ84r ZZ84c1 ZZ84c0 | ZZ84z  ;
+Alias ZZ84c1 ZZ84c0 ZZ84s3 ZZ84s2 ZZ84s1 ZZ84s0 | ZZ85c[1] ZZ85c[0] ZZ85s[3] ZZ85s[2] ZZ85s[1] ZZ85s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ah.bd ZZ85c[1] ZZ85c[0] | ZZ85s[3] ZZ85s[2] ZZ85s[1] ZZ85s[0]  ;
+  Not "Not" cd-jd.ge.ah.bd.1a ZZ85c[1] 
+ZZ85not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ah.bd.2a ZZ85c[0] 
+ZZ85not-c0 
+
+ ;
+  And "And" cd-jd.ge.ah.bd.2a ZZ85c[1] 
+ZZ85c[0] ZZ85s[3] 
+
+ ;
+  And "And" cd-jd.ge.ah.bd.2b ZZ85c[1] 
+ZZ85not-c0 ZZ85s[2] 
+
+ ;
+  And "And" cd-jd.ge.ah.bd.2c ZZ85not-c1 
+ZZ85c[0] ZZ85s[1] 
+
+ ;
+  And "And" cd-jd.ge.ah.bd.2d ZZ85not-c1 
+ZZ85not-c0 ZZ85s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ah.ae ZZ84s2 
+ZZ84r ZZ84right 
+
+ ;
+  And "And" cd-jd.ge.ah.be ZZ84s1 
+ZZ84l ZZ84center 
+
+ ;
+  And "And" cd-jd.ge.ah.ce ZZ84s0 
+ZZ84c ZZ84left 
+
+ ;
+  Or "Or" cd-jd.ge.ah.bg ZZ84right 
+ZZ84center ZZ84left ZZ84z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[8] ZZ69a[7] ZZ69a[6] ZZ69c1 ZZ69c0 ZZ69s[7] | ZZ86l ZZ86c ZZ86r ZZ86c1 ZZ86c0 ZZ86z  ;
+Module  "Bit-shifter"  cd-jd.ge.ai ZZ86l ZZ86c ZZ86r ZZ86c1 ZZ86c0 | ZZ86z  ;
+Alias ZZ86c1 ZZ86c0 ZZ86s3 ZZ86s2 ZZ86s1 ZZ86s0 | ZZ87c[1] ZZ87c[0] ZZ87s[3] ZZ87s[2] ZZ87s[1] ZZ87s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ai.bd ZZ87c[1] ZZ87c[0] | ZZ87s[3] ZZ87s[2] ZZ87s[1] ZZ87s[0]  ;
+  Not "Not" cd-jd.ge.ai.bd.1a ZZ87c[1] 
+ZZ87not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ai.bd.2a ZZ87c[0] 
+ZZ87not-c0 
+
+ ;
+  And "And" cd-jd.ge.ai.bd.2a ZZ87c[1] 
+ZZ87c[0] ZZ87s[3] 
+
+ ;
+  And "And" cd-jd.ge.ai.bd.2b ZZ87c[1] 
+ZZ87not-c0 ZZ87s[2] 
+
+ ;
+  And "And" cd-jd.ge.ai.bd.2c ZZ87not-c1 
+ZZ87c[0] ZZ87s[1] 
+
+ ;
+  And "And" cd-jd.ge.ai.bd.2d ZZ87not-c1 
+ZZ87not-c0 ZZ87s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ai.ae ZZ86s2 
+ZZ86r ZZ86right 
+
+ ;
+  And "And" cd-jd.ge.ai.be ZZ86s1 
+ZZ86l ZZ86center 
+
+ ;
+  And "And" cd-jd.ge.ai.ce ZZ86s0 
+ZZ86c ZZ86left 
+
+ ;
+  Or "Or" cd-jd.ge.ai.bg ZZ86right 
+ZZ86center ZZ86left ZZ86z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[7] ZZ69a[6] ZZ69a[5] ZZ69c1 ZZ69c0 ZZ69s[6] | ZZ88l ZZ88c ZZ88r ZZ88c1 ZZ88c0 ZZ88z  ;
+Module  "Bit-shifter"  cd-jd.ge.aj ZZ88l ZZ88c ZZ88r ZZ88c1 ZZ88c0 | ZZ88z  ;
+Alias ZZ88c1 ZZ88c0 ZZ88s3 ZZ88s2 ZZ88s1 ZZ88s0 | ZZ89c[1] ZZ89c[0] ZZ89s[3] ZZ89s[2] ZZ89s[1] ZZ89s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.aj.bd ZZ89c[1] ZZ89c[0] | ZZ89s[3] ZZ89s[2] ZZ89s[1] ZZ89s[0]  ;
+  Not "Not" cd-jd.ge.aj.bd.1a ZZ89c[1] 
+ZZ89not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.aj.bd.2a ZZ89c[0] 
+ZZ89not-c0 
+
+ ;
+  And "And" cd-jd.ge.aj.bd.2a ZZ89c[1] 
+ZZ89c[0] ZZ89s[3] 
+
+ ;
+  And "And" cd-jd.ge.aj.bd.2b ZZ89c[1] 
+ZZ89not-c0 ZZ89s[2] 
+
+ ;
+  And "And" cd-jd.ge.aj.bd.2c ZZ89not-c1 
+ZZ89c[0] ZZ89s[1] 
+
+ ;
+  And "And" cd-jd.ge.aj.bd.2d ZZ89not-c1 
+ZZ89not-c0 ZZ89s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.aj.ae ZZ88s2 
+ZZ88r ZZ88right 
+
+ ;
+  And "And" cd-jd.ge.aj.be ZZ88s1 
+ZZ88l ZZ88center 
+
+ ;
+  And "And" cd-jd.ge.aj.ce ZZ88s0 
+ZZ88c ZZ88left 
+
+ ;
+  Or "Or" cd-jd.ge.aj.bg ZZ88right 
+ZZ88center ZZ88left ZZ88z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[6] ZZ69a[5] ZZ69a[4] ZZ69c1 ZZ69c0 ZZ69s[5] | ZZ90l ZZ90c ZZ90r ZZ90c1 ZZ90c0 ZZ90z  ;
+Module  "Bit-shifter"  cd-jd.ge.ak ZZ90l ZZ90c ZZ90r ZZ90c1 ZZ90c0 | ZZ90z  ;
+Alias ZZ90c1 ZZ90c0 ZZ90s3 ZZ90s2 ZZ90s1 ZZ90s0 | ZZ91c[1] ZZ91c[0] ZZ91s[3] ZZ91s[2] ZZ91s[1] ZZ91s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ak.bd ZZ91c[1] ZZ91c[0] | ZZ91s[3] ZZ91s[2] ZZ91s[1] ZZ91s[0]  ;
+  Not "Not" cd-jd.ge.ak.bd.1a ZZ91c[1] 
+ZZ91not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ak.bd.2a ZZ91c[0] 
+ZZ91not-c0 
+
+ ;
+  And "And" cd-jd.ge.ak.bd.2a ZZ91c[1] 
+ZZ91c[0] ZZ91s[3] 
+
+ ;
+  And "And" cd-jd.ge.ak.bd.2b ZZ91c[1] 
+ZZ91not-c0 ZZ91s[2] 
+
+ ;
+  And "And" cd-jd.ge.ak.bd.2c ZZ91not-c1 
+ZZ91c[0] ZZ91s[1] 
+
+ ;
+  And "And" cd-jd.ge.ak.bd.2d ZZ91not-c1 
+ZZ91not-c0 ZZ91s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ak.ae ZZ90s2 
+ZZ90r ZZ90right 
+
+ ;
+  And "And" cd-jd.ge.ak.be ZZ90s1 
+ZZ90l ZZ90center 
+
+ ;
+  And "And" cd-jd.ge.ak.ce ZZ90s0 
+ZZ90c ZZ90left 
+
+ ;
+  Or "Or" cd-jd.ge.ak.bg ZZ90right 
+ZZ90center ZZ90left ZZ90z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[5] ZZ69a[4] ZZ69a[3] ZZ69c1 ZZ69c0 ZZ69s[4] | ZZ92l ZZ92c ZZ92r ZZ92c1 ZZ92c0 ZZ92z  ;
+Module  "Bit-shifter"  cd-jd.ge.al ZZ92l ZZ92c ZZ92r ZZ92c1 ZZ92c0 | ZZ92z  ;
+Alias ZZ92c1 ZZ92c0 ZZ92s3 ZZ92s2 ZZ92s1 ZZ92s0 | ZZ93c[1] ZZ93c[0] ZZ93s[3] ZZ93s[2] ZZ93s[1] ZZ93s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.al.bd ZZ93c[1] ZZ93c[0] | ZZ93s[3] ZZ93s[2] ZZ93s[1] ZZ93s[0]  ;
+  Not "Not" cd-jd.ge.al.bd.1a ZZ93c[1] 
+ZZ93not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.al.bd.2a ZZ93c[0] 
+ZZ93not-c0 
+
+ ;
+  And "And" cd-jd.ge.al.bd.2a ZZ93c[1] 
+ZZ93c[0] ZZ93s[3] 
+
+ ;
+  And "And" cd-jd.ge.al.bd.2b ZZ93c[1] 
+ZZ93not-c0 ZZ93s[2] 
+
+ ;
+  And "And" cd-jd.ge.al.bd.2c ZZ93not-c1 
+ZZ93c[0] ZZ93s[1] 
+
+ ;
+  And "And" cd-jd.ge.al.bd.2d ZZ93not-c1 
+ZZ93not-c0 ZZ93s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.al.ae ZZ92s2 
+ZZ92r ZZ92right 
+
+ ;
+  And "And" cd-jd.ge.al.be ZZ92s1 
+ZZ92l ZZ92center 
+
+ ;
+  And "And" cd-jd.ge.al.ce ZZ92s0 
+ZZ92c ZZ92left 
+
+ ;
+  Or "Or" cd-jd.ge.al.bg ZZ92right 
+ZZ92center ZZ92left ZZ92z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[4] ZZ69a[3] ZZ69a[2] ZZ69c1 ZZ69c0 ZZ69s[3] | ZZ94l ZZ94c ZZ94r ZZ94c1 ZZ94c0 ZZ94z  ;
+Module  "Bit-shifter"  cd-jd.ge.am ZZ94l ZZ94c ZZ94r ZZ94c1 ZZ94c0 | ZZ94z  ;
+Alias ZZ94c1 ZZ94c0 ZZ94s3 ZZ94s2 ZZ94s1 ZZ94s0 | ZZ95c[1] ZZ95c[0] ZZ95s[3] ZZ95s[2] ZZ95s[1] ZZ95s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.am.bd ZZ95c[1] ZZ95c[0] | ZZ95s[3] ZZ95s[2] ZZ95s[1] ZZ95s[0]  ;
+  Not "Not" cd-jd.ge.am.bd.1a ZZ95c[1] 
+ZZ95not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.am.bd.2a ZZ95c[0] 
+ZZ95not-c0 
+
+ ;
+  And "And" cd-jd.ge.am.bd.2a ZZ95c[1] 
+ZZ95c[0] ZZ95s[3] 
+
+ ;
+  And "And" cd-jd.ge.am.bd.2b ZZ95c[1] 
+ZZ95not-c0 ZZ95s[2] 
+
+ ;
+  And "And" cd-jd.ge.am.bd.2c ZZ95not-c1 
+ZZ95c[0] ZZ95s[1] 
+
+ ;
+  And "And" cd-jd.ge.am.bd.2d ZZ95not-c1 
+ZZ95not-c0 ZZ95s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.am.ae ZZ94s2 
+ZZ94r ZZ94right 
+
+ ;
+  And "And" cd-jd.ge.am.be ZZ94s1 
+ZZ94l ZZ94center 
+
+ ;
+  And "And" cd-jd.ge.am.ce ZZ94s0 
+ZZ94c ZZ94left 
+
+ ;
+  Or "Or" cd-jd.ge.am.bg ZZ94right 
+ZZ94center ZZ94left ZZ94z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[3] ZZ69a[2] ZZ69a[1] ZZ69c1 ZZ69c0 ZZ69s[2] | ZZ96l ZZ96c ZZ96r ZZ96c1 ZZ96c0 ZZ96z  ;
+Module  "Bit-shifter"  cd-jd.ge.an ZZ96l ZZ96c ZZ96r ZZ96c1 ZZ96c0 | ZZ96z  ;
+Alias ZZ96c1 ZZ96c0 ZZ96s3 ZZ96s2 ZZ96s1 ZZ96s0 | ZZ97c[1] ZZ97c[0] ZZ97s[3] ZZ97s[2] ZZ97s[1] ZZ97s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.an.bd ZZ97c[1] ZZ97c[0] | ZZ97s[3] ZZ97s[2] ZZ97s[1] ZZ97s[0]  ;
+  Not "Not" cd-jd.ge.an.bd.1a ZZ97c[1] 
+ZZ97not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.an.bd.2a ZZ97c[0] 
+ZZ97not-c0 
+
+ ;
+  And "And" cd-jd.ge.an.bd.2a ZZ97c[1] 
+ZZ97c[0] ZZ97s[3] 
+
+ ;
+  And "And" cd-jd.ge.an.bd.2b ZZ97c[1] 
+ZZ97not-c0 ZZ97s[2] 
+
+ ;
+  And "And" cd-jd.ge.an.bd.2c ZZ97not-c1 
+ZZ97c[0] ZZ97s[1] 
+
+ ;
+  And "And" cd-jd.ge.an.bd.2d ZZ97not-c1 
+ZZ97not-c0 ZZ97s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.an.ae ZZ96s2 
+ZZ96r ZZ96right 
+
+ ;
+  And "And" cd-jd.ge.an.be ZZ96s1 
+ZZ96l ZZ96center 
+
+ ;
+  And "And" cd-jd.ge.an.ce ZZ96s0 
+ZZ96c ZZ96left 
+
+ ;
+  Or "Or" cd-jd.ge.an.bg ZZ96right 
+ZZ96center ZZ96left ZZ96z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[2] ZZ69a[1] ZZ69a[0] ZZ69c1 ZZ69c0 ZZ69s[1] | ZZ98l ZZ98c ZZ98r ZZ98c1 ZZ98c0 ZZ98z  ;
+Module  "Bit-shifter"  cd-jd.ge.ao ZZ98l ZZ98c ZZ98r ZZ98c1 ZZ98c0 | ZZ98z  ;
+Alias ZZ98c1 ZZ98c0 ZZ98s3 ZZ98s2 ZZ98s1 ZZ98s0 | ZZ99c[1] ZZ99c[0] ZZ99s[3] ZZ99s[2] ZZ99s[1] ZZ99s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ao.bd ZZ99c[1] ZZ99c[0] | ZZ99s[3] ZZ99s[2] ZZ99s[1] ZZ99s[0]  ;
+  Not "Not" cd-jd.ge.ao.bd.1a ZZ99c[1] 
+ZZ99not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ao.bd.2a ZZ99c[0] 
+ZZ99not-c0 
+
+ ;
+  And "And" cd-jd.ge.ao.bd.2a ZZ99c[1] 
+ZZ99c[0] ZZ99s[3] 
+
+ ;
+  And "And" cd-jd.ge.ao.bd.2b ZZ99c[1] 
+ZZ99not-c0 ZZ99s[2] 
+
+ ;
+  And "And" cd-jd.ge.ao.bd.2c ZZ99not-c1 
+ZZ99c[0] ZZ99s[1] 
+
+ ;
+  And "And" cd-jd.ge.ao.bd.2d ZZ99not-c1 
+ZZ99not-c0 ZZ99s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ao.ae ZZ98s2 
+ZZ98r ZZ98right 
+
+ ;
+  And "And" cd-jd.ge.ao.be ZZ98s1 
+ZZ98l ZZ98center 
+
+ ;
+  And "And" cd-jd.ge.ao.ce ZZ98s0 
+ZZ98c ZZ98left 
+
+ ;
+  Or "Or" cd-jd.ge.ao.bg ZZ98right 
+ZZ98center ZZ98left ZZ98z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ69a[1] ZZ69a[0] ZERO ZZ69c1 ZZ69c0 ZZ69s[0] | ZZ100l ZZ100c ZZ100r ZZ100c1 ZZ100c0 ZZ100z  ;
+Module  "Bit-shifter"  cd-jd.ge.ap ZZ100l ZZ100c ZZ100r ZZ100c1 ZZ100c0 | ZZ100z  ;
+Alias ZZ100c1 ZZ100c0 ZZ100s3 ZZ100s2 ZZ100s1 ZZ100s0 | ZZ101c[1] ZZ101c[0] ZZ101s[3] ZZ101s[2] ZZ101s[1] ZZ101s[0]  ;
+Module  "Decoder2x4"  cd-jd.ge.ap.bd ZZ101c[1] ZZ101c[0] | ZZ101s[3] ZZ101s[2] ZZ101s[1] ZZ101s[0]  ;
+  Not "Not" cd-jd.ge.ap.bd.1a ZZ101c[1] 
+ZZ101not-c1 
+
+ ;
+  Not "Not" cd-jd.ge.ap.bd.2a ZZ101c[0] 
+ZZ101not-c0 
+
+ ;
+  And "And" cd-jd.ge.ap.bd.2a ZZ101c[1] 
+ZZ101c[0] ZZ101s[3] 
+
+ ;
+  And "And" cd-jd.ge.ap.bd.2b ZZ101c[1] 
+ZZ101not-c0 ZZ101s[2] 
+
+ ;
+  And "And" cd-jd.ge.ap.bd.2c ZZ101not-c1 
+ZZ101c[0] ZZ101s[1] 
+
+ ;
+  And "And" cd-jd.ge.ap.bd.2d ZZ101not-c1 
+ZZ101not-c0 ZZ101s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd-jd.ge.ap.ae ZZ100s2 
+ZZ100r ZZ100right 
+
+ ;
+  And "And" cd-jd.ge.ap.be ZZ100s1 
+ZZ100l ZZ100center 
+
+ ;
+  And "And" cd-jd.ge.ap.ce ZZ100s0 
+ZZ100c ZZ100left 
+
+ ;
+  Or "Or" cd-jd.ge.ap.bg ZZ100right 
+ZZ100center ZZ100left ZZ100z 
+
+ ;
+ End ; /* Bit-shifter */
+ End ; /* SHIFTER16 */
+ End ; /* DataPath */

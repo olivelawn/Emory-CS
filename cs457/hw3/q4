@@ -1,0 +1,9 @@
+select S.sname
+from supplier S, project J, spj A
+where A.jnum=J.jnum and
+      A.snum=S.snum and
+      J.city='Rome'
+group by S.sname
+having count(distinct J.jnum) < (select count(*)
+				 from project J
+				 where J.city='Rome')

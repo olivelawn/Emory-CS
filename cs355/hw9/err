@@ -1,0 +1,4893 @@
+
+SIM  v 24.0  7-14-92 (MSU)
+Reading the input file(s)...
+INPUT FILE -- help-Computer:
+#include "clock.h"INPUT FILE -- clock.h:
+Define Four-Phase-Clock r t | Phase[3..0];
+ Switch aa set ONE;
+ Switch aa reset ONE;
+
+ Dff aa ONE sw1 t ONE q1 q1x;
+ Dff aa ONE sw2 t ONE q2 q2x;
+
+ Not aa r not-r;
+ Xor aa q1 q2 q1-xor-q2;
+
+ And aa not-r q1-xor-q2 sw1;
+
+ And aa q2x not-r sw2;
+
+ And aa q1x q2x Phase[0];
+ And aa q1x q2 Phase[1];
+ And aa q1 q2x Phase[2];
+ And aa q1 q2 Phase[3];
+ 
+Endef;
+
+
+
+#include "basic.h"INPUT FILE -- basic.h:
+/* -----------------------------------------------------------
+   Basic circuits made available for the CS355 class project
+   ----------------------------------------------------------- */
+
+/* Full adder.
+   Syntax: Full_Adder a b c-in | c-out s;
+   Effect: Adds binary numbers a + b with carry.
+*/
+Define Full_Adder CarryIn a b | CarryOut Sum;
+  Xor aa a b x;
+  Xor ab x CarryIn Sum;
+  And bb a b y;
+  And cb CarryIn x z;
+  Or bc-cc y z CarryOut;
+Endef;
+
+/* 2x4 Decoder
+   Syntax: Decoder2x4 <x,y> c[1..0] | s[3..0];
+*/
+Define Decoder2x4 c[1..0] | s[3..0];
+ Not 1a c[1] not-c1; Not 2a c[0] not-c0;
+ And 2a c[1] c[0] s[3];
+ And 2b c[1] not-c0 s[2];
+ And 2c not-c1 c[0] s[1];
+ And 2d not-c1 not-c0 s[0];
+Endef;
+
+#include "comm.h"INPUT FILE -- comm.h:
+/* #include "basic.h"
+#include "clock.h" */
+
+Define Comb RD WR | MREQ READ;
+Or aa RD WR MREQ;
+Or aa RD ZERO READ;
+Endef;
+
+Define SelectC RD WR | SELECT; /*  If select = 1 select c bus */
+Not aa RD nRD;
+And aa nRD WR SELECT;
+Endef;
+
+Define TRI in[15..0] WR | out[15..0];
+Tri-state-buffer aa in[0] WR | out[0];
+Tri-state-buffer aa in[1] WR | out[1];
+Tri-state-buffer aa in[2] WR | out[2];
+Tri-state-buffer aa in[3] WR | out[3];
+Tri-state-buffer aa in[4] WR | out[4];
+Tri-state-buffer aa in[5] WR | out[5];
+Tri-state-buffer aa in[6] WR | out[6];
+Tri-state-buffer aa in[7] WR | out[7];
+Tri-state-buffer aa in[8] WR | out[8];
+Tri-state-buffer aa in[9] WR | out[9];
+Tri-state-buffer aa in[10] WR | out[10];
+Tri-state-buffer aa in[11] WR | out[11];
+Tri-state-buffer aa in[12] WR | out[12];
+Tri-state-buffer aa in[13] WR | out[13];
+Tri-state-buffer aa in[14] WR | out[14];
+Tri-state-buffer aa in[15] WR | out[15];
+Endef;
+
+
+Define Comm Phase[4..1] RD WR MAR MBR MARData[15..0] DataBusIn[15..0]
+C[15..0] | MReq READ AddrBus[15..0] DataBusOut[15..0] MBROutput[15..0];
+Not bc WR nWR;
+
+Register "MAR" aa MARData[15..0] marload | AddrBus[15..0];
+Nand aa MAR Phase[3] marload;
+
+Mux-mxn ba C[15..0] DataBusIn[15..0] sel | MUXOUT[15..0];
+
+Register "MBR" bb MUXOUT[15..0] mbrload | MBROutput[15..0];
+Nand bb MBR Phase[4] mbrload;
+
+TRI bc MBROutput[15..0] nWR | DataBusOut[15..0];
+
+Comb da RD WR | MReq READ;
+SelectC da RD WR | sel;
+
+
+Endef;
+
+
+#include "datapath.h"INPUT FILE -- datapath.h:
+
+/* ---------------  START OF SHIFTER -------------- */
+
+Define Bit-shifter l c r c1 c0 | z;
+ 
+Decoder2x4 bd c1 c0 | s3 s2 s1 s0;
+ 
+And ae s2 r right;
+And be s1 l center;
+And ce s0 c left;
+ 
+Or bg right center left z;
+ 
+Endef;
+ 
+ 
+Define SHIFTER16 a[15..0] c1 c0 | s[15..0] ;
+ 
+  Bit-shifter aa ZERO  a[15] a[14] c1 c0 | s[15];
+  Bit-shifter ab a[15] a[14] a[13] c1 c0 | s[14];
+  Bit-shifter ac a[14] a[13] a[12] c1 c0 | s[13];
+  Bit-shifter ad a[13] a[12] a[11] c1 c0 | s[12];
+  Bit-shifter ae a[12] a[11] a[10] c1 c0 | s[11];
+  Bit-shifter af a[11] a[10] a[9]  c1 c0 | s[10];
+  Bit-shifter ag a[10] a[9]  a[8]  c1 c0 | s[9];
+  Bit-shifter ah a[9]  a[8]  a[7]  c1 c0 | s[8];
+  Bit-shifter ai a[8]  a[7]  a[6]  c1 c0 | s[7];
+  Bit-shifter aj a[7]  a[6]  a[5]  c1 c0 | s[6];
+  Bit-shifter ak a[6]  a[5]  a[4]  c1 c0 | s[5];
+  Bit-shifter al a[5]  a[4]  a[3]  c1 c0 | s[4];
+  Bit-shifter am a[4]  a[3]  a[2]  c1 c0 | s[3];
+  Bit-shifter an a[3]  a[2]  a[1]  c1 c0 | s[2];
+  Bit-shifter ao a[2]  a[1]  a[0]  c1 c0 | s[1];
+  Bit-shifter ap a[1]  a[0]  ZERO  c1 c0 | s[0];
+ 
+Endef;
+
+/* -------------- END OF SHIFTER ------------------- */
+/* -------------- START OF ALU --------------------- */
+Define One_Bit_ALU a b c-in s[1..0] | z c-out;
+ And 1a a b Out-And2;
+ Not 1a a Out-Not;   
+ Full_Adder 1a a b c-in | c-out1 Out-Sum;
+ Decoder2x4 2a s[1] s[0] | l3 l2 l1 l0;  
+ And 2c l3 Out-Not Out-Not1;
+ And 2c l2 a Out-a;
+ And 2c l1 Out-And2 Out-And1;
+ And 2c l0 Out-Sum Out-Sum1; 
+ And 2c l0 c-out1 c-out;
+ 
+ Or 2c  Out-Not1 Out-a Out-And1 Out-Sum1 z;
+Endef;
+ 
+ 
+Define ALU16 a[15..0] b[15..0] s[1] s[0] | z[15..0] N Z;
+        One_Bit_ALU aa a[0] b[0] ZERO s[1] s[0] | z[0] out0;
+        One_Bit_ALU ab a[1] b[1] out0 s[1] s[0] | z[1] out1;
+        One_Bit_ALU ac a[2] b[2] out1 s[1] s[0] | z[2] out2;
+        One_Bit_ALU ad a[3] b[3] out2 s[1] s[0] | z[3] out3;
+        One_Bit_ALU ae a[4] b[4] out3 s[1] s[0] | z[4] out4;
+        One_Bit_ALU af a[5] b[5] out4 s[1] s[0] | z[5] out5;
+        One_Bit_ALU ag a[6] b[6] out5 s[1] s[0] | z[6] out6;
+        One_Bit_ALU ah a[7] b[7] out6 s[1] s[0] | z[7] out7;
+        One_Bit_ALU ai a[8] b[8] out7 s[1] s[0] | z[8] out8;
+        One_Bit_ALU aj a[9] b[9] out8 s[1] s[0] | z[9] out9;
+        One_Bit_ALU ak a[10] b[10] out9 s[1] s[0] | z[10] out10;
+        One_Bit_ALU al a[11] b[11] out10 s[1] s[0] | z[11] out11;
+        One_Bit_ALU am a[12] b[12] out11 s[1] s[0] | z[12] out12;
+        One_Bit_ALU an a[13] b[13] out12 s[1] s[0] | z[13] out13;
+        One_Bit_ALU ao a[14] b[14] out13 s[1] s[0] | z[14] out14;
+        One_Bit_ALU ap a[15] b[15] out14 s[1] s[0] | z[15] out15;
+        
+        And da z[15] ONE N;
+        Nor da z[0] z[1] z[2] z[3] z[4] z[5] z[6] z[7] z[8] z[9] z[10] z[11] z[12] z[13] z[14] z[15] Z;
+Endef;
+/* ------------------ END OF ALU --------------- */
+
+
+Define R0 i[15..0] TICK RESET | o[15..0] nq[15..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+   Dff aa ONE i[8] TICK RESET o[8] nq[8];
+   Dff aa ONE i[9] TICK RESET o[9] nq[9];
+   Dff aa ONE i[10] TICK RESET o[10] nq[10];
+   Dff aa ONE i[11] TICK RESET o[11] nq[11];
+   Dff aa ONE i[12] TICK RESET o[12] nq[12];
+   Dff aa ONE i[13] TICK RESET o[13] nq[13];
+   Dff aa ONE i[14] TICK RESET o[14] nq[14];
+   Dff aa ONE i[15] TICK RESET o[15] nq[15];
+Endef;
+    
+Define R1 i[15..0] TICK RESET | o[15..0] nq[15..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];  
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+   Dff aa ONE i[8] TICK RESET o[8] nq[8];
+   Dff aa ONE i[9] TICK RESET o[9] nq[9];
+   Dff aa ONE i[10] TICK RESET o[10] nq[10];
+   Dff aa ONE i[11] TICK RESET o[11] nq[11];
+   Dff aa ONE i[12] TICK RESET o[12] nq[12];
+   Dff aa ONE i[13] TICK RESET o[13] nq[13];
+   Dff aa ONE i[14] TICK RESET o[14] nq[14];
+   Dff aa ONE i[15] TICK RESET o[15] nq[15];
+Endef;
+
+Define R2 i[15..0] TICK RESET | o[15..0] nq[15..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+   Dff aa ONE i[8] TICK RESET o[8] nq[8];
+   Dff aa ONE i[9] TICK RESET o[9] nq[9];
+   Dff aa ONE i[10] TICK RESET o[10] nq[10];
+   Dff aa ONE i[11] TICK RESET o[11] nq[11];
+   Dff aa ONE i[12] TICK RESET o[12] nq[12];
+   Dff aa ONE i[13] TICK RESET o[13] nq[13];
+   Dff aa ONE i[14] TICK RESET o[14] nq[14];
+   Dff aa ONE i[15] TICK RESET o[15] nq[15];
+Endef;
+
+Define R3 i[15..0] TICK RESET | o[15..0] nq[15..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];   
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];   
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];   
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+   Dff aa ONE i[8] TICK RESET o[8] nq[8];
+   Dff aa ONE i[9] TICK RESET o[9] nq[9];
+   Dff aa ONE i[10] TICK RESET o[10] nq[10];
+   Dff aa ONE i[11] TICK RESET o[11] nq[11];
+   Dff aa ONE i[12] TICK RESET o[12] nq[12];
+   Dff aa ONE i[13] TICK RESET o[13] nq[13];
+   Dff aa ONE i[14] TICK RESET o[14] nq[14];
+   Dff aa ONE i[15] TICK RESET o[15] nq[15];
+Endef;
+
+Define R4 i[15..0] TICK RESET | o[15..0] nq[15..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];   
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];   
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];   
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];   
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];   
+   Dff aa ONE i[8] TICK RESET o[8] nq[8];   
+   Dff aa ONE i[9] TICK RESET o[9] nq[9];
+   Dff aa ONE i[10] TICK RESET o[10] nq[10];
+   Dff aa ONE i[11] TICK RESET o[11] nq[11];
+   Dff aa ONE i[12] TICK RESET o[12] nq[12];
+   Dff aa ONE i[13] TICK RESET o[13] nq[13];
+   Dff aa ONE i[14] TICK RESET o[14] nq[14];
+   Dff aa ONE i[15] TICK RESET o[15] nq[15];
+Endef;
+
+
+
+Define R5 | D[15-0];
+   Or aa ZERO D[15]; Or aa ZERO D[14]; Or aa ZERO D[13];
+   Or aa ZERO D[12]; Or aa ZERO D[11]; Or aa ZERO D[10];
+   Or aa ZERO D[9];  Or aa ZERO D[8];  Or aa ZERO D[7];
+   Or aa ZERO D[6];  Or aa ZERO D[5];  Or aa ZERO D[4];
+   Or aa ZERO D[3];  Or aa ZERO D[2];  Or aa ZERO D[1];
+   Or aa ZERO D[0];
+Endef;
+
+Define R6 | D[15-0];
+   Or aa ZERO D[15]; Or aa ZERO D[14]; Or aa ZERO D[13];
+   Or aa ZERO D[12]; Or aa ZERO D[11]; Or aa ZERO D[10];
+   Or aa ZERO D[9];  Or aa ZERO D[8];  Or aa ZERO D[7];
+   Or aa ZERO D[6];  Or aa ZERO D[5];  Or aa ZERO D[4];
+   Or aa ZERO D[3];  Or aa ZERO D[2];  Or aa ZERO D[1];
+   Or aa ONE D[0];
+Endef;
+
+Define R7 | D[15-0];
+   Or aa ONE  D[15]; Or aa ONE  D[14]; Or aa ONE  D[13];
+   Or aa ONE  D[12]; Or aa ONE  D[11]; Or aa ONE  D[10];
+   Or aa ONE  D[9];  Or aa ONE  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+
+Define R8 | D[15-0];
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ONE  D[11]; Or aa ONE  D[10];
+   Or aa ONE  D[9];  Or aa ONE  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R9 | D[15-0];
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R10 | D[15-0];
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ZERO  D[7];
+   Or aa ZERO  D[6];  Or aa ZERO  D[5];  Or aa ZERO  D[4];
+   Or aa ZERO  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R11 | D[15-0];
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ZERO  D[7];
+   Or aa ZERO  D[6];  Or aa ZERO  D[5];  Or aa ZERO  D[4];
+   Or aa ONE  D[3];  Or aa ZERO  D[2];  Or aa ZERO  D[1];
+   Or aa ZERO D[0];
+Endef;
+ 
+Define R12 | D[15-0];
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ZERO  D[7];
+   Or aa ZERO  D[6];  Or aa ZERO  D[5];  Or aa ZERO  D[4];
+   Or aa ONE  D[3];  Or aa ZERO  D[2];  Or aa ZERO  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R13 | D[15-0];
+   Or aa ONE D[15]; Or aa ZERO D[14]; Or aa ONE D[13];
+   Or aa ZERO D[12]; Or aa ONE D[11]; Or aa ZERO D[10];
+   Or aa ONE D[9];  Or aa ZERO D[8];  Or aa ONE D[7];
+   Or aa ZERO D[6];  Or aa ONE D[5];  Or aa ZERO D[4];
+   Or aa ONE D[3];  Or aa ZERO D[2];  Or aa ONE D[1];
+   Or aa ZERO D[0];
+Endef;
+
+Define R14 | D[15-0];
+   Or aa ONE  D[15]; Or aa ONE  D[14]; Or aa ONE  D[13];
+   Or aa ONE  D[12]; Or aa ONE  D[11]; Or aa ONE  D[10];
+   Or aa ONE  D[9];  Or aa ONE  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+
+Define R15 | D[15-0];
+   Or aa ONE  D[15]; Or aa ONE  D[14]; Or aa ONE  D[13];
+   Or aa ONE  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ZERO  D[3];  Or aa ZERO  D[2];  Or aa ZERO  D[1];
+   Or aa ZERO D[0];
+Endef;
+
+Define MIR Addr[5..0] | MIR[31..0];
+Rom64x32 ab-bb Addr[5] Addr[4] Addr[3] Addr[2] Addr[1] Addr[0] ZERO MIR[31..0]
+
+    16 16 5 0   16 17 5 0     16 16 10 0   16 17 10 0  16 16 12 0  
+    16 17 12 0  16 16 13 0    16 17 13 0   144 16 0 0  144 17 0 0  
+    0 16 1 0    8 16 1 0      24 16 0 0    20 16 00   18 16 0 0    
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0
+    0 0 0 0   0 0 0 0  0 0 0 0  0 0 0 0  ;
+Endef;
+
+
+
+Define DataPath MIR[31..0] mbr [15..0] Phase[3..0] Reset |
+	R0[15..0] R1[15..0] R2[15..0] R3[15..0] R4[15..0] R5[15..0]
+	R6[15..0] R7[15..0] R8[15..0] R9[15..0] R10[15..0] R11[15..0]
+	R12[15..0] R13[15..0] R14[15..0] R15[15..0] 
+	A[15..0] B[15..0] AMUX[15..0] C[15..0] N Z ;
+
+And aa Phase[3] MIR[20] ENC;
+Not aa ENC notENC;
+
+Dec4x16 "4x16" aa MIR[19] MIR[18] MIR[17] MIR[16] notENC O[15..0];
+
+Not ab Reset notReset;
+Not ab O[0] notO0;
+Not ab O[1] notO1;
+Not ab O[2] notO2;
+Not ab O[3] notO3;
+Not ab O[4] notO4;
+
+R0       "R0" ac C[15..0] notO0 notReset | R0[15..0];
+R1       "R1" ac C[15..0] notO1 notReset | R1[15..0];
+R2       "R2" ac C[15..0] notO2 notReset | R2[15..0];
+R3       "R3" ac C[15..0] notO3 notReset | R3[15..0];
+R4       "R4" ac C[15..0] notO4 notReset | R4[15..0];
+/* Register "R1" ac C[15..0] O[1] | R1[15..0];
+   Register "R2" ac C[15..0] O[2] | R2[15..0];
+   Register "R3" ac C[15..0] O[3] | R3[15..0];
+   Register "R4" ac C[15..0] O[4] | R4[15..0];  */
+R5       "R5"  ac | R5[15..0];
+R6       "R6"  ac | R6[15..0];
+R7       "R7"  ac | R7[15..0];
+R8       "R8"  ac | R8[15..0];
+R9       "R9"  ac | R9[15..0];
+R10      "R10" ac | R10[15..0];
+R11      "R11" ac | R11[15..0];
+R12      "R12" ac | R12[15..0];
+R13      "R13" ac | R13[15..0];
+R14      "R14" ac | R14[15..0];
+R15      "R15" ac | R15[15..0];
+
+
+Mux-mxn "a-mul" dc R15[15..0] R14[15..0] R13[15..0] R12[15..0] R11[15..0]
+	   R10[15..0]
+	   R9[15..0] R8[15..0] R7[15..0] R6[15..0] R5[15..0] R4[15..0]
+	   R3[15..0] R2[15..0] R1[15..0] R0[15..0]     MIR[11..8] |
+	   aout[15..0];
+
+Mux-mxn "b-mul" dd R15[15..0] R14[15..0] R13[15..0] R12[15..0] R11[15..0]
+	   R10[15..0]
+	   R9[15..0] R8[15..0] R7[15..0] R6[15..0] R5[15..0] R4[15..0]
+	   R3[15..0] R2[15..0] R1[15..0] R0[15..0]     MIR[15..12] |
+	   bout[15..0];
+
+Not ec Phase[1] notPhase[1];
+
+Register "a-latch" ec aout[15..0] notPhase[1] | A[15..0]; 
+Register "b-latch" ee bout[15..0] notPhase[1] | B[15..0]; 
+
+/* Or ee B[15..0] MAR[15..0]; */
+
+Mux-mxn "A-MUX" fc mbr[15..0] A[15..0] MIR[31] | AMUX[15..0];
+
+ALU16 "ALU" gd AMUX[15..0] B[15..0] MIR[28] MIR[27] | ALUOUT[15..0] N Z;
+
+SHIFTER16 "SHIFTER" ge ALUOUT[15..0] MIR[26] MIR[25] | C[15..0];
+
+Endef;
+
+
+#include "mir.h"INPUT FILE -- mir.h:
+/* ----
+   The following ROM contains the micro program from Tanenbaum Fig 4-20
+   on page 200 - 201
+   ---- */
+Define MIC2 a[7..0] | d[31..0];
+   Rom128x32 aa a[6..0] ZERO d[31..0]
+	/* 1 */ 16 192 0 0 1 80 96 0 176 19 0 28 36 20 51 19 52 20 4 11
+	/* 2 */ 48 0 4 9 16 192 48 0 1 64 0 0 240 17 0 0 17 160 49 0
+	/* 3 */ 112 32 0 0 48 0 4 15 16 192 48 0 16 64 0 0 224 17 16 0
+	/* 4 */ 16 192 48 0 0 81 97 0 152 26 0 0 96 17 161 0 52 20 4 25
+	/* 5 */ 48 0 4 23 48 0 1 27 104 16 131 0 80 0 1 22 112 0 0 0
+	/* 6 */ 48 0 4 27 104 16 131 0 104 17 131 0 36 20 51 40 52 20 4 35
+	/* 7 */ 48 0 4 33 0 26 35 0 112 192 160 7 0 26 35 0 113 160 161 10
+	/* 8 */ 48 0 4 38 0 26 35 0 112 192 160 13 0 26 35 0 112 192 160 16
+	/* 9 */ 52 20 4 46 48 0 4 44 48 0 1 22 112 0 0 0 80 0 1 0
+	/*10 */ 104 16 131 0 52 20 4 50 0 18 114 0 17 160 32 0 104 48 131 0
+	/*11 */ 52 20 4 65 52 20 4 59 48 0 4 56 16 192 16 0 0 82 114 0
+	/*12 */ 112 160 32 10 0 210 98 0 16 64 0 0 112 160 16 10 48 0 4 62
+	/*13 */ 0 18 114 0 113 160 33 10 0 210 98 0 16 64 0 0 240 17 0 0
+	/*14 */ 52 20 4 73 48 0 4 70 0 210 98 0 16 64 0 0 240 16 0 0
+	/*15 */ 16 26 1 0 16 17 2 0 112 18 10 0 48 0 4 76 8 26 147 0
+	/*16 */ 96 18 162 0 8 26 147 0 24 26 10 0 96 26 106 75 0 0 0 0
+	/*17 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*18 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*19 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*20 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*21 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*22 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*23 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*24 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*25 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*26 */ 0 0 0 0    0 0 0 0   0 0 0 0   ;
+Endef;
+
+
+/*
+MIC2 aa ZERO ZERO ZERO ZERO ZERO ZERO ZERO ZERO | d[31..0];
+Probe ab d[31]; Probe ab d[30]; Probe ab d[29]; Probe ab d[28]; Probe ab d[27];
+Probe ab d[26]; Probe ab d[25]; Probe ab d[24]; Probe ab d[23]; Probe ab d[22];
+Probe ab d[21]; Probe ab d[20]; Probe ab d[19]; Probe ab d[18]; Probe ab d[17];
+Probe ab d[16]; Probe ab d[15]; Probe ab d[14]; Probe ab d[13]; Probe ab d[12];
+Probe ab d[11]; Probe ab d[10]; Probe ab d[9]; Probe ab d[8]; Probe ab d[7];
+Probe ab d[6]; Probe ab d[5]; Probe ab d[4]; Probe ab d[3]; Probe ab d[2];
+Probe ab d[1]; Probe ab d[0];
+*/
+
+
+Define MSL n z c1 c0 | MSLOUT;
+Not aa n nn;
+Not aa z nz;
+Not aa c1 nc1;
+Not aa c0 nc0;
+
+And aa nc1 c0 n nz 01;
+And aa nc1 c0 n z 02;
+And aa c1 nc0 nn z 03;
+And aa c1 nc0 n z 04;
+And aa c1 c0 nn nz 05;
+And aa c1 c0 nn z 06;
+And aa c1 c0 n nz 07;
+And aa c1 c0 n z 08;
+Or aa 01 02 03 04 05 06 07 08 MSLOUT;
+Endef;
+
+Define MPC i[7..0] TICK RESET | o[7..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+Endef;
+
+Define INCR in[7..0] | INCROUT[7..0];
+Full_Adder aa ONE    in[0] ZERO  | c-out1 INCROUT[0];
+Full_Adder aa c-out1 in[1] ZERO  | c-out2 INCROUT[1];
+Full_Adder aa c-out2 in[2] ZERO  | c-out3 INCROUT[2];
+Full_Adder aa c-out3 in[3] ZERO  | c-out4 INCROUT[3];
+Full_Adder aa c-out4 in[4] ZERO  | c-out5 INCROUT[4];
+Full_Adder aa c-out5 in[5] ZERO  | c-out6 INCROUT[5];
+Full_Adder aa c-out6 in[6] ZERO  | c-out7 INCROUT[6];
+Full_Adder aa c-out7 in[7] ZERO  | c-out8 INCROUT[7];
+Endef;
+
+
+Define MIR-Comp Reset N Z Phase[4..1] | MIR[31..0] MPC[7..0];
+Not bb Phase[1] nTick;
+Not bb Reset nReset;
+
+Switch "CLOCK" aa CLOCK ZERO; 
+Switch "R" aa R ZERO; 
+
+MPC aa MMUXOUT[7..0] Phase[1] nReset | MPC[7..0];
+
+INCR ab MPC[7..0] | INCROUT[7..0];
+
+Mux-mxn ac  MIR[7..0] INCROUT[7..0] MSLOUT | MMUXOUT[7..0];
+Probe ac MMUXOUT[0];
+Probe ac MMUXOUT[1];
+Probe ac MMUXOUT[2];
+Probe ac MMUXOUT[3];
+Probe ac MMUXOUT[4];
+Probe ac MMUXOUT[5];
+Probe ac MMUXOUT[6];
+Probe ac MMUXOUT[7];
+
+MSL ad N Z MIR[30] MIR[29] | MSLOUT;
+
+Probe ad MSLOUT;
+
+MIC2 ba MPC[7..0] | MPS[31..0];
+
+Register bb MPS[31..0] nTick | MIR[31..0];
+
+Endef;
+
+#include "mem.h"INPUT FILE -- mem.h:
+
+Define Circuit1 mem read line | OUT;
+Not aa line nline;
+And aa mem read nline out;
+Not aa out OUT ;
+Endef;
+
+Define Circuit2 mem read line | rw en tri;
+And aa mem read line tri-tmp;
+Not aa tri-tmp tri;
+Or  aa ZERO read rw;
+And aa mem line en-tmp;
+Not aa en-tmp en;
+Endef;
+
+Define TRI1 in[15..0] en | out[15..0];
+Tri-state-buffer aa in[0] en | out[0];
+Tri-state-buffer aa in[1] en | out[1];
+Tri-state-buffer aa in[2] en | out[2];
+Tri-state-buffer aa in[3] en | out[3];
+Tri-state-buffer aa in[4] en | out[4];
+Tri-state-buffer aa in[5] en | out[5];
+Tri-state-buffer aa in[6] en | out[6];
+Tri-state-buffer aa in[7] en | out[7];
+Tri-state-buffer aa in[8] en | out[8];
+Tri-state-buffer aa in[9] en | out[9];
+Tri-state-buffer aa in[10] en | out[10];
+Tri-state-buffer aa in[11] en | out[11];
+Tri-state-buffer aa in[12] en | out[12];
+Tri-state-buffer aa in[13] en | out[13];
+Tri-state-buffer aa in[14] en | out[14];
+Tri-state-buffer aa in[15] en | out[15];
+Endef;
+ 
+
+Define TRI2 in[7..0] en | out[7..0];
+Tri-state-buffer aa in[0] en | out[0];
+Tri-state-buffer aa in[1] en | out[1];
+Tri-state-buffer aa in[2] en | out[2];
+Tri-state-buffer aa in[3] en | out[3];
+Tri-state-buffer aa in[4] en | out[4];
+Tri-state-buffer aa in[5] en | out[5];
+Tri-state-buffer aa in[6] en | out[6];
+Tri-state-buffer aa in[7] en | out[7];
+Endef;
+
+
+
+Define Memory MReq Read Addr[15..0] DataIn[15..0] | DataOut[15..0] ;
+
+Rom64x16 aa Addr[5..0] ZERO RomOut[15..0]
+10 4168 72 0 0 0 0 0 0 0 0 
+15 0     0 0 0 0 0 0 0 0 0 
+0  0     0 0 0 0 0 0 0 0 0 
+0  0     0 0 0 0 0 0 0 0 0
+0  0     0 0 0 0 0 0 0 0 0
+0  0     0 0 0 0 0 0 0;
+
+Circuit1 ba MReq Read Addr[6] | tri-enable;
+Probe "1tri" ba tri-enable;
+TRI1 ab RomOut[15..0] tri-enable | DataOut[15..0];
+
+
+Ram64x8 ac DataIn[15..8] Addr[5..0] rw outen Data[15..8];
+Circuit2 bc MReq Read Addr[6] | rw outen tri;
+Probe "2rw" bc rw;
+Probe "2en" bc outen;
+Probe "2tri" bc tri;
+TRI2 ad Data[15..8] tri | DataOut[15..8];
+
+Ram64x8 ae DataIn[7..0] Addr[5..0] rw outen Data[7..0];
+TRI2 af Data[7..0] tri | DataOut[7..0];
+
+Endef;
+
+
+
+
+Switch "0:Tick" aa Tick ZERO;
+Switch "1:reset" aa Reset ZERO;
+ 
+Four-Phase-Clock ab Reset Tick | Phase[4-1];
+Probe "Ph1" ac Phase[1];
+Probe "Ph2" ad Phase[2];
+Probe "Ph3" ae Phase[3];
+Probe "Ph4" af Phase[4];
+
+
+DataPath "DataPath" ba MIR[31..0] MBROutput [15..0] Phase[4..1] Reset |
+	R0[15..0] R1[15..0] R2[15..0] R3[15..0] R4[15..0] R5[15..0]
+	R6[15..0] R7[15..0] R8[15..0] R9[15..0] R10[15..0] R11[15..0]
+	R12[15..0] R13[15..0] R14[15..0] R15[15..0] 
+	A[15..0] B[15..0] AMUX[15..0] C[15..0] N Z ;
+Probe "N" aj N;	
+Probe "Z" ak Z;
+
+Byte-probe-h "R0" ce-cg R0[15..8]; Byte-probe-h "R0" ch-cj R0[7..0];
+Byte-probe-h "R1" de-dg R1[15..8]; Byte-probe-h "R1" dh-dj R1[7..0];
+Byte-probe-h "R2" ee-eg R2[15..8]; Byte-probe-h "R2" eh-ej R2[7..0];
+Byte-probe-h "R3" fe-fg R3[15..8]; Byte-probe-h "R3" fh-fj R3[7..0];
+Byte-probe-h "R4" ge-gg R4[15..8]; Byte-probe-h "R4" gh-gj R4[7..0];
+Byte-probe-h "R5" he-hg R5[15..8]; Byte-probe-h "R5" hh-hj R5[7..0];
+Byte-probe-h "R6" ie-ig R6[15..8]; Byte-probe-h "R6" ih-ij R6[7..0];
+Byte-probe-h "R7" je-jg R7[15..8]; Byte-probe-h "R7" jh-jj R7[7..0];
+Byte-probe-h "R8"  cl-cn R8[15..8];  Byte-probe-h "R8"  co-cq R8[7..0];
+Byte-probe-h "R9"  dl-dn R9[15..8];  Byte-probe-h "R9"  do-dq R9[7..0];
+Byte-probe-h "R10" el-en R10[15..8]; Byte-probe-h "R10" eo-eq R10[7..0];
+Byte-probe-h "R11" fl-fn R11[15..8]; Byte-probe-h "R11" fo-fq R11[7..0];
+Byte-probe-h "R12" gl-gn R12[15..8]; Byte-probe-h "R12" go-gq R12[7..0];
+Byte-probe-h "R13" hl-hn R13[15..8]; Byte-probe-h "R13" ho-hq R13[7..0];
+Byte-probe-h "R14" il-in R14[15..8]; Byte-probe-h "R14" io-iq R14[7..0];
+Byte-probe-h "R15" jl-jn R15[15..8]; Byte-probe-h "R15" jo-jq R15[7..0];
+	
+Byte-probe-h "A"     le-lg A[15..8]; Byte-probe-h "A"     lh-lj A[7..0];
+Byte-probe-h "B/MAR" ll-ln B[15..8]; Byte-probe-h "B/MAR" lo-lq B[7..0];
+ 
+Byte-probe-h "AMUX" me-mg AMUX[15..8]; Byte-probe-h "AMUX" mh-mj AMUX[7..0];
+Byte-probe-h "C"    ml-mn C[15..8];    Byte-probe-h "C"    mo-mq C[7..0];   
+ 
+
+MIR-Comp "MIR-Comp" bc Reset N Z Phase[4..1] | MIR[31..0] MPC[7..0];
+
+Byte-probe-h "MPC" na-nc MPC[7-0];
+ 
+/* Byte-probe-h "MIR 31-24" oa-oc MIR[31..24];
+   Byte-probe-h "23-16"     od-of MIR[23..16];
+   Byte-probe-h "15-8"      og-oi MIR[15..8];
+   Byte-probe-h "7-0"       oj-ol MIR[7..0];  */
+
+Probe "AMUX"  oa MIR[31];
+Probe "COND1" ob MIR[30];
+Probe "COND0" oc MIR[29];
+Probe "ALU1"  od MIR[28];
+Probe "ALU0"  oe MIR[27];
+Probe "SH1"   of MIR[26];
+Probe "SH0"   og MIR[25];
+Probe "MBR"   oh MIR[24];
+Probe "MAR"   oi MIR[23];
+Probe "RD"    oj MIR[22];
+Probe "WR"    ok MIR[21];
+Probe "ENC"   ol MIR[20];
+ 
+Byte-probe-h "C"       om-op MIR[19..16];Incorrect number of connections and/or parameters.
+There were:  4  before the separator (if any) and  0  after the separator.
+Should be:  8 in's, 0 out's, 0 sym's, and 0 numerics
+Input count incorrect.
+ 
+Byte-probe-h "B"       op-os MIR[15..12];Incorrect number of connections and/or parameters.
+There were:  4  before the separator (if any) and  0  after the separator.
+Should be:  8 in's, 0 out's, 0 sym's, and 0 numerics
+Input count incorrect.
+ 
+Byte-probe-h "A"       ot-ow MIR[11..8];Incorrect number of connections and/or parameters.
+There were:  4  before the separator (if any) and  0  after the separator.
+Should be:  8 in's, 0 out's, 0 sym's, and 0 numerics
+Input count incorrect.
+ 
+Byte-probe-h "ADDR"    ox-oz MIR[7..0]; 
+
+
+Comm "Comm" ba Phase[4..1] MIR[22] MIR[21] MIR[23] MIR[24] B[15..0]
+DataOut[15..0] C[15..0] | MReq READ AddrBus[15..0] DataBusOut[15..0] 
+MBROutput[15..0];
+ 
+Probe "MReq" al MReq;
+Probe "Read" am READ;
+ 
+Byte-probe-h "Com-DataOut" qa-qh DataBusOut[15-8];
+Byte-probe-h "Com-DataOut" qi-qp DataBusOut[7-0];
+ 
+Byte-probe-h "AddrBus" ra-rh AddrBus[15-8];
+Byte-probe-h "AddrBus" ri-rp AddrBus[7-0];
+
+
+Memory "Memory" be MReq READ AddrBus[15..0] DataBusOut[15..0] | DataOut[15..0];
+
+Byte-probe-h "Mem-DataOut" ta-th DataOut[15-8];
+Byte-probe-h "Mem-DataOut" ti-tp DataOut[7-0];
+ 
+
+Alias Reset Tick Phase[4] Phase[3] Phase[2] Phase[1] | ZZ0r ZZ0t ZZ0Phase[3] ZZ0Phase[2] ZZ0Phase[1] ZZ0Phase[0]  ;
+Module  "Four-Phase-Clock"  ab ZZ0r ZZ0t | ZZ0Phase[3] ZZ0Phase[2] ZZ0Phase[1] ZZ0Phase[0]  ;
+  Switch "Switch" ab.aa ZZ0set 
+ONE 
+
+ ;
+  Switch "Switch" ab.aa ZZ0reset 
+ONE 
+
+ ;
+  Dff "Dff" ab.aa ONE 
+ZZ0sw1 ZZ0t ONE ZZ0q1 ZZ0q1x 
+
+ ;
+  Dff "Dff" ab.aa ONE 
+ZZ0sw2 ZZ0t ONE ZZ0q2 ZZ0q2x 
+
+ ;
+  Not "Not" ab.aa ZZ0r 
+ZZ0not-r 
+
+ ;
+  Xor "Xor" ab.aa ZZ0q1 
+ZZ0q2 ZZ0q1-xor-q2 
+
+ ;
+  And "And" ab.aa ZZ0not-r 
+ZZ0q1-xor-q2 ZZ0sw1 
+
+ ;
+  And "And" ab.aa ZZ0q2x 
+ZZ0not-r ZZ0sw2 
+
+ ;
+  And "And" ab.aa ZZ0q1x 
+ZZ0q2x ZZ0Phase[0] 
+
+ ;
+  And "And" ab.aa ZZ0q1x 
+ZZ0q2 ZZ0Phase[1] 
+
+ ;
+  And "And" ab.aa ZZ0q1 
+ZZ0q2x ZZ0Phase[2] 
+
+ ;
+  And "And" ab.aa ZZ0q1 
+ZZ0q2 ZZ0Phase[3] 
+
+ ;
+ End ; /* Four-Phase-Clock */
+Alias MIR[31] MIR[30] MIR[29] MIR[28] MIR[27] MIR[26] MIR[25] MIR[24] MIR[23] MIR[22] MIR[21] MIR[20] MIR[19] MIR[18] MIR[17] MIR[16] MIR[15] MIR[14] MIR[13] MIR[12] MIR[11] MIR[10] MIR[9] MIR[8] MIR[7] MIR[6] MIR[5] MIR[4] MIR[3] MIR[2] MIR[1] MIR[0] MBROutput[15] MBROutput[14] MBROutput[13] MBROutput[12] MBROutput[11] MBROutput[10] MBROutput[9] MBROutput[8] MBROutput[7] MBROutput[6] MBROutput[5] MBROutput[4] MBROutput[3] MBROutput[2] MBROutput[1] MBROutput[0] Phase[4] Phase[3] Phase[2] Phase[1] Reset R0[15] R0[14] R0[13] R0[12] R0[11] R0[10] R0[9] R0[8] R0[7] R0[6] R0[5] R0[4] R0[3] R0[2] R0[1] R0[0] R1[15] R1[14] R1[13] R1[12] R1[11] R1[10] R1[9] R1[8] R1[7] R1[6] R1[5] R1[4] R1[3] R1[2] R1[1] R1[0] R2[15] R2[14] R2[13] R2[12] R2[11] R2[10] R2[9] R2[8] R2[7] R2[6] R2[5] R2[4] R2[3] R2[2] R2[1] R2[0] R3[15] R3[14] R3[13] R3[12] R3[11] R3[10] R3[9] R3[8] R3[7] R3[6] R3[5] R3[4] R3[3] R3[2] R3[1] R3[0] R4[15] R4[14] R4[13] R4[12] R4[11] R4[10] R4[9] R4[8] R4[7] R4[6] R4[5] R4[4] R4[3] R4[2] R4[1] R4[0] R5[15] R5[14] R5[13] R5[12] R5[11] R5[10] R5[9] R5[8] R5[7] R5[6] R5[5] R5[4] R5[3] R5[2] R5[1] R5[0] R6[15] R6[14] R6[13] R6[12] R6[11] R6[10] R6[9] R6[8] R6[7] R6[6] R6[5] R6[4] R6[3] R6[2] R6[1] R6[0] R7[15] R7[14] R7[13] R7[12] R7[11] R7[10] R7[9] R7[8] R7[7] R7[6] R7[5] R7[4] R7[3] R7[2] R7[1] R7[0] R8[15] R8[14] R8[13] R8[12] R8[11] R8[10] R8[9] R8[8] R8[7] R8[6] R8[5] R8[4] R8[3] R8[2] R8[1] R8[0] R9[15] R9[14] R9[13] R9[12] R9[11] R9[10] R9[9] R9[8] R9[7] R9[6] R9[5] R9[4] R9[3] R9[2] R9[1] R9[0] R10[15] R10[14] R10[13] R10[12] R10[11] R10[10] R10[9] R10[8] R10[7] R10[6] R10[5] R10[4] R10[3] R10[2] R10[1] R10[0] R11[15] R11[14] R11[13] R11[12] R11[11] R11[10] R11[9] R11[8] R11[7] R11[6] R11[5] R11[4] R11[3] R11[2] R11[1] R11[0] R12[15] R12[14] R12[13] R12[12] R12[11] R12[10] R12[9] R12[8] R12[7] R12[6] R12[5] R12[4] R12[3] R12[2] R12[1] R12[0] R13[15] R13[14] R13[13] R13[12] R13[11] R13[10] R13[9] R13[8] R13[7] R13[6] R13[5] R13[4] R13[3] R13[2] R13[1] R13[0] R14[15] R14[14] R14[13] R14[12] R14[11] R14[10] R14[9] R14[8] R14[7] R14[6] R14[5] R14[4] R14[3] R14[2] R14[1] R14[0] R15[15] R15[14] R15[13] R15[12] R15[11] R15[10] R15[9] R15[8] R15[7] R15[6] R15[5] R15[4] R15[3] R15[2] R15[1] R15[0] A[15] A[14] A[13] A[12] A[11] A[10] A[9] A[8] A[7] A[6] A[5] A[4] A[3] A[2] A[1] A[0] B[15] B[14] B[13] B[12] B[11] B[10] B[9] B[8] B[7] B[6] B[5] B[4] B[3] B[2] B[1] B[0] AMUX[15] AMUX[14] AMUX[13] AMUX[12] AMUX[11] AMUX[10] AMUX[9] AMUX[8] AMUX[7] AMUX[6] AMUX[5] AMUX[4] AMUX[3] AMUX[2] AMUX[1] AMUX[0] C[15] C[14] C[13] C[12] C[11] C[10] C[9] C[8] C[7] C[6] C[5] C[4] C[3] C[2] C[1] C[0] N Z | ZZ1MIR[31] ZZ1MIR[30] ZZ1MIR[29] ZZ1MIR[28] ZZ1MIR[27] ZZ1MIR[26] ZZ1MIR[25] ZZ1MIR[24] ZZ1MIR[23] ZZ1MIR[22] ZZ1MIR[21] ZZ1MIR[20] ZZ1MIR[19] ZZ1MIR[18] ZZ1MIR[17] ZZ1MIR[16] ZZ1MIR[15] ZZ1MIR[14] ZZ1MIR[13] ZZ1MIR[12] ZZ1MIR[11] ZZ1MIR[10] ZZ1MIR[9] ZZ1MIR[8] ZZ1MIR[7] ZZ1MIR[6] ZZ1MIR[5] ZZ1MIR[4] ZZ1MIR[3] ZZ1MIR[2] ZZ1MIR[1] ZZ1MIR[0] ZZ1mbr[15] ZZ1mbr[14] ZZ1mbr[13] ZZ1mbr[12] ZZ1mbr[11] ZZ1mbr[10] ZZ1mbr[9] ZZ1mbr[8] ZZ1mbr[7] ZZ1mbr[6] ZZ1mbr[5] ZZ1mbr[4] ZZ1mbr[3] ZZ1mbr[2] ZZ1mbr[1] ZZ1mbr[0] ZZ1Phase[3] ZZ1Phase[2] ZZ1Phase[1] ZZ1Phase[0] ZZ1Reset ZZ1R0[15] ZZ1R0[14] ZZ1R0[13] ZZ1R0[12] ZZ1R0[11] ZZ1R0[10] ZZ1R0[9] ZZ1R0[8] ZZ1R0[7] ZZ1R0[6] ZZ1R0[5] ZZ1R0[4] ZZ1R0[3] ZZ1R0[2] ZZ1R0[1] ZZ1R0[0] ZZ1R1[15] ZZ1R1[14] ZZ1R1[13] ZZ1R1[12] ZZ1R1[11] ZZ1R1[10] ZZ1R1[9] ZZ1R1[8] ZZ1R1[7] ZZ1R1[6] ZZ1R1[5] ZZ1R1[4] ZZ1R1[3] ZZ1R1[2] ZZ1R1[1] ZZ1R1[0] ZZ1R2[15] ZZ1R2[14] ZZ1R2[13] ZZ1R2[12] ZZ1R2[11] ZZ1R2[10] ZZ1R2[9] ZZ1R2[8] ZZ1R2[7] ZZ1R2[6] ZZ1R2[5] ZZ1R2[4] ZZ1R2[3] ZZ1R2[2] ZZ1R2[1] ZZ1R2[0] ZZ1R3[15] ZZ1R3[14] ZZ1R3[13] ZZ1R3[12] ZZ1R3[11] ZZ1R3[10] ZZ1R3[9] ZZ1R3[8] ZZ1R3[7] ZZ1R3[6] ZZ1R3[5] ZZ1R3[4] ZZ1R3[3] ZZ1R3[2] ZZ1R3[1] ZZ1R3[0] ZZ1R4[15] ZZ1R4[14] ZZ1R4[13] ZZ1R4[12] ZZ1R4[11] ZZ1R4[10] ZZ1R4[9] ZZ1R4[8] ZZ1R4[7] ZZ1R4[6] ZZ1R4[5] ZZ1R4[4] ZZ1R4[3] ZZ1R4[2] ZZ1R4[1] ZZ1R4[0] ZZ1R5[15] ZZ1R5[14] ZZ1R5[13] ZZ1R5[12] ZZ1R5[11] ZZ1R5[10] ZZ1R5[9] ZZ1R5[8] ZZ1R5[7] ZZ1R5[6] ZZ1R5[5] ZZ1R5[4] ZZ1R5[3] ZZ1R5[2] ZZ1R5[1] ZZ1R5[0] ZZ1R6[15] ZZ1R6[14] ZZ1R6[13] ZZ1R6[12] ZZ1R6[11] ZZ1R6[10] ZZ1R6[9] ZZ1R6[8] ZZ1R6[7] ZZ1R6[6] ZZ1R6[5] ZZ1R6[4] ZZ1R6[3] ZZ1R6[2] ZZ1R6[1] ZZ1R6[0] ZZ1R7[15] ZZ1R7[14] ZZ1R7[13] ZZ1R7[12] ZZ1R7[11] ZZ1R7[10] ZZ1R7[9] ZZ1R7[8] ZZ1R7[7] ZZ1R7[6] ZZ1R7[5] ZZ1R7[4] ZZ1R7[3] ZZ1R7[2] ZZ1R7[1] ZZ1R7[0] ZZ1R8[15] ZZ1R8[14] ZZ1R8[13] ZZ1R8[12] ZZ1R8[11] ZZ1R8[10] ZZ1R8[9] ZZ1R8[8] ZZ1R8[7] ZZ1R8[6] ZZ1R8[5] ZZ1R8[4] ZZ1R8[3] ZZ1R8[2] ZZ1R8[1] ZZ1R8[0] ZZ1R9[15] ZZ1R9[14] ZZ1R9[13] ZZ1R9[12] ZZ1R9[11] ZZ1R9[10] ZZ1R9[9] ZZ1R9[8] ZZ1R9[7] ZZ1R9[6] ZZ1R9[5] ZZ1R9[4] ZZ1R9[3] ZZ1R9[2] ZZ1R9[1] ZZ1R9[0] ZZ1R10[15] ZZ1R10[14] ZZ1R10[13] ZZ1R10[12] ZZ1R10[11] ZZ1R10[10] ZZ1R10[9] ZZ1R10[8] ZZ1R10[7] ZZ1R10[6] ZZ1R10[5] ZZ1R10[4] ZZ1R10[3] ZZ1R10[2] ZZ1R10[1] ZZ1R10[0] ZZ1R11[15] ZZ1R11[14] ZZ1R11[13] ZZ1R11[12] ZZ1R11[11] ZZ1R11[10] ZZ1R11[9] ZZ1R11[8] ZZ1R11[7] ZZ1R11[6] ZZ1R11[5] ZZ1R11[4] ZZ1R11[3] ZZ1R11[2] ZZ1R11[1] ZZ1R11[0] ZZ1R12[15] ZZ1R12[14] ZZ1R12[13] ZZ1R12[12] ZZ1R12[11] ZZ1R12[10] ZZ1R12[9] ZZ1R12[8] ZZ1R12[7] ZZ1R12[6] ZZ1R12[5] ZZ1R12[4] ZZ1R12[3] ZZ1R12[2] ZZ1R12[1] ZZ1R12[0] ZZ1R13[15] ZZ1R13[14] ZZ1R13[13] ZZ1R13[12] ZZ1R13[11] ZZ1R13[10] ZZ1R13[9] ZZ1R13[8] ZZ1R13[7] ZZ1R13[6] ZZ1R13[5] ZZ1R13[4] ZZ1R13[3] ZZ1R13[2] ZZ1R13[1] ZZ1R13[0] ZZ1R14[15] ZZ1R14[14] ZZ1R14[13] ZZ1R14[12] ZZ1R14[11] ZZ1R14[10] ZZ1R14[9] ZZ1R14[8] ZZ1R14[7] ZZ1R14[6] ZZ1R14[5] ZZ1R14[4] ZZ1R14[3] ZZ1R14[2] ZZ1R14[1] ZZ1R14[0] ZZ1R15[15] ZZ1R15[14] ZZ1R15[13] ZZ1R15[12] ZZ1R15[11] ZZ1R15[10] ZZ1R15[9] ZZ1R15[8] ZZ1R15[7] ZZ1R15[6] ZZ1R15[5] ZZ1R15[4] ZZ1R15[3] ZZ1R15[2] ZZ1R15[1] ZZ1R15[0] ZZ1A[15] ZZ1A[14] ZZ1A[13] ZZ1A[12] ZZ1A[11] ZZ1A[10] ZZ1A[9] ZZ1A[8] ZZ1A[7] ZZ1A[6] ZZ1A[5] ZZ1A[4] ZZ1A[3] ZZ1A[2] ZZ1A[1] ZZ1A[0] ZZ1B[15] ZZ1B[14] ZZ1B[13] ZZ1B[12] ZZ1B[11] ZZ1B[10] ZZ1B[9] ZZ1B[8] ZZ1B[7] ZZ1B[6] ZZ1B[5] ZZ1B[4] ZZ1B[3] ZZ1B[2] ZZ1B[1] ZZ1B[0] ZZ1AMUX[15] ZZ1AMUX[14] ZZ1AMUX[13] ZZ1AMUX[12] ZZ1AMUX[11] ZZ1AMUX[10] ZZ1AMUX[9] ZZ1AMUX[8] ZZ1AMUX[7] ZZ1AMUX[6] ZZ1AMUX[5] ZZ1AMUX[4] ZZ1AMUX[3] ZZ1AMUX[2] ZZ1AMUX[1] ZZ1AMUX[0] ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1N ZZ1Z  ;
+Module  "DataPath"  ba ZZ1MIR[31] ZZ1MIR[30] ZZ1MIR[29] ZZ1MIR[28] ZZ1MIR[27] ZZ1MIR[26] ZZ1MIR[25] ZZ1MIR[24] ZZ1MIR[23] ZZ1MIR[22] ZZ1MIR[21] ZZ1MIR[20] ZZ1MIR[19] ZZ1MIR[18] ZZ1MIR[17] ZZ1MIR[16] ZZ1MIR[15] ZZ1MIR[14] ZZ1MIR[13] ZZ1MIR[12] ZZ1MIR[11] ZZ1MIR[10] ZZ1MIR[9] ZZ1MIR[8] ZZ1MIR[7] ZZ1MIR[6] ZZ1MIR[5] ZZ1MIR[4] ZZ1MIR[3] ZZ1MIR[2] ZZ1MIR[1] ZZ1MIR[0] ZZ1mbr[15] ZZ1mbr[14] ZZ1mbr[13] ZZ1mbr[12] ZZ1mbr[11] ZZ1mbr[10] ZZ1mbr[9] ZZ1mbr[8] ZZ1mbr[7] ZZ1mbr[6] ZZ1mbr[5] ZZ1mbr[4] ZZ1mbr[3] ZZ1mbr[2] ZZ1mbr[1] ZZ1mbr[0] ZZ1Phase[3] ZZ1Phase[2] ZZ1Phase[1] ZZ1Phase[0] ZZ1Reset | ZZ1R0[15] ZZ1R0[14] ZZ1R0[13] ZZ1R0[12] ZZ1R0[11] ZZ1R0[10] ZZ1R0[9] ZZ1R0[8] ZZ1R0[7] ZZ1R0[6] ZZ1R0[5] ZZ1R0[4] ZZ1R0[3] ZZ1R0[2] ZZ1R0[1] ZZ1R0[0] ZZ1R1[15] ZZ1R1[14] ZZ1R1[13] ZZ1R1[12] ZZ1R1[11] ZZ1R1[10] ZZ1R1[9] ZZ1R1[8] ZZ1R1[7] ZZ1R1[6] ZZ1R1[5] ZZ1R1[4] ZZ1R1[3] ZZ1R1[2] ZZ1R1[1] ZZ1R1[0] ZZ1R2[15] ZZ1R2[14] ZZ1R2[13] ZZ1R2[12] ZZ1R2[11] ZZ1R2[10] ZZ1R2[9] ZZ1R2[8] ZZ1R2[7] ZZ1R2[6] ZZ1R2[5] ZZ1R2[4] ZZ1R2[3] ZZ1R2[2] ZZ1R2[1] ZZ1R2[0] ZZ1R3[15] ZZ1R3[14] ZZ1R3[13] ZZ1R3[12] ZZ1R3[11] ZZ1R3[10] ZZ1R3[9] ZZ1R3[8] ZZ1R3[7] ZZ1R3[6] ZZ1R3[5] ZZ1R3[4] ZZ1R3[3] ZZ1R3[2] ZZ1R3[1] ZZ1R3[0] ZZ1R4[15] ZZ1R4[14] ZZ1R4[13] ZZ1R4[12] ZZ1R4[11] ZZ1R4[10] ZZ1R4[9] ZZ1R4[8] ZZ1R4[7] ZZ1R4[6] ZZ1R4[5] ZZ1R4[4] ZZ1R4[3] ZZ1R4[2] ZZ1R4[1] ZZ1R4[0] ZZ1R5[15] ZZ1R5[14] ZZ1R5[13] ZZ1R5[12] ZZ1R5[11] ZZ1R5[10] ZZ1R5[9] ZZ1R5[8] ZZ1R5[7] ZZ1R5[6] ZZ1R5[5] ZZ1R5[4] ZZ1R5[3] ZZ1R5[2] ZZ1R5[1] ZZ1R5[0] ZZ1R6[15] ZZ1R6[14] ZZ1R6[13] ZZ1R6[12] ZZ1R6[11] ZZ1R6[10] ZZ1R6[9] ZZ1R6[8] ZZ1R6[7] ZZ1R6[6] ZZ1R6[5] ZZ1R6[4] ZZ1R6[3] ZZ1R6[2] ZZ1R6[1] ZZ1R6[0] ZZ1R7[15] ZZ1R7[14] ZZ1R7[13] ZZ1R7[12] ZZ1R7[11] ZZ1R7[10] ZZ1R7[9] ZZ1R7[8] ZZ1R7[7] ZZ1R7[6] ZZ1R7[5] ZZ1R7[4] ZZ1R7[3] ZZ1R7[2] ZZ1R7[1] ZZ1R7[0] ZZ1R8[15] ZZ1R8[14] ZZ1R8[13] ZZ1R8[12] ZZ1R8[11] ZZ1R8[10] ZZ1R8[9] ZZ1R8[8] ZZ1R8[7] ZZ1R8[6] ZZ1R8[5] ZZ1R8[4] ZZ1R8[3] ZZ1R8[2] ZZ1R8[1] ZZ1R8[0] ZZ1R9[15] ZZ1R9[14] ZZ1R9[13] ZZ1R9[12] ZZ1R9[11] ZZ1R9[10] ZZ1R9[9] ZZ1R9[8] ZZ1R9[7] ZZ1R9[6] ZZ1R9[5] ZZ1R9[4] ZZ1R9[3] ZZ1R9[2] ZZ1R9[1] ZZ1R9[0] ZZ1R10[15] ZZ1R10[14] ZZ1R10[13] ZZ1R10[12] ZZ1R10[11] ZZ1R10[10] ZZ1R10[9] ZZ1R10[8] ZZ1R10[7] ZZ1R10[6] ZZ1R10[5] ZZ1R10[4] ZZ1R10[3] ZZ1R10[2] ZZ1R10[1] ZZ1R10[0] ZZ1R11[15] ZZ1R11[14] ZZ1R11[13] ZZ1R11[12] ZZ1R11[11] ZZ1R11[10] ZZ1R11[9] ZZ1R11[8] ZZ1R11[7] ZZ1R11[6] ZZ1R11[5] ZZ1R11[4] ZZ1R11[3] ZZ1R11[2] ZZ1R11[1] ZZ1R11[0] ZZ1R12[15] ZZ1R12[14] ZZ1R12[13] ZZ1R12[12] ZZ1R12[11] ZZ1R12[10] ZZ1R12[9] ZZ1R12[8] ZZ1R12[7] ZZ1R12[6] ZZ1R12[5] ZZ1R12[4] ZZ1R12[3] ZZ1R12[2] ZZ1R12[1] ZZ1R12[0] ZZ1R13[15] ZZ1R13[14] ZZ1R13[13] ZZ1R13[12] ZZ1R13[11] ZZ1R13[10] ZZ1R13[9] ZZ1R13[8] ZZ1R13[7] ZZ1R13[6] ZZ1R13[5] ZZ1R13[4] ZZ1R13[3] ZZ1R13[2] ZZ1R13[1] ZZ1R13[0] ZZ1R14[15] ZZ1R14[14] ZZ1R14[13] ZZ1R14[12] ZZ1R14[11] ZZ1R14[10] ZZ1R14[9] ZZ1R14[8] ZZ1R14[7] ZZ1R14[6] ZZ1R14[5] ZZ1R14[4] ZZ1R14[3] ZZ1R14[2] ZZ1R14[1] ZZ1R14[0] ZZ1R15[15] ZZ1R15[14] ZZ1R15[13] ZZ1R15[12] ZZ1R15[11] ZZ1R15[10] ZZ1R15[9] ZZ1R15[8] ZZ1R15[7] ZZ1R15[6] ZZ1R15[5] ZZ1R15[4] ZZ1R15[3] ZZ1R15[2] ZZ1R15[1] ZZ1R15[0] ZZ1A[15] ZZ1A[14] ZZ1A[13] ZZ1A[12] ZZ1A[11] ZZ1A[10] ZZ1A[9] ZZ1A[8] ZZ1A[7] ZZ1A[6] ZZ1A[5] ZZ1A[4] ZZ1A[3] ZZ1A[2] ZZ1A[1] ZZ1A[0] ZZ1B[15] ZZ1B[14] ZZ1B[13] ZZ1B[12] ZZ1B[11] ZZ1B[10] ZZ1B[9] ZZ1B[8] ZZ1B[7] ZZ1B[6] ZZ1B[5] ZZ1B[4] ZZ1B[3] ZZ1B[2] ZZ1B[1] ZZ1B[0] ZZ1AMUX[15] ZZ1AMUX[14] ZZ1AMUX[13] ZZ1AMUX[12] ZZ1AMUX[11] ZZ1AMUX[10] ZZ1AMUX[9] ZZ1AMUX[8] ZZ1AMUX[7] ZZ1AMUX[6] ZZ1AMUX[5] ZZ1AMUX[4] ZZ1AMUX[3] ZZ1AMUX[2] ZZ1AMUX[1] ZZ1AMUX[0] ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1N ZZ1Z  ;
+  And "And" ba.aa ZZ1Phase[3] 
+ZZ1MIR[20] ZZ1ENC 
+
+ ;
+  Not "Not" ba.aa ZZ1ENC 
+ZZ1notENC 
+
+ ;
+  Dec4x16 "4x16" ba.aa ZZ1MIR[19] 
+ZZ1MIR[18] ZZ1MIR[17] ZZ1MIR[16] ZZ1notENC ZZ1O[15] ZZ1O[14] ZZ1O[13] ZZ1O[12] ZZ1O[11] ZZ1O[10] ZZ1O[9] ZZ1O[8] ZZ1O[7] ZZ1O[6] ZZ1O[5] ZZ1O[4] 
+ZZ1O[3] ZZ1O[2] ZZ1O[1] ZZ1O[0] 
+
+ ;
+  Not "Not" ba.ab ZZ1Reset 
+ZZ1notReset 
+
+ ;
+  Not "Not" ba.ab ZZ1O[0] 
+ZZ1notO0 
+
+ ;
+  Not "Not" ba.ab ZZ1O[1] 
+ZZ1notO1 
+
+ ;
+  Not "Not" ba.ab ZZ1O[2] 
+ZZ1notO2 
+
+ ;
+  Not "Not" ba.ab ZZ1O[3] 
+ZZ1notO3 
+
+ ;
+  Not "Not" ba.ab ZZ1O[4] 
+ZZ1notO4 
+
+ ;
+Alias ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1notO0 ZZ1notReset ZZ1R0[15] ZZ1R0[14] ZZ1R0[13] ZZ1R0[12] ZZ1R0[11] ZZ1R0[10] ZZ1R0[9] ZZ1R0[8] ZZ1R0[7] ZZ1R0[6] ZZ1R0[5] ZZ1R0[4] ZZ1R0[3] ZZ1R0[2] ZZ1R0[1] ZZ1R0[0] | ZZ2i[15] ZZ2i[14] ZZ2i[13] ZZ2i[12] ZZ2i[11] ZZ2i[10] ZZ2i[9] ZZ2i[8] ZZ2i[7] ZZ2i[6] ZZ2i[5] ZZ2i[4] ZZ2i[3] ZZ2i[2] ZZ2i[1] ZZ2i[0] ZZ2TICK ZZ2RESET ZZ2o[15] ZZ2o[14] ZZ2o[13] ZZ2o[12] ZZ2o[11] ZZ2o[10] ZZ2o[9] ZZ2o[8] ZZ2o[7] ZZ2o[6] ZZ2o[5] ZZ2o[4] ZZ2o[3] ZZ2o[2] ZZ2o[1] ZZ2o[0] ZZ2nq[15] ZZ2nq[14] ZZ2nq[13] ZZ2nq[12] ZZ2nq[11] ZZ2nq[10] ZZ2nq[9] ZZ2nq[8] ZZ2nq[7] ZZ2nq[6] ZZ2nq[5] ZZ2nq[4] ZZ2nq[3] ZZ2nq[2] ZZ2nq[1] ZZ2nq[0]  ;WARNING: The alias lists are not of equal length: left_length = 34 right_length = 50
+
+Module  "R0"  ba.ac ZZ2i[15] ZZ2i[14] ZZ2i[13] ZZ2i[12] ZZ2i[11] ZZ2i[10] ZZ2i[9] ZZ2i[8] ZZ2i[7] ZZ2i[6] ZZ2i[5] ZZ2i[4] ZZ2i[3] ZZ2i[2] ZZ2i[1] ZZ2i[0] ZZ2TICK ZZ2RESET | ZZ2o[15] ZZ2o[14] ZZ2o[13] ZZ2o[12] ZZ2o[11] ZZ2o[10] ZZ2o[9] ZZ2o[8] ZZ2o[7] ZZ2o[6] ZZ2o[5] ZZ2o[4] ZZ2o[3] ZZ2o[2] ZZ2o[1] ZZ2o[0] ZZ2nq[15] ZZ2nq[14] ZZ2nq[13] ZZ2nq[12] ZZ2nq[11] ZZ2nq[10] ZZ2nq[9] ZZ2nq[8] ZZ2nq[7] ZZ2nq[6] ZZ2nq[5] ZZ2nq[4] ZZ2nq[3] ZZ2nq[2] ZZ2nq[1] ZZ2nq[0]  ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[0] ZZ2TICK ZZ2RESET ZZ2o[0] ZZ2nq[0] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[1] ZZ2TICK ZZ2RESET ZZ2o[1] ZZ2nq[1] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[2] ZZ2TICK ZZ2RESET ZZ2o[2] ZZ2nq[2] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[3] ZZ2TICK ZZ2RESET ZZ2o[3] ZZ2nq[3] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[4] ZZ2TICK ZZ2RESET ZZ2o[4] ZZ2nq[4] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[5] ZZ2TICK ZZ2RESET ZZ2o[5] ZZ2nq[5] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[6] ZZ2TICK ZZ2RESET ZZ2o[6] ZZ2nq[6] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[7] ZZ2TICK ZZ2RESET ZZ2o[7] ZZ2nq[7] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[8] ZZ2TICK ZZ2RESET ZZ2o[8] ZZ2nq[8] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[9] ZZ2TICK ZZ2RESET ZZ2o[9] ZZ2nq[9] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[10] ZZ2TICK ZZ2RESET ZZ2o[10] ZZ2nq[10] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[11] ZZ2TICK ZZ2RESET ZZ2o[11] ZZ2nq[11] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[12] ZZ2TICK ZZ2RESET ZZ2o[12] ZZ2nq[12] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[13] ZZ2TICK ZZ2RESET ZZ2o[13] ZZ2nq[13] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[14] ZZ2TICK ZZ2RESET ZZ2o[14] ZZ2nq[14] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ2i[15] ZZ2TICK ZZ2RESET ZZ2o[15] ZZ2nq[15] 
+
+ ;
+ End ; /* R0 */
+Alias ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1notO1 ZZ1notReset ZZ1R1[15] ZZ1R1[14] ZZ1R1[13] ZZ1R1[12] ZZ1R1[11] ZZ1R1[10] ZZ1R1[9] ZZ1R1[8] ZZ1R1[7] ZZ1R1[6] ZZ1R1[5] ZZ1R1[4] ZZ1R1[3] ZZ1R1[2] ZZ1R1[1] ZZ1R1[0] | ZZ3i[15] ZZ3i[14] ZZ3i[13] ZZ3i[12] ZZ3i[11] ZZ3i[10] ZZ3i[9] ZZ3i[8] ZZ3i[7] ZZ3i[6] ZZ3i[5] ZZ3i[4] ZZ3i[3] ZZ3i[2] ZZ3i[1] ZZ3i[0] ZZ3TICK ZZ3RESET ZZ3o[15] ZZ3o[14] ZZ3o[13] ZZ3o[12] ZZ3o[11] ZZ3o[10] ZZ3o[9] ZZ3o[8] ZZ3o[7] ZZ3o[6] ZZ3o[5] ZZ3o[4] ZZ3o[3] ZZ3o[2] ZZ3o[1] ZZ3o[0] ZZ3nq[15] ZZ3nq[14] ZZ3nq[13] ZZ3nq[12] ZZ3nq[11] ZZ3nq[10] ZZ3nq[9] ZZ3nq[8] ZZ3nq[7] ZZ3nq[6] ZZ3nq[5] ZZ3nq[4] ZZ3nq[3] ZZ3nq[2] ZZ3nq[1] ZZ3nq[0]  ;WARNING: The alias lists are not of equal length: left_length = 34 right_length = 50
+
+Module  "R1"  ba.ac ZZ3i[15] ZZ3i[14] ZZ3i[13] ZZ3i[12] ZZ3i[11] ZZ3i[10] ZZ3i[9] ZZ3i[8] ZZ3i[7] ZZ3i[6] ZZ3i[5] ZZ3i[4] ZZ3i[3] ZZ3i[2] ZZ3i[1] ZZ3i[0] ZZ3TICK ZZ3RESET | ZZ3o[15] ZZ3o[14] ZZ3o[13] ZZ3o[12] ZZ3o[11] ZZ3o[10] ZZ3o[9] ZZ3o[8] ZZ3o[7] ZZ3o[6] ZZ3o[5] ZZ3o[4] ZZ3o[3] ZZ3o[2] ZZ3o[1] ZZ3o[0] ZZ3nq[15] ZZ3nq[14] ZZ3nq[13] ZZ3nq[12] ZZ3nq[11] ZZ3nq[10] ZZ3nq[9] ZZ3nq[8] ZZ3nq[7] ZZ3nq[6] ZZ3nq[5] ZZ3nq[4] ZZ3nq[3] ZZ3nq[2] ZZ3nq[1] ZZ3nq[0]  ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[0] ZZ3TICK ZZ3RESET ZZ3o[0] ZZ3nq[0] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[1] ZZ3TICK ZZ3RESET ZZ3o[1] ZZ3nq[1] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[2] ZZ3TICK ZZ3RESET ZZ3o[2] ZZ3nq[2] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[3] ZZ3TICK ZZ3RESET ZZ3o[3] ZZ3nq[3] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[4] ZZ3TICK ZZ3RESET ZZ3o[4] ZZ3nq[4] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[5] ZZ3TICK ZZ3RESET ZZ3o[5] ZZ3nq[5] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[6] ZZ3TICK ZZ3RESET ZZ3o[6] ZZ3nq[6] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[7] ZZ3TICK ZZ3RESET ZZ3o[7] ZZ3nq[7] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[8] ZZ3TICK ZZ3RESET ZZ3o[8] ZZ3nq[8] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[9] ZZ3TICK ZZ3RESET ZZ3o[9] ZZ3nq[9] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[10] ZZ3TICK ZZ3RESET ZZ3o[10] ZZ3nq[10] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[11] ZZ3TICK ZZ3RESET ZZ3o[11] ZZ3nq[11] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[12] ZZ3TICK ZZ3RESET ZZ3o[12] ZZ3nq[12] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[13] ZZ3TICK ZZ3RESET ZZ3o[13] ZZ3nq[13] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[14] ZZ3TICK ZZ3RESET ZZ3o[14] ZZ3nq[14] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ3i[15] ZZ3TICK ZZ3RESET ZZ3o[15] ZZ3nq[15] 
+
+ ;
+ End ; /* R1 */
+Alias ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1notO2 ZZ1notReset ZZ1R2[15] ZZ1R2[14] ZZ1R2[13] ZZ1R2[12] ZZ1R2[11] ZZ1R2[10] ZZ1R2[9] ZZ1R2[8] ZZ1R2[7] ZZ1R2[6] ZZ1R2[5] ZZ1R2[4] ZZ1R2[3] ZZ1R2[2] ZZ1R2[1] ZZ1R2[0] | ZZ4i[15] ZZ4i[14] ZZ4i[13] ZZ4i[12] ZZ4i[11] ZZ4i[10] ZZ4i[9] ZZ4i[8] ZZ4i[7] ZZ4i[6] ZZ4i[5] ZZ4i[4] ZZ4i[3] ZZ4i[2] ZZ4i[1] ZZ4i[0] ZZ4TICK ZZ4RESET ZZ4o[15] ZZ4o[14] ZZ4o[13] ZZ4o[12] ZZ4o[11] ZZ4o[10] ZZ4o[9] ZZ4o[8] ZZ4o[7] ZZ4o[6] ZZ4o[5] ZZ4o[4] ZZ4o[3] ZZ4o[2] ZZ4o[1] ZZ4o[0] ZZ4nq[15] ZZ4nq[14] ZZ4nq[13] ZZ4nq[12] ZZ4nq[11] ZZ4nq[10] ZZ4nq[9] ZZ4nq[8] ZZ4nq[7] ZZ4nq[6] ZZ4nq[5] ZZ4nq[4] ZZ4nq[3] ZZ4nq[2] ZZ4nq[1] ZZ4nq[0]  ;WARNING: The alias lists are not of equal length: left_length = 34 right_length = 50
+
+Module  "R2"  ba.ac ZZ4i[15] ZZ4i[14] ZZ4i[13] ZZ4i[12] ZZ4i[11] ZZ4i[10] ZZ4i[9] ZZ4i[8] ZZ4i[7] ZZ4i[6] ZZ4i[5] ZZ4i[4] ZZ4i[3] ZZ4i[2] ZZ4i[1] ZZ4i[0] ZZ4TICK ZZ4RESET | ZZ4o[15] ZZ4o[14] ZZ4o[13] ZZ4o[12] ZZ4o[11] ZZ4o[10] ZZ4o[9] ZZ4o[8] ZZ4o[7] ZZ4o[6] ZZ4o[5] ZZ4o[4] ZZ4o[3] ZZ4o[2] ZZ4o[1] ZZ4o[0] ZZ4nq[15] ZZ4nq[14] ZZ4nq[13] ZZ4nq[12] ZZ4nq[11] ZZ4nq[10] ZZ4nq[9] ZZ4nq[8] ZZ4nq[7] ZZ4nq[6] ZZ4nq[5] ZZ4nq[4] ZZ4nq[3] ZZ4nq[2] ZZ4nq[1] ZZ4nq[0]  ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[0] ZZ4TICK ZZ4RESET ZZ4o[0] ZZ4nq[0] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[1] ZZ4TICK ZZ4RESET ZZ4o[1] ZZ4nq[1] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[2] ZZ4TICK ZZ4RESET ZZ4o[2] ZZ4nq[2] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[3] ZZ4TICK ZZ4RESET ZZ4o[3] ZZ4nq[3] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[4] ZZ4TICK ZZ4RESET ZZ4o[4] ZZ4nq[4] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[5] ZZ4TICK ZZ4RESET ZZ4o[5] ZZ4nq[5] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[6] ZZ4TICK ZZ4RESET ZZ4o[6] ZZ4nq[6] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[7] ZZ4TICK ZZ4RESET ZZ4o[7] ZZ4nq[7] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[8] ZZ4TICK ZZ4RESET ZZ4o[8] ZZ4nq[8] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[9] ZZ4TICK ZZ4RESET ZZ4o[9] ZZ4nq[9] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[10] ZZ4TICK ZZ4RESET ZZ4o[10] ZZ4nq[10] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[11] ZZ4TICK ZZ4RESET ZZ4o[11] ZZ4nq[11] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[12] ZZ4TICK ZZ4RESET ZZ4o[12] ZZ4nq[12] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[13] ZZ4TICK ZZ4RESET ZZ4o[13] ZZ4nq[13] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[14] ZZ4TICK ZZ4RESET ZZ4o[14] ZZ4nq[14] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ4i[15] ZZ4TICK ZZ4RESET ZZ4o[15] ZZ4nq[15] 
+
+ ;
+ End ; /* R2 */
+Alias ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1notO3 ZZ1notReset ZZ1R3[15] ZZ1R3[14] ZZ1R3[13] ZZ1R3[12] ZZ1R3[11] ZZ1R3[10] ZZ1R3[9] ZZ1R3[8] ZZ1R3[7] ZZ1R3[6] ZZ1R3[5] ZZ1R3[4] ZZ1R3[3] ZZ1R3[2] ZZ1R3[1] ZZ1R3[0] | ZZ5i[15] ZZ5i[14] ZZ5i[13] ZZ5i[12] ZZ5i[11] ZZ5i[10] ZZ5i[9] ZZ5i[8] ZZ5i[7] ZZ5i[6] ZZ5i[5] ZZ5i[4] ZZ5i[3] ZZ5i[2] ZZ5i[1] ZZ5i[0] ZZ5TICK ZZ5RESET ZZ5o[15] ZZ5o[14] ZZ5o[13] ZZ5o[12] ZZ5o[11] ZZ5o[10] ZZ5o[9] ZZ5o[8] ZZ5o[7] ZZ5o[6] ZZ5o[5] ZZ5o[4] ZZ5o[3] ZZ5o[2] ZZ5o[1] ZZ5o[0] ZZ5nq[15] ZZ5nq[14] ZZ5nq[13] ZZ5nq[12] ZZ5nq[11] ZZ5nq[10] ZZ5nq[9] ZZ5nq[8] ZZ5nq[7] ZZ5nq[6] ZZ5nq[5] ZZ5nq[4] ZZ5nq[3] ZZ5nq[2] ZZ5nq[1] ZZ5nq[0]  ;WARNING: The alias lists are not of equal length: left_length = 34 right_length = 50
+
+Module  "R3"  ba.ac ZZ5i[15] ZZ5i[14] ZZ5i[13] ZZ5i[12] ZZ5i[11] ZZ5i[10] ZZ5i[9] ZZ5i[8] ZZ5i[7] ZZ5i[6] ZZ5i[5] ZZ5i[4] ZZ5i[3] ZZ5i[2] ZZ5i[1] ZZ5i[0] ZZ5TICK ZZ5RESET | ZZ5o[15] ZZ5o[14] ZZ5o[13] ZZ5o[12] ZZ5o[11] ZZ5o[10] ZZ5o[9] ZZ5o[8] ZZ5o[7] ZZ5o[6] ZZ5o[5] ZZ5o[4] ZZ5o[3] ZZ5o[2] ZZ5o[1] ZZ5o[0] ZZ5nq[15] ZZ5nq[14] ZZ5nq[13] ZZ5nq[12] ZZ5nq[11] ZZ5nq[10] ZZ5nq[9] ZZ5nq[8] ZZ5nq[7] ZZ5nq[6] ZZ5nq[5] ZZ5nq[4] ZZ5nq[3] ZZ5nq[2] ZZ5nq[1] ZZ5nq[0]  ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[0] ZZ5TICK ZZ5RESET ZZ5o[0] ZZ5nq[0] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[1] ZZ5TICK ZZ5RESET ZZ5o[1] ZZ5nq[1] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[2] ZZ5TICK ZZ5RESET ZZ5o[2] ZZ5nq[2] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[3] ZZ5TICK ZZ5RESET ZZ5o[3] ZZ5nq[3] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[4] ZZ5TICK ZZ5RESET ZZ5o[4] ZZ5nq[4] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[5] ZZ5TICK ZZ5RESET ZZ5o[5] ZZ5nq[5] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[6] ZZ5TICK ZZ5RESET ZZ5o[6] ZZ5nq[6] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[7] ZZ5TICK ZZ5RESET ZZ5o[7] ZZ5nq[7] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[8] ZZ5TICK ZZ5RESET ZZ5o[8] ZZ5nq[8] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[9] ZZ5TICK ZZ5RESET ZZ5o[9] ZZ5nq[9] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[10] ZZ5TICK ZZ5RESET ZZ5o[10] ZZ5nq[10] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[11] ZZ5TICK ZZ5RESET ZZ5o[11] ZZ5nq[11] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[12] ZZ5TICK ZZ5RESET ZZ5o[12] ZZ5nq[12] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[13] ZZ5TICK ZZ5RESET ZZ5o[13] ZZ5nq[13] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[14] ZZ5TICK ZZ5RESET ZZ5o[14] ZZ5nq[14] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ5i[15] ZZ5TICK ZZ5RESET ZZ5o[15] ZZ5nq[15] 
+
+ ;
+ End ; /* R3 */
+Alias ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] ZZ1notO4 ZZ1notReset ZZ1R4[15] ZZ1R4[14] ZZ1R4[13] ZZ1R4[12] ZZ1R4[11] ZZ1R4[10] ZZ1R4[9] ZZ1R4[8] ZZ1R4[7] ZZ1R4[6] ZZ1R4[5] ZZ1R4[4] ZZ1R4[3] ZZ1R4[2] ZZ1R4[1] ZZ1R4[0] | ZZ6i[15] ZZ6i[14] ZZ6i[13] ZZ6i[12] ZZ6i[11] ZZ6i[10] ZZ6i[9] ZZ6i[8] ZZ6i[7] ZZ6i[6] ZZ6i[5] ZZ6i[4] ZZ6i[3] ZZ6i[2] ZZ6i[1] ZZ6i[0] ZZ6TICK ZZ6RESET ZZ6o[15] ZZ6o[14] ZZ6o[13] ZZ6o[12] ZZ6o[11] ZZ6o[10] ZZ6o[9] ZZ6o[8] ZZ6o[7] ZZ6o[6] ZZ6o[5] ZZ6o[4] ZZ6o[3] ZZ6o[2] ZZ6o[1] ZZ6o[0] ZZ6nq[15] ZZ6nq[14] ZZ6nq[13] ZZ6nq[12] ZZ6nq[11] ZZ6nq[10] ZZ6nq[9] ZZ6nq[8] ZZ6nq[7] ZZ6nq[6] ZZ6nq[5] ZZ6nq[4] ZZ6nq[3] ZZ6nq[2] ZZ6nq[1] ZZ6nq[0]  ;WARNING: The alias lists are not of equal length: left_length = 34 right_length = 50
+
+Module  "R4"  ba.ac ZZ6i[15] ZZ6i[14] ZZ6i[13] ZZ6i[12] ZZ6i[11] ZZ6i[10] ZZ6i[9] ZZ6i[8] ZZ6i[7] ZZ6i[6] ZZ6i[5] ZZ6i[4] ZZ6i[3] ZZ6i[2] ZZ6i[1] ZZ6i[0] ZZ6TICK ZZ6RESET | ZZ6o[15] ZZ6o[14] ZZ6o[13] ZZ6o[12] ZZ6o[11] ZZ6o[10] ZZ6o[9] ZZ6o[8] ZZ6o[7] ZZ6o[6] ZZ6o[5] ZZ6o[4] ZZ6o[3] ZZ6o[2] ZZ6o[1] ZZ6o[0] ZZ6nq[15] ZZ6nq[14] ZZ6nq[13] ZZ6nq[12] ZZ6nq[11] ZZ6nq[10] ZZ6nq[9] ZZ6nq[8] ZZ6nq[7] ZZ6nq[6] ZZ6nq[5] ZZ6nq[4] ZZ6nq[3] ZZ6nq[2] ZZ6nq[1] ZZ6nq[0]  ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[0] ZZ6TICK ZZ6RESET ZZ6o[0] ZZ6nq[0] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[1] ZZ6TICK ZZ6RESET ZZ6o[1] ZZ6nq[1] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[2] ZZ6TICK ZZ6RESET ZZ6o[2] ZZ6nq[2] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[3] ZZ6TICK ZZ6RESET ZZ6o[3] ZZ6nq[3] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[4] ZZ6TICK ZZ6RESET ZZ6o[4] ZZ6nq[4] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[5] ZZ6TICK ZZ6RESET ZZ6o[5] ZZ6nq[5] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[6] ZZ6TICK ZZ6RESET ZZ6o[6] ZZ6nq[6] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[7] ZZ6TICK ZZ6RESET ZZ6o[7] ZZ6nq[7] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[8] ZZ6TICK ZZ6RESET ZZ6o[8] ZZ6nq[8] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[9] ZZ6TICK ZZ6RESET ZZ6o[9] ZZ6nq[9] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[10] ZZ6TICK ZZ6RESET ZZ6o[10] ZZ6nq[10] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[11] ZZ6TICK ZZ6RESET ZZ6o[11] ZZ6nq[11] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[12] ZZ6TICK ZZ6RESET ZZ6o[12] ZZ6nq[12] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[13] ZZ6TICK ZZ6RESET ZZ6o[13] ZZ6nq[13] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[14] ZZ6TICK ZZ6RESET ZZ6o[14] ZZ6nq[14] 
+
+ ;
+  Dff "Dff" ba.ac.aa ONE 
+ZZ6i[15] ZZ6TICK ZZ6RESET ZZ6o[15] ZZ6nq[15] 
+
+ ;
+ End ; /* R4 */
+Alias ZZ1R5[15] ZZ1R5[14] ZZ1R5[13] ZZ1R5[12] ZZ1R5[11] ZZ1R5[10] ZZ1R5[9] ZZ1R5[8] ZZ1R5[7] ZZ1R5[6] ZZ1R5[5] ZZ1R5[4] ZZ1R5[3] ZZ1R5[2] ZZ1R5[1] ZZ1R5[0] | ZZ7D[15] ZZ7D[14] ZZ7D[13] ZZ7D[12] ZZ7D[11] ZZ7D[10] ZZ7D[9] ZZ7D[8] ZZ7D[7] ZZ7D[6] ZZ7D[5] ZZ7D[4] ZZ7D[3] ZZ7D[2] ZZ7D[1] ZZ7D[0]  ;
+Module  "R5"  ba.ac | ZZ7D[15] ZZ7D[14] ZZ7D[13] ZZ7D[12] ZZ7D[11] ZZ7D[10] ZZ7D[9] ZZ7D[8] ZZ7D[7] ZZ7D[6] ZZ7D[5] ZZ7D[4] ZZ7D[3] ZZ7D[2] ZZ7D[1] ZZ7D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ7D[0] 
+
+ ;
+ End ; /* R5 */
+Alias ZZ1R6[15] ZZ1R6[14] ZZ1R6[13] ZZ1R6[12] ZZ1R6[11] ZZ1R6[10] ZZ1R6[9] ZZ1R6[8] ZZ1R6[7] ZZ1R6[6] ZZ1R6[5] ZZ1R6[4] ZZ1R6[3] ZZ1R6[2] ZZ1R6[1] ZZ1R6[0] | ZZ8D[15] ZZ8D[14] ZZ8D[13] ZZ8D[12] ZZ8D[11] ZZ8D[10] ZZ8D[9] ZZ8D[8] ZZ8D[7] ZZ8D[6] ZZ8D[5] ZZ8D[4] ZZ8D[3] ZZ8D[2] ZZ8D[1] ZZ8D[0]  ;
+Module  "R6"  ba.ac | ZZ8D[15] ZZ8D[14] ZZ8D[13] ZZ8D[12] ZZ8D[11] ZZ8D[10] ZZ8D[9] ZZ8D[8] ZZ8D[7] ZZ8D[6] ZZ8D[5] ZZ8D[4] ZZ8D[3] ZZ8D[2] ZZ8D[1] ZZ8D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ8D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ8D[0] 
+
+ ;
+ End ; /* R6 */
+Alias ZZ1R7[15] ZZ1R7[14] ZZ1R7[13] ZZ1R7[12] ZZ1R7[11] ZZ1R7[10] ZZ1R7[9] ZZ1R7[8] ZZ1R7[7] ZZ1R7[6] ZZ1R7[5] ZZ1R7[4] ZZ1R7[3] ZZ1R7[2] ZZ1R7[1] ZZ1R7[0] | ZZ9D[15] ZZ9D[14] ZZ9D[13] ZZ9D[12] ZZ9D[11] ZZ9D[10] ZZ9D[9] ZZ9D[8] ZZ9D[7] ZZ9D[6] ZZ9D[5] ZZ9D[4] ZZ9D[3] ZZ9D[2] ZZ9D[1] ZZ9D[0]  ;
+Module  "R7"  ba.ac | ZZ9D[15] ZZ9D[14] ZZ9D[13] ZZ9D[12] ZZ9D[11] ZZ9D[10] ZZ9D[9] ZZ9D[8] ZZ9D[7] ZZ9D[6] ZZ9D[5] ZZ9D[4] ZZ9D[3] ZZ9D[2] ZZ9D[1] ZZ9D[0]  ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ9D[0] 
+
+ ;
+ End ; /* R7 */
+Alias ZZ1R8[15] ZZ1R8[14] ZZ1R8[13] ZZ1R8[12] ZZ1R8[11] ZZ1R8[10] ZZ1R8[9] ZZ1R8[8] ZZ1R8[7] ZZ1R8[6] ZZ1R8[5] ZZ1R8[4] ZZ1R8[3] ZZ1R8[2] ZZ1R8[1] ZZ1R8[0] | ZZ10D[15] ZZ10D[14] ZZ10D[13] ZZ10D[12] ZZ10D[11] ZZ10D[10] ZZ10D[9] ZZ10D[8] ZZ10D[7] ZZ10D[6] ZZ10D[5] ZZ10D[4] ZZ10D[3] ZZ10D[2] ZZ10D[1] ZZ10D[0]  ;
+Module  "R8"  ba.ac | ZZ10D[15] ZZ10D[14] ZZ10D[13] ZZ10D[12] ZZ10D[11] ZZ10D[10] ZZ10D[9] ZZ10D[8] ZZ10D[7] ZZ10D[6] ZZ10D[5] ZZ10D[4] ZZ10D[3] ZZ10D[2] ZZ10D[1] ZZ10D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ10D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ10D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ10D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ10D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ10D[0] 
+
+ ;
+ End ; /* R8 */
+Alias ZZ1R9[15] ZZ1R9[14] ZZ1R9[13] ZZ1R9[12] ZZ1R9[11] ZZ1R9[10] ZZ1R9[9] ZZ1R9[8] ZZ1R9[7] ZZ1R9[6] ZZ1R9[5] ZZ1R9[4] ZZ1R9[3] ZZ1R9[2] ZZ1R9[1] ZZ1R9[0] | ZZ11D[15] ZZ11D[14] ZZ11D[13] ZZ11D[12] ZZ11D[11] ZZ11D[10] ZZ11D[9] ZZ11D[8] ZZ11D[7] ZZ11D[6] ZZ11D[5] ZZ11D[4] ZZ11D[3] ZZ11D[2] ZZ11D[1] ZZ11D[0]  ;
+Module  "R9"  ba.ac | ZZ11D[15] ZZ11D[14] ZZ11D[13] ZZ11D[12] ZZ11D[11] ZZ11D[10] ZZ11D[9] ZZ11D[8] ZZ11D[7] ZZ11D[6] ZZ11D[5] ZZ11D[4] ZZ11D[3] ZZ11D[2] ZZ11D[1] ZZ11D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ11D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ11D[0] 
+
+ ;
+ End ; /* R9 */
+Alias ZZ1R10[15] ZZ1R10[14] ZZ1R10[13] ZZ1R10[12] ZZ1R10[11] ZZ1R10[10] ZZ1R10[9] ZZ1R10[8] ZZ1R10[7] ZZ1R10[6] ZZ1R10[5] ZZ1R10[4] ZZ1R10[3] ZZ1R10[2] ZZ1R10[1] ZZ1R10[0] | ZZ12D[15] ZZ12D[14] ZZ12D[13] ZZ12D[12] ZZ12D[11] ZZ12D[10] ZZ12D[9] ZZ12D[8] ZZ12D[7] ZZ12D[6] ZZ12D[5] ZZ12D[4] ZZ12D[3] ZZ12D[2] ZZ12D[1] ZZ12D[0]  ;
+Module  "R10"  ba.ac | ZZ12D[15] ZZ12D[14] ZZ12D[13] ZZ12D[12] ZZ12D[11] ZZ12D[10] ZZ12D[9] ZZ12D[8] ZZ12D[7] ZZ12D[6] ZZ12D[5] ZZ12D[4] ZZ12D[3] ZZ12D[2] ZZ12D[1] ZZ12D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ12D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ12D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ12D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ12D[0] 
+
+ ;
+ End ; /* R10 */
+Alias ZZ1R11[15] ZZ1R11[14] ZZ1R11[13] ZZ1R11[12] ZZ1R11[11] ZZ1R11[10] ZZ1R11[9] ZZ1R11[8] ZZ1R11[7] ZZ1R11[6] ZZ1R11[5] ZZ1R11[4] ZZ1R11[3] ZZ1R11[2] ZZ1R11[1] ZZ1R11[0] | ZZ13D[15] ZZ13D[14] ZZ13D[13] ZZ13D[12] ZZ13D[11] ZZ13D[10] ZZ13D[9] ZZ13D[8] ZZ13D[7] ZZ13D[6] ZZ13D[5] ZZ13D[4] ZZ13D[3] ZZ13D[2] ZZ13D[1] ZZ13D[0]  ;
+Module  "R11"  ba.ac | ZZ13D[15] ZZ13D[14] ZZ13D[13] ZZ13D[12] ZZ13D[11] ZZ13D[10] ZZ13D[9] ZZ13D[8] ZZ13D[7] ZZ13D[6] ZZ13D[5] ZZ13D[4] ZZ13D[3] ZZ13D[2] ZZ13D[1] ZZ13D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ13D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ13D[0] 
+
+ ;
+ End ; /* R11 */
+Alias ZZ1R12[15] ZZ1R12[14] ZZ1R12[13] ZZ1R12[12] ZZ1R12[11] ZZ1R12[10] ZZ1R12[9] ZZ1R12[8] ZZ1R12[7] ZZ1R12[6] ZZ1R12[5] ZZ1R12[4] ZZ1R12[3] ZZ1R12[2] ZZ1R12[1] ZZ1R12[0] | ZZ14D[15] ZZ14D[14] ZZ14D[13] ZZ14D[12] ZZ14D[11] ZZ14D[10] ZZ14D[9] ZZ14D[8] ZZ14D[7] ZZ14D[6] ZZ14D[5] ZZ14D[4] ZZ14D[3] ZZ14D[2] ZZ14D[1] ZZ14D[0]  ;
+Module  "R12"  ba.ac | ZZ14D[15] ZZ14D[14] ZZ14D[13] ZZ14D[12] ZZ14D[11] ZZ14D[10] ZZ14D[9] ZZ14D[8] ZZ14D[7] ZZ14D[6] ZZ14D[5] ZZ14D[4] ZZ14D[3] ZZ14D[2] ZZ14D[1] ZZ14D[0]  ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ14D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ14D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ14D[0] 
+
+ ;
+ End ; /* R12 */
+Alias ZZ1R13[15] ZZ1R13[14] ZZ1R13[13] ZZ1R13[12] ZZ1R13[11] ZZ1R13[10] ZZ1R13[9] ZZ1R13[8] ZZ1R13[7] ZZ1R13[6] ZZ1R13[5] ZZ1R13[4] ZZ1R13[3] ZZ1R13[2] ZZ1R13[1] ZZ1R13[0] | ZZ15D[15] ZZ15D[14] ZZ15D[13] ZZ15D[12] ZZ15D[11] ZZ15D[10] ZZ15D[9] ZZ15D[8] ZZ15D[7] ZZ15D[6] ZZ15D[5] ZZ15D[4] ZZ15D[3] ZZ15D[2] ZZ15D[1] ZZ15D[0]  ;
+Module  "R13"  ba.ac | ZZ15D[15] ZZ15D[14] ZZ15D[13] ZZ15D[12] ZZ15D[11] ZZ15D[10] ZZ15D[9] ZZ15D[8] ZZ15D[7] ZZ15D[6] ZZ15D[5] ZZ15D[4] ZZ15D[3] ZZ15D[2] ZZ15D[1] ZZ15D[0]  ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ15D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ15D[0] 
+
+ ;
+ End ; /* R13 */
+Alias ZZ1R14[15] ZZ1R14[14] ZZ1R14[13] ZZ1R14[12] ZZ1R14[11] ZZ1R14[10] ZZ1R14[9] ZZ1R14[8] ZZ1R14[7] ZZ1R14[6] ZZ1R14[5] ZZ1R14[4] ZZ1R14[3] ZZ1R14[2] ZZ1R14[1] ZZ1R14[0] | ZZ16D[15] ZZ16D[14] ZZ16D[13] ZZ16D[12] ZZ16D[11] ZZ16D[10] ZZ16D[9] ZZ16D[8] ZZ16D[7] ZZ16D[6] ZZ16D[5] ZZ16D[4] ZZ16D[3] ZZ16D[2] ZZ16D[1] ZZ16D[0]  ;
+Module  "R14"  ba.ac | ZZ16D[15] ZZ16D[14] ZZ16D[13] ZZ16D[12] ZZ16D[11] ZZ16D[10] ZZ16D[9] ZZ16D[8] ZZ16D[7] ZZ16D[6] ZZ16D[5] ZZ16D[4] ZZ16D[3] ZZ16D[2] ZZ16D[1] ZZ16D[0]  ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ16D[0] 
+
+ ;
+ End ; /* R14 */
+Alias ZZ1R15[15] ZZ1R15[14] ZZ1R15[13] ZZ1R15[12] ZZ1R15[11] ZZ1R15[10] ZZ1R15[9] ZZ1R15[8] ZZ1R15[7] ZZ1R15[6] ZZ1R15[5] ZZ1R15[4] ZZ1R15[3] ZZ1R15[2] ZZ1R15[1] ZZ1R15[0] | ZZ17D[15] ZZ17D[14] ZZ17D[13] ZZ17D[12] ZZ17D[11] ZZ17D[10] ZZ17D[9] ZZ17D[8] ZZ17D[7] ZZ17D[6] ZZ17D[5] ZZ17D[4] ZZ17D[3] ZZ17D[2] ZZ17D[1] ZZ17D[0]  ;
+Module  "R15"  ba.ac | ZZ17D[15] ZZ17D[14] ZZ17D[13] ZZ17D[12] ZZ17D[11] ZZ17D[10] ZZ17D[9] ZZ17D[8] ZZ17D[7] ZZ17D[6] ZZ17D[5] ZZ17D[4] ZZ17D[3] ZZ17D[2] ZZ17D[1] ZZ17D[0]  ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[15] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[14] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[13] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[12] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[11] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[10] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[9] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[8] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[7] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[6] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[5] 
+
+ ;
+  Or "Or" ba.ac.aa ONE 
+ZZ17D[4] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[3] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[2] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[1] 
+
+ ;
+  Or "Or" ba.ac.aa ZERO 
+ZZ17D[0] 
+
+ ;
+ End ; /* R15 */
+  Mux-mxn "a-mul" ba.dc ZZ1R15[15] 
+ZZ1R15[14] ZZ1R15[13] ZZ1R15[12] ZZ1R15[11] ZZ1R15[10] ZZ1R15[9] ZZ1R15[8] ZZ1R15[7] ZZ1R15[6] ZZ1R15[5] ZZ1R15[4] ZZ1R15[3] ZZ1R15[2] ZZ1R15[1] ZZ1R15[0] ZZ1R14[15] 
+ZZ1R14[14] ZZ1R14[13] ZZ1R14[12] ZZ1R14[11] ZZ1R14[10] ZZ1R14[9] ZZ1R14[8] ZZ1R14[7] ZZ1R14[6] ZZ1R14[5] ZZ1R14[4] ZZ1R14[3] ZZ1R14[2] ZZ1R14[1] ZZ1R14[0] ZZ1R13[15] 
+ZZ1R13[14] ZZ1R13[13] ZZ1R13[12] ZZ1R13[11] ZZ1R13[10] ZZ1R13[9] ZZ1R13[8] ZZ1R13[7] ZZ1R13[6] ZZ1R13[5] ZZ1R13[4] ZZ1R13[3] ZZ1R13[2] ZZ1R13[1] ZZ1R13[0] ZZ1R12[15] 
+ZZ1R12[14] ZZ1R12[13] ZZ1R12[12] ZZ1R12[11] ZZ1R12[10] ZZ1R12[9] ZZ1R12[8] ZZ1R12[7] ZZ1R12[6] ZZ1R12[5] ZZ1R12[4] ZZ1R12[3] ZZ1R12[2] ZZ1R12[1] ZZ1R12[0] ZZ1R11[15] 
+ZZ1R11[14] ZZ1R11[13] ZZ1R11[12] ZZ1R11[11] ZZ1R11[10] ZZ1R11[9] ZZ1R11[8] ZZ1R11[7] ZZ1R11[6] ZZ1R11[5] ZZ1R11[4] ZZ1R11[3] ZZ1R11[2] ZZ1R11[1] ZZ1R11[0] ZZ1R10[15] 
+ZZ1R10[14] ZZ1R10[13] ZZ1R10[12] ZZ1R10[11] ZZ1R10[10] ZZ1R10[9] ZZ1R10[8] ZZ1R10[7] ZZ1R10[6] ZZ1R10[5] ZZ1R10[4] ZZ1R10[3] ZZ1R10[2] ZZ1R10[1] ZZ1R10[0] ZZ1R9[15] 
+ZZ1R9[14] ZZ1R9[13] ZZ1R9[12] ZZ1R9[11] ZZ1R9[10] ZZ1R9[9] ZZ1R9[8] ZZ1R9[7] ZZ1R9[6] ZZ1R9[5] ZZ1R9[4] ZZ1R9[3] ZZ1R9[2] ZZ1R9[1] ZZ1R9[0] ZZ1R8[15] 
+ZZ1R8[14] ZZ1R8[13] ZZ1R8[12] ZZ1R8[11] ZZ1R8[10] ZZ1R8[9] ZZ1R8[8] ZZ1R8[7] ZZ1R8[6] ZZ1R8[5] ZZ1R8[4] ZZ1R8[3] ZZ1R8[2] ZZ1R8[1] ZZ1R8[0] ZZ1R7[15] 
+ZZ1R7[14] ZZ1R7[13] ZZ1R7[12] ZZ1R7[11] ZZ1R7[10] ZZ1R7[9] ZZ1R7[8] ZZ1R7[7] ZZ1R7[6] ZZ1R7[5] ZZ1R7[4] ZZ1R7[3] ZZ1R7[2] ZZ1R7[1] ZZ1R7[0] ZZ1R6[15] 
+ZZ1R6[14] ZZ1R6[13] ZZ1R6[12] ZZ1R6[11] ZZ1R6[10] ZZ1R6[9] ZZ1R6[8] ZZ1R6[7] ZZ1R6[6] ZZ1R6[5] ZZ1R6[4] ZZ1R6[3] ZZ1R6[2] ZZ1R6[1] ZZ1R6[0] ZZ1R5[15] 
+ZZ1R5[14] ZZ1R5[13] ZZ1R5[12] ZZ1R5[11] ZZ1R5[10] ZZ1R5[9] ZZ1R5[8] ZZ1R5[7] ZZ1R5[6] ZZ1R5[5] ZZ1R5[4] ZZ1R5[3] ZZ1R5[2] ZZ1R5[1] ZZ1R5[0] ZZ1R4[15] 
+ZZ1R4[14] ZZ1R4[13] ZZ1R4[12] ZZ1R4[11] ZZ1R4[10] ZZ1R4[9] ZZ1R4[8] ZZ1R4[7] ZZ1R4[6] ZZ1R4[5] ZZ1R4[4] ZZ1R4[3] ZZ1R4[2] ZZ1R4[1] ZZ1R4[0] ZZ1R3[15] 
+ZZ1R3[14] ZZ1R3[13] ZZ1R3[12] ZZ1R3[11] ZZ1R3[10] ZZ1R3[9] ZZ1R3[8] ZZ1R3[7] ZZ1R3[6] ZZ1R3[5] ZZ1R3[4] ZZ1R3[3] ZZ1R3[2] ZZ1R3[1] ZZ1R3[0] ZZ1R2[15] 
+ZZ1R2[14] ZZ1R2[13] ZZ1R2[12] ZZ1R2[11] ZZ1R2[10] ZZ1R2[9] ZZ1R2[8] ZZ1R2[7] ZZ1R2[6] ZZ1R2[5] ZZ1R2[4] ZZ1R2[3] ZZ1R2[2] ZZ1R2[1] ZZ1R2[0] ZZ1R1[15] 
+ZZ1R1[14] ZZ1R1[13] ZZ1R1[12] ZZ1R1[11] ZZ1R1[10] ZZ1R1[9] ZZ1R1[8] ZZ1R1[7] ZZ1R1[6] ZZ1R1[5] ZZ1R1[4] ZZ1R1[3] ZZ1R1[2] ZZ1R1[1] ZZ1R1[0] ZZ1R0[15] 
+ZZ1R0[14] ZZ1R0[13] ZZ1R0[12] ZZ1R0[11] ZZ1R0[10] ZZ1R0[9] ZZ1R0[8] ZZ1R0[7] ZZ1R0[6] ZZ1R0[5] ZZ1R0[4] ZZ1R0[3] ZZ1R0[2] ZZ1R0[1] ZZ1R0[0] ZZ1MIR[11] 
+ZZ1MIR[10] ZZ1MIR[9] ZZ1MIR[8] 
+| ZZ1aout[15] 
+ZZ1aout[14] ZZ1aout[13] ZZ1aout[12] ZZ1aout[11] ZZ1aout[10] ZZ1aout[9] ZZ1aout[8] ZZ1aout[7] ZZ1aout[6] ZZ1aout[5] ZZ1aout[4] ZZ1aout[3] ZZ1aout[2] ZZ1aout[1] ZZ1aout[0] 
+ ;
+  Mux-mxn "b-mul" ba.dd ZZ1R15[15] 
+ZZ1R15[14] ZZ1R15[13] ZZ1R15[12] ZZ1R15[11] ZZ1R15[10] ZZ1R15[9] ZZ1R15[8] ZZ1R15[7] ZZ1R15[6] ZZ1R15[5] ZZ1R15[4] ZZ1R15[3] ZZ1R15[2] ZZ1R15[1] ZZ1R15[0] ZZ1R14[15] 
+ZZ1R14[14] ZZ1R14[13] ZZ1R14[12] ZZ1R14[11] ZZ1R14[10] ZZ1R14[9] ZZ1R14[8] ZZ1R14[7] ZZ1R14[6] ZZ1R14[5] ZZ1R14[4] ZZ1R14[3] ZZ1R14[2] ZZ1R14[1] ZZ1R14[0] ZZ1R13[15] 
+ZZ1R13[14] ZZ1R13[13] ZZ1R13[12] ZZ1R13[11] ZZ1R13[10] ZZ1R13[9] ZZ1R13[8] ZZ1R13[7] ZZ1R13[6] ZZ1R13[5] ZZ1R13[4] ZZ1R13[3] ZZ1R13[2] ZZ1R13[1] ZZ1R13[0] ZZ1R12[15] 
+ZZ1R12[14] ZZ1R12[13] ZZ1R12[12] ZZ1R12[11] ZZ1R12[10] ZZ1R12[9] ZZ1R12[8] ZZ1R12[7] ZZ1R12[6] ZZ1R12[5] ZZ1R12[4] ZZ1R12[3] ZZ1R12[2] ZZ1R12[1] ZZ1R12[0] ZZ1R11[15] 
+ZZ1R11[14] ZZ1R11[13] ZZ1R11[12] ZZ1R11[11] ZZ1R11[10] ZZ1R11[9] ZZ1R11[8] ZZ1R11[7] ZZ1R11[6] ZZ1R11[5] ZZ1R11[4] ZZ1R11[3] ZZ1R11[2] ZZ1R11[1] ZZ1R11[0] ZZ1R10[15] 
+ZZ1R10[14] ZZ1R10[13] ZZ1R10[12] ZZ1R10[11] ZZ1R10[10] ZZ1R10[9] ZZ1R10[8] ZZ1R10[7] ZZ1R10[6] ZZ1R10[5] ZZ1R10[4] ZZ1R10[3] ZZ1R10[2] ZZ1R10[1] ZZ1R10[0] ZZ1R9[15] 
+ZZ1R9[14] ZZ1R9[13] ZZ1R9[12] ZZ1R9[11] ZZ1R9[10] ZZ1R9[9] ZZ1R9[8] ZZ1R9[7] ZZ1R9[6] ZZ1R9[5] ZZ1R9[4] ZZ1R9[3] ZZ1R9[2] ZZ1R9[1] ZZ1R9[0] ZZ1R8[15] 
+ZZ1R8[14] ZZ1R8[13] ZZ1R8[12] ZZ1R8[11] ZZ1R8[10] ZZ1R8[9] ZZ1R8[8] ZZ1R8[7] ZZ1R8[6] ZZ1R8[5] ZZ1R8[4] ZZ1R8[3] ZZ1R8[2] ZZ1R8[1] ZZ1R8[0] ZZ1R7[15] 
+ZZ1R7[14] ZZ1R7[13] ZZ1R7[12] ZZ1R7[11] ZZ1R7[10] ZZ1R7[9] ZZ1R7[8] ZZ1R7[7] ZZ1R7[6] ZZ1R7[5] ZZ1R7[4] ZZ1R7[3] ZZ1R7[2] ZZ1R7[1] ZZ1R7[0] ZZ1R6[15] 
+ZZ1R6[14] ZZ1R6[13] ZZ1R6[12] ZZ1R6[11] ZZ1R6[10] ZZ1R6[9] ZZ1R6[8] ZZ1R6[7] ZZ1R6[6] ZZ1R6[5] ZZ1R6[4] ZZ1R6[3] ZZ1R6[2] ZZ1R6[1] ZZ1R6[0] ZZ1R5[15] 
+ZZ1R5[14] ZZ1R5[13] ZZ1R5[12] ZZ1R5[11] ZZ1R5[10] ZZ1R5[9] ZZ1R5[8] ZZ1R5[7] ZZ1R5[6] ZZ1R5[5] ZZ1R5[4] ZZ1R5[3] ZZ1R5[2] ZZ1R5[1] ZZ1R5[0] ZZ1R4[15] 
+ZZ1R4[14] ZZ1R4[13] ZZ1R4[12] ZZ1R4[11] ZZ1R4[10] ZZ1R4[9] ZZ1R4[8] ZZ1R4[7] ZZ1R4[6] ZZ1R4[5] ZZ1R4[4] ZZ1R4[3] ZZ1R4[2] ZZ1R4[1] ZZ1R4[0] ZZ1R3[15] 
+ZZ1R3[14] ZZ1R3[13] ZZ1R3[12] ZZ1R3[11] ZZ1R3[10] ZZ1R3[9] ZZ1R3[8] ZZ1R3[7] ZZ1R3[6] ZZ1R3[5] ZZ1R3[4] ZZ1R3[3] ZZ1R3[2] ZZ1R3[1] ZZ1R3[0] ZZ1R2[15] 
+ZZ1R2[14] ZZ1R2[13] ZZ1R2[12] ZZ1R2[11] ZZ1R2[10] ZZ1R2[9] ZZ1R2[8] ZZ1R2[7] ZZ1R2[6] ZZ1R2[5] ZZ1R2[4] ZZ1R2[3] ZZ1R2[2] ZZ1R2[1] ZZ1R2[0] ZZ1R1[15] 
+ZZ1R1[14] ZZ1R1[13] ZZ1R1[12] ZZ1R1[11] ZZ1R1[10] ZZ1R1[9] ZZ1R1[8] ZZ1R1[7] ZZ1R1[6] ZZ1R1[5] ZZ1R1[4] ZZ1R1[3] ZZ1R1[2] ZZ1R1[1] ZZ1R1[0] ZZ1R0[15] 
+ZZ1R0[14] ZZ1R0[13] ZZ1R0[12] ZZ1R0[11] ZZ1R0[10] ZZ1R0[9] ZZ1R0[8] ZZ1R0[7] ZZ1R0[6] ZZ1R0[5] ZZ1R0[4] ZZ1R0[3] ZZ1R0[2] ZZ1R0[1] ZZ1R0[0] ZZ1MIR[15] 
+ZZ1MIR[14] ZZ1MIR[13] ZZ1MIR[12] 
+| ZZ1bout[15] 
+ZZ1bout[14] ZZ1bout[13] ZZ1bout[12] ZZ1bout[11] ZZ1bout[10] ZZ1bout[9] ZZ1bout[8] ZZ1bout[7] ZZ1bout[6] ZZ1bout[5] ZZ1bout[4] ZZ1bout[3] ZZ1bout[2] ZZ1bout[1] ZZ1bout[0] 
+ ;
+  Not "Not" ba.ec ZZ1Phase[1] 
+ZZ1notPhase[1] 
+
+ ;
+  Register "a-latch" ba.ec ZZ1aout[15] 
+ZZ1aout[14] ZZ1aout[13] ZZ1aout[12] ZZ1aout[11] ZZ1aout[10] ZZ1aout[9] ZZ1aout[8] ZZ1aout[7] ZZ1aout[6] ZZ1aout[5] ZZ1aout[4] ZZ1aout[3] ZZ1aout[2] ZZ1aout[1] ZZ1aout[0] ZZ1notPhase[1] 
+
+| ZZ1A[15] 
+ZZ1A[14] ZZ1A[13] ZZ1A[12] ZZ1A[11] ZZ1A[10] ZZ1A[9] ZZ1A[8] ZZ1A[7] ZZ1A[6] ZZ1A[5] ZZ1A[4] ZZ1A[3] ZZ1A[2] ZZ1A[1] ZZ1A[0] 
+ ;
+  Register "b-latch" ba.ee ZZ1bout[15] 
+ZZ1bout[14] ZZ1bout[13] ZZ1bout[12] ZZ1bout[11] ZZ1bout[10] ZZ1bout[9] ZZ1bout[8] ZZ1bout[7] ZZ1bout[6] ZZ1bout[5] ZZ1bout[4] ZZ1bout[3] ZZ1bout[2] ZZ1bout[1] ZZ1bout[0] ZZ1notPhase[1] 
+
+| ZZ1B[15] 
+ZZ1B[14] ZZ1B[13] ZZ1B[12] ZZ1B[11] ZZ1B[10] ZZ1B[9] ZZ1B[8] ZZ1B[7] ZZ1B[6] ZZ1B[5] ZZ1B[4] ZZ1B[3] ZZ1B[2] ZZ1B[1] ZZ1B[0] 
+ ;
+  Mux-mxn "A-MUX" ba.fc ZZ1mbr[15] 
+ZZ1mbr[14] ZZ1mbr[13] ZZ1mbr[12] ZZ1mbr[11] ZZ1mbr[10] ZZ1mbr[9] ZZ1mbr[8] ZZ1mbr[7] ZZ1mbr[6] ZZ1mbr[5] ZZ1mbr[4] ZZ1mbr[3] ZZ1mbr[2] ZZ1mbr[1] ZZ1mbr[0] ZZ1A[15] 
+ZZ1A[14] ZZ1A[13] ZZ1A[12] ZZ1A[11] ZZ1A[10] ZZ1A[9] ZZ1A[8] ZZ1A[7] ZZ1A[6] ZZ1A[5] ZZ1A[4] ZZ1A[3] ZZ1A[2] ZZ1A[1] ZZ1A[0] ZZ1MIR[31] 
+
+| ZZ1AMUX[15] 
+ZZ1AMUX[14] ZZ1AMUX[13] ZZ1AMUX[12] ZZ1AMUX[11] ZZ1AMUX[10] ZZ1AMUX[9] ZZ1AMUX[8] ZZ1AMUX[7] ZZ1AMUX[6] ZZ1AMUX[5] ZZ1AMUX[4] ZZ1AMUX[3] ZZ1AMUX[2] ZZ1AMUX[1] ZZ1AMUX[0] 
+ ;
+Alias ZZ1AMUX[15] ZZ1AMUX[14] ZZ1AMUX[13] ZZ1AMUX[12] ZZ1AMUX[11] ZZ1AMUX[10] ZZ1AMUX[9] ZZ1AMUX[8] ZZ1AMUX[7] ZZ1AMUX[6] ZZ1AMUX[5] ZZ1AMUX[4] ZZ1AMUX[3] ZZ1AMUX[2] ZZ1AMUX[1] ZZ1AMUX[0] ZZ1B[15] ZZ1B[14] ZZ1B[13] ZZ1B[12] ZZ1B[11] ZZ1B[10] ZZ1B[9] ZZ1B[8] ZZ1B[7] ZZ1B[6] ZZ1B[5] ZZ1B[4] ZZ1B[3] ZZ1B[2] ZZ1B[1] ZZ1B[0] ZZ1MIR[28] ZZ1MIR[27] ZZ1ALUOUT[15] ZZ1ALUOUT[14] ZZ1ALUOUT[13] ZZ1ALUOUT[12] ZZ1ALUOUT[11] ZZ1ALUOUT[10] ZZ1ALUOUT[9] ZZ1ALUOUT[8] ZZ1ALUOUT[7] ZZ1ALUOUT[6] ZZ1ALUOUT[5] ZZ1ALUOUT[4] ZZ1ALUOUT[3] ZZ1ALUOUT[2] ZZ1ALUOUT[1] ZZ1ALUOUT[0] ZZ1N ZZ1Z | ZZ18a[15] ZZ18a[14] ZZ18a[13] ZZ18a[12] ZZ18a[11] ZZ18a[10] ZZ18a[9] ZZ18a[8] ZZ18a[7] ZZ18a[6] ZZ18a[5] ZZ18a[4] ZZ18a[3] ZZ18a[2] ZZ18a[1] ZZ18a[0] ZZ18b[15] ZZ18b[14] ZZ18b[13] ZZ18b[12] ZZ18b[11] ZZ18b[10] ZZ18b[9] ZZ18b[8] ZZ18b[7] ZZ18b[6] ZZ18b[5] ZZ18b[4] ZZ18b[3] ZZ18b[2] ZZ18b[1] ZZ18b[0] ZZ18s[1] ZZ18s[0] ZZ18z[15] ZZ18z[14] ZZ18z[13] ZZ18z[12] ZZ18z[11] ZZ18z[10] ZZ18z[9] ZZ18z[8] ZZ18z[7] ZZ18z[6] ZZ18z[5] ZZ18z[4] ZZ18z[3] ZZ18z[2] ZZ18z[1] ZZ18z[0] ZZ18N ZZ18Z  ;
+Module  "ALU16"  ba.gd ZZ18a[15] ZZ18a[14] ZZ18a[13] ZZ18a[12] ZZ18a[11] ZZ18a[10] ZZ18a[9] ZZ18a[8] ZZ18a[7] ZZ18a[6] ZZ18a[5] ZZ18a[4] ZZ18a[3] ZZ18a[2] ZZ18a[1] ZZ18a[0] ZZ18b[15] ZZ18b[14] ZZ18b[13] ZZ18b[12] ZZ18b[11] ZZ18b[10] ZZ18b[9] ZZ18b[8] ZZ18b[7] ZZ18b[6] ZZ18b[5] ZZ18b[4] ZZ18b[3] ZZ18b[2] ZZ18b[1] ZZ18b[0] ZZ18s[1] ZZ18s[0] | ZZ18z[15] ZZ18z[14] ZZ18z[13] ZZ18z[12] ZZ18z[11] ZZ18z[10] ZZ18z[9] ZZ18z[8] ZZ18z[7] ZZ18z[6] ZZ18z[5] ZZ18z[4] ZZ18z[3] ZZ18z[2] ZZ18z[1] ZZ18z[0] ZZ18N ZZ18Z  ;
+Alias ZZ18a[0] ZZ18b[0] ZERO ZZ18s[1] ZZ18s[0] ZZ18z[0] ZZ18out0 | ZZ19a ZZ19b ZZ19c-in ZZ19s[1] ZZ19s[0] ZZ19z ZZ19c-out  ;
+Module  "One_Bit_ALU"  ba.gd.aa ZZ19a ZZ19b ZZ19c-in ZZ19s[1] ZZ19s[0] | ZZ19z ZZ19c-out  ;
+  And "And" ba.gd.aa.1a ZZ19a 
+ZZ19b ZZ19Out-And2 
+
+ ;
+  Not "Not" ba.gd.aa.1a ZZ19a 
+ZZ19Out-Not 
+
+ ;
+Alias ZZ19a ZZ19b ZZ19c-in ZZ19c-out1 ZZ19Out-Sum | ZZ20CarryIn ZZ20a ZZ20b ZZ20CarryOut ZZ20Sum  ;
+Module  "Full_Adder"  ba.gd.aa.1a ZZ20CarryIn ZZ20a ZZ20b | ZZ20CarryOut ZZ20Sum  ;
+  Xor "Xor" ba.gd.aa.1a.aa ZZ20a 
+ZZ20b ZZ20x 
+
+ ;
+  Xor "Xor" ba.gd.aa.1a.ab ZZ20x 
+ZZ20CarryIn ZZ20Sum 
+
+ ;
+  And "And" ba.gd.aa.1a.bb ZZ20a 
+ZZ20b ZZ20y 
+
+ ;
+  And "And" ba.gd.aa.1a.cb ZZ20CarryIn 
+ZZ20x ZZ20z 
+
+ ;
+  Or "Or" ba.gd.aa.1a.bc-cc ZZ20y 
+ZZ20z ZZ20CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ19s[1] ZZ19s[0] ZZ19l3 ZZ19l2 ZZ19l1 ZZ19l0 | ZZ21c[1] ZZ21c[0] ZZ21s[3] ZZ21s[2] ZZ21s[1] ZZ21s[0]  ;
+Module  "Decoder2x4"  ba.gd.aa.2a ZZ21c[1] ZZ21c[0] | ZZ21s[3] ZZ21s[2] ZZ21s[1] ZZ21s[0]  ;
+  Not "Not" ba.gd.aa.2a.1a ZZ21c[1] 
+ZZ21not-c1 
+
+ ;
+  Not "Not" ba.gd.aa.2a.2a ZZ21c[0] 
+ZZ21not-c0 
+
+ ;
+  And "And" ba.gd.aa.2a.2a ZZ21c[1] 
+ZZ21c[0] ZZ21s[3] 
+
+ ;
+  And "And" ba.gd.aa.2a.2b ZZ21c[1] 
+ZZ21not-c0 ZZ21s[2] 
+
+ ;
+  And "And" ba.gd.aa.2a.2c ZZ21not-c1 
+ZZ21c[0] ZZ21s[1] 
+
+ ;
+  And "And" ba.gd.aa.2a.2d ZZ21not-c1 
+ZZ21not-c0 ZZ21s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.aa.2c ZZ19l3 
+ZZ19Out-Not ZZ19Out-Not1 
+
+ ;
+  And "And" ba.gd.aa.2c ZZ19l2 
+ZZ19a ZZ19Out-a 
+
+ ;
+  And "And" ba.gd.aa.2c ZZ19l1 
+ZZ19Out-And2 ZZ19Out-And1 
+
+ ;
+  And "And" ba.gd.aa.2c ZZ19l0 
+ZZ19Out-Sum ZZ19Out-Sum1 
+
+ ;
+  And "And" ba.gd.aa.2c ZZ19l0 
+ZZ19c-out1 ZZ19c-out 
+
+ ;
+  Or "Or" ba.gd.aa.2c ZZ19Out-Not1 
+ZZ19Out-a ZZ19Out-And1 ZZ19Out-Sum1 ZZ19z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[1] ZZ18b[1] ZZ18out0 ZZ18s[1] ZZ18s[0] ZZ18z[1] ZZ18out1 | ZZ22a ZZ22b ZZ22c-in ZZ22s[1] ZZ22s[0] ZZ22z ZZ22c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ab ZZ22a ZZ22b ZZ22c-in ZZ22s[1] ZZ22s[0] | ZZ22z ZZ22c-out  ;
+  And "And" ba.gd.ab.1a ZZ22a 
+ZZ22b ZZ22Out-And2 
+
+ ;
+  Not "Not" ba.gd.ab.1a ZZ22a 
+ZZ22Out-Not 
+
+ ;
+Alias ZZ22a ZZ22b ZZ22c-in ZZ22c-out1 ZZ22Out-Sum | ZZ23CarryIn ZZ23a ZZ23b ZZ23CarryOut ZZ23Sum  ;
+Module  "Full_Adder"  ba.gd.ab.1a ZZ23CarryIn ZZ23a ZZ23b | ZZ23CarryOut ZZ23Sum  ;
+  Xor "Xor" ba.gd.ab.1a.aa ZZ23a 
+ZZ23b ZZ23x 
+
+ ;
+  Xor "Xor" ba.gd.ab.1a.ab ZZ23x 
+ZZ23CarryIn ZZ23Sum 
+
+ ;
+  And "And" ba.gd.ab.1a.bb ZZ23a 
+ZZ23b ZZ23y 
+
+ ;
+  And "And" ba.gd.ab.1a.cb ZZ23CarryIn 
+ZZ23x ZZ23z 
+
+ ;
+  Or "Or" ba.gd.ab.1a.bc-cc ZZ23y 
+ZZ23z ZZ23CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ22s[1] ZZ22s[0] ZZ22l3 ZZ22l2 ZZ22l1 ZZ22l0 | ZZ24c[1] ZZ24c[0] ZZ24s[3] ZZ24s[2] ZZ24s[1] ZZ24s[0]  ;
+Module  "Decoder2x4"  ba.gd.ab.2a ZZ24c[1] ZZ24c[0] | ZZ24s[3] ZZ24s[2] ZZ24s[1] ZZ24s[0]  ;
+  Not "Not" ba.gd.ab.2a.1a ZZ24c[1] 
+ZZ24not-c1 
+
+ ;
+  Not "Not" ba.gd.ab.2a.2a ZZ24c[0] 
+ZZ24not-c0 
+
+ ;
+  And "And" ba.gd.ab.2a.2a ZZ24c[1] 
+ZZ24c[0] ZZ24s[3] 
+
+ ;
+  And "And" ba.gd.ab.2a.2b ZZ24c[1] 
+ZZ24not-c0 ZZ24s[2] 
+
+ ;
+  And "And" ba.gd.ab.2a.2c ZZ24not-c1 
+ZZ24c[0] ZZ24s[1] 
+
+ ;
+  And "And" ba.gd.ab.2a.2d ZZ24not-c1 
+ZZ24not-c0 ZZ24s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ab.2c ZZ22l3 
+ZZ22Out-Not ZZ22Out-Not1 
+
+ ;
+  And "And" ba.gd.ab.2c ZZ22l2 
+ZZ22a ZZ22Out-a 
+
+ ;
+  And "And" ba.gd.ab.2c ZZ22l1 
+ZZ22Out-And2 ZZ22Out-And1 
+
+ ;
+  And "And" ba.gd.ab.2c ZZ22l0 
+ZZ22Out-Sum ZZ22Out-Sum1 
+
+ ;
+  And "And" ba.gd.ab.2c ZZ22l0 
+ZZ22c-out1 ZZ22c-out 
+
+ ;
+  Or "Or" ba.gd.ab.2c ZZ22Out-Not1 
+ZZ22Out-a ZZ22Out-And1 ZZ22Out-Sum1 ZZ22z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[2] ZZ18b[2] ZZ18out1 ZZ18s[1] ZZ18s[0] ZZ18z[2] ZZ18out2 | ZZ25a ZZ25b ZZ25c-in ZZ25s[1] ZZ25s[0] ZZ25z ZZ25c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ac ZZ25a ZZ25b ZZ25c-in ZZ25s[1] ZZ25s[0] | ZZ25z ZZ25c-out  ;
+  And "And" ba.gd.ac.1a ZZ25a 
+ZZ25b ZZ25Out-And2 
+
+ ;
+  Not "Not" ba.gd.ac.1a ZZ25a 
+ZZ25Out-Not 
+
+ ;
+Alias ZZ25a ZZ25b ZZ25c-in ZZ25c-out1 ZZ25Out-Sum | ZZ26CarryIn ZZ26a ZZ26b ZZ26CarryOut ZZ26Sum  ;
+Module  "Full_Adder"  ba.gd.ac.1a ZZ26CarryIn ZZ26a ZZ26b | ZZ26CarryOut ZZ26Sum  ;
+  Xor "Xor" ba.gd.ac.1a.aa ZZ26a 
+ZZ26b ZZ26x 
+
+ ;
+  Xor "Xor" ba.gd.ac.1a.ab ZZ26x 
+ZZ26CarryIn ZZ26Sum 
+
+ ;
+  And "And" ba.gd.ac.1a.bb ZZ26a 
+ZZ26b ZZ26y 
+
+ ;
+  And "And" ba.gd.ac.1a.cb ZZ26CarryIn 
+ZZ26x ZZ26z 
+
+ ;
+  Or "Or" ba.gd.ac.1a.bc-cc ZZ26y 
+ZZ26z ZZ26CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ25s[1] ZZ25s[0] ZZ25l3 ZZ25l2 ZZ25l1 ZZ25l0 | ZZ27c[1] ZZ27c[0] ZZ27s[3] ZZ27s[2] ZZ27s[1] ZZ27s[0]  ;
+Module  "Decoder2x4"  ba.gd.ac.2a ZZ27c[1] ZZ27c[0] | ZZ27s[3] ZZ27s[2] ZZ27s[1] ZZ27s[0]  ;
+  Not "Not" ba.gd.ac.2a.1a ZZ27c[1] 
+ZZ27not-c1 
+
+ ;
+  Not "Not" ba.gd.ac.2a.2a ZZ27c[0] 
+ZZ27not-c0 
+
+ ;
+  And "And" ba.gd.ac.2a.2a ZZ27c[1] 
+ZZ27c[0] ZZ27s[3] 
+
+ ;
+  And "And" ba.gd.ac.2a.2b ZZ27c[1] 
+ZZ27not-c0 ZZ27s[2] 
+
+ ;
+  And "And" ba.gd.ac.2a.2c ZZ27not-c1 
+ZZ27c[0] ZZ27s[1] 
+
+ ;
+  And "And" ba.gd.ac.2a.2d ZZ27not-c1 
+ZZ27not-c0 ZZ27s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ac.2c ZZ25l3 
+ZZ25Out-Not ZZ25Out-Not1 
+
+ ;
+  And "And" ba.gd.ac.2c ZZ25l2 
+ZZ25a ZZ25Out-a 
+
+ ;
+  And "And" ba.gd.ac.2c ZZ25l1 
+ZZ25Out-And2 ZZ25Out-And1 
+
+ ;
+  And "And" ba.gd.ac.2c ZZ25l0 
+ZZ25Out-Sum ZZ25Out-Sum1 
+
+ ;
+  And "And" ba.gd.ac.2c ZZ25l0 
+ZZ25c-out1 ZZ25c-out 
+
+ ;
+  Or "Or" ba.gd.ac.2c ZZ25Out-Not1 
+ZZ25Out-a ZZ25Out-And1 ZZ25Out-Sum1 ZZ25z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[3] ZZ18b[3] ZZ18out2 ZZ18s[1] ZZ18s[0] ZZ18z[3] ZZ18out3 | ZZ28a ZZ28b ZZ28c-in ZZ28s[1] ZZ28s[0] ZZ28z ZZ28c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ad ZZ28a ZZ28b ZZ28c-in ZZ28s[1] ZZ28s[0] | ZZ28z ZZ28c-out  ;
+  And "And" ba.gd.ad.1a ZZ28a 
+ZZ28b ZZ28Out-And2 
+
+ ;
+  Not "Not" ba.gd.ad.1a ZZ28a 
+ZZ28Out-Not 
+
+ ;
+Alias ZZ28a ZZ28b ZZ28c-in ZZ28c-out1 ZZ28Out-Sum | ZZ29CarryIn ZZ29a ZZ29b ZZ29CarryOut ZZ29Sum  ;
+Module  "Full_Adder"  ba.gd.ad.1a ZZ29CarryIn ZZ29a ZZ29b | ZZ29CarryOut ZZ29Sum  ;
+  Xor "Xor" ba.gd.ad.1a.aa ZZ29a 
+ZZ29b ZZ29x 
+
+ ;
+  Xor "Xor" ba.gd.ad.1a.ab ZZ29x 
+ZZ29CarryIn ZZ29Sum 
+
+ ;
+  And "And" ba.gd.ad.1a.bb ZZ29a 
+ZZ29b ZZ29y 
+
+ ;
+  And "And" ba.gd.ad.1a.cb ZZ29CarryIn 
+ZZ29x ZZ29z 
+
+ ;
+  Or "Or" ba.gd.ad.1a.bc-cc ZZ29y 
+ZZ29z ZZ29CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ28s[1] ZZ28s[0] ZZ28l3 ZZ28l2 ZZ28l1 ZZ28l0 | ZZ30c[1] ZZ30c[0] ZZ30s[3] ZZ30s[2] ZZ30s[1] ZZ30s[0]  ;
+Module  "Decoder2x4"  ba.gd.ad.2a ZZ30c[1] ZZ30c[0] | ZZ30s[3] ZZ30s[2] ZZ30s[1] ZZ30s[0]  ;
+  Not "Not" ba.gd.ad.2a.1a ZZ30c[1] 
+ZZ30not-c1 
+
+ ;
+  Not "Not" ba.gd.ad.2a.2a ZZ30c[0] 
+ZZ30not-c0 
+
+ ;
+  And "And" ba.gd.ad.2a.2a ZZ30c[1] 
+ZZ30c[0] ZZ30s[3] 
+
+ ;
+  And "And" ba.gd.ad.2a.2b ZZ30c[1] 
+ZZ30not-c0 ZZ30s[2] 
+
+ ;
+  And "And" ba.gd.ad.2a.2c ZZ30not-c1 
+ZZ30c[0] ZZ30s[1] 
+
+ ;
+  And "And" ba.gd.ad.2a.2d ZZ30not-c1 
+ZZ30not-c0 ZZ30s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ad.2c ZZ28l3 
+ZZ28Out-Not ZZ28Out-Not1 
+
+ ;
+  And "And" ba.gd.ad.2c ZZ28l2 
+ZZ28a ZZ28Out-a 
+
+ ;
+  And "And" ba.gd.ad.2c ZZ28l1 
+ZZ28Out-And2 ZZ28Out-And1 
+
+ ;
+  And "And" ba.gd.ad.2c ZZ28l0 
+ZZ28Out-Sum ZZ28Out-Sum1 
+
+ ;
+  And "And" ba.gd.ad.2c ZZ28l0 
+ZZ28c-out1 ZZ28c-out 
+
+ ;
+  Or "Or" ba.gd.ad.2c ZZ28Out-Not1 
+ZZ28Out-a ZZ28Out-And1 ZZ28Out-Sum1 ZZ28z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[4] ZZ18b[4] ZZ18out3 ZZ18s[1] ZZ18s[0] ZZ18z[4] ZZ18out4 | ZZ31a ZZ31b ZZ31c-in ZZ31s[1] ZZ31s[0] ZZ31z ZZ31c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ae ZZ31a ZZ31b ZZ31c-in ZZ31s[1] ZZ31s[0] | ZZ31z ZZ31c-out  ;
+  And "And" ba.gd.ae.1a ZZ31a 
+ZZ31b ZZ31Out-And2 
+
+ ;
+  Not "Not" ba.gd.ae.1a ZZ31a 
+ZZ31Out-Not 
+
+ ;
+Alias ZZ31a ZZ31b ZZ31c-in ZZ31c-out1 ZZ31Out-Sum | ZZ32CarryIn ZZ32a ZZ32b ZZ32CarryOut ZZ32Sum  ;
+Module  "Full_Adder"  ba.gd.ae.1a ZZ32CarryIn ZZ32a ZZ32b | ZZ32CarryOut ZZ32Sum  ;
+  Xor "Xor" ba.gd.ae.1a.aa ZZ32a 
+ZZ32b ZZ32x 
+
+ ;
+  Xor "Xor" ba.gd.ae.1a.ab ZZ32x 
+ZZ32CarryIn ZZ32Sum 
+
+ ;
+  And "And" ba.gd.ae.1a.bb ZZ32a 
+ZZ32b ZZ32y 
+
+ ;
+  And "And" ba.gd.ae.1a.cb ZZ32CarryIn 
+ZZ32x ZZ32z 
+
+ ;
+  Or "Or" ba.gd.ae.1a.bc-cc ZZ32y 
+ZZ32z ZZ32CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ31s[1] ZZ31s[0] ZZ31l3 ZZ31l2 ZZ31l1 ZZ31l0 | ZZ33c[1] ZZ33c[0] ZZ33s[3] ZZ33s[2] ZZ33s[1] ZZ33s[0]  ;
+Module  "Decoder2x4"  ba.gd.ae.2a ZZ33c[1] ZZ33c[0] | ZZ33s[3] ZZ33s[2] ZZ33s[1] ZZ33s[0]  ;
+  Not "Not" ba.gd.ae.2a.1a ZZ33c[1] 
+ZZ33not-c1 
+
+ ;
+  Not "Not" ba.gd.ae.2a.2a ZZ33c[0] 
+ZZ33not-c0 
+
+ ;
+  And "And" ba.gd.ae.2a.2a ZZ33c[1] 
+ZZ33c[0] ZZ33s[3] 
+
+ ;
+  And "And" ba.gd.ae.2a.2b ZZ33c[1] 
+ZZ33not-c0 ZZ33s[2] 
+
+ ;
+  And "And" ba.gd.ae.2a.2c ZZ33not-c1 
+ZZ33c[0] ZZ33s[1] 
+
+ ;
+  And "And" ba.gd.ae.2a.2d ZZ33not-c1 
+ZZ33not-c0 ZZ33s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ae.2c ZZ31l3 
+ZZ31Out-Not ZZ31Out-Not1 
+
+ ;
+  And "And" ba.gd.ae.2c ZZ31l2 
+ZZ31a ZZ31Out-a 
+
+ ;
+  And "And" ba.gd.ae.2c ZZ31l1 
+ZZ31Out-And2 ZZ31Out-And1 
+
+ ;
+  And "And" ba.gd.ae.2c ZZ31l0 
+ZZ31Out-Sum ZZ31Out-Sum1 
+
+ ;
+  And "And" ba.gd.ae.2c ZZ31l0 
+ZZ31c-out1 ZZ31c-out 
+
+ ;
+  Or "Or" ba.gd.ae.2c ZZ31Out-Not1 
+ZZ31Out-a ZZ31Out-And1 ZZ31Out-Sum1 ZZ31z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[5] ZZ18b[5] ZZ18out4 ZZ18s[1] ZZ18s[0] ZZ18z[5] ZZ18out5 | ZZ34a ZZ34b ZZ34c-in ZZ34s[1] ZZ34s[0] ZZ34z ZZ34c-out  ;
+Module  "One_Bit_ALU"  ba.gd.af ZZ34a ZZ34b ZZ34c-in ZZ34s[1] ZZ34s[0] | ZZ34z ZZ34c-out  ;
+  And "And" ba.gd.af.1a ZZ34a 
+ZZ34b ZZ34Out-And2 
+
+ ;
+  Not "Not" ba.gd.af.1a ZZ34a 
+ZZ34Out-Not 
+
+ ;
+Alias ZZ34a ZZ34b ZZ34c-in ZZ34c-out1 ZZ34Out-Sum | ZZ35CarryIn ZZ35a ZZ35b ZZ35CarryOut ZZ35Sum  ;
+Module  "Full_Adder"  ba.gd.af.1a ZZ35CarryIn ZZ35a ZZ35b | ZZ35CarryOut ZZ35Sum  ;
+  Xor "Xor" ba.gd.af.1a.aa ZZ35a 
+ZZ35b ZZ35x 
+
+ ;
+  Xor "Xor" ba.gd.af.1a.ab ZZ35x 
+ZZ35CarryIn ZZ35Sum 
+
+ ;
+  And "And" ba.gd.af.1a.bb ZZ35a 
+ZZ35b ZZ35y 
+
+ ;
+  And "And" ba.gd.af.1a.cb ZZ35CarryIn 
+ZZ35x ZZ35z 
+
+ ;
+  Or "Or" ba.gd.af.1a.bc-cc ZZ35y 
+ZZ35z ZZ35CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ34s[1] ZZ34s[0] ZZ34l3 ZZ34l2 ZZ34l1 ZZ34l0 | ZZ36c[1] ZZ36c[0] ZZ36s[3] ZZ36s[2] ZZ36s[1] ZZ36s[0]  ;
+Module  "Decoder2x4"  ba.gd.af.2a ZZ36c[1] ZZ36c[0] | ZZ36s[3] ZZ36s[2] ZZ36s[1] ZZ36s[0]  ;
+  Not "Not" ba.gd.af.2a.1a ZZ36c[1] 
+ZZ36not-c1 
+
+ ;
+  Not "Not" ba.gd.af.2a.2a ZZ36c[0] 
+ZZ36not-c0 
+
+ ;
+  And "And" ba.gd.af.2a.2a ZZ36c[1] 
+ZZ36c[0] ZZ36s[3] 
+
+ ;
+  And "And" ba.gd.af.2a.2b ZZ36c[1] 
+ZZ36not-c0 ZZ36s[2] 
+
+ ;
+  And "And" ba.gd.af.2a.2c ZZ36not-c1 
+ZZ36c[0] ZZ36s[1] 
+
+ ;
+  And "And" ba.gd.af.2a.2d ZZ36not-c1 
+ZZ36not-c0 ZZ36s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.af.2c ZZ34l3 
+ZZ34Out-Not ZZ34Out-Not1 
+
+ ;
+  And "And" ba.gd.af.2c ZZ34l2 
+ZZ34a ZZ34Out-a 
+
+ ;
+  And "And" ba.gd.af.2c ZZ34l1 
+ZZ34Out-And2 ZZ34Out-And1 
+
+ ;
+  And "And" ba.gd.af.2c ZZ34l0 
+ZZ34Out-Sum ZZ34Out-Sum1 
+
+ ;
+  And "And" ba.gd.af.2c ZZ34l0 
+ZZ34c-out1 ZZ34c-out 
+
+ ;
+  Or "Or" ba.gd.af.2c ZZ34Out-Not1 
+ZZ34Out-a ZZ34Out-And1 ZZ34Out-Sum1 ZZ34z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[6] ZZ18b[6] ZZ18out5 ZZ18s[1] ZZ18s[0] ZZ18z[6] ZZ18out6 | ZZ37a ZZ37b ZZ37c-in ZZ37s[1] ZZ37s[0] ZZ37z ZZ37c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ag ZZ37a ZZ37b ZZ37c-in ZZ37s[1] ZZ37s[0] | ZZ37z ZZ37c-out  ;
+  And "And" ba.gd.ag.1a ZZ37a 
+ZZ37b ZZ37Out-And2 
+
+ ;
+  Not "Not" ba.gd.ag.1a ZZ37a 
+ZZ37Out-Not 
+
+ ;
+Alias ZZ37a ZZ37b ZZ37c-in ZZ37c-out1 ZZ37Out-Sum | ZZ38CarryIn ZZ38a ZZ38b ZZ38CarryOut ZZ38Sum  ;
+Module  "Full_Adder"  ba.gd.ag.1a ZZ38CarryIn ZZ38a ZZ38b | ZZ38CarryOut ZZ38Sum  ;
+  Xor "Xor" ba.gd.ag.1a.aa ZZ38a 
+ZZ38b ZZ38x 
+
+ ;
+  Xor "Xor" ba.gd.ag.1a.ab ZZ38x 
+ZZ38CarryIn ZZ38Sum 
+
+ ;
+  And "And" ba.gd.ag.1a.bb ZZ38a 
+ZZ38b ZZ38y 
+
+ ;
+  And "And" ba.gd.ag.1a.cb ZZ38CarryIn 
+ZZ38x ZZ38z 
+
+ ;
+  Or "Or" ba.gd.ag.1a.bc-cc ZZ38y 
+ZZ38z ZZ38CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ37s[1] ZZ37s[0] ZZ37l3 ZZ37l2 ZZ37l1 ZZ37l0 | ZZ39c[1] ZZ39c[0] ZZ39s[3] ZZ39s[2] ZZ39s[1] ZZ39s[0]  ;
+Module  "Decoder2x4"  ba.gd.ag.2a ZZ39c[1] ZZ39c[0] | ZZ39s[3] ZZ39s[2] ZZ39s[1] ZZ39s[0]  ;
+  Not "Not" ba.gd.ag.2a.1a ZZ39c[1] 
+ZZ39not-c1 
+
+ ;
+  Not "Not" ba.gd.ag.2a.2a ZZ39c[0] 
+ZZ39not-c0 
+
+ ;
+  And "And" ba.gd.ag.2a.2a ZZ39c[1] 
+ZZ39c[0] ZZ39s[3] 
+
+ ;
+  And "And" ba.gd.ag.2a.2b ZZ39c[1] 
+ZZ39not-c0 ZZ39s[2] 
+
+ ;
+  And "And" ba.gd.ag.2a.2c ZZ39not-c1 
+ZZ39c[0] ZZ39s[1] 
+
+ ;
+  And "And" ba.gd.ag.2a.2d ZZ39not-c1 
+ZZ39not-c0 ZZ39s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ag.2c ZZ37l3 
+ZZ37Out-Not ZZ37Out-Not1 
+
+ ;
+  And "And" ba.gd.ag.2c ZZ37l2 
+ZZ37a ZZ37Out-a 
+
+ ;
+  And "And" ba.gd.ag.2c ZZ37l1 
+ZZ37Out-And2 ZZ37Out-And1 
+
+ ;
+  And "And" ba.gd.ag.2c ZZ37l0 
+ZZ37Out-Sum ZZ37Out-Sum1 
+
+ ;
+  And "And" ba.gd.ag.2c ZZ37l0 
+ZZ37c-out1 ZZ37c-out 
+
+ ;
+  Or "Or" ba.gd.ag.2c ZZ37Out-Not1 
+ZZ37Out-a ZZ37Out-And1 ZZ37Out-Sum1 ZZ37z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[7] ZZ18b[7] ZZ18out6 ZZ18s[1] ZZ18s[0] ZZ18z[7] ZZ18out7 | ZZ40a ZZ40b ZZ40c-in ZZ40s[1] ZZ40s[0] ZZ40z ZZ40c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ah ZZ40a ZZ40b ZZ40c-in ZZ40s[1] ZZ40s[0] | ZZ40z ZZ40c-out  ;
+  And "And" ba.gd.ah.1a ZZ40a 
+ZZ40b ZZ40Out-And2 
+
+ ;
+  Not "Not" ba.gd.ah.1a ZZ40a 
+ZZ40Out-Not 
+
+ ;
+Alias ZZ40a ZZ40b ZZ40c-in ZZ40c-out1 ZZ40Out-Sum | ZZ41CarryIn ZZ41a ZZ41b ZZ41CarryOut ZZ41Sum  ;
+Module  "Full_Adder"  ba.gd.ah.1a ZZ41CarryIn ZZ41a ZZ41b | ZZ41CarryOut ZZ41Sum  ;
+  Xor "Xor" ba.gd.ah.1a.aa ZZ41a 
+ZZ41b ZZ41x 
+
+ ;
+  Xor "Xor" ba.gd.ah.1a.ab ZZ41x 
+ZZ41CarryIn ZZ41Sum 
+
+ ;
+  And "And" ba.gd.ah.1a.bb ZZ41a 
+ZZ41b ZZ41y 
+
+ ;
+  And "And" ba.gd.ah.1a.cb ZZ41CarryIn 
+ZZ41x ZZ41z 
+
+ ;
+  Or "Or" ba.gd.ah.1a.bc-cc ZZ41y 
+ZZ41z ZZ41CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ40s[1] ZZ40s[0] ZZ40l3 ZZ40l2 ZZ40l1 ZZ40l0 | ZZ42c[1] ZZ42c[0] ZZ42s[3] ZZ42s[2] ZZ42s[1] ZZ42s[0]  ;
+Module  "Decoder2x4"  ba.gd.ah.2a ZZ42c[1] ZZ42c[0] | ZZ42s[3] ZZ42s[2] ZZ42s[1] ZZ42s[0]  ;
+  Not "Not" ba.gd.ah.2a.1a ZZ42c[1] 
+ZZ42not-c1 
+
+ ;
+  Not "Not" ba.gd.ah.2a.2a ZZ42c[0] 
+ZZ42not-c0 
+
+ ;
+  And "And" ba.gd.ah.2a.2a ZZ42c[1] 
+ZZ42c[0] ZZ42s[3] 
+
+ ;
+  And "And" ba.gd.ah.2a.2b ZZ42c[1] 
+ZZ42not-c0 ZZ42s[2] 
+
+ ;
+  And "And" ba.gd.ah.2a.2c ZZ42not-c1 
+ZZ42c[0] ZZ42s[1] 
+
+ ;
+  And "And" ba.gd.ah.2a.2d ZZ42not-c1 
+ZZ42not-c0 ZZ42s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ah.2c ZZ40l3 
+ZZ40Out-Not ZZ40Out-Not1 
+
+ ;
+  And "And" ba.gd.ah.2c ZZ40l2 
+ZZ40a ZZ40Out-a 
+
+ ;
+  And "And" ba.gd.ah.2c ZZ40l1 
+ZZ40Out-And2 ZZ40Out-And1 
+
+ ;
+  And "And" ba.gd.ah.2c ZZ40l0 
+ZZ40Out-Sum ZZ40Out-Sum1 
+
+ ;
+  And "And" ba.gd.ah.2c ZZ40l0 
+ZZ40c-out1 ZZ40c-out 
+
+ ;
+  Or "Or" ba.gd.ah.2c ZZ40Out-Not1 
+ZZ40Out-a ZZ40Out-And1 ZZ40Out-Sum1 ZZ40z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[8] ZZ18b[8] ZZ18out7 ZZ18s[1] ZZ18s[0] ZZ18z[8] ZZ18out8 | ZZ43a ZZ43b ZZ43c-in ZZ43s[1] ZZ43s[0] ZZ43z ZZ43c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ai ZZ43a ZZ43b ZZ43c-in ZZ43s[1] ZZ43s[0] | ZZ43z ZZ43c-out  ;
+  And "And" ba.gd.ai.1a ZZ43a 
+ZZ43b ZZ43Out-And2 
+
+ ;
+  Not "Not" ba.gd.ai.1a ZZ43a 
+ZZ43Out-Not 
+
+ ;
+Alias ZZ43a ZZ43b ZZ43c-in ZZ43c-out1 ZZ43Out-Sum | ZZ44CarryIn ZZ44a ZZ44b ZZ44CarryOut ZZ44Sum  ;
+Module  "Full_Adder"  ba.gd.ai.1a ZZ44CarryIn ZZ44a ZZ44b | ZZ44CarryOut ZZ44Sum  ;
+  Xor "Xor" ba.gd.ai.1a.aa ZZ44a 
+ZZ44b ZZ44x 
+
+ ;
+  Xor "Xor" ba.gd.ai.1a.ab ZZ44x 
+ZZ44CarryIn ZZ44Sum 
+
+ ;
+  And "And" ba.gd.ai.1a.bb ZZ44a 
+ZZ44b ZZ44y 
+
+ ;
+  And "And" ba.gd.ai.1a.cb ZZ44CarryIn 
+ZZ44x ZZ44z 
+
+ ;
+  Or "Or" ba.gd.ai.1a.bc-cc ZZ44y 
+ZZ44z ZZ44CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ43s[1] ZZ43s[0] ZZ43l3 ZZ43l2 ZZ43l1 ZZ43l0 | ZZ45c[1] ZZ45c[0] ZZ45s[3] ZZ45s[2] ZZ45s[1] ZZ45s[0]  ;
+Module  "Decoder2x4"  ba.gd.ai.2a ZZ45c[1] ZZ45c[0] | ZZ45s[3] ZZ45s[2] ZZ45s[1] ZZ45s[0]  ;
+  Not "Not" ba.gd.ai.2a.1a ZZ45c[1] 
+ZZ45not-c1 
+
+ ;
+  Not "Not" ba.gd.ai.2a.2a ZZ45c[0] 
+ZZ45not-c0 
+
+ ;
+  And "And" ba.gd.ai.2a.2a ZZ45c[1] 
+ZZ45c[0] ZZ45s[3] 
+
+ ;
+  And "And" ba.gd.ai.2a.2b ZZ45c[1] 
+ZZ45not-c0 ZZ45s[2] 
+
+ ;
+  And "And" ba.gd.ai.2a.2c ZZ45not-c1 
+ZZ45c[0] ZZ45s[1] 
+
+ ;
+  And "And" ba.gd.ai.2a.2d ZZ45not-c1 
+ZZ45not-c0 ZZ45s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ai.2c ZZ43l3 
+ZZ43Out-Not ZZ43Out-Not1 
+
+ ;
+  And "And" ba.gd.ai.2c ZZ43l2 
+ZZ43a ZZ43Out-a 
+
+ ;
+  And "And" ba.gd.ai.2c ZZ43l1 
+ZZ43Out-And2 ZZ43Out-And1 
+
+ ;
+  And "And" ba.gd.ai.2c ZZ43l0 
+ZZ43Out-Sum ZZ43Out-Sum1 
+
+ ;
+  And "And" ba.gd.ai.2c ZZ43l0 
+ZZ43c-out1 ZZ43c-out 
+
+ ;
+  Or "Or" ba.gd.ai.2c ZZ43Out-Not1 
+ZZ43Out-a ZZ43Out-And1 ZZ43Out-Sum1 ZZ43z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[9] ZZ18b[9] ZZ18out8 ZZ18s[1] ZZ18s[0] ZZ18z[9] ZZ18out9 | ZZ46a ZZ46b ZZ46c-in ZZ46s[1] ZZ46s[0] ZZ46z ZZ46c-out  ;
+Module  "One_Bit_ALU"  ba.gd.aj ZZ46a ZZ46b ZZ46c-in ZZ46s[1] ZZ46s[0] | ZZ46z ZZ46c-out  ;
+  And "And" ba.gd.aj.1a ZZ46a 
+ZZ46b ZZ46Out-And2 
+
+ ;
+  Not "Not" ba.gd.aj.1a ZZ46a 
+ZZ46Out-Not 
+
+ ;
+Alias ZZ46a ZZ46b ZZ46c-in ZZ46c-out1 ZZ46Out-Sum | ZZ47CarryIn ZZ47a ZZ47b ZZ47CarryOut ZZ47Sum  ;
+Module  "Full_Adder"  ba.gd.aj.1a ZZ47CarryIn ZZ47a ZZ47b | ZZ47CarryOut ZZ47Sum  ;
+  Xor "Xor" ba.gd.aj.1a.aa ZZ47a 
+ZZ47b ZZ47x 
+
+ ;
+  Xor "Xor" ba.gd.aj.1a.ab ZZ47x 
+ZZ47CarryIn ZZ47Sum 
+
+ ;
+  And "And" ba.gd.aj.1a.bb ZZ47a 
+ZZ47b ZZ47y 
+
+ ;
+  And "And" ba.gd.aj.1a.cb ZZ47CarryIn 
+ZZ47x ZZ47z 
+
+ ;
+  Or "Or" ba.gd.aj.1a.bc-cc ZZ47y 
+ZZ47z ZZ47CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ46s[1] ZZ46s[0] ZZ46l3 ZZ46l2 ZZ46l1 ZZ46l0 | ZZ48c[1] ZZ48c[0] ZZ48s[3] ZZ48s[2] ZZ48s[1] ZZ48s[0]  ;
+Module  "Decoder2x4"  ba.gd.aj.2a ZZ48c[1] ZZ48c[0] | ZZ48s[3] ZZ48s[2] ZZ48s[1] ZZ48s[0]  ;
+  Not "Not" ba.gd.aj.2a.1a ZZ48c[1] 
+ZZ48not-c1 
+
+ ;
+  Not "Not" ba.gd.aj.2a.2a ZZ48c[0] 
+ZZ48not-c0 
+
+ ;
+  And "And" ba.gd.aj.2a.2a ZZ48c[1] 
+ZZ48c[0] ZZ48s[3] 
+
+ ;
+  And "And" ba.gd.aj.2a.2b ZZ48c[1] 
+ZZ48not-c0 ZZ48s[2] 
+
+ ;
+  And "And" ba.gd.aj.2a.2c ZZ48not-c1 
+ZZ48c[0] ZZ48s[1] 
+
+ ;
+  And "And" ba.gd.aj.2a.2d ZZ48not-c1 
+ZZ48not-c0 ZZ48s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.aj.2c ZZ46l3 
+ZZ46Out-Not ZZ46Out-Not1 
+
+ ;
+  And "And" ba.gd.aj.2c ZZ46l2 
+ZZ46a ZZ46Out-a 
+
+ ;
+  And "And" ba.gd.aj.2c ZZ46l1 
+ZZ46Out-And2 ZZ46Out-And1 
+
+ ;
+  And "And" ba.gd.aj.2c ZZ46l0 
+ZZ46Out-Sum ZZ46Out-Sum1 
+
+ ;
+  And "And" ba.gd.aj.2c ZZ46l0 
+ZZ46c-out1 ZZ46c-out 
+
+ ;
+  Or "Or" ba.gd.aj.2c ZZ46Out-Not1 
+ZZ46Out-a ZZ46Out-And1 ZZ46Out-Sum1 ZZ46z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[10] ZZ18b[10] ZZ18out9 ZZ18s[1] ZZ18s[0] ZZ18z[10] ZZ18out10 | ZZ49a ZZ49b ZZ49c-in ZZ49s[1] ZZ49s[0] ZZ49z ZZ49c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ak ZZ49a ZZ49b ZZ49c-in ZZ49s[1] ZZ49s[0] | ZZ49z ZZ49c-out  ;
+  And "And" ba.gd.ak.1a ZZ49a 
+ZZ49b ZZ49Out-And2 
+
+ ;
+  Not "Not" ba.gd.ak.1a ZZ49a 
+ZZ49Out-Not 
+
+ ;
+Alias ZZ49a ZZ49b ZZ49c-in ZZ49c-out1 ZZ49Out-Sum | ZZ50CarryIn ZZ50a ZZ50b ZZ50CarryOut ZZ50Sum  ;
+Module  "Full_Adder"  ba.gd.ak.1a ZZ50CarryIn ZZ50a ZZ50b | ZZ50CarryOut ZZ50Sum  ;
+  Xor "Xor" ba.gd.ak.1a.aa ZZ50a 
+ZZ50b ZZ50x 
+
+ ;
+  Xor "Xor" ba.gd.ak.1a.ab ZZ50x 
+ZZ50CarryIn ZZ50Sum 
+
+ ;
+  And "And" ba.gd.ak.1a.bb ZZ50a 
+ZZ50b ZZ50y 
+
+ ;
+  And "And" ba.gd.ak.1a.cb ZZ50CarryIn 
+ZZ50x ZZ50z 
+
+ ;
+  Or "Or" ba.gd.ak.1a.bc-cc ZZ50y 
+ZZ50z ZZ50CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ49s[1] ZZ49s[0] ZZ49l3 ZZ49l2 ZZ49l1 ZZ49l0 | ZZ51c[1] ZZ51c[0] ZZ51s[3] ZZ51s[2] ZZ51s[1] ZZ51s[0]  ;
+Module  "Decoder2x4"  ba.gd.ak.2a ZZ51c[1] ZZ51c[0] | ZZ51s[3] ZZ51s[2] ZZ51s[1] ZZ51s[0]  ;
+  Not "Not" ba.gd.ak.2a.1a ZZ51c[1] 
+ZZ51not-c1 
+
+ ;
+  Not "Not" ba.gd.ak.2a.2a ZZ51c[0] 
+ZZ51not-c0 
+
+ ;
+  And "And" ba.gd.ak.2a.2a ZZ51c[1] 
+ZZ51c[0] ZZ51s[3] 
+
+ ;
+  And "And" ba.gd.ak.2a.2b ZZ51c[1] 
+ZZ51not-c0 ZZ51s[2] 
+
+ ;
+  And "And" ba.gd.ak.2a.2c ZZ51not-c1 
+ZZ51c[0] ZZ51s[1] 
+
+ ;
+  And "And" ba.gd.ak.2a.2d ZZ51not-c1 
+ZZ51not-c0 ZZ51s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ak.2c ZZ49l3 
+ZZ49Out-Not ZZ49Out-Not1 
+
+ ;
+  And "And" ba.gd.ak.2c ZZ49l2 
+ZZ49a ZZ49Out-a 
+
+ ;
+  And "And" ba.gd.ak.2c ZZ49l1 
+ZZ49Out-And2 ZZ49Out-And1 
+
+ ;
+  And "And" ba.gd.ak.2c ZZ49l0 
+ZZ49Out-Sum ZZ49Out-Sum1 
+
+ ;
+  And "And" ba.gd.ak.2c ZZ49l0 
+ZZ49c-out1 ZZ49c-out 
+
+ ;
+  Or "Or" ba.gd.ak.2c ZZ49Out-Not1 
+ZZ49Out-a ZZ49Out-And1 ZZ49Out-Sum1 ZZ49z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[11] ZZ18b[11] ZZ18out10 ZZ18s[1] ZZ18s[0] ZZ18z[11] ZZ18out11 | ZZ52a ZZ52b ZZ52c-in ZZ52s[1] ZZ52s[0] ZZ52z ZZ52c-out  ;
+Module  "One_Bit_ALU"  ba.gd.al ZZ52a ZZ52b ZZ52c-in ZZ52s[1] ZZ52s[0] | ZZ52z ZZ52c-out  ;
+  And "And" ba.gd.al.1a ZZ52a 
+ZZ52b ZZ52Out-And2 
+
+ ;
+  Not "Not" ba.gd.al.1a ZZ52a 
+ZZ52Out-Not 
+
+ ;
+Alias ZZ52a ZZ52b ZZ52c-in ZZ52c-out1 ZZ52Out-Sum | ZZ53CarryIn ZZ53a ZZ53b ZZ53CarryOut ZZ53Sum  ;
+Module  "Full_Adder"  ba.gd.al.1a ZZ53CarryIn ZZ53a ZZ53b | ZZ53CarryOut ZZ53Sum  ;
+  Xor "Xor" ba.gd.al.1a.aa ZZ53a 
+ZZ53b ZZ53x 
+
+ ;
+  Xor "Xor" ba.gd.al.1a.ab ZZ53x 
+ZZ53CarryIn ZZ53Sum 
+
+ ;
+  And "And" ba.gd.al.1a.bb ZZ53a 
+ZZ53b ZZ53y 
+
+ ;
+  And "And" ba.gd.al.1a.cb ZZ53CarryIn 
+ZZ53x ZZ53z 
+
+ ;
+  Or "Or" ba.gd.al.1a.bc-cc ZZ53y 
+ZZ53z ZZ53CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ52s[1] ZZ52s[0] ZZ52l3 ZZ52l2 ZZ52l1 ZZ52l0 | ZZ54c[1] ZZ54c[0] ZZ54s[3] ZZ54s[2] ZZ54s[1] ZZ54s[0]  ;
+Module  "Decoder2x4"  ba.gd.al.2a ZZ54c[1] ZZ54c[0] | ZZ54s[3] ZZ54s[2] ZZ54s[1] ZZ54s[0]  ;
+  Not "Not" ba.gd.al.2a.1a ZZ54c[1] 
+ZZ54not-c1 
+
+ ;
+  Not "Not" ba.gd.al.2a.2a ZZ54c[0] 
+ZZ54not-c0 
+
+ ;
+  And "And" ba.gd.al.2a.2a ZZ54c[1] 
+ZZ54c[0] ZZ54s[3] 
+
+ ;
+  And "And" ba.gd.al.2a.2b ZZ54c[1] 
+ZZ54not-c0 ZZ54s[2] 
+
+ ;
+  And "And" ba.gd.al.2a.2c ZZ54not-c1 
+ZZ54c[0] ZZ54s[1] 
+
+ ;
+  And "And" ba.gd.al.2a.2d ZZ54not-c1 
+ZZ54not-c0 ZZ54s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.al.2c ZZ52l3 
+ZZ52Out-Not ZZ52Out-Not1 
+
+ ;
+  And "And" ba.gd.al.2c ZZ52l2 
+ZZ52a ZZ52Out-a 
+
+ ;
+  And "And" ba.gd.al.2c ZZ52l1 
+ZZ52Out-And2 ZZ52Out-And1 
+
+ ;
+  And "And" ba.gd.al.2c ZZ52l0 
+ZZ52Out-Sum ZZ52Out-Sum1 
+
+ ;
+  And "And" ba.gd.al.2c ZZ52l0 
+ZZ52c-out1 ZZ52c-out 
+
+ ;
+  Or "Or" ba.gd.al.2c ZZ52Out-Not1 
+ZZ52Out-a ZZ52Out-And1 ZZ52Out-Sum1 ZZ52z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[12] ZZ18b[12] ZZ18out11 ZZ18s[1] ZZ18s[0] ZZ18z[12] ZZ18out12 | ZZ55a ZZ55b ZZ55c-in ZZ55s[1] ZZ55s[0] ZZ55z ZZ55c-out  ;
+Module  "One_Bit_ALU"  ba.gd.am ZZ55a ZZ55b ZZ55c-in ZZ55s[1] ZZ55s[0] | ZZ55z ZZ55c-out  ;
+  And "And" ba.gd.am.1a ZZ55a 
+ZZ55b ZZ55Out-And2 
+
+ ;
+  Not "Not" ba.gd.am.1a ZZ55a 
+ZZ55Out-Not 
+
+ ;
+Alias ZZ55a ZZ55b ZZ55c-in ZZ55c-out1 ZZ55Out-Sum | ZZ56CarryIn ZZ56a ZZ56b ZZ56CarryOut ZZ56Sum  ;
+Module  "Full_Adder"  ba.gd.am.1a ZZ56CarryIn ZZ56a ZZ56b | ZZ56CarryOut ZZ56Sum  ;
+  Xor "Xor" ba.gd.am.1a.aa ZZ56a 
+ZZ56b ZZ56x 
+
+ ;
+  Xor "Xor" ba.gd.am.1a.ab ZZ56x 
+ZZ56CarryIn ZZ56Sum 
+
+ ;
+  And "And" ba.gd.am.1a.bb ZZ56a 
+ZZ56b ZZ56y 
+
+ ;
+  And "And" ba.gd.am.1a.cb ZZ56CarryIn 
+ZZ56x ZZ56z 
+
+ ;
+  Or "Or" ba.gd.am.1a.bc-cc ZZ56y 
+ZZ56z ZZ56CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ55s[1] ZZ55s[0] ZZ55l3 ZZ55l2 ZZ55l1 ZZ55l0 | ZZ57c[1] ZZ57c[0] ZZ57s[3] ZZ57s[2] ZZ57s[1] ZZ57s[0]  ;
+Module  "Decoder2x4"  ba.gd.am.2a ZZ57c[1] ZZ57c[0] | ZZ57s[3] ZZ57s[2] ZZ57s[1] ZZ57s[0]  ;
+  Not "Not" ba.gd.am.2a.1a ZZ57c[1] 
+ZZ57not-c1 
+
+ ;
+  Not "Not" ba.gd.am.2a.2a ZZ57c[0] 
+ZZ57not-c0 
+
+ ;
+  And "And" ba.gd.am.2a.2a ZZ57c[1] 
+ZZ57c[0] ZZ57s[3] 
+
+ ;
+  And "And" ba.gd.am.2a.2b ZZ57c[1] 
+ZZ57not-c0 ZZ57s[2] 
+
+ ;
+  And "And" ba.gd.am.2a.2c ZZ57not-c1 
+ZZ57c[0] ZZ57s[1] 
+
+ ;
+  And "And" ba.gd.am.2a.2d ZZ57not-c1 
+ZZ57not-c0 ZZ57s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.am.2c ZZ55l3 
+ZZ55Out-Not ZZ55Out-Not1 
+
+ ;
+  And "And" ba.gd.am.2c ZZ55l2 
+ZZ55a ZZ55Out-a 
+
+ ;
+  And "And" ba.gd.am.2c ZZ55l1 
+ZZ55Out-And2 ZZ55Out-And1 
+
+ ;
+  And "And" ba.gd.am.2c ZZ55l0 
+ZZ55Out-Sum ZZ55Out-Sum1 
+
+ ;
+  And "And" ba.gd.am.2c ZZ55l0 
+ZZ55c-out1 ZZ55c-out 
+
+ ;
+  Or "Or" ba.gd.am.2c ZZ55Out-Not1 
+ZZ55Out-a ZZ55Out-And1 ZZ55Out-Sum1 ZZ55z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[13] ZZ18b[13] ZZ18out12 ZZ18s[1] ZZ18s[0] ZZ18z[13] ZZ18out13 | ZZ58a ZZ58b ZZ58c-in ZZ58s[1] ZZ58s[0] ZZ58z ZZ58c-out  ;
+Module  "One_Bit_ALU"  ba.gd.an ZZ58a ZZ58b ZZ58c-in ZZ58s[1] ZZ58s[0] | ZZ58z ZZ58c-out  ;
+  And "And" ba.gd.an.1a ZZ58a 
+ZZ58b ZZ58Out-And2 
+
+ ;
+  Not "Not" ba.gd.an.1a ZZ58a 
+ZZ58Out-Not 
+
+ ;
+Alias ZZ58a ZZ58b ZZ58c-in ZZ58c-out1 ZZ58Out-Sum | ZZ59CarryIn ZZ59a ZZ59b ZZ59CarryOut ZZ59Sum  ;
+Module  "Full_Adder"  ba.gd.an.1a ZZ59CarryIn ZZ59a ZZ59b | ZZ59CarryOut ZZ59Sum  ;
+  Xor "Xor" ba.gd.an.1a.aa ZZ59a 
+ZZ59b ZZ59x 
+
+ ;
+  Xor "Xor" ba.gd.an.1a.ab ZZ59x 
+ZZ59CarryIn ZZ59Sum 
+
+ ;
+  And "And" ba.gd.an.1a.bb ZZ59a 
+ZZ59b ZZ59y 
+
+ ;
+  And "And" ba.gd.an.1a.cb ZZ59CarryIn 
+ZZ59x ZZ59z 
+
+ ;
+  Or "Or" ba.gd.an.1a.bc-cc ZZ59y 
+ZZ59z ZZ59CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ58s[1] ZZ58s[0] ZZ58l3 ZZ58l2 ZZ58l1 ZZ58l0 | ZZ60c[1] ZZ60c[0] ZZ60s[3] ZZ60s[2] ZZ60s[1] ZZ60s[0]  ;
+Module  "Decoder2x4"  ba.gd.an.2a ZZ60c[1] ZZ60c[0] | ZZ60s[3] ZZ60s[2] ZZ60s[1] ZZ60s[0]  ;
+  Not "Not" ba.gd.an.2a.1a ZZ60c[1] 
+ZZ60not-c1 
+
+ ;
+  Not "Not" ba.gd.an.2a.2a ZZ60c[0] 
+ZZ60not-c0 
+
+ ;
+  And "And" ba.gd.an.2a.2a ZZ60c[1] 
+ZZ60c[0] ZZ60s[3] 
+
+ ;
+  And "And" ba.gd.an.2a.2b ZZ60c[1] 
+ZZ60not-c0 ZZ60s[2] 
+
+ ;
+  And "And" ba.gd.an.2a.2c ZZ60not-c1 
+ZZ60c[0] ZZ60s[1] 
+
+ ;
+  And "And" ba.gd.an.2a.2d ZZ60not-c1 
+ZZ60not-c0 ZZ60s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.an.2c ZZ58l3 
+ZZ58Out-Not ZZ58Out-Not1 
+
+ ;
+  And "And" ba.gd.an.2c ZZ58l2 
+ZZ58a ZZ58Out-a 
+
+ ;
+  And "And" ba.gd.an.2c ZZ58l1 
+ZZ58Out-And2 ZZ58Out-And1 
+
+ ;
+  And "And" ba.gd.an.2c ZZ58l0 
+ZZ58Out-Sum ZZ58Out-Sum1 
+
+ ;
+  And "And" ba.gd.an.2c ZZ58l0 
+ZZ58c-out1 ZZ58c-out 
+
+ ;
+  Or "Or" ba.gd.an.2c ZZ58Out-Not1 
+ZZ58Out-a ZZ58Out-And1 ZZ58Out-Sum1 ZZ58z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[14] ZZ18b[14] ZZ18out13 ZZ18s[1] ZZ18s[0] ZZ18z[14] ZZ18out14 | ZZ61a ZZ61b ZZ61c-in ZZ61s[1] ZZ61s[0] ZZ61z ZZ61c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ao ZZ61a ZZ61b ZZ61c-in ZZ61s[1] ZZ61s[0] | ZZ61z ZZ61c-out  ;
+  And "And" ba.gd.ao.1a ZZ61a 
+ZZ61b ZZ61Out-And2 
+
+ ;
+  Not "Not" ba.gd.ao.1a ZZ61a 
+ZZ61Out-Not 
+
+ ;
+Alias ZZ61a ZZ61b ZZ61c-in ZZ61c-out1 ZZ61Out-Sum | ZZ62CarryIn ZZ62a ZZ62b ZZ62CarryOut ZZ62Sum  ;
+Module  "Full_Adder"  ba.gd.ao.1a ZZ62CarryIn ZZ62a ZZ62b | ZZ62CarryOut ZZ62Sum  ;
+  Xor "Xor" ba.gd.ao.1a.aa ZZ62a 
+ZZ62b ZZ62x 
+
+ ;
+  Xor "Xor" ba.gd.ao.1a.ab ZZ62x 
+ZZ62CarryIn ZZ62Sum 
+
+ ;
+  And "And" ba.gd.ao.1a.bb ZZ62a 
+ZZ62b ZZ62y 
+
+ ;
+  And "And" ba.gd.ao.1a.cb ZZ62CarryIn 
+ZZ62x ZZ62z 
+
+ ;
+  Or "Or" ba.gd.ao.1a.bc-cc ZZ62y 
+ZZ62z ZZ62CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ61s[1] ZZ61s[0] ZZ61l3 ZZ61l2 ZZ61l1 ZZ61l0 | ZZ63c[1] ZZ63c[0] ZZ63s[3] ZZ63s[2] ZZ63s[1] ZZ63s[0]  ;
+Module  "Decoder2x4"  ba.gd.ao.2a ZZ63c[1] ZZ63c[0] | ZZ63s[3] ZZ63s[2] ZZ63s[1] ZZ63s[0]  ;
+  Not "Not" ba.gd.ao.2a.1a ZZ63c[1] 
+ZZ63not-c1 
+
+ ;
+  Not "Not" ba.gd.ao.2a.2a ZZ63c[0] 
+ZZ63not-c0 
+
+ ;
+  And "And" ba.gd.ao.2a.2a ZZ63c[1] 
+ZZ63c[0] ZZ63s[3] 
+
+ ;
+  And "And" ba.gd.ao.2a.2b ZZ63c[1] 
+ZZ63not-c0 ZZ63s[2] 
+
+ ;
+  And "And" ba.gd.ao.2a.2c ZZ63not-c1 
+ZZ63c[0] ZZ63s[1] 
+
+ ;
+  And "And" ba.gd.ao.2a.2d ZZ63not-c1 
+ZZ63not-c0 ZZ63s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ao.2c ZZ61l3 
+ZZ61Out-Not ZZ61Out-Not1 
+
+ ;
+  And "And" ba.gd.ao.2c ZZ61l2 
+ZZ61a ZZ61Out-a 
+
+ ;
+  And "And" ba.gd.ao.2c ZZ61l1 
+ZZ61Out-And2 ZZ61Out-And1 
+
+ ;
+  And "And" ba.gd.ao.2c ZZ61l0 
+ZZ61Out-Sum ZZ61Out-Sum1 
+
+ ;
+  And "And" ba.gd.ao.2c ZZ61l0 
+ZZ61c-out1 ZZ61c-out 
+
+ ;
+  Or "Or" ba.gd.ao.2c ZZ61Out-Not1 
+ZZ61Out-a ZZ61Out-And1 ZZ61Out-Sum1 ZZ61z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ18a[15] ZZ18b[15] ZZ18out14 ZZ18s[1] ZZ18s[0] ZZ18z[15] ZZ18out15 | ZZ64a ZZ64b ZZ64c-in ZZ64s[1] ZZ64s[0] ZZ64z ZZ64c-out  ;
+Module  "One_Bit_ALU"  ba.gd.ap ZZ64a ZZ64b ZZ64c-in ZZ64s[1] ZZ64s[0] | ZZ64z ZZ64c-out  ;
+  And "And" ba.gd.ap.1a ZZ64a 
+ZZ64b ZZ64Out-And2 
+
+ ;
+  Not "Not" ba.gd.ap.1a ZZ64a 
+ZZ64Out-Not 
+
+ ;
+Alias ZZ64a ZZ64b ZZ64c-in ZZ64c-out1 ZZ64Out-Sum | ZZ65CarryIn ZZ65a ZZ65b ZZ65CarryOut ZZ65Sum  ;
+Module  "Full_Adder"  ba.gd.ap.1a ZZ65CarryIn ZZ65a ZZ65b | ZZ65CarryOut ZZ65Sum  ;
+  Xor "Xor" ba.gd.ap.1a.aa ZZ65a 
+ZZ65b ZZ65x 
+
+ ;
+  Xor "Xor" ba.gd.ap.1a.ab ZZ65x 
+ZZ65CarryIn ZZ65Sum 
+
+ ;
+  And "And" ba.gd.ap.1a.bb ZZ65a 
+ZZ65b ZZ65y 
+
+ ;
+  And "And" ba.gd.ap.1a.cb ZZ65CarryIn 
+ZZ65x ZZ65z 
+
+ ;
+  Or "Or" ba.gd.ap.1a.bc-cc ZZ65y 
+ZZ65z ZZ65CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ64s[1] ZZ64s[0] ZZ64l3 ZZ64l2 ZZ64l1 ZZ64l0 | ZZ66c[1] ZZ66c[0] ZZ66s[3] ZZ66s[2] ZZ66s[1] ZZ66s[0]  ;
+Module  "Decoder2x4"  ba.gd.ap.2a ZZ66c[1] ZZ66c[0] | ZZ66s[3] ZZ66s[2] ZZ66s[1] ZZ66s[0]  ;
+  Not "Not" ba.gd.ap.2a.1a ZZ66c[1] 
+ZZ66not-c1 
+
+ ;
+  Not "Not" ba.gd.ap.2a.2a ZZ66c[0] 
+ZZ66not-c0 
+
+ ;
+  And "And" ba.gd.ap.2a.2a ZZ66c[1] 
+ZZ66c[0] ZZ66s[3] 
+
+ ;
+  And "And" ba.gd.ap.2a.2b ZZ66c[1] 
+ZZ66not-c0 ZZ66s[2] 
+
+ ;
+  And "And" ba.gd.ap.2a.2c ZZ66not-c1 
+ZZ66c[0] ZZ66s[1] 
+
+ ;
+  And "And" ba.gd.ap.2a.2d ZZ66not-c1 
+ZZ66not-c0 ZZ66s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.gd.ap.2c ZZ64l3 
+ZZ64Out-Not ZZ64Out-Not1 
+
+ ;
+  And "And" ba.gd.ap.2c ZZ64l2 
+ZZ64a ZZ64Out-a 
+
+ ;
+  And "And" ba.gd.ap.2c ZZ64l1 
+ZZ64Out-And2 ZZ64Out-And1 
+
+ ;
+  And "And" ba.gd.ap.2c ZZ64l0 
+ZZ64Out-Sum ZZ64Out-Sum1 
+
+ ;
+  And "And" ba.gd.ap.2c ZZ64l0 
+ZZ64c-out1 ZZ64c-out 
+
+ ;
+  Or "Or" ba.gd.ap.2c ZZ64Out-Not1 
+ZZ64Out-a ZZ64Out-And1 ZZ64Out-Sum1 ZZ64z 
+
+ ;
+ End ; /* One_Bit_ALU */
+  And "And" ba.gd.da ZZ18z[15] 
+ONE ZZ18N 
+
+ ;
+  Nor "Nor" ba.gd.da ZZ18z[0] 
+ZZ18z[1] ZZ18z[2] ZZ18z[3] ZZ18z[4] ZZ18z[5] ZZ18z[6] ZZ18z[7] ZZ18z[8] ZZ18z[9] ZZ18z[10] ZZ18z[11] ZZ18z[12] ZZ18z[13] ZZ18z[14] ZZ18z[15] ZZ18Z 
+
+
+ ;
+ End ; /* ALU16 */
+Alias ZZ1ALUOUT[15] ZZ1ALUOUT[14] ZZ1ALUOUT[13] ZZ1ALUOUT[12] ZZ1ALUOUT[11] ZZ1ALUOUT[10] ZZ1ALUOUT[9] ZZ1ALUOUT[8] ZZ1ALUOUT[7] ZZ1ALUOUT[6] ZZ1ALUOUT[5] ZZ1ALUOUT[4] ZZ1ALUOUT[3] ZZ1ALUOUT[2] ZZ1ALUOUT[1] ZZ1ALUOUT[0] ZZ1MIR[26] ZZ1MIR[25] ZZ1C[15] ZZ1C[14] ZZ1C[13] ZZ1C[12] ZZ1C[11] ZZ1C[10] ZZ1C[9] ZZ1C[8] ZZ1C[7] ZZ1C[6] ZZ1C[5] ZZ1C[4] ZZ1C[3] ZZ1C[2] ZZ1C[1] ZZ1C[0] | ZZ67a[15] ZZ67a[14] ZZ67a[13] ZZ67a[12] ZZ67a[11] ZZ67a[10] ZZ67a[9] ZZ67a[8] ZZ67a[7] ZZ67a[6] ZZ67a[5] ZZ67a[4] ZZ67a[3] ZZ67a[2] ZZ67a[1] ZZ67a[0] ZZ67c1 ZZ67c0 ZZ67s[15] ZZ67s[14] ZZ67s[13] ZZ67s[12] ZZ67s[11] ZZ67s[10] ZZ67s[9] ZZ67s[8] ZZ67s[7] ZZ67s[6] ZZ67s[5] ZZ67s[4] ZZ67s[3] ZZ67s[2] ZZ67s[1] ZZ67s[0]  ;
+Module  "SHIFTER16"  ba.ge ZZ67a[15] ZZ67a[14] ZZ67a[13] ZZ67a[12] ZZ67a[11] ZZ67a[10] ZZ67a[9] ZZ67a[8] ZZ67a[7] ZZ67a[6] ZZ67a[5] ZZ67a[4] ZZ67a[3] ZZ67a[2] ZZ67a[1] ZZ67a[0] ZZ67c1 ZZ67c0 | ZZ67s[15] ZZ67s[14] ZZ67s[13] ZZ67s[12] ZZ67s[11] ZZ67s[10] ZZ67s[9] ZZ67s[8] ZZ67s[7] ZZ67s[6] ZZ67s[5] ZZ67s[4] ZZ67s[3] ZZ67s[2] ZZ67s[1] ZZ67s[0]  ;
+Alias ZERO ZZ67a[15] ZZ67a[14] ZZ67c1 ZZ67c0 ZZ67s[15] | ZZ68l ZZ68c ZZ68r ZZ68c1 ZZ68c0 ZZ68z  ;
+Module  "Bit-shifter"  ba.ge.aa ZZ68l ZZ68c ZZ68r ZZ68c1 ZZ68c0 | ZZ68z  ;
+Alias ZZ68c1 ZZ68c0 ZZ68s3 ZZ68s2 ZZ68s1 ZZ68s0 | ZZ69c[1] ZZ69c[0] ZZ69s[3] ZZ69s[2] ZZ69s[1] ZZ69s[0]  ;
+Module  "Decoder2x4"  ba.ge.aa.bd ZZ69c[1] ZZ69c[0] | ZZ69s[3] ZZ69s[2] ZZ69s[1] ZZ69s[0]  ;
+  Not "Not" ba.ge.aa.bd.1a ZZ69c[1] 
+ZZ69not-c1 
+
+ ;
+  Not "Not" ba.ge.aa.bd.2a ZZ69c[0] 
+ZZ69not-c0 
+
+ ;
+  And "And" ba.ge.aa.bd.2a ZZ69c[1] 
+ZZ69c[0] ZZ69s[3] 
+
+ ;
+  And "And" ba.ge.aa.bd.2b ZZ69c[1] 
+ZZ69not-c0 ZZ69s[2] 
+
+ ;
+  And "And" ba.ge.aa.bd.2c ZZ69not-c1 
+ZZ69c[0] ZZ69s[1] 
+
+ ;
+  And "And" ba.ge.aa.bd.2d ZZ69not-c1 
+ZZ69not-c0 ZZ69s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.aa.ae ZZ68s2 
+ZZ68r ZZ68right 
+
+ ;
+  And "And" ba.ge.aa.be ZZ68s1 
+ZZ68l ZZ68center 
+
+ ;
+  And "And" ba.ge.aa.ce ZZ68s0 
+ZZ68c ZZ68left 
+
+ ;
+  Or "Or" ba.ge.aa.bg ZZ68right 
+ZZ68center ZZ68left ZZ68z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[15] ZZ67a[14] ZZ67a[13] ZZ67c1 ZZ67c0 ZZ67s[14] | ZZ70l ZZ70c ZZ70r ZZ70c1 ZZ70c0 ZZ70z  ;
+Module  "Bit-shifter"  ba.ge.ab ZZ70l ZZ70c ZZ70r ZZ70c1 ZZ70c0 | ZZ70z  ;
+Alias ZZ70c1 ZZ70c0 ZZ70s3 ZZ70s2 ZZ70s1 ZZ70s0 | ZZ71c[1] ZZ71c[0] ZZ71s[3] ZZ71s[2] ZZ71s[1] ZZ71s[0]  ;
+Module  "Decoder2x4"  ba.ge.ab.bd ZZ71c[1] ZZ71c[0] | ZZ71s[3] ZZ71s[2] ZZ71s[1] ZZ71s[0]  ;
+  Not "Not" ba.ge.ab.bd.1a ZZ71c[1] 
+ZZ71not-c1 
+
+ ;
+  Not "Not" ba.ge.ab.bd.2a ZZ71c[0] 
+ZZ71not-c0 
+
+ ;
+  And "And" ba.ge.ab.bd.2a ZZ71c[1] 
+ZZ71c[0] ZZ71s[3] 
+
+ ;
+  And "And" ba.ge.ab.bd.2b ZZ71c[1] 
+ZZ71not-c0 ZZ71s[2] 
+
+ ;
+  And "And" ba.ge.ab.bd.2c ZZ71not-c1 
+ZZ71c[0] ZZ71s[1] 
+
+ ;
+  And "And" ba.ge.ab.bd.2d ZZ71not-c1 
+ZZ71not-c0 ZZ71s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ab.ae ZZ70s2 
+ZZ70r ZZ70right 
+
+ ;
+  And "And" ba.ge.ab.be ZZ70s1 
+ZZ70l ZZ70center 
+
+ ;
+  And "And" ba.ge.ab.ce ZZ70s0 
+ZZ70c ZZ70left 
+
+ ;
+  Or "Or" ba.ge.ab.bg ZZ70right 
+ZZ70center ZZ70left ZZ70z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[14] ZZ67a[13] ZZ67a[12] ZZ67c1 ZZ67c0 ZZ67s[13] | ZZ72l ZZ72c ZZ72r ZZ72c1 ZZ72c0 ZZ72z  ;
+Module  "Bit-shifter"  ba.ge.ac ZZ72l ZZ72c ZZ72r ZZ72c1 ZZ72c0 | ZZ72z  ;
+Alias ZZ72c1 ZZ72c0 ZZ72s3 ZZ72s2 ZZ72s1 ZZ72s0 | ZZ73c[1] ZZ73c[0] ZZ73s[3] ZZ73s[2] ZZ73s[1] ZZ73s[0]  ;
+Module  "Decoder2x4"  ba.ge.ac.bd ZZ73c[1] ZZ73c[0] | ZZ73s[3] ZZ73s[2] ZZ73s[1] ZZ73s[0]  ;
+  Not "Not" ba.ge.ac.bd.1a ZZ73c[1] 
+ZZ73not-c1 
+
+ ;
+  Not "Not" ba.ge.ac.bd.2a ZZ73c[0] 
+ZZ73not-c0 
+
+ ;
+  And "And" ba.ge.ac.bd.2a ZZ73c[1] 
+ZZ73c[0] ZZ73s[3] 
+
+ ;
+  And "And" ba.ge.ac.bd.2b ZZ73c[1] 
+ZZ73not-c0 ZZ73s[2] 
+
+ ;
+  And "And" ba.ge.ac.bd.2c ZZ73not-c1 
+ZZ73c[0] ZZ73s[1] 
+
+ ;
+  And "And" ba.ge.ac.bd.2d ZZ73not-c1 
+ZZ73not-c0 ZZ73s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ac.ae ZZ72s2 
+ZZ72r ZZ72right 
+
+ ;
+  And "And" ba.ge.ac.be ZZ72s1 
+ZZ72l ZZ72center 
+
+ ;
+  And "And" ba.ge.ac.ce ZZ72s0 
+ZZ72c ZZ72left 
+
+ ;
+  Or "Or" ba.ge.ac.bg ZZ72right 
+ZZ72center ZZ72left ZZ72z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[13] ZZ67a[12] ZZ67a[11] ZZ67c1 ZZ67c0 ZZ67s[12] | ZZ74l ZZ74c ZZ74r ZZ74c1 ZZ74c0 ZZ74z  ;
+Module  "Bit-shifter"  ba.ge.ad ZZ74l ZZ74c ZZ74r ZZ74c1 ZZ74c0 | ZZ74z  ;
+Alias ZZ74c1 ZZ74c0 ZZ74s3 ZZ74s2 ZZ74s1 ZZ74s0 | ZZ75c[1] ZZ75c[0] ZZ75s[3] ZZ75s[2] ZZ75s[1] ZZ75s[0]  ;
+Module  "Decoder2x4"  ba.ge.ad.bd ZZ75c[1] ZZ75c[0] | ZZ75s[3] ZZ75s[2] ZZ75s[1] ZZ75s[0]  ;
+  Not "Not" ba.ge.ad.bd.1a ZZ75c[1] 
+ZZ75not-c1 
+
+ ;
+  Not "Not" ba.ge.ad.bd.2a ZZ75c[0] 
+ZZ75not-c0 
+
+ ;
+  And "And" ba.ge.ad.bd.2a ZZ75c[1] 
+ZZ75c[0] ZZ75s[3] 
+
+ ;
+  And "And" ba.ge.ad.bd.2b ZZ75c[1] 
+ZZ75not-c0 ZZ75s[2] 
+
+ ;
+  And "And" ba.ge.ad.bd.2c ZZ75not-c1 
+ZZ75c[0] ZZ75s[1] 
+
+ ;
+  And "And" ba.ge.ad.bd.2d ZZ75not-c1 
+ZZ75not-c0 ZZ75s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ad.ae ZZ74s2 
+ZZ74r ZZ74right 
+
+ ;
+  And "And" ba.ge.ad.be ZZ74s1 
+ZZ74l ZZ74center 
+
+ ;
+  And "And" ba.ge.ad.ce ZZ74s0 
+ZZ74c ZZ74left 
+
+ ;
+  Or "Or" ba.ge.ad.bg ZZ74right 
+ZZ74center ZZ74left ZZ74z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[12] ZZ67a[11] ZZ67a[10] ZZ67c1 ZZ67c0 ZZ67s[11] | ZZ76l ZZ76c ZZ76r ZZ76c1 ZZ76c0 ZZ76z  ;
+Module  "Bit-shifter"  ba.ge.ae ZZ76l ZZ76c ZZ76r ZZ76c1 ZZ76c0 | ZZ76z  ;
+Alias ZZ76c1 ZZ76c0 ZZ76s3 ZZ76s2 ZZ76s1 ZZ76s0 | ZZ77c[1] ZZ77c[0] ZZ77s[3] ZZ77s[2] ZZ77s[1] ZZ77s[0]  ;
+Module  "Decoder2x4"  ba.ge.ae.bd ZZ77c[1] ZZ77c[0] | ZZ77s[3] ZZ77s[2] ZZ77s[1] ZZ77s[0]  ;
+  Not "Not" ba.ge.ae.bd.1a ZZ77c[1] 
+ZZ77not-c1 
+
+ ;
+  Not "Not" ba.ge.ae.bd.2a ZZ77c[0] 
+ZZ77not-c0 
+
+ ;
+  And "And" ba.ge.ae.bd.2a ZZ77c[1] 
+ZZ77c[0] ZZ77s[3] 
+
+ ;
+  And "And" ba.ge.ae.bd.2b ZZ77c[1] 
+ZZ77not-c0 ZZ77s[2] 
+
+ ;
+  And "And" ba.ge.ae.bd.2c ZZ77not-c1 
+ZZ77c[0] ZZ77s[1] 
+
+ ;
+  And "And" ba.ge.ae.bd.2d ZZ77not-c1 
+ZZ77not-c0 ZZ77s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ae.ae ZZ76s2 
+ZZ76r ZZ76right 
+
+ ;
+  And "And" ba.ge.ae.be ZZ76s1 
+ZZ76l ZZ76center 
+
+ ;
+  And "And" ba.ge.ae.ce ZZ76s0 
+ZZ76c ZZ76left 
+
+ ;
+  Or "Or" ba.ge.ae.bg ZZ76right 
+ZZ76center ZZ76left ZZ76z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[11] ZZ67a[10] ZZ67a[9] ZZ67c1 ZZ67c0 ZZ67s[10] | ZZ78l ZZ78c ZZ78r ZZ78c1 ZZ78c0 ZZ78z  ;
+Module  "Bit-shifter"  ba.ge.af ZZ78l ZZ78c ZZ78r ZZ78c1 ZZ78c0 | ZZ78z  ;
+Alias ZZ78c1 ZZ78c0 ZZ78s3 ZZ78s2 ZZ78s1 ZZ78s0 | ZZ79c[1] ZZ79c[0] ZZ79s[3] ZZ79s[2] ZZ79s[1] ZZ79s[0]  ;
+Module  "Decoder2x4"  ba.ge.af.bd ZZ79c[1] ZZ79c[0] | ZZ79s[3] ZZ79s[2] ZZ79s[1] ZZ79s[0]  ;
+  Not "Not" ba.ge.af.bd.1a ZZ79c[1] 
+ZZ79not-c1 
+
+ ;
+  Not "Not" ba.ge.af.bd.2a ZZ79c[0] 
+ZZ79not-c0 
+
+ ;
+  And "And" ba.ge.af.bd.2a ZZ79c[1] 
+ZZ79c[0] ZZ79s[3] 
+
+ ;
+  And "And" ba.ge.af.bd.2b ZZ79c[1] 
+ZZ79not-c0 ZZ79s[2] 
+
+ ;
+  And "And" ba.ge.af.bd.2c ZZ79not-c1 
+ZZ79c[0] ZZ79s[1] 
+
+ ;
+  And "And" ba.ge.af.bd.2d ZZ79not-c1 
+ZZ79not-c0 ZZ79s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.af.ae ZZ78s2 
+ZZ78r ZZ78right 
+
+ ;
+  And "And" ba.ge.af.be ZZ78s1 
+ZZ78l ZZ78center 
+
+ ;
+  And "And" ba.ge.af.ce ZZ78s0 
+ZZ78c ZZ78left 
+
+ ;
+  Or "Or" ba.ge.af.bg ZZ78right 
+ZZ78center ZZ78left ZZ78z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[10] ZZ67a[9] ZZ67a[8] ZZ67c1 ZZ67c0 ZZ67s[9] | ZZ80l ZZ80c ZZ80r ZZ80c1 ZZ80c0 ZZ80z  ;
+Module  "Bit-shifter"  ba.ge.ag ZZ80l ZZ80c ZZ80r ZZ80c1 ZZ80c0 | ZZ80z  ;
+Alias ZZ80c1 ZZ80c0 ZZ80s3 ZZ80s2 ZZ80s1 ZZ80s0 | ZZ81c[1] ZZ81c[0] ZZ81s[3] ZZ81s[2] ZZ81s[1] ZZ81s[0]  ;
+Module  "Decoder2x4"  ba.ge.ag.bd ZZ81c[1] ZZ81c[0] | ZZ81s[3] ZZ81s[2] ZZ81s[1] ZZ81s[0]  ;
+  Not "Not" ba.ge.ag.bd.1a ZZ81c[1] 
+ZZ81not-c1 
+
+ ;
+  Not "Not" ba.ge.ag.bd.2a ZZ81c[0] 
+ZZ81not-c0 
+
+ ;
+  And "And" ba.ge.ag.bd.2a ZZ81c[1] 
+ZZ81c[0] ZZ81s[3] 
+
+ ;
+  And "And" ba.ge.ag.bd.2b ZZ81c[1] 
+ZZ81not-c0 ZZ81s[2] 
+
+ ;
+  And "And" ba.ge.ag.bd.2c ZZ81not-c1 
+ZZ81c[0] ZZ81s[1] 
+
+ ;
+  And "And" ba.ge.ag.bd.2d ZZ81not-c1 
+ZZ81not-c0 ZZ81s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ag.ae ZZ80s2 
+ZZ80r ZZ80right 
+
+ ;
+  And "And" ba.ge.ag.be ZZ80s1 
+ZZ80l ZZ80center 
+
+ ;
+  And "And" ba.ge.ag.ce ZZ80s0 
+ZZ80c ZZ80left 
+
+ ;
+  Or "Or" ba.ge.ag.bg ZZ80right 
+ZZ80center ZZ80left ZZ80z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[9] ZZ67a[8] ZZ67a[7] ZZ67c1 ZZ67c0 ZZ67s[8] | ZZ82l ZZ82c ZZ82r ZZ82c1 ZZ82c0 ZZ82z  ;
+Module  "Bit-shifter"  ba.ge.ah ZZ82l ZZ82c ZZ82r ZZ82c1 ZZ82c0 | ZZ82z  ;
+Alias ZZ82c1 ZZ82c0 ZZ82s3 ZZ82s2 ZZ82s1 ZZ82s0 | ZZ83c[1] ZZ83c[0] ZZ83s[3] ZZ83s[2] ZZ83s[1] ZZ83s[0]  ;
+Module  "Decoder2x4"  ba.ge.ah.bd ZZ83c[1] ZZ83c[0] | ZZ83s[3] ZZ83s[2] ZZ83s[1] ZZ83s[0]  ;
+  Not "Not" ba.ge.ah.bd.1a ZZ83c[1] 
+ZZ83not-c1 
+
+ ;
+  Not "Not" ba.ge.ah.bd.2a ZZ83c[0] 
+ZZ83not-c0 
+
+ ;
+  And "And" ba.ge.ah.bd.2a ZZ83c[1] 
+ZZ83c[0] ZZ83s[3] 
+
+ ;
+  And "And" ba.ge.ah.bd.2b ZZ83c[1] 
+ZZ83not-c0 ZZ83s[2] 
+
+ ;
+  And "And" ba.ge.ah.bd.2c ZZ83not-c1 
+ZZ83c[0] ZZ83s[1] 
+
+ ;
+  And "And" ba.ge.ah.bd.2d ZZ83not-c1 
+ZZ83not-c0 ZZ83s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ah.ae ZZ82s2 
+ZZ82r ZZ82right 
+
+ ;
+  And "And" ba.ge.ah.be ZZ82s1 
+ZZ82l ZZ82center 
+
+ ;
+  And "And" ba.ge.ah.ce ZZ82s0 
+ZZ82c ZZ82left 
+
+ ;
+  Or "Or" ba.ge.ah.bg ZZ82right 
+ZZ82center ZZ82left ZZ82z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[8] ZZ67a[7] ZZ67a[6] ZZ67c1 ZZ67c0 ZZ67s[7] | ZZ84l ZZ84c ZZ84r ZZ84c1 ZZ84c0 ZZ84z  ;
+Module  "Bit-shifter"  ba.ge.ai ZZ84l ZZ84c ZZ84r ZZ84c1 ZZ84c0 | ZZ84z  ;
+Alias ZZ84c1 ZZ84c0 ZZ84s3 ZZ84s2 ZZ84s1 ZZ84s0 | ZZ85c[1] ZZ85c[0] ZZ85s[3] ZZ85s[2] ZZ85s[1] ZZ85s[0]  ;
+Module  "Decoder2x4"  ba.ge.ai.bd ZZ85c[1] ZZ85c[0] | ZZ85s[3] ZZ85s[2] ZZ85s[1] ZZ85s[0]  ;
+  Not "Not" ba.ge.ai.bd.1a ZZ85c[1] 
+ZZ85not-c1 
+
+ ;
+  Not "Not" ba.ge.ai.bd.2a ZZ85c[0] 
+ZZ85not-c0 
+
+ ;
+  And "And" ba.ge.ai.bd.2a ZZ85c[1] 
+ZZ85c[0] ZZ85s[3] 
+
+ ;
+  And "And" ba.ge.ai.bd.2b ZZ85c[1] 
+ZZ85not-c0 ZZ85s[2] 
+
+ ;
+  And "And" ba.ge.ai.bd.2c ZZ85not-c1 
+ZZ85c[0] ZZ85s[1] 
+
+ ;
+  And "And" ba.ge.ai.bd.2d ZZ85not-c1 
+ZZ85not-c0 ZZ85s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ai.ae ZZ84s2 
+ZZ84r ZZ84right 
+
+ ;
+  And "And" ba.ge.ai.be ZZ84s1 
+ZZ84l ZZ84center 
+
+ ;
+  And "And" ba.ge.ai.ce ZZ84s0 
+ZZ84c ZZ84left 
+
+ ;
+  Or "Or" ba.ge.ai.bg ZZ84right 
+ZZ84center ZZ84left ZZ84z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[7] ZZ67a[6] ZZ67a[5] ZZ67c1 ZZ67c0 ZZ67s[6] | ZZ86l ZZ86c ZZ86r ZZ86c1 ZZ86c0 ZZ86z  ;
+Module  "Bit-shifter"  ba.ge.aj ZZ86l ZZ86c ZZ86r ZZ86c1 ZZ86c0 | ZZ86z  ;
+Alias ZZ86c1 ZZ86c0 ZZ86s3 ZZ86s2 ZZ86s1 ZZ86s0 | ZZ87c[1] ZZ87c[0] ZZ87s[3] ZZ87s[2] ZZ87s[1] ZZ87s[0]  ;
+Module  "Decoder2x4"  ba.ge.aj.bd ZZ87c[1] ZZ87c[0] | ZZ87s[3] ZZ87s[2] ZZ87s[1] ZZ87s[0]  ;
+  Not "Not" ba.ge.aj.bd.1a ZZ87c[1] 
+ZZ87not-c1 
+
+ ;
+  Not "Not" ba.ge.aj.bd.2a ZZ87c[0] 
+ZZ87not-c0 
+
+ ;
+  And "And" ba.ge.aj.bd.2a ZZ87c[1] 
+ZZ87c[0] ZZ87s[3] 
+
+ ;
+  And "And" ba.ge.aj.bd.2b ZZ87c[1] 
+ZZ87not-c0 ZZ87s[2] 
+
+ ;
+  And "And" ba.ge.aj.bd.2c ZZ87not-c1 
+ZZ87c[0] ZZ87s[1] 
+
+ ;
+  And "And" ba.ge.aj.bd.2d ZZ87not-c1 
+ZZ87not-c0 ZZ87s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.aj.ae ZZ86s2 
+ZZ86r ZZ86right 
+
+ ;
+  And "And" ba.ge.aj.be ZZ86s1 
+ZZ86l ZZ86center 
+
+ ;
+  And "And" ba.ge.aj.ce ZZ86s0 
+ZZ86c ZZ86left 
+
+ ;
+  Or "Or" ba.ge.aj.bg ZZ86right 
+ZZ86center ZZ86left ZZ86z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[6] ZZ67a[5] ZZ67a[4] ZZ67c1 ZZ67c0 ZZ67s[5] | ZZ88l ZZ88c ZZ88r ZZ88c1 ZZ88c0 ZZ88z  ;
+Module  "Bit-shifter"  ba.ge.ak ZZ88l ZZ88c ZZ88r ZZ88c1 ZZ88c0 | ZZ88z  ;
+Alias ZZ88c1 ZZ88c0 ZZ88s3 ZZ88s2 ZZ88s1 ZZ88s0 | ZZ89c[1] ZZ89c[0] ZZ89s[3] ZZ89s[2] ZZ89s[1] ZZ89s[0]  ;
+Module  "Decoder2x4"  ba.ge.ak.bd ZZ89c[1] ZZ89c[0] | ZZ89s[3] ZZ89s[2] ZZ89s[1] ZZ89s[0]  ;
+  Not "Not" ba.ge.ak.bd.1a ZZ89c[1] 
+ZZ89not-c1 
+
+ ;
+  Not "Not" ba.ge.ak.bd.2a ZZ89c[0] 
+ZZ89not-c0 
+
+ ;
+  And "And" ba.ge.ak.bd.2a ZZ89c[1] 
+ZZ89c[0] ZZ89s[3] 
+
+ ;
+  And "And" ba.ge.ak.bd.2b ZZ89c[1] 
+ZZ89not-c0 ZZ89s[2] 
+
+ ;
+  And "And" ba.ge.ak.bd.2c ZZ89not-c1 
+ZZ89c[0] ZZ89s[1] 
+
+ ;
+  And "And" ba.ge.ak.bd.2d ZZ89not-c1 
+ZZ89not-c0 ZZ89s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ak.ae ZZ88s2 
+ZZ88r ZZ88right 
+
+ ;
+  And "And" ba.ge.ak.be ZZ88s1 
+ZZ88l ZZ88center 
+
+ ;
+  And "And" ba.ge.ak.ce ZZ88s0 
+ZZ88c ZZ88left 
+
+ ;
+  Or "Or" ba.ge.ak.bg ZZ88right 
+ZZ88center ZZ88left ZZ88z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[5] ZZ67a[4] ZZ67a[3] ZZ67c1 ZZ67c0 ZZ67s[4] | ZZ90l ZZ90c ZZ90r ZZ90c1 ZZ90c0 ZZ90z  ;
+Module  "Bit-shifter"  ba.ge.al ZZ90l ZZ90c ZZ90r ZZ90c1 ZZ90c0 | ZZ90z  ;
+Alias ZZ90c1 ZZ90c0 ZZ90s3 ZZ90s2 ZZ90s1 ZZ90s0 | ZZ91c[1] ZZ91c[0] ZZ91s[3] ZZ91s[2] ZZ91s[1] ZZ91s[0]  ;
+Module  "Decoder2x4"  ba.ge.al.bd ZZ91c[1] ZZ91c[0] | ZZ91s[3] ZZ91s[2] ZZ91s[1] ZZ91s[0]  ;
+  Not "Not" ba.ge.al.bd.1a ZZ91c[1] 
+ZZ91not-c1 
+
+ ;
+  Not "Not" ba.ge.al.bd.2a ZZ91c[0] 
+ZZ91not-c0 
+
+ ;
+  And "And" ba.ge.al.bd.2a ZZ91c[1] 
+ZZ91c[0] ZZ91s[3] 
+
+ ;
+  And "And" ba.ge.al.bd.2b ZZ91c[1] 
+ZZ91not-c0 ZZ91s[2] 
+
+ ;
+  And "And" ba.ge.al.bd.2c ZZ91not-c1 
+ZZ91c[0] ZZ91s[1] 
+
+ ;
+  And "And" ba.ge.al.bd.2d ZZ91not-c1 
+ZZ91not-c0 ZZ91s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.al.ae ZZ90s2 
+ZZ90r ZZ90right 
+
+ ;
+  And "And" ba.ge.al.be ZZ90s1 
+ZZ90l ZZ90center 
+
+ ;
+  And "And" ba.ge.al.ce ZZ90s0 
+ZZ90c ZZ90left 
+
+ ;
+  Or "Or" ba.ge.al.bg ZZ90right 
+ZZ90center ZZ90left ZZ90z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[4] ZZ67a[3] ZZ67a[2] ZZ67c1 ZZ67c0 ZZ67s[3] | ZZ92l ZZ92c ZZ92r ZZ92c1 ZZ92c0 ZZ92z  ;
+Module  "Bit-shifter"  ba.ge.am ZZ92l ZZ92c ZZ92r ZZ92c1 ZZ92c0 | ZZ92z  ;
+Alias ZZ92c1 ZZ92c0 ZZ92s3 ZZ92s2 ZZ92s1 ZZ92s0 | ZZ93c[1] ZZ93c[0] ZZ93s[3] ZZ93s[2] ZZ93s[1] ZZ93s[0]  ;
+Module  "Decoder2x4"  ba.ge.am.bd ZZ93c[1] ZZ93c[0] | ZZ93s[3] ZZ93s[2] ZZ93s[1] ZZ93s[0]  ;
+  Not "Not" ba.ge.am.bd.1a ZZ93c[1] 
+ZZ93not-c1 
+
+ ;
+  Not "Not" ba.ge.am.bd.2a ZZ93c[0] 
+ZZ93not-c0 
+
+ ;
+  And "And" ba.ge.am.bd.2a ZZ93c[1] 
+ZZ93c[0] ZZ93s[3] 
+
+ ;
+  And "And" ba.ge.am.bd.2b ZZ93c[1] 
+ZZ93not-c0 ZZ93s[2] 
+
+ ;
+  And "And" ba.ge.am.bd.2c ZZ93not-c1 
+ZZ93c[0] ZZ93s[1] 
+
+ ;
+  And "And" ba.ge.am.bd.2d ZZ93not-c1 
+ZZ93not-c0 ZZ93s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.am.ae ZZ92s2 
+ZZ92r ZZ92right 
+
+ ;
+  And "And" ba.ge.am.be ZZ92s1 
+ZZ92l ZZ92center 
+
+ ;
+  And "And" ba.ge.am.ce ZZ92s0 
+ZZ92c ZZ92left 
+
+ ;
+  Or "Or" ba.ge.am.bg ZZ92right 
+ZZ92center ZZ92left ZZ92z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[3] ZZ67a[2] ZZ67a[1] ZZ67c1 ZZ67c0 ZZ67s[2] | ZZ94l ZZ94c ZZ94r ZZ94c1 ZZ94c0 ZZ94z  ;
+Module  "Bit-shifter"  ba.ge.an ZZ94l ZZ94c ZZ94r ZZ94c1 ZZ94c0 | ZZ94z  ;
+Alias ZZ94c1 ZZ94c0 ZZ94s3 ZZ94s2 ZZ94s1 ZZ94s0 | ZZ95c[1] ZZ95c[0] ZZ95s[3] ZZ95s[2] ZZ95s[1] ZZ95s[0]  ;
+Module  "Decoder2x4"  ba.ge.an.bd ZZ95c[1] ZZ95c[0] | ZZ95s[3] ZZ95s[2] ZZ95s[1] ZZ95s[0]  ;
+  Not "Not" ba.ge.an.bd.1a ZZ95c[1] 
+ZZ95not-c1 
+
+ ;
+  Not "Not" ba.ge.an.bd.2a ZZ95c[0] 
+ZZ95not-c0 
+
+ ;
+  And "And" ba.ge.an.bd.2a ZZ95c[1] 
+ZZ95c[0] ZZ95s[3] 
+
+ ;
+  And "And" ba.ge.an.bd.2b ZZ95c[1] 
+ZZ95not-c0 ZZ95s[2] 
+
+ ;
+  And "And" ba.ge.an.bd.2c ZZ95not-c1 
+ZZ95c[0] ZZ95s[1] 
+
+ ;
+  And "And" ba.ge.an.bd.2d ZZ95not-c1 
+ZZ95not-c0 ZZ95s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.an.ae ZZ94s2 
+ZZ94r ZZ94right 
+
+ ;
+  And "And" ba.ge.an.be ZZ94s1 
+ZZ94l ZZ94center 
+
+ ;
+  And "And" ba.ge.an.ce ZZ94s0 
+ZZ94c ZZ94left 
+
+ ;
+  Or "Or" ba.ge.an.bg ZZ94right 
+ZZ94center ZZ94left ZZ94z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[2] ZZ67a[1] ZZ67a[0] ZZ67c1 ZZ67c0 ZZ67s[1] | ZZ96l ZZ96c ZZ96r ZZ96c1 ZZ96c0 ZZ96z  ;
+Module  "Bit-shifter"  ba.ge.ao ZZ96l ZZ96c ZZ96r ZZ96c1 ZZ96c0 | ZZ96z  ;
+Alias ZZ96c1 ZZ96c0 ZZ96s3 ZZ96s2 ZZ96s1 ZZ96s0 | ZZ97c[1] ZZ97c[0] ZZ97s[3] ZZ97s[2] ZZ97s[1] ZZ97s[0]  ;
+Module  "Decoder2x4"  ba.ge.ao.bd ZZ97c[1] ZZ97c[0] | ZZ97s[3] ZZ97s[2] ZZ97s[1] ZZ97s[0]  ;
+  Not "Not" ba.ge.ao.bd.1a ZZ97c[1] 
+ZZ97not-c1 
+
+ ;
+  Not "Not" ba.ge.ao.bd.2a ZZ97c[0] 
+ZZ97not-c0 
+
+ ;
+  And "And" ba.ge.ao.bd.2a ZZ97c[1] 
+ZZ97c[0] ZZ97s[3] 
+
+ ;
+  And "And" ba.ge.ao.bd.2b ZZ97c[1] 
+ZZ97not-c0 ZZ97s[2] 
+
+ ;
+  And "And" ba.ge.ao.bd.2c ZZ97not-c1 
+ZZ97c[0] ZZ97s[1] 
+
+ ;
+  And "And" ba.ge.ao.bd.2d ZZ97not-c1 
+ZZ97not-c0 ZZ97s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ao.ae ZZ96s2 
+ZZ96r ZZ96right 
+
+ ;
+  And "And" ba.ge.ao.be ZZ96s1 
+ZZ96l ZZ96center 
+
+ ;
+  And "And" ba.ge.ao.ce ZZ96s0 
+ZZ96c ZZ96left 
+
+ ;
+  Or "Or" ba.ge.ao.bg ZZ96right 
+ZZ96center ZZ96left ZZ96z 
+
+ ;
+ End ; /* Bit-shifter */
+Alias ZZ67a[1] ZZ67a[0] ZERO ZZ67c1 ZZ67c0 ZZ67s[0] | ZZ98l ZZ98c ZZ98r ZZ98c1 ZZ98c0 ZZ98z  ;
+Module  "Bit-shifter"  ba.ge.ap ZZ98l ZZ98c ZZ98r ZZ98c1 ZZ98c0 | ZZ98z  ;
+Alias ZZ98c1 ZZ98c0 ZZ98s3 ZZ98s2 ZZ98s1 ZZ98s0 | ZZ99c[1] ZZ99c[0] ZZ99s[3] ZZ99s[2] ZZ99s[1] ZZ99s[0]  ;
+Module  "Decoder2x4"  ba.ge.ap.bd ZZ99c[1] ZZ99c[0] | ZZ99s[3] ZZ99s[2] ZZ99s[1] ZZ99s[0]  ;
+  Not "Not" ba.ge.ap.bd.1a ZZ99c[1] 
+ZZ99not-c1 
+
+ ;
+  Not "Not" ba.ge.ap.bd.2a ZZ99c[0] 
+ZZ99not-c0 
+
+ ;
+  And "And" ba.ge.ap.bd.2a ZZ99c[1] 
+ZZ99c[0] ZZ99s[3] 
+
+ ;
+  And "And" ba.ge.ap.bd.2b ZZ99c[1] 
+ZZ99not-c0 ZZ99s[2] 
+
+ ;
+  And "And" ba.ge.ap.bd.2c ZZ99not-c1 
+ZZ99c[0] ZZ99s[1] 
+
+ ;
+  And "And" ba.ge.ap.bd.2d ZZ99not-c1 
+ZZ99not-c0 ZZ99s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" ba.ge.ap.ae ZZ98s2 
+ZZ98r ZZ98right 
+
+ ;
+  And "And" ba.ge.ap.be ZZ98s1 
+ZZ98l ZZ98center 
+
+ ;
+  And "And" ba.ge.ap.ce ZZ98s0 
+ZZ98c ZZ98left 
+
+ ;
+  Or "Or" ba.ge.ap.bg ZZ98right 
+ZZ98center ZZ98left ZZ98z 
+
+ ;
+ End ; /* Bit-shifter */
+ End ; /* SHIFTER16 */
+ End ; /* DataPath */
+Alias Reset N Z Phase[4] Phase[3] Phase[2] Phase[1] MIR[31] MIR[30] MIR[29] MIR[28] MIR[27] MIR[26] MIR[25] MIR[24] MIR[23] MIR[22] MIR[21] MIR[20] MIR[19] MIR[18] MIR[17] MIR[16] MIR[15] MIR[14] MIR[13] MIR[12] MIR[11] MIR[10] MIR[9] MIR[8] MIR[7] MIR[6] MIR[5] MIR[4] MIR[3] MIR[2] MIR[1] MIR[0] MPC[7] MPC[6] MPC[5] MPC[4] MPC[3] MPC[2] MPC[1] MPC[0] | ZZ100Reset ZZ100N ZZ100Z ZZ100Phase[4] ZZ100Phase[3] ZZ100Phase[2] ZZ100Phase[1] ZZ100MIR[31] ZZ100MIR[30] ZZ100MIR[29] ZZ100MIR[28] ZZ100MIR[27] ZZ100MIR[26] ZZ100MIR[25] ZZ100MIR[24] ZZ100MIR[23] ZZ100MIR[22] ZZ100MIR[21] ZZ100MIR[20] ZZ100MIR[19] ZZ100MIR[18] ZZ100MIR[17] ZZ100MIR[16] ZZ100MIR[15] ZZ100MIR[14] ZZ100MIR[13] ZZ100MIR[12] ZZ100MIR[11] ZZ100MIR[10] ZZ100MIR[9] ZZ100MIR[8] ZZ100MIR[7] ZZ100MIR[6] ZZ100MIR[5] ZZ100MIR[4] ZZ100MIR[3] ZZ100MIR[2] ZZ100MIR[1] ZZ100MIR[0] ZZ100MPC[7] ZZ100MPC[6] ZZ100MPC[5] ZZ100MPC[4] ZZ100MPC[3] ZZ100MPC[2] ZZ100MPC[1] ZZ100MPC[0]  ;
+Module  "MIR-Comp"  bc ZZ100Reset ZZ100N ZZ100Z ZZ100Phase[4] ZZ100Phase[3] ZZ100Phase[2] ZZ100Phase[1] | ZZ100MIR[31] ZZ100MIR[30] ZZ100MIR[29] ZZ100MIR[28] ZZ100MIR[27] ZZ100MIR[26] ZZ100MIR[25] ZZ100MIR[24] ZZ100MIR[23] ZZ100MIR[22] ZZ100MIR[21] ZZ100MIR[20] ZZ100MIR[19] ZZ100MIR[18] ZZ100MIR[17] ZZ100MIR[16] ZZ100MIR[15] ZZ100MIR[14] ZZ100MIR[13] ZZ100MIR[12] ZZ100MIR[11] ZZ100MIR[10] ZZ100MIR[9] ZZ100MIR[8] ZZ100MIR[7] ZZ100MIR[6] ZZ100MIR[5] ZZ100MIR[4] ZZ100MIR[3] ZZ100MIR[2] ZZ100MIR[1] ZZ100MIR[0] ZZ100MPC[7] ZZ100MPC[6] ZZ100MPC[5] ZZ100MPC[4] ZZ100MPC[3] ZZ100MPC[2] ZZ100MPC[1] ZZ100MPC[0]  ;
+  Not "Not" bc.bb ZZ100Phase[1] 
+ZZ100nTick 
+
+ ;
+  Not "Not" bc.bb ZZ100Reset 
+ZZ100nReset 
+
+ ;
+  Switch "CLOCK" bc.aa ZZ100CLOCK 
+ZERO 
+
+ ;
+  Switch "R" bc.aa ZZ100R 
+ZERO 
+
+ ;
+Alias ZZ100MMUXOUT[7] ZZ100MMUXOUT[6] ZZ100MMUXOUT[5] ZZ100MMUXOUT[4] ZZ100MMUXOUT[3] ZZ100MMUXOUT[2] ZZ100MMUXOUT[1] ZZ100MMUXOUT[0] ZZ100Phase[1] ZZ100nReset ZZ100MPC[7] ZZ100MPC[6] ZZ100MPC[5] ZZ100MPC[4] ZZ100MPC[3] ZZ100MPC[2] ZZ100MPC[1] ZZ100MPC[0] | ZZ101i[7] ZZ101i[6] ZZ101i[5] ZZ101i[4] ZZ101i[3] ZZ101i[2] ZZ101i[1] ZZ101i[0] ZZ101TICK ZZ101RESET ZZ101o[7] ZZ101o[6] ZZ101o[5] ZZ101o[4] ZZ101o[3] ZZ101o[2] ZZ101o[1] ZZ101o[0]  ;
+Module  "MPC"  bc.aa ZZ101i[7] ZZ101i[6] ZZ101i[5] ZZ101i[4] ZZ101i[3] ZZ101i[2] ZZ101i[1] ZZ101i[0] ZZ101TICK ZZ101RESET | ZZ101o[7] ZZ101o[6] ZZ101o[5] ZZ101o[4] ZZ101o[3] ZZ101o[2] ZZ101o[1] ZZ101o[0]  ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[0] ZZ101TICK ZZ101RESET ZZ101o[0] ZZ101nq[0] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[1] ZZ101TICK ZZ101RESET ZZ101o[1] ZZ101nq[1] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[2] ZZ101TICK ZZ101RESET ZZ101o[2] ZZ101nq[2] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[3] ZZ101TICK ZZ101RESET ZZ101o[3] ZZ101nq[3] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[4] ZZ101TICK ZZ101RESET ZZ101o[4] ZZ101nq[4] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[5] ZZ101TICK ZZ101RESET ZZ101o[5] ZZ101nq[5] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[6] ZZ101TICK ZZ101RESET ZZ101o[6] ZZ101nq[6] 
+
+ ;
+  Dff "Dff" bc.aa.aa ONE 
+ZZ101i[7] ZZ101TICK ZZ101RESET ZZ101o[7] ZZ101nq[7] 
+
+ ;
+ End ; /* MPC */
+Alias ZZ100MPC[7] ZZ100MPC[6] ZZ100MPC[5] ZZ100MPC[4] ZZ100MPC[3] ZZ100MPC[2] ZZ100MPC[1] ZZ100MPC[0] ZZ100INCROUT[7] ZZ100INCROUT[6] ZZ100INCROUT[5] ZZ100INCROUT[4] ZZ100INCROUT[3] ZZ100INCROUT[2] ZZ100INCROUT[1] ZZ100INCROUT[0] | ZZ102in[7] ZZ102in[6] ZZ102in[5] ZZ102in[4] ZZ102in[3] ZZ102in[2] ZZ102in[1] ZZ102in[0] ZZ102INCROUT[7] ZZ102INCROUT[6] ZZ102INCROUT[5] ZZ102INCROUT[4] ZZ102INCROUT[3] ZZ102INCROUT[2] ZZ102INCROUT[1] ZZ102INCROUT[0]  ;
+Module  "INCR"  bc.ab ZZ102in[7] ZZ102in[6] ZZ102in[5] ZZ102in[4] ZZ102in[3] ZZ102in[2] ZZ102in[1] ZZ102in[0] | ZZ102INCROUT[7] ZZ102INCROUT[6] ZZ102INCROUT[5] ZZ102INCROUT[4] ZZ102INCROUT[3] ZZ102INCROUT[2] ZZ102INCROUT[1] ZZ102INCROUT[0]  ;
+Alias ONE ZZ102in[0] ZERO ZZ102c-out1 ZZ102INCROUT[0] | ZZ103CarryIn ZZ103a ZZ103b ZZ103CarryOut ZZ103Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ103CarryIn ZZ103a ZZ103b | ZZ103CarryOut ZZ103Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ103a 
+ZZ103b ZZ103x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ103x 
+ZZ103CarryIn ZZ103Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ103a 
+ZZ103b ZZ103y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ103CarryIn 
+ZZ103x ZZ103z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ103y 
+ZZ103z ZZ103CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out1 ZZ102in[1] ZERO ZZ102c-out2 ZZ102INCROUT[1] | ZZ104CarryIn ZZ104a ZZ104b ZZ104CarryOut ZZ104Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ104CarryIn ZZ104a ZZ104b | ZZ104CarryOut ZZ104Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ104a 
+ZZ104b ZZ104x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ104x 
+ZZ104CarryIn ZZ104Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ104a 
+ZZ104b ZZ104y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ104CarryIn 
+ZZ104x ZZ104z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ104y 
+ZZ104z ZZ104CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out2 ZZ102in[2] ZERO ZZ102c-out3 ZZ102INCROUT[2] | ZZ105CarryIn ZZ105a ZZ105b ZZ105CarryOut ZZ105Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ105CarryIn ZZ105a ZZ105b | ZZ105CarryOut ZZ105Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ105a 
+ZZ105b ZZ105x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ105x 
+ZZ105CarryIn ZZ105Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ105a 
+ZZ105b ZZ105y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ105CarryIn 
+ZZ105x ZZ105z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ105y 
+ZZ105z ZZ105CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out3 ZZ102in[3] ZERO ZZ102c-out4 ZZ102INCROUT[3] | ZZ106CarryIn ZZ106a ZZ106b ZZ106CarryOut ZZ106Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ106CarryIn ZZ106a ZZ106b | ZZ106CarryOut ZZ106Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ106a 
+ZZ106b ZZ106x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ106x 
+ZZ106CarryIn ZZ106Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ106a 
+ZZ106b ZZ106y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ106CarryIn 
+ZZ106x ZZ106z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ106y 
+ZZ106z ZZ106CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out4 ZZ102in[4] ZERO ZZ102c-out5 ZZ102INCROUT[4] | ZZ107CarryIn ZZ107a ZZ107b ZZ107CarryOut ZZ107Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ107CarryIn ZZ107a ZZ107b | ZZ107CarryOut ZZ107Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ107a 
+ZZ107b ZZ107x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ107x 
+ZZ107CarryIn ZZ107Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ107a 
+ZZ107b ZZ107y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ107CarryIn 
+ZZ107x ZZ107z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ107y 
+ZZ107z ZZ107CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out5 ZZ102in[5] ZERO ZZ102c-out6 ZZ102INCROUT[5] | ZZ108CarryIn ZZ108a ZZ108b ZZ108CarryOut ZZ108Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ108CarryIn ZZ108a ZZ108b | ZZ108CarryOut ZZ108Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ108a 
+ZZ108b ZZ108x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ108x 
+ZZ108CarryIn ZZ108Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ108a 
+ZZ108b ZZ108y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ108CarryIn 
+ZZ108x ZZ108z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ108y 
+ZZ108z ZZ108CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out6 ZZ102in[6] ZERO ZZ102c-out7 ZZ102INCROUT[6] | ZZ109CarryIn ZZ109a ZZ109b ZZ109CarryOut ZZ109Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ109CarryIn ZZ109a ZZ109b | ZZ109CarryOut ZZ109Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ109a 
+ZZ109b ZZ109x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ109x 
+ZZ109CarryIn ZZ109Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ109a 
+ZZ109b ZZ109y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ109CarryIn 
+ZZ109x ZZ109z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ109y 
+ZZ109z ZZ109CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ102c-out7 ZZ102in[7] ZERO ZZ102c-out8 ZZ102INCROUT[7] | ZZ110CarryIn ZZ110a ZZ110b ZZ110CarryOut ZZ110Sum  ;
+Module  "Full_Adder"  bc.ab.aa ZZ110CarryIn ZZ110a ZZ110b | ZZ110CarryOut ZZ110Sum  ;
+  Xor "Xor" bc.ab.aa.aa ZZ110a 
+ZZ110b ZZ110x 
+
+ ;
+  Xor "Xor" bc.ab.aa.ab ZZ110x 
+ZZ110CarryIn ZZ110Sum 
+
+ ;
+  And "And" bc.ab.aa.bb ZZ110a 
+ZZ110b ZZ110y 
+
+ ;
+  And "And" bc.ab.aa.cb ZZ110CarryIn 
+ZZ110x ZZ110z 
+
+ ;
+  Or "Or" bc.ab.aa.bc-cc ZZ110y 
+ZZ110z ZZ110CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+ End ; /* INCR */
+  Mux-mxn "Mux-mxn" bc.ac ZZ100MIR[7] 
+ZZ100MIR[6] ZZ100MIR[5] ZZ100MIR[4] ZZ100MIR[3] ZZ100MIR[2] ZZ100MIR[1] ZZ100MIR[0] ZZ100INCROUT[7] ZZ100INCROUT[6] ZZ100INCROUT[5] ZZ100INCROUT[4] ZZ100INCROUT[3] ZZ100INCROUT[2] ZZ100INCROUT[1] ZZ100INCROUT[0] ZZ100MSLOUT 
+
+| ZZ100MMUXOUT[7] 
+ZZ100MMUXOUT[6] ZZ100MMUXOUT[5] ZZ100MMUXOUT[4] ZZ100MMUXOUT[3] ZZ100MMUXOUT[2] ZZ100MMUXOUT[1] ZZ100MMUXOUT[0] 
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[0] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[1] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[2] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[3] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[4] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[5] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[6] 
+
+
+ ;
+  Probe "Probe" bc.ac ZZ100MMUXOUT[7] 
+
+
+ ;
+Alias ZZ100N ZZ100Z ZZ100MIR[30] ZZ100MIR[29] ZZ100MSLOUT | ZZ111n ZZ111z ZZ111c1 ZZ111c0 ZZ111MSLOUT  ;
+Module  "MSL"  bc.ad ZZ111n ZZ111z ZZ111c1 ZZ111c0 | ZZ111MSLOUT  ;
+  Not "Not" bc.ad.aa ZZ111n 
+ZZ111nn 
+
+ ;
+  Not "Not" bc.ad.aa ZZ111z 
+ZZ111nz 
+
+ ;
+  Not "Not" bc.ad.aa ZZ111c1 
+ZZ111nc1 
+
+ ;
+  Not "Not" bc.ad.aa ZZ111c0 
+ZZ111nc0 
+
+ ;
+  And "And" bc.ad.aa ZZ111nc1 
+ZZ111c0 ZZ111n ZZ111nz 01 
+
+ ;
+  And "And" bc.ad.aa ZZ111nc1 
+ZZ111c0 ZZ111n ZZ111z 02 
+
+ ;
+  And "And" bc.ad.aa ZZ111c1 
+ZZ111nc0 ZZ111nn ZZ111z 03 
+
+ ;
+  And "And" bc.ad.aa ZZ111c1 
+ZZ111nc0 ZZ111n ZZ111z 04 
+
+ ;
+  And "And" bc.ad.aa ZZ111c1 
+ZZ111c0 ZZ111nn ZZ111nz 05 
+
+ ;
+  And "And" bc.ad.aa ZZ111c1 
+ZZ111c0 ZZ111nn ZZ111z 06 
+
+ ;
+  And "And" bc.ad.aa ZZ111c1 
+ZZ111c0 ZZ111n ZZ111nz 07 
+
+ ;
+  And "And" bc.ad.aa ZZ111c1 
+ZZ111c0 ZZ111n ZZ111z 08 
+
+ ;
+  Or "Or" bc.ad.aa 01 
+02 03 04 05 06 07 08 ZZ111MSLOUT 
+
+ ;
+ End ; /* MSL */
+  Probe "Probe" bc.ad ZZ100MSLOUT 
+
+
+ ;
+Alias ZZ100MPC[7] ZZ100MPC[6] ZZ100MPC[5] ZZ100MPC[4] ZZ100MPC[3] ZZ100MPC[2] ZZ100MPC[1] ZZ100MPC[0] ZZ100MPS[31] ZZ100MPS[30] ZZ100MPS[29] ZZ100MPS[28] ZZ100MPS[27] ZZ100MPS[26] ZZ100MPS[25] ZZ100MPS[24] ZZ100MPS[23] ZZ100MPS[22] ZZ100MPS[21] ZZ100MPS[20] ZZ100MPS[19] ZZ100MPS[18] ZZ100MPS[17] ZZ100MPS[16] ZZ100MPS[15] ZZ100MPS[14] ZZ100MPS[13] ZZ100MPS[12] ZZ100MPS[11] ZZ100MPS[10] ZZ100MPS[9] ZZ100MPS[8] ZZ100MPS[7] ZZ100MPS[6] ZZ100MPS[5] ZZ100MPS[4] ZZ100MPS[3] ZZ100MPS[2] ZZ100MPS[1] ZZ100MPS[0] | ZZ112a[7] ZZ112a[6] ZZ112a[5] ZZ112a[4] ZZ112a[3] ZZ112a[2] ZZ112a[1] ZZ112a[0] ZZ112d[31] ZZ112d[30] ZZ112d[29] ZZ112d[28] ZZ112d[27] ZZ112d[26] ZZ112d[25] ZZ112d[24] ZZ112d[23] ZZ112d[22] ZZ112d[21] ZZ112d[20] ZZ112d[19] ZZ112d[18] ZZ112d[17] ZZ112d[16] ZZ112d[15] ZZ112d[14] ZZ112d[13] ZZ112d[12] ZZ112d[11] ZZ112d[10] ZZ112d[9] ZZ112d[8] ZZ112d[7] ZZ112d[6] ZZ112d[5] ZZ112d[4] ZZ112d[3] ZZ112d[2] ZZ112d[1] ZZ112d[0]  ;
+Module  "MIC2"  bc.ba ZZ112a[7] ZZ112a[6] ZZ112a[5] ZZ112a[4] ZZ112a[3] ZZ112a[2] ZZ112a[1] ZZ112a[0] | ZZ112d[31] ZZ112d[30] ZZ112d[29] ZZ112d[28] ZZ112d[27] ZZ112d[26] ZZ112d[25] ZZ112d[24] ZZ112d[23] ZZ112d[22] ZZ112d[21] ZZ112d[20] ZZ112d[19] ZZ112d[18] ZZ112d[17] ZZ112d[16] ZZ112d[15] ZZ112d[14] ZZ112d[13] ZZ112d[12] ZZ112d[11] ZZ112d[10] ZZ112d[9] ZZ112d[8] ZZ112d[7] ZZ112d[6] ZZ112d[5] ZZ112d[4] ZZ112d[3] ZZ112d[2] ZZ112d[1] ZZ112d[0]  ;
+  Rom128x32 "Rom128x32" bc.ba.aa ZZ112a[6] 
+ZZ112a[5] ZZ112a[4] ZZ112a[3] ZZ112a[2] ZZ112a[1] ZZ112a[0] ZERO ZZ112d[31] ZZ112d[30] ZZ112d[29] ZZ112d[28] ZZ112d[27] ZZ112d[26] ZZ112d[25] ZZ112d[24] ZZ112d[23] 
+ZZ112d[22] ZZ112d[21] ZZ112d[20] ZZ112d[19] ZZ112d[18] ZZ112d[17] ZZ112d[16] ZZ112d[15] ZZ112d[14] ZZ112d[13] ZZ112d[12] ZZ112d[11] ZZ112d[10] ZZ112d[9] ZZ112d[8] ZZ112d[7] 
+ZZ112d[6] ZZ112d[5] ZZ112d[4] ZZ112d[3] ZZ112d[2] ZZ112d[1] ZZ112d[0] 16 192 0 0 1 80 96 0 176 
+19 0 28 36 20 51 19 52 20 4 11 48 0 4 9 16 
+192 48 0 1 64 0 0 240 17 0 0 17 160 49 0 112 
+32 0 0 48 0 4 15 16 192 48 0 16 64 0 0 224 
+17 16 0 16 192 48 0 0 81 97 0 152 26 0 0 96 
+17 161 0 52 20 4 25 48 0 4 23 48 0 1 27 104 
+16 131 0 80 0 1 22 112 0 0 0 48 0 4 27 104 
+16 131 0 104 17 131 0 36 20 51 40 52 20 4 35 48 
+0 4 33 0 26 35 0 112 192 160 7 0 26 35 0 113 
+160 161 10 48 0 4 38 0 26 35 0 112 192 160 13 0 
+26 35 0 112 192 160 16 52 20 4 46 48 0 4 44 48 
+0 1 22 112 0 0 0 80 0 1 0 104 16 131 0 52 
+20 4 50 0 18 114 0 17 160 32 0 104 48 131 0 52 
+20 4 65 52 20 4 59 48 0 4 56 16 192 16 0 0 
+82 114 0 112 160 32 10 0 210 98 0 16 64 0 0 112 
+160 16 10 48 0 4 62 0 18 114 0 113 160 33 10 0 
+210 98 0 16 64 0 0 240 17 0 0 52 20 4 73 48 
+0 4 70 0 210 98 0 16 64 0 0 240 16 0 0 16 
+26 1 0 16 17 2 0 112 18 10 0 48 0 4 76 8 
+26 147 0 96 18 162 0 8 26 147 0 24 26 10 0 96 
+26 106 75 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 
+
+ ;
+ End ; /* MIC2 */
+  Register "Register" bc.bb ZZ100MPS[31] 
+ZZ100MPS[30] ZZ100MPS[29] ZZ100MPS[28] ZZ100MPS[27] ZZ100MPS[26] ZZ100MPS[25] ZZ100MPS[24] ZZ100MPS[23] ZZ100MPS[22] ZZ100MPS[21] ZZ100MPS[20] ZZ100MPS[19] ZZ100MPS[18] ZZ100MPS[17] ZZ100MPS[16] ZZ100MPS[15] 
+ZZ100MPS[14] ZZ100MPS[13] ZZ100MPS[12] ZZ100MPS[11] ZZ100MPS[10] ZZ100MPS[9] ZZ100MPS[8] ZZ100MPS[7] ZZ100MPS[6] ZZ100MPS[5] ZZ100MPS[4] ZZ100MPS[3] ZZ100MPS[2] ZZ100MPS[1] ZZ100MPS[0] ZZ100nTick 
+
+| ZZ100MIR[31] 
+ZZ100MIR[30] ZZ100MIR[29] ZZ100MIR[28] ZZ100MIR[27] ZZ100MIR[26] ZZ100MIR[25] ZZ100MIR[24] ZZ100MIR[23] ZZ100MIR[22] ZZ100MIR[21] ZZ100MIR[20] ZZ100MIR[19] ZZ100MIR[18] ZZ100MIR[17] ZZ100MIR[16] ZZ100MIR[15] 
+ZZ100MIR[14] ZZ100MIR[13] ZZ100MIR[12] ZZ100MIR[11] ZZ100MIR[10] ZZ100MIR[9] ZZ100MIR[8] ZZ100MIR[7] ZZ100MIR[6] ZZ100MIR[5] ZZ100MIR[4] ZZ100MIR[3] ZZ100MIR[2] ZZ100MIR[1] ZZ100MIR[0] 
+ ;
+ End ; /* MIR-Comp */
+Alias Phase[4] Phase[3] Phase[2] Phase[1] MIR[22] MIR[21] MIR[23] MIR[24] B[15] B[14] B[13] B[12] B[11] B[10] B[9] B[8] B[7] B[6] B[5] B[4] B[3] B[2] B[1] B[0] DataOut[15] DataOut[14] DataOut[13] DataOut[12] DataOut[11] DataOut[10] DataOut[9] DataOut[8] DataOut[7] DataOut[6] DataOut[5] DataOut[4] DataOut[3] DataOut[2] DataOut[1] DataOut[0] C[15] C[14] C[13] C[12] C[11] C[10] C[9] C[8] C[7] C[6] C[5] C[4] C[3] C[2] C[1] C[0] MReq READ AddrBus[15] AddrBus[14] AddrBus[13] AddrBus[12] AddrBus[11] AddrBus[10] AddrBus[9] AddrBus[8] AddrBus[7] AddrBus[6] AddrBus[5] AddrBus[4] AddrBus[3] AddrBus[2] AddrBus[1] AddrBus[0] DataBusOut[15] DataBusOut[14] DataBusOut[13] DataBusOut[12] DataBusOut[11] DataBusOut[10] DataBusOut[9] DataBusOut[8] DataBusOut[7] DataBusOut[6] DataBusOut[5] DataBusOut[4] DataBusOut[3] DataBusOut[2] DataBusOut[1] DataBusOut[0] MBROutput[15] MBROutput[14] MBROutput[13] MBROutput[12] MBROutput[11] MBROutput[10] MBROutput[9] MBROutput[8] MBROutput[7] MBROutput[6] MBROutput[5] MBROutput[4] MBROutput[3] MBROutput[2] MBROutput[1] MBROutput[0] | ZZ113Phase[4] ZZ113Phase[3] ZZ113Phase[2] ZZ113Phase[1] ZZ113RD ZZ113WR ZZ113MAR ZZ113MBR ZZ113MARData[15] ZZ113MARData[14] ZZ113MARData[13] ZZ113MARData[12] ZZ113MARData[11] ZZ113MARData[10] ZZ113MARData[9] ZZ113MARData[8] ZZ113MARData[7] ZZ113MARData[6] ZZ113MARData[5] ZZ113MARData[4] ZZ113MARData[3] ZZ113MARData[2] ZZ113MARData[1] ZZ113MARData[0] ZZ113DataBusIn[15] ZZ113DataBusIn[14] ZZ113DataBusIn[13] ZZ113DataBusIn[12] ZZ113DataBusIn[11] ZZ113DataBusIn[10] ZZ113DataBusIn[9] ZZ113DataBusIn[8] ZZ113DataBusIn[7] ZZ113DataBusIn[6] ZZ113DataBusIn[5] ZZ113DataBusIn[4] ZZ113DataBusIn[3] ZZ113DataBusIn[2] ZZ113DataBusIn[1] ZZ113DataBusIn[0] ZZ113C[15] ZZ113C[14] ZZ113C[13] ZZ113C[12] ZZ113C[11] ZZ113C[10] ZZ113C[9] ZZ113C[8] ZZ113C[7] ZZ113C[6] ZZ113C[5] ZZ113C[4] ZZ113C[3] ZZ113C[2] ZZ113C[1] ZZ113C[0] ZZ113MReq ZZ113READ ZZ113AddrBus[15] ZZ113AddrBus[14] ZZ113AddrBus[13] ZZ113AddrBus[12] ZZ113AddrBus[11] ZZ113AddrBus[10] ZZ113AddrBus[9] ZZ113AddrBus[8] ZZ113AddrBus[7] ZZ113AddrBus[6] ZZ113AddrBus[5] ZZ113AddrBus[4] ZZ113AddrBus[3] ZZ113AddrBus[2] ZZ113AddrBus[1] ZZ113AddrBus[0] ZZ113DataBusOut[15] ZZ113DataBusOut[14] ZZ113DataBusOut[13] ZZ113DataBusOut[12] ZZ113DataBusOut[11] ZZ113DataBusOut[10] ZZ113DataBusOut[9] ZZ113DataBusOut[8] ZZ113DataBusOut[7] ZZ113DataBusOut[6] ZZ113DataBusOut[5] ZZ113DataBusOut[4] ZZ113DataBusOut[3] ZZ113DataBusOut[2] ZZ113DataBusOut[1] ZZ113DataBusOut[0] ZZ113MBROutput[15] ZZ113MBROutput[14] ZZ113MBROutput[13] ZZ113MBROutput[12] ZZ113MBROutput[11] ZZ113MBROutput[10] ZZ113MBROutput[9] ZZ113MBROutput[8] ZZ113MBROutput[7] ZZ113MBROutput[6] ZZ113MBROutput[5] ZZ113MBROutput[4] ZZ113MBROutput[3] ZZ113MBROutput[2] ZZ113MBROutput[1] ZZ113MBROutput[0]  ;
+Module  "Comm"  ba ZZ113Phase[4] ZZ113Phase[3] ZZ113Phase[2] ZZ113Phase[1] ZZ113RD ZZ113WR ZZ113MAR ZZ113MBR ZZ113MARData[15] ZZ113MARData[14] ZZ113MARData[13] ZZ113MARData[12] ZZ113MARData[11] ZZ113MARData[10] ZZ113MARData[9] ZZ113MARData[8] ZZ113MARData[7] ZZ113MARData[6] ZZ113MARData[5] ZZ113MARData[4] ZZ113MARData[3] ZZ113MARData[2] ZZ113MARData[1] ZZ113MARData[0] ZZ113DataBusIn[15] ZZ113DataBusIn[14] ZZ113DataBusIn[13] ZZ113DataBusIn[12] ZZ113DataBusIn[11] ZZ113DataBusIn[10] ZZ113DataBusIn[9] ZZ113DataBusIn[8] ZZ113DataBusIn[7] ZZ113DataBusIn[6] ZZ113DataBusIn[5] ZZ113DataBusIn[4] ZZ113DataBusIn[3] ZZ113DataBusIn[2] ZZ113DataBusIn[1] ZZ113DataBusIn[0] ZZ113C[15] ZZ113C[14] ZZ113C[13] ZZ113C[12] ZZ113C[11] ZZ113C[10] ZZ113C[9] ZZ113C[8] ZZ113C[7] ZZ113C[6] ZZ113C[5] ZZ113C[4] ZZ113C[3] ZZ113C[2] ZZ113C[1] ZZ113C[0] | ZZ113MReq ZZ113READ ZZ113AddrBus[15] ZZ113AddrBus[14] ZZ113AddrBus[13] ZZ113AddrBus[12] ZZ113AddrBus[11] ZZ113AddrBus[10] ZZ113AddrBus[9] ZZ113AddrBus[8] ZZ113AddrBus[7] ZZ113AddrBus[6] ZZ113AddrBus[5] ZZ113AddrBus[4] ZZ113AddrBus[3] ZZ113AddrBus[2] ZZ113AddrBus[1] ZZ113AddrBus[0] ZZ113DataBusOut[15] ZZ113DataBusOut[14] ZZ113DataBusOut[13] ZZ113DataBusOut[12] ZZ113DataBusOut[11] ZZ113DataBusOut[10] ZZ113DataBusOut[9] ZZ113DataBusOut[8] ZZ113DataBusOut[7] ZZ113DataBusOut[6] ZZ113DataBusOut[5] ZZ113DataBusOut[4] ZZ113DataBusOut[3] ZZ113DataBusOut[2] ZZ113DataBusOut[1] ZZ113DataBusOut[0] ZZ113MBROutput[15] ZZ113MBROutput[14] ZZ113MBROutput[13] ZZ113MBROutput[12] ZZ113MBROutput[11] ZZ113MBROutput[10] ZZ113MBROutput[9] ZZ113MBROutput[8] ZZ113MBROutput[7] ZZ113MBROutput[6] ZZ113MBROutput[5] ZZ113MBROutput[4] ZZ113MBROutput[3] ZZ113MBROutput[2] ZZ113MBROutput[1] ZZ113MBROutput[0]  ;
+  Not "Not" ba.bc ZZ113WR 
+ZZ113nWR 
+
+ ;
+  Register "MAR" ba.aa ZZ113MARData[15] 
+ZZ113MARData[14] ZZ113MARData[13] ZZ113MARData[12] ZZ113MARData[11] ZZ113MARData[10] ZZ113MARData[9] ZZ113MARData[8] ZZ113MARData[7] ZZ113MARData[6] ZZ113MARData[5] ZZ113MARData[4] ZZ113MARData[3] ZZ113MARData[2] ZZ113MARData[1] ZZ113MARData[0] ZZ113marload 
+
+| ZZ113AddrBus[15] 
+ZZ113AddrBus[14] ZZ113AddrBus[13] ZZ113AddrBus[12] ZZ113AddrBus[11] ZZ113AddrBus[10] ZZ113AddrBus[9] ZZ113AddrBus[8] ZZ113AddrBus[7] ZZ113AddrBus[6] ZZ113AddrBus[5] ZZ113AddrBus[4] ZZ113AddrBus[3] ZZ113AddrBus[2] ZZ113AddrBus[1] ZZ113AddrBus[0] 
+ ;
+  Nand "Nand" ba.aa ZZ113MAR 
+ZZ113Phase[3] ZZ113marload 
+
+ ;
+  Mux-mxn "Mux-mxn" ba.ba ZZ113C[15] 
+ZZ113C[14] ZZ113C[13] ZZ113C[12] ZZ113C[11] ZZ113C[10] ZZ113C[9] ZZ113C[8] ZZ113C[7] ZZ113C[6] ZZ113C[5] ZZ113C[4] ZZ113C[3] ZZ113C[2] ZZ113C[1] ZZ113C[0] ZZ113DataBusIn[15] 
+ZZ113DataBusIn[14] ZZ113DataBusIn[13] ZZ113DataBusIn[12] ZZ113DataBusIn[11] ZZ113DataBusIn[10] ZZ113DataBusIn[9] ZZ113DataBusIn[8] ZZ113DataBusIn[7] ZZ113DataBusIn[6] ZZ113DataBusIn[5] ZZ113DataBusIn[4] ZZ113DataBusIn[3] ZZ113DataBusIn[2] ZZ113DataBusIn[1] ZZ113DataBusIn[0] ZZ113sel 
+
+| ZZ113MUXOUT[15] 
+ZZ113MUXOUT[14] ZZ113MUXOUT[13] ZZ113MUXOUT[12] ZZ113MUXOUT[11] ZZ113MUXOUT[10] ZZ113MUXOUT[9] ZZ113MUXOUT[8] ZZ113MUXOUT[7] ZZ113MUXOUT[6] ZZ113MUXOUT[5] ZZ113MUXOUT[4] ZZ113MUXOUT[3] ZZ113MUXOUT[2] ZZ113MUXOUT[1] ZZ113MUXOUT[0] 
+ ;
+  Register "MBR" ba.bb ZZ113MUXOUT[15] 
+ZZ113MUXOUT[14] ZZ113MUXOUT[13] ZZ113MUXOUT[12] ZZ113MUXOUT[11] ZZ113MUXOUT[10] ZZ113MUXOUT[9] ZZ113MUXOUT[8] ZZ113MUXOUT[7] ZZ113MUXOUT[6] ZZ113MUXOUT[5] ZZ113MUXOUT[4] ZZ113MUXOUT[3] ZZ113MUXOUT[2] ZZ113MUXOUT[1] ZZ113MUXOUT[0] ZZ113mbrload 
+
+| ZZ113MBROutput[15] 
+ZZ113MBROutput[14] ZZ113MBROutput[13] ZZ113MBROutput[12] ZZ113MBROutput[11] ZZ113MBROutput[10] ZZ113MBROutput[9] ZZ113MBROutput[8] ZZ113MBROutput[7] ZZ113MBROutput[6] ZZ113MBROutput[5] ZZ113MBROutput[4] ZZ113MBROutput[3] ZZ113MBROutput[2] ZZ113MBROutput[1] ZZ113MBROutput[0] 
+ ;
+  Nand "Nand" ba.bb ZZ113MBR 
+ZZ113Phase[4] ZZ113mbrload 
+
+ ;
+Alias ZZ113MBROutput[15] ZZ113MBROutput[14] ZZ113MBROutput[13] ZZ113MBROutput[12] ZZ113MBROutput[11] ZZ113MBROutput[10] ZZ113MBROutput[9] ZZ113MBROutput[8] ZZ113MBROutput[7] ZZ113MBROutput[6] ZZ113MBROutput[5] ZZ113MBROutput[4] ZZ113MBROutput[3] ZZ113MBROutput[2] ZZ113MBROutput[1] ZZ113MBROutput[0] ZZ113nWR ZZ113DataBusOut[15] ZZ113DataBusOut[14] ZZ113DataBusOut[13] ZZ113DataBusOut[12] ZZ113DataBusOut[11] ZZ113DataBusOut[10] ZZ113DataBusOut[9] ZZ113DataBusOut[8] ZZ113DataBusOut[7] ZZ113DataBusOut[6] ZZ113DataBusOut[5] ZZ113DataBusOut[4] ZZ113DataBusOut[3] ZZ113DataBusOut[2] ZZ113DataBusOut[1] ZZ113DataBusOut[0] | ZZ114in[15] ZZ114in[14] ZZ114in[13] ZZ114in[12] ZZ114in[11] ZZ114in[10] ZZ114in[9] ZZ114in[8] ZZ114in[7] ZZ114in[6] ZZ114in[5] ZZ114in[4] ZZ114in[3] ZZ114in[2] ZZ114in[1] ZZ114in[0] ZZ114WR ZZ114out[15] ZZ114out[14] ZZ114out[13] ZZ114out[12] ZZ114out[11] ZZ114out[10] ZZ114out[9] ZZ114out[8] ZZ114out[7] ZZ114out[6] ZZ114out[5] ZZ114out[4] ZZ114out[3] ZZ114out[2] ZZ114out[1] ZZ114out[0]  ;
+Module  "TRI"  ba.bc ZZ114in[15] ZZ114in[14] ZZ114in[13] ZZ114in[12] ZZ114in[11] ZZ114in[10] ZZ114in[9] ZZ114in[8] ZZ114in[7] ZZ114in[6] ZZ114in[5] ZZ114in[4] ZZ114in[3] ZZ114in[2] ZZ114in[1] ZZ114in[0] ZZ114WR | ZZ114out[15] ZZ114out[14] ZZ114out[13] ZZ114out[12] ZZ114out[11] ZZ114out[10] ZZ114out[9] ZZ114out[8] ZZ114out[7] ZZ114out[6] ZZ114out[5] ZZ114out[4] ZZ114out[3] ZZ114out[2] ZZ114out[1] ZZ114out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[0] 
+ZZ114WR 
+| ZZ114out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[1] 
+ZZ114WR 
+| ZZ114out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[2] 
+ZZ114WR 
+| ZZ114out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[3] 
+ZZ114WR 
+| ZZ114out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[4] 
+ZZ114WR 
+| ZZ114out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[5] 
+ZZ114WR 
+| ZZ114out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[6] 
+ZZ114WR 
+| ZZ114out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[7] 
+ZZ114WR 
+| ZZ114out[7] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[8] 
+ZZ114WR 
+| ZZ114out[8] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[9] 
+ZZ114WR 
+| ZZ114out[9] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[10] 
+ZZ114WR 
+| ZZ114out[10] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[11] 
+ZZ114WR 
+| ZZ114out[11] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[12] 
+ZZ114WR 
+| ZZ114out[12] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[13] 
+ZZ114WR 
+| ZZ114out[13] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[14] 
+ZZ114WR 
+| ZZ114out[14] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ba.bc.aa ZZ114in[15] 
+ZZ114WR 
+| ZZ114out[15] 
+
+ ;
+ End ; /* TRI */
+Alias ZZ113RD ZZ113WR ZZ113MReq ZZ113READ | ZZ115RD ZZ115WR ZZ115MREQ ZZ115READ  ;
+Module  "Comb"  ba.da ZZ115RD ZZ115WR | ZZ115MREQ ZZ115READ  ;
+  Or "Or" ba.da.aa ZZ115RD 
+ZZ115WR ZZ115MREQ 
+
+ ;
+  Or "Or" ba.da.aa ZZ115RD 
+ZERO ZZ115READ 
+
+ ;
+ End ; /* Comb */
+Alias ZZ113RD ZZ113WR ZZ113sel | ZZ116RD ZZ116WR ZZ116SELECT  ;
+Module  "SelectC"  ba.da ZZ116RD ZZ116WR | ZZ116SELECT  ;
+  Not "Not" ba.da.aa ZZ116RD 
+ZZ116nRD 
+
+ ;
+  And "And" ba.da.aa ZZ116nRD 
+ZZ116WR ZZ116SELECT 
+
+ ;
+ End ; /* SelectC */
+ End ; /* Comm */
+Alias MReq READ AddrBus[15] AddrBus[14] AddrBus[13] AddrBus[12] AddrBus[11] AddrBus[10] AddrBus[9] AddrBus[8] AddrBus[7] AddrBus[6] AddrBus[5] AddrBus[4] AddrBus[3] AddrBus[2] AddrBus[1] AddrBus[0] DataBusOut[15] DataBusOut[14] DataBusOut[13] DataBusOut[12] DataBusOut[11] DataBusOut[10] DataBusOut[9] DataBusOut[8] DataBusOut[7] DataBusOut[6] DataBusOut[5] DataBusOut[4] DataBusOut[3] DataBusOut[2] DataBusOut[1] DataBusOut[0] DataOut[15] DataOut[14] DataOut[13] DataOut[12] DataOut[11] DataOut[10] DataOut[9] DataOut[8] DataOut[7] DataOut[6] DataOut[5] DataOut[4] DataOut[3] DataOut[2] DataOut[1] DataOut[0] | ZZ117MReq ZZ117Read ZZ117Addr[15] ZZ117Addr[14] ZZ117Addr[13] ZZ117Addr[12] ZZ117Addr[11] ZZ117Addr[10] ZZ117Addr[9] ZZ117Addr[8] ZZ117Addr[7] ZZ117Addr[6] ZZ117Addr[5] ZZ117Addr[4] ZZ117Addr[3] ZZ117Addr[2] ZZ117Addr[1] ZZ117Addr[0] ZZ117DataIn[15] ZZ117DataIn[14] ZZ117DataIn[13] ZZ117DataIn[12] ZZ117DataIn[11] ZZ117DataIn[10] ZZ117DataIn[9] ZZ117DataIn[8] ZZ117DataIn[7] ZZ117DataIn[6] ZZ117DataIn[5] ZZ117DataIn[4] ZZ117DataIn[3] ZZ117DataIn[2] ZZ117DataIn[1] ZZ117DataIn[0] ZZ117DataOut[15] ZZ117DataOut[14] ZZ117DataOut[13] ZZ117DataOut[12] ZZ117DataOut[11] ZZ117DataOut[10] ZZ117DataOut[9] ZZ117DataOut[8] ZZ117DataOut[7] ZZ117DataOut[6] ZZ117DataOut[5] ZZ117DataOut[4] ZZ117DataOut[3] ZZ117DataOut[2] ZZ117DataOut[1] ZZ117DataOut[0]  ;
+Module  "Memory"  be ZZ117MReq ZZ117Read ZZ117Addr[15] ZZ117Addr[14] ZZ117Addr[13] ZZ117Addr[12] ZZ117Addr[11] ZZ117Addr[10] ZZ117Addr[9] ZZ117Addr[8] ZZ117Addr[7] ZZ117Addr[6] ZZ117Addr[5] ZZ117Addr[4] ZZ117Addr[3] ZZ117Addr[2] ZZ117Addr[1] ZZ117Addr[0] ZZ117DataIn[15] ZZ117DataIn[14] ZZ117DataIn[13] ZZ117DataIn[12] ZZ117DataIn[11] ZZ117DataIn[10] ZZ117DataIn[9] ZZ117DataIn[8] ZZ117DataIn[7] ZZ117DataIn[6] ZZ117DataIn[5] ZZ117DataIn[4] ZZ117DataIn[3] ZZ117DataIn[2] ZZ117DataIn[1] ZZ117DataIn[0] | ZZ117DataOut[15] ZZ117DataOut[14] ZZ117DataOut[13] ZZ117DataOut[12] ZZ117DataOut[11] ZZ117DataOut[10] ZZ117DataOut[9] ZZ117DataOut[8] ZZ117DataOut[7] ZZ117DataOut[6] ZZ117DataOut[5] ZZ117DataOut[4] ZZ117DataOut[3] ZZ117DataOut[2] ZZ117DataOut[1] ZZ117DataOut[0]  ;
+  Rom64x16 "Rom64x16" be.aa ZZ117Addr[5] 
+ZZ117Addr[4] ZZ117Addr[3] ZZ117Addr[2] ZZ117Addr[1] ZZ117Addr[0] ZERO ZZ117RomOut[15] ZZ117RomOut[14] ZZ117RomOut[13] ZZ117RomOut[12] ZZ117RomOut[11] ZZ117RomOut[10] ZZ117RomOut[9] ZZ117RomOut[8] ZZ117RomOut[7] ZZ117RomOut[6] 
+ZZ117RomOut[5] ZZ117RomOut[4] ZZ117RomOut[3] ZZ117RomOut[2] ZZ117RomOut[1] ZZ117RomOut[0] 10 4168 72 0 0 0 0 0 0 0 
+0 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 
+
+ ;
+Alias ZZ117MReq ZZ117Read ZZ117Addr[6] ZZ117tri-enable | ZZ118mem ZZ118read ZZ118line ZZ118OUT  ;
+Module  "Circuit1"  be.ba ZZ118mem ZZ118read ZZ118line | ZZ118OUT  ;
+  Not "Not" be.ba.aa ZZ118line 
+ZZ118nline 
+
+ ;
+  And "And" be.ba.aa ZZ118mem 
+ZZ118read ZZ118nline ZZ118out 
+
+ ;
+  Not "Not" be.ba.aa ZZ118out 
+ZZ118OUT 
+
+ ;
+ End ; /* Circuit1 */
+  Probe "1tri" be.ba ZZ117tri-enable 
+
+
+ ;
+Alias ZZ117RomOut[15] ZZ117RomOut[14] ZZ117RomOut[13] ZZ117RomOut[12] ZZ117RomOut[11] ZZ117RomOut[10] ZZ117RomOut[9] ZZ117RomOut[8] ZZ117RomOut[7] ZZ117RomOut[6] ZZ117RomOut[5] ZZ117RomOut[4] ZZ117RomOut[3] ZZ117RomOut[2] ZZ117RomOut[1] ZZ117RomOut[0] ZZ117tri-enable ZZ117DataOut[15] ZZ117DataOut[14] ZZ117DataOut[13] ZZ117DataOut[12] ZZ117DataOut[11] ZZ117DataOut[10] ZZ117DataOut[9] ZZ117DataOut[8] ZZ117DataOut[7] ZZ117DataOut[6] ZZ117DataOut[5] ZZ117DataOut[4] ZZ117DataOut[3] ZZ117DataOut[2] ZZ117DataOut[1] ZZ117DataOut[0] | ZZ119in[15] ZZ119in[14] ZZ119in[13] ZZ119in[12] ZZ119in[11] ZZ119in[10] ZZ119in[9] ZZ119in[8] ZZ119in[7] ZZ119in[6] ZZ119in[5] ZZ119in[4] ZZ119in[3] ZZ119in[2] ZZ119in[1] ZZ119in[0] ZZ119en ZZ119out[15] ZZ119out[14] ZZ119out[13] ZZ119out[12] ZZ119out[11] ZZ119out[10] ZZ119out[9] ZZ119out[8] ZZ119out[7] ZZ119out[6] ZZ119out[5] ZZ119out[4] ZZ119out[3] ZZ119out[2] ZZ119out[1] ZZ119out[0]  ;
+Module  "TRI1"  be.ab ZZ119in[15] ZZ119in[14] ZZ119in[13] ZZ119in[12] ZZ119in[11] ZZ119in[10] ZZ119in[9] ZZ119in[8] ZZ119in[7] ZZ119in[6] ZZ119in[5] ZZ119in[4] ZZ119in[3] ZZ119in[2] ZZ119in[1] ZZ119in[0] ZZ119en | ZZ119out[15] ZZ119out[14] ZZ119out[13] ZZ119out[12] ZZ119out[11] ZZ119out[10] ZZ119out[9] ZZ119out[8] ZZ119out[7] ZZ119out[6] ZZ119out[5] ZZ119out[4] ZZ119out[3] ZZ119out[2] ZZ119out[1] ZZ119out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[0] 
+ZZ119en 
+| ZZ119out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[1] 
+ZZ119en 
+| ZZ119out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[2] 
+ZZ119en 
+| ZZ119out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[3] 
+ZZ119en 
+| ZZ119out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[4] 
+ZZ119en 
+| ZZ119out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[5] 
+ZZ119en 
+| ZZ119out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[6] 
+ZZ119en 
+| ZZ119out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[7] 
+ZZ119en 
+| ZZ119out[7] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[8] 
+ZZ119en 
+| ZZ119out[8] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[9] 
+ZZ119en 
+| ZZ119out[9] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[10] 
+ZZ119en 
+| ZZ119out[10] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[11] 
+ZZ119en 
+| ZZ119out[11] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[12] 
+ZZ119en 
+| ZZ119out[12] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[13] 
+ZZ119en 
+| ZZ119out[13] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[14] 
+ZZ119en 
+| ZZ119out[14] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ab.aa ZZ119in[15] 
+ZZ119en 
+| ZZ119out[15] 
+
+ ;
+ End ; /* TRI1 */
+  Ram64x8 "Ram64x8" be.ac ZZ117DataIn[15] 
+ZZ117DataIn[14] ZZ117DataIn[13] ZZ117DataIn[12] ZZ117DataIn[11] ZZ117DataIn[10] ZZ117DataIn[9] ZZ117DataIn[8] ZZ117Addr[5] ZZ117Addr[4] ZZ117Addr[3] ZZ117Addr[2] ZZ117Addr[1] ZZ117Addr[0] ZZ117rw ZZ117outen ZZ117Data[15] 
+ZZ117Data[14] ZZ117Data[13] ZZ117Data[12] ZZ117Data[11] ZZ117Data[10] ZZ117Data[9] ZZ117Data[8] 
+
+ ;
+Alias ZZ117MReq ZZ117Read ZZ117Addr[6] ZZ117rw ZZ117outen ZZ117tri | ZZ120mem ZZ120read ZZ120line ZZ120rw ZZ120en ZZ120tri  ;
+Module  "Circuit2"  be.bc ZZ120mem ZZ120read ZZ120line | ZZ120rw ZZ120en ZZ120tri  ;
+  And "And" be.bc.aa ZZ120mem 
+ZZ120read ZZ120line ZZ120tri-tmp 
+
+ ;
+  Not "Not" be.bc.aa ZZ120tri-tmp 
+ZZ120tri 
+
+ ;
+  Or "Or" be.bc.aa ZERO 
+ZZ120read ZZ120rw 
+
+ ;
+  And "And" be.bc.aa ZZ120mem 
+ZZ120line ZZ120en-tmp 
+
+ ;
+  Not "Not" be.bc.aa ZZ120en-tmp 
+ZZ120en 
+
+ ;
+ End ; /* Circuit2 */
+  Probe "2rw" be.bc ZZ117rw 
+
+
+ ;
+  Probe "2en" be.bc ZZ117outen 
+
+
+ ;
+  Probe "2tri" be.bc ZZ117tri 
+
+
+ ;
+Alias ZZ117Data[15] ZZ117Data[14] ZZ117Data[13] ZZ117Data[12] ZZ117Data[11] ZZ117Data[10] ZZ117Data[9] ZZ117Data[8] ZZ117tri ZZ117DataOut[15] ZZ117DataOut[14] ZZ117DataOut[13] ZZ117DataOut[12] ZZ117DataOut[11] ZZ117DataOut[10] ZZ117DataOut[9] ZZ117DataOut[8] | ZZ121in[7] ZZ121in[6] ZZ121in[5] ZZ121in[4] ZZ121in[3] ZZ121in[2] ZZ121in[1] ZZ121in[0] ZZ121en ZZ121out[7] ZZ121out[6] ZZ121out[5] ZZ121out[4] ZZ121out[3] ZZ121out[2] ZZ121out[1] ZZ121out[0]  ;
+Module  "TRI2"  be.ad ZZ121in[7] ZZ121in[6] ZZ121in[5] ZZ121in[4] ZZ121in[3] ZZ121in[2] ZZ121in[1] ZZ121in[0] ZZ121en | ZZ121out[7] ZZ121out[6] ZZ121out[5] ZZ121out[4] ZZ121out[3] ZZ121out[2] ZZ121out[1] ZZ121out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[0] 
+ZZ121en 
+| ZZ121out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[1] 
+ZZ121en 
+| ZZ121out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[2] 
+ZZ121en 
+| ZZ121out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[3] 
+ZZ121en 
+| ZZ121out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[4] 
+ZZ121en 
+| ZZ121out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[5] 
+ZZ121en 
+| ZZ121out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[6] 
+ZZ121en 
+| ZZ121out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.ad.aa ZZ121in[7] 
+ZZ121en 
+| ZZ121out[7] 
+
+ ;
+ End ; /* TRI2 */
+  Ram64x8 "Ram64x8" be.ae ZZ117DataIn[7] 
+ZZ117DataIn[6] ZZ117DataIn[5] ZZ117DataIn[4] ZZ117DataIn[3] ZZ117DataIn[2] ZZ117DataIn[1] ZZ117DataIn[0] ZZ117Addr[5] ZZ117Addr[4] ZZ117Addr[3] ZZ117Addr[2] ZZ117Addr[1] ZZ117Addr[0] ZZ117rw ZZ117outen ZZ117Data[7] 
+ZZ117Data[6] ZZ117Data[5] ZZ117Data[4] ZZ117Data[3] ZZ117Data[2] ZZ117Data[1] ZZ117Data[0] 
+
+ ;
+Alias ZZ117Data[7] ZZ117Data[6] ZZ117Data[5] ZZ117Data[4] ZZ117Data[3] ZZ117Data[2] ZZ117Data[1] ZZ117Data[0] ZZ117tri ZZ117DataOut[7] ZZ117DataOut[6] ZZ117DataOut[5] ZZ117DataOut[4] ZZ117DataOut[3] ZZ117DataOut[2] ZZ117DataOut[1] ZZ117DataOut[0] | ZZ122in[7] ZZ122in[6] ZZ122in[5] ZZ122in[4] ZZ122in[3] ZZ122in[2] ZZ122in[1] ZZ122in[0] ZZ122en ZZ122out[7] ZZ122out[6] ZZ122out[5] ZZ122out[4] ZZ122out[3] ZZ122out[2] ZZ122out[1] ZZ122out[0]  ;
+Module  "TRI2"  be.af ZZ122in[7] ZZ122in[6] ZZ122in[5] ZZ122in[4] ZZ122in[3] ZZ122in[2] ZZ122in[1] ZZ122in[0] ZZ122en | ZZ122out[7] ZZ122out[6] ZZ122out[5] ZZ122out[4] ZZ122out[3] ZZ122out[2] ZZ122out[1] ZZ122out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[0] 
+ZZ122en 
+| ZZ122out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[1] 
+ZZ122en 
+| ZZ122out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[2] 
+ZZ122en 
+| ZZ122out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[3] 
+ZZ122en 
+| ZZ122out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[4] 
+ZZ122en 
+| ZZ122out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[5] 
+ZZ122en 
+| ZZ122out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[6] 
+ZZ122en 
+| ZZ122out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" be.af.aa ZZ122in[7] 
+ZZ122en 
+| ZZ122out[7] 
+
+ ;
+ End ; /* TRI2 */
+ End ; /* Memory */
+There are 1095 components.
+There are 1199 nodes including ZERO, HI-Z, UNKNOWN, and ONE.
+
+6  fatal errors, can't continue.

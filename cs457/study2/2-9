@@ -1,0 +1,17 @@
+/* find the employees who are paid the second highest salary */
+
+
+range of E is employee
+range of E2 is employee
+range of D is department
+range of P is project
+range of W is works_on
+range of DEP is dependent
+
+retrieve (E.ssn, E.fname, E.lname, n = max (	E.salary where
+		E.salary != max ( E2.salary)  ) )
+
+where max (     E.salary where
+                E.salary != max ( E2.salary)  ) = E.salary 
+
+

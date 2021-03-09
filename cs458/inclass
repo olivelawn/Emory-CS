@@ -1,0 +1,21 @@
+;;   ------------------ inclass ? ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+; inclass question
+
+(defun palindrome (a)
+  (append (butlast a) (reverse a) ))
+
+;sample input
+;(palindrome '(h o m e))
+;(palindrome '(f o r))
+;(palindrome '(a b l e w a s I e r))
+

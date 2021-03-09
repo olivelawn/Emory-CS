@@ -1,0 +1,391 @@
+Alias Reset Tick Phase[4] Phase[3] Phase[2] Phase[1] | ZZ0r ZZ0t ZZ0Phase[3] ZZ0Phase[2] ZZ0Phase[1] ZZ0Phase[0]  ;
+Module  "Four-Phase-Clock"  ab ZZ0r ZZ0t | ZZ0Phase[3] ZZ0Phase[2] ZZ0Phase[1] ZZ0Phase[0]  ;
+  Switch "Switch" ab.aa ZZ0set 
+ONE 
+
+ ;
+  Switch "Switch" ab.aa ZZ0reset 
+ONE 
+
+ ;
+  Dff "Dff" ab.aa ONE 
+ZZ0sw1 ZZ0t ONE ZZ0q1 ZZ0q1x 
+
+ ;
+  Dff "Dff" ab.aa ONE 
+ZZ0sw2 ZZ0t ONE ZZ0q2 ZZ0q2x 
+
+ ;
+  Not "Not" ab.aa ZZ0r 
+ZZ0not-r 
+
+ ;
+  Xor "Xor" ab.aa ZZ0q1 
+ZZ0q2 ZZ0q1-xor-q2 
+
+ ;
+  And "And" ab.aa ZZ0not-r 
+ZZ0q1-xor-q2 ZZ0sw1 
+
+ ;
+  And "And" ab.aa ZZ0q2x 
+ZZ0not-r ZZ0sw2 
+
+ ;
+  And "And" ab.aa ZZ0q1x 
+ZZ0q2x ZZ0Phase[0] 
+
+ ;
+  And "And" ab.aa ZZ0q1x 
+ZZ0q2 ZZ0Phase[1] 
+
+ ;
+  And "And" ab.aa ZZ0q1 
+ZZ0q2x ZZ0Phase[2] 
+
+ ;
+  And "And" ab.aa ZZ0q1 
+ZZ0q2 ZZ0Phase[3] 
+
+ ;
+ End ; /* Four-Phase-Clock */
+Alias MARData[15] MARData[14] MARData[13] MARData[12] MARData[11] MARData[10] MARData[9] MARData[8] MARData[7] MARData[6] MARData[5] MARData[4] MARData[3] MARData[2] MARData[1] MARData[0] | ZZ1d[15] ZZ1d[14] ZZ1d[13] ZZ1d[12] ZZ1d[11] ZZ1d[10] ZZ1d[9] ZZ1d[8] ZZ1d[7] ZZ1d[6] ZZ1d[5] ZZ1d[4] ZZ1d[3] ZZ1d[2] ZZ1d[1] ZZ1d[0]  ;
+Module  "Dummy1"  ah | ZZ1d[15] ZZ1d[14] ZZ1d[13] ZZ1d[12] ZZ1d[11] ZZ1d[10] ZZ1d[9] ZZ1d[8] ZZ1d[7] ZZ1d[6] ZZ1d[5] ZZ1d[4] ZZ1d[3] ZZ1d[2] ZZ1d[1] ZZ1d[0]  ;
+  Or "Or" ah.aa ONE 
+ZZ1d[15] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[14] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[13] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[12] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[11] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[10] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[9] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[8] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[7] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[6] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[5] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[4] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[3] 
+
+ ;
+  Or "Or" ah.aa ONE 
+ZZ1d[2] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[1] 
+
+ ;
+  Or "Or" ah.aa ZERO 
+ZZ1d[0] 
+
+ ;
+ End ; /* Dummy1 */
+Alias DataBusIn[15] DataBusIn[14] DataBusIn[13] DataBusIn[12] DataBusIn[11] DataBusIn[10] DataBusIn[9] DataBusIn[8] DataBusIn[7] DataBusIn[6] DataBusIn[5] DataBusIn[4] DataBusIn[3] DataBusIn[2] DataBusIn[1] DataBusIn[0] | ZZ2d[15] ZZ2d[14] ZZ2d[13] ZZ2d[12] ZZ2d[11] ZZ2d[10] ZZ2d[9] ZZ2d[8] ZZ2d[7] ZZ2d[6] ZZ2d[5] ZZ2d[4] ZZ2d[3] ZZ2d[2] ZZ2d[1] ZZ2d[0]  ;
+Module  "Dummy2"  bh | ZZ2d[15] ZZ2d[14] ZZ2d[13] ZZ2d[12] ZZ2d[11] ZZ2d[10] ZZ2d[9] ZZ2d[8] ZZ2d[7] ZZ2d[6] ZZ2d[5] ZZ2d[4] ZZ2d[3] ZZ2d[2] ZZ2d[1] ZZ2d[0]  ;
+  Or "Or" bh.aa ONE 
+ZZ2d[15] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[14] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[13] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[12] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[11] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[10] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[9] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[8] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[7] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[6] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[5] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[4] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[3] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[2] 
+
+ ;
+  Or "Or" bh.aa ONE 
+ZZ2d[1] 
+
+ ;
+  Or "Or" bh.aa ZERO 
+ZZ2d[0] 
+
+ ;
+ End ; /* Dummy2 */
+Alias C[15] C[14] C[13] C[12] C[11] C[10] C[9] C[8] C[7] C[6] C[5] C[4] C[3] C[2] C[1] C[0] | ZZ3d[15] ZZ3d[14] ZZ3d[13] ZZ3d[12] ZZ3d[11] ZZ3d[10] ZZ3d[9] ZZ3d[8] ZZ3d[7] ZZ3d[6] ZZ3d[5] ZZ3d[4] ZZ3d[3] ZZ3d[2] ZZ3d[1] ZZ3d[0]  ;
+Module  "Dummy3"  ch | ZZ3d[15] ZZ3d[14] ZZ3d[13] ZZ3d[12] ZZ3d[11] ZZ3d[10] ZZ3d[9] ZZ3d[8] ZZ3d[7] ZZ3d[6] ZZ3d[5] ZZ3d[4] ZZ3d[3] ZZ3d[2] ZZ3d[1] ZZ3d[0]  ;
+  Or "Or" ch.aa ONE 
+ZZ3d[15] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[14] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[13] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[12] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[11] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[10] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[9] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[8] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[7] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[6] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[5] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[4] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[3] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[2] 
+
+ ;
+  Or "Or" ch.aa ZERO 
+ZZ3d[1] 
+
+ ;
+  Or "Or" ch.aa ONE 
+ZZ3d[0] 
+
+ ;
+ End ; /* Dummy3 */
+Alias Phase[4] Phase[3] Phase[2] Phase[1] RDc WRc MARc MBRc MARData[15] MARData[14] MARData[13] MARData[12] MARData[11] MARData[10] MARData[9] MARData[8] MARData[7] MARData[6] MARData[5] MARData[4] MARData[3] MARData[2] MARData[1] MARData[0] DataBusIn[15] DataBusIn[14] DataBusIn[13] DataBusIn[12] DataBusIn[11] DataBusIn[10] DataBusIn[9] DataBusIn[8] DataBusIn[7] DataBusIn[6] DataBusIn[5] DataBusIn[4] DataBusIn[3] DataBusIn[2] DataBusIn[1] DataBusIn[0] C[15] C[14] C[13] C[12] C[11] C[10] C[9] C[8] C[7] C[6] C[5] C[4] C[3] C[2] C[1] C[0] MReq READ AddrBus[15] AddrBus[14] AddrBus[13] AddrBus[12] AddrBus[11] AddrBus[10] AddrBus[9] AddrBus[8] AddrBus[7] AddrBus[6] AddrBus[5] AddrBus[4] AddrBus[3] AddrBus[2] AddrBus[1] AddrBus[0] DataBusOut[15] DataBusOut[14] DataBusOut[13] DataBusOut[12] DataBusOut[11] DataBusOut[10] DataBusOut[9] DataBusOut[8] DataBusOut[7] DataBusOut[6] DataBusOut[5] DataBusOut[4] DataBusOut[3] DataBusOut[2] DataBusOut[1] DataBusOut[0] MBROutput[15] MBROutput[14] MBROutput[13] MBROutput[12] MBROutput[11] MBROutput[10] MBROutput[9] MBROutput[8] MBROutput[7] MBROutput[6] MBROutput[5] MBROutput[4] MBROutput[3] MBROutput[2] MBROutput[1] MBROutput[0] | ZZ4Phase[4] ZZ4Phase[3] ZZ4Phase[2] ZZ4Phase[1] ZZ4RD ZZ4WR ZZ4MAR ZZ4MBR ZZ4MARData[15] ZZ4MARData[14] ZZ4MARData[13] ZZ4MARData[12] ZZ4MARData[11] ZZ4MARData[10] ZZ4MARData[9] ZZ4MARData[8] ZZ4MARData[7] ZZ4MARData[6] ZZ4MARData[5] ZZ4MARData[4] ZZ4MARData[3] ZZ4MARData[2] ZZ4MARData[1] ZZ4MARData[0] ZZ4DataBusIn[15] ZZ4DataBusIn[14] ZZ4DataBusIn[13] ZZ4DataBusIn[12] ZZ4DataBusIn[11] ZZ4DataBusIn[10] ZZ4DataBusIn[9] ZZ4DataBusIn[8] ZZ4DataBusIn[7] ZZ4DataBusIn[6] ZZ4DataBusIn[5] ZZ4DataBusIn[4] ZZ4DataBusIn[3] ZZ4DataBusIn[2] ZZ4DataBusIn[1] ZZ4DataBusIn[0] ZZ4C[15] ZZ4C[14] ZZ4C[13] ZZ4C[12] ZZ4C[11] ZZ4C[10] ZZ4C[9] ZZ4C[8] ZZ4C[7] ZZ4C[6] ZZ4C[5] ZZ4C[4] ZZ4C[3] ZZ4C[2] ZZ4C[1] ZZ4C[0] ZZ4MReq ZZ4READ ZZ4AddrBus[15] ZZ4AddrBus[14] ZZ4AddrBus[13] ZZ4AddrBus[12] ZZ4AddrBus[11] ZZ4AddrBus[10] ZZ4AddrBus[9] ZZ4AddrBus[8] ZZ4AddrBus[7] ZZ4AddrBus[6] ZZ4AddrBus[5] ZZ4AddrBus[4] ZZ4AddrBus[3] ZZ4AddrBus[2] ZZ4AddrBus[1] ZZ4AddrBus[0] ZZ4DataBusOut[15] ZZ4DataBusOut[14] ZZ4DataBusOut[13] ZZ4DataBusOut[12] ZZ4DataBusOut[11] ZZ4DataBusOut[10] ZZ4DataBusOut[9] ZZ4DataBusOut[8] ZZ4DataBusOut[7] ZZ4DataBusOut[6] ZZ4DataBusOut[5] ZZ4DataBusOut[4] ZZ4DataBusOut[3] ZZ4DataBusOut[2] ZZ4DataBusOut[1] ZZ4DataBusOut[0] ZZ4MBROutput[15] ZZ4MBROutput[14] ZZ4MBROutput[13] ZZ4MBROutput[12] ZZ4MBROutput[11] ZZ4MBROutput[10] ZZ4MBROutput[9] ZZ4MBROutput[8] ZZ4MBROutput[7] ZZ4MBROutput[6] ZZ4MBROutput[5] ZZ4MBROutput[4] ZZ4MBROutput[3] ZZ4MBROutput[2] ZZ4MBROutput[1] ZZ4MBROutput[0]  ;
+Module  "Comm"  dd ZZ4Phase[4] ZZ4Phase[3] ZZ4Phase[2] ZZ4Phase[1] ZZ4RD ZZ4WR ZZ4MAR ZZ4MBR ZZ4MARData[15] ZZ4MARData[14] ZZ4MARData[13] ZZ4MARData[12] ZZ4MARData[11] ZZ4MARData[10] ZZ4MARData[9] ZZ4MARData[8] ZZ4MARData[7] ZZ4MARData[6] ZZ4MARData[5] ZZ4MARData[4] ZZ4MARData[3] ZZ4MARData[2] ZZ4MARData[1] ZZ4MARData[0] ZZ4DataBusIn[15] ZZ4DataBusIn[14] ZZ4DataBusIn[13] ZZ4DataBusIn[12] ZZ4DataBusIn[11] ZZ4DataBusIn[10] ZZ4DataBusIn[9] ZZ4DataBusIn[8] ZZ4DataBusIn[7] ZZ4DataBusIn[6] ZZ4DataBusIn[5] ZZ4DataBusIn[4] ZZ4DataBusIn[3] ZZ4DataBusIn[2] ZZ4DataBusIn[1] ZZ4DataBusIn[0] ZZ4C[15] ZZ4C[14] ZZ4C[13] ZZ4C[12] ZZ4C[11] ZZ4C[10] ZZ4C[9] ZZ4C[8] ZZ4C[7] ZZ4C[6] ZZ4C[5] ZZ4C[4] ZZ4C[3] ZZ4C[2] ZZ4C[1] ZZ4C[0] | ZZ4MReq ZZ4READ ZZ4AddrBus[15] ZZ4AddrBus[14] ZZ4AddrBus[13] ZZ4AddrBus[12] ZZ4AddrBus[11] ZZ4AddrBus[10] ZZ4AddrBus[9] ZZ4AddrBus[8] ZZ4AddrBus[7] ZZ4AddrBus[6] ZZ4AddrBus[5] ZZ4AddrBus[4] ZZ4AddrBus[3] ZZ4AddrBus[2] ZZ4AddrBus[1] ZZ4AddrBus[0] ZZ4DataBusOut[15] ZZ4DataBusOut[14] ZZ4DataBusOut[13] ZZ4DataBusOut[12] ZZ4DataBusOut[11] ZZ4DataBusOut[10] ZZ4DataBusOut[9] ZZ4DataBusOut[8] ZZ4DataBusOut[7] ZZ4DataBusOut[6] ZZ4DataBusOut[5] ZZ4DataBusOut[4] ZZ4DataBusOut[3] ZZ4DataBusOut[2] ZZ4DataBusOut[1] ZZ4DataBusOut[0] ZZ4MBROutput[15] ZZ4MBROutput[14] ZZ4MBROutput[13] ZZ4MBROutput[12] ZZ4MBROutput[11] ZZ4MBROutput[10] ZZ4MBROutput[9] ZZ4MBROutput[8] ZZ4MBROutput[7] ZZ4MBROutput[6] ZZ4MBROutput[5] ZZ4MBROutput[4] ZZ4MBROutput[3] ZZ4MBROutput[2] ZZ4MBROutput[1] ZZ4MBROutput[0]  ;
+  Not "Not" dd.bc ZZ4WR 
+ZZ4nWR 
+
+ ;
+  Register "MAR" dd.aa ZZ4MARData[15] 
+ZZ4MARData[14] ZZ4MARData[13] ZZ4MARData[12] ZZ4MARData[11] ZZ4MARData[10] ZZ4MARData[9] ZZ4MARData[8] ZZ4MARData[7] ZZ4MARData[6] ZZ4MARData[5] ZZ4MARData[4] ZZ4MARData[3] ZZ4MARData[2] ZZ4MARData[1] ZZ4MARData[0] ZZ4marload 
+
+| ZZ4AddrBus[15] 
+ZZ4AddrBus[14] ZZ4AddrBus[13] ZZ4AddrBus[12] ZZ4AddrBus[11] ZZ4AddrBus[10] ZZ4AddrBus[9] ZZ4AddrBus[8] ZZ4AddrBus[7] ZZ4AddrBus[6] ZZ4AddrBus[5] ZZ4AddrBus[4] ZZ4AddrBus[3] ZZ4AddrBus[2] ZZ4AddrBus[1] ZZ4AddrBus[0] 
+ ;
+  Nand "Nand" dd.aa ZZ4MAR 
+ZZ4Phase[3] ZZ4marload 
+
+ ;
+  Mux-mxn "Mux-mxn" dd.ba ZZ4C[15] 
+ZZ4C[14] ZZ4C[13] ZZ4C[12] ZZ4C[11] ZZ4C[10] ZZ4C[9] ZZ4C[8] ZZ4C[7] ZZ4C[6] ZZ4C[5] ZZ4C[4] ZZ4C[3] ZZ4C[2] ZZ4C[1] ZZ4C[0] ZZ4DataBusIn[15] 
+ZZ4DataBusIn[14] ZZ4DataBusIn[13] ZZ4DataBusIn[12] ZZ4DataBusIn[11] ZZ4DataBusIn[10] ZZ4DataBusIn[9] ZZ4DataBusIn[8] ZZ4DataBusIn[7] ZZ4DataBusIn[6] ZZ4DataBusIn[5] ZZ4DataBusIn[4] ZZ4DataBusIn[3] ZZ4DataBusIn[2] ZZ4DataBusIn[1] ZZ4DataBusIn[0] ZZ4sel 
+
+| ZZ4MUXOUT[15] 
+ZZ4MUXOUT[14] ZZ4MUXOUT[13] ZZ4MUXOUT[12] ZZ4MUXOUT[11] ZZ4MUXOUT[10] ZZ4MUXOUT[9] ZZ4MUXOUT[8] ZZ4MUXOUT[7] ZZ4MUXOUT[6] ZZ4MUXOUT[5] ZZ4MUXOUT[4] ZZ4MUXOUT[3] ZZ4MUXOUT[2] ZZ4MUXOUT[1] ZZ4MUXOUT[0] 
+ ;
+  Register "MBR" dd.bb ZZ4MUXOUT[15] 
+ZZ4MUXOUT[14] ZZ4MUXOUT[13] ZZ4MUXOUT[12] ZZ4MUXOUT[11] ZZ4MUXOUT[10] ZZ4MUXOUT[9] ZZ4MUXOUT[8] ZZ4MUXOUT[7] ZZ4MUXOUT[6] ZZ4MUXOUT[5] ZZ4MUXOUT[4] ZZ4MUXOUT[3] ZZ4MUXOUT[2] ZZ4MUXOUT[1] ZZ4MUXOUT[0] ZZ4mbrload 
+
+| ZZ4MBROutput[15] 
+ZZ4MBROutput[14] ZZ4MBROutput[13] ZZ4MBROutput[12] ZZ4MBROutput[11] ZZ4MBROutput[10] ZZ4MBROutput[9] ZZ4MBROutput[8] ZZ4MBROutput[7] ZZ4MBROutput[6] ZZ4MBROutput[5] ZZ4MBROutput[4] ZZ4MBROutput[3] ZZ4MBROutput[2] ZZ4MBROutput[1] ZZ4MBROutput[0] 
+ ;
+  Nand "Nand" dd.bb ZZ4MBR 
+ZZ4Phase[4] ZZ4mbrload 
+
+ ;
+Alias ZZ4MBROutput[15] ZZ4MBROutput[14] ZZ4MBROutput[13] ZZ4MBROutput[12] ZZ4MBROutput[11] ZZ4MBROutput[10] ZZ4MBROutput[9] ZZ4MBROutput[8] ZZ4MBROutput[7] ZZ4MBROutput[6] ZZ4MBROutput[5] ZZ4MBROutput[4] ZZ4MBROutput[3] ZZ4MBROutput[2] ZZ4MBROutput[1] ZZ4MBROutput[0] ZZ4nWR ZZ4DataBusOut[15] ZZ4DataBusOut[14] ZZ4DataBusOut[13] ZZ4DataBusOut[12] ZZ4DataBusOut[11] ZZ4DataBusOut[10] ZZ4DataBusOut[9] ZZ4DataBusOut[8] ZZ4DataBusOut[7] ZZ4DataBusOut[6] ZZ4DataBusOut[5] ZZ4DataBusOut[4] ZZ4DataBusOut[3] ZZ4DataBusOut[2] ZZ4DataBusOut[1] ZZ4DataBusOut[0] | ZZ5in[15] ZZ5in[14] ZZ5in[13] ZZ5in[12] ZZ5in[11] ZZ5in[10] ZZ5in[9] ZZ5in[8] ZZ5in[7] ZZ5in[6] ZZ5in[5] ZZ5in[4] ZZ5in[3] ZZ5in[2] ZZ5in[1] ZZ5in[0] ZZ5WR ZZ5out[15] ZZ5out[14] ZZ5out[13] ZZ5out[12] ZZ5out[11] ZZ5out[10] ZZ5out[9] ZZ5out[8] ZZ5out[7] ZZ5out[6] ZZ5out[5] ZZ5out[4] ZZ5out[3] ZZ5out[2] ZZ5out[1] ZZ5out[0]  ;
+Module  "TRI"  dd.bc ZZ5in[15] ZZ5in[14] ZZ5in[13] ZZ5in[12] ZZ5in[11] ZZ5in[10] ZZ5in[9] ZZ5in[8] ZZ5in[7] ZZ5in[6] ZZ5in[5] ZZ5in[4] ZZ5in[3] ZZ5in[2] ZZ5in[1] ZZ5in[0] ZZ5WR | ZZ5out[15] ZZ5out[14] ZZ5out[13] ZZ5out[12] ZZ5out[11] ZZ5out[10] ZZ5out[9] ZZ5out[8] ZZ5out[7] ZZ5out[6] ZZ5out[5] ZZ5out[4] ZZ5out[3] ZZ5out[2] ZZ5out[1] ZZ5out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[0] 
+ZZ5WR 
+| ZZ5out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[1] 
+ZZ5WR 
+| ZZ5out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[2] 
+ZZ5WR 
+| ZZ5out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[3] 
+ZZ5WR 
+| ZZ5out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[4] 
+ZZ5WR 
+| ZZ5out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[5] 
+ZZ5WR 
+| ZZ5out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[6] 
+ZZ5WR 
+| ZZ5out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[7] 
+ZZ5WR 
+| ZZ5out[7] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[8] 
+ZZ5WR 
+| ZZ5out[8] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[9] 
+ZZ5WR 
+| ZZ5out[9] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[10] 
+ZZ5WR 
+| ZZ5out[10] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[11] 
+ZZ5WR 
+| ZZ5out[11] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[12] 
+ZZ5WR 
+| ZZ5out[12] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[13] 
+ZZ5WR 
+| ZZ5out[13] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[14] 
+ZZ5WR 
+| ZZ5out[14] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" dd.bc.aa ZZ5in[15] 
+ZZ5WR 
+| ZZ5out[15] 
+
+ ;
+ End ; /* TRI */
+Alias ZZ4RD ZZ4WR ZZ4MReq ZZ4READ | ZZ6RD ZZ6WR ZZ6MREQ ZZ6READ  ;
+Module  "Comb"  dd.da ZZ6RD ZZ6WR | ZZ6MREQ ZZ6READ  ;
+  Or "Or" dd.da.aa ZZ6RD 
+ZZ6WR ZZ6MREQ 
+
+ ;
+  Or "Or" dd.da.aa ZZ6RD 
+ZERO ZZ6READ 
+
+ ;
+ End ; /* Comb */
+Alias ZZ4RD ZZ4WR ZZ4sel | ZZ7RD ZZ7WR ZZ7SELECT  ;
+Module  "SelectC"  dd.da ZZ7RD ZZ7WR | ZZ7SELECT  ;
+  Not "Not" dd.da.aa ZZ7RD 
+ZZ7nRD 
+
+ ;
+  And "And" dd.da.aa ZZ7nRD 
+ZZ7WR ZZ7SELECT 
+
+ ;
+ End ; /* SelectC */
+ End ; /* Comm */

@@ -1,0 +1,4 @@
+select DISTINCT A.pnum
+from project J, spj A
+where J.city='Paris' and
+      A.jnum=J.jnum 

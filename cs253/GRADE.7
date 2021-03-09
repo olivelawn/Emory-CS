@@ -1,0 +1,145 @@
+grader: Grading pjohn07
+// cs253 project turnin from pjohn07, file `Rspeller.C' as assignment 7
+/*
+Parker Johnson
+HW7 4-25-96
+
+Abstact:
+
+Parse the first file (dictionary) and put all of the words into memory: each w$
+into a chained hash table. Parse second file (text) and check to see if in has$
+table.  If not print out the word.
+
+Coding:
+
+Used the same parsing as in wc.C and used much of the same code as in
+HW6.
+ the file consists of 4 functions:
+
+Main()--takes in the two files and calls my function read_and_hash() on the fi$
+file (the dictionary file) and calls read_and_print() on the second file (the
+text file)
+
+read_and_hash()--opens the file and inserts all of the words in that file (the
+dict file) into the chained hash table using the hashing function.
+
+read_and print()--opens the file (text) and determines using the hash function
+where the word is or would be stored and sets up a list iterator on that list.$
+If the word is found on the iteration is is not printed out.  If it not found
+upon li.Done() than that word is sent to the standard output and the new
+word is inserted into the table so that no two same words are printed twice.
+
+get_word()--grigni's function to parse a file into individual words and return$
+ptr to those words
+
+ Using the rogue wave libraries, I did not have to write a hash function
+I chose to use a hash table with chaining as opposed to open addresing
+because I figured with the exceptionally large number of input and
+likely clustering that the chaining search time would be less than a
+linear search, open addressing approach
+
+*/
+
+#include <iostream.h>		// cerr, cout, etc.
+
+-rw-r--r--   1 cs253000 cs             0 Apr 30 00:00 duedate.7
+-rw-r-x---   1 pjohn07  cs          3341 Apr 29 20:50 pjohn07.7
+Checking date: 3 hours early, no bonus or penalty.
+
+Used the RogueWave toolkit:
+47:#include <rw/hashtab.h>		// RW hashtable headers
+50:RWCollectableString * get_word(istream& is);				//grigni's parsing func
+53:  RWHashTable table;
+54:  RWCollectableString * word;
+56:RWCollectableString * get_word(istream& is)				//grigni's parsing func
+68:return new RWCollectableString (beg);
+
+
+Running...
+
+Time Check for words1:
+
+real	0m3.98s
+user	0m3.36s
+sys	0m0.37s
+
+Time Check for words2:
+
+real	0m5.85s
+user	0m5.17s
+sys	0m0.53s
+
+Testing: words3
+doublemenot water Water WATER waterbury waters watering rise rising
+riseing rised riser tricky trickier societys societies doublemenot
+
+Output for words3:
+
+doublemenot
+Water
+WATER
+waterbury
+waters
+watering
+rising
+riseing
+rised
+riser
+trickier
+societys
+societies
+
+Grade: 120/100
+Comments: +30 for RW, -10 for extreme slowness (>5 sec), good writeup
+
+
+The remainder of this file talks explains the timing results:
+
+Each example run used /usr/dict/words as the dictionary.  The file
+words1 was the ascii emacs manual page, with an average number of
+misspellings, and 16482 characters.  The file words2 was a file of
+3000 nonsense words (24600 chars), which might trigger bad behavior
+depending on how you handle misspelled words.  The file words3 is
+short (shown in its entirety above), and just tests a few extra-credit
+features.  Here it is in its entirety (indented):
+
+This next line summarizes your "user" timings on words1 and words2,
+and how those times rank compared to the rest of the class For
+comparison, the original spell script took about 10 seconds on each
+task:
+
+pjohn07	3.36	5.17	(24/30)	(21/30)	RW
+
+And here is how the class did as a whole (with names removed):
+xxxxx	1.16	1.31	(1/30)	(1/30)
+xxxxx	1.19	1.35	(2/30)	(2/30)
+xxxxx	1.19	1.38	(3/30)	(3/30)
+xxxxx	1.27	1.67	(4/30)	(6/30)
+xxxxx	1.39	1.57	(5/30)	(4/30)
+xxxxx	1.60	1.65	(6/30)	(5/30)
+xxxxx	1.62	7.36	(7/30)	(26/30)
+xxxxx	1.63	1.85	(8/30)	(7/30)	RW
+xxxxx	1.67	1.97	(9/30)	(8/30)
+xxxxx	1.68	7.01	(10/30)	(25/30)
+xxxxx	1.93	2.47	(11/30)	(11/30)	RW
+xxxxx	1.97	2.68	(12/30)	(13/30)
+xxxxx	1.98	2.40	(13/30)	(10/30)
+xxxxx	2.00	7.84	(14/30)	(27/30)
+xxxxx	2.24	2.09	(15/30)	(9/30)
+xxxxx	2.30	2.90	(16/30)	(16/30)
+xxxxx	2.31	2.53	(17/30)	(12/30)
+xxxxx	2.35	2.74	(18/30)	(15/30)	RW
+xxxxx	2.37	2.73	(19/30)	(14/30)	RW
+xxxxx	2.58	9.90	(20/30)	(30/30)	RW
+xxxxx	2.69	3.11	(21/30)	(17/30)	RW
+xxxxx	2.82	3.65	(22/30)	(18/30)
+xxxxx	2.99	4.60	(23/30)	(19/30)	RW
+xxxxx	3.36	5.17	(24/30)	(21/30)	RW
+xxxxx	3.47	5.29	(25/30)	(23/30)	RW
+xxxxx	3.49	5.17	(26/30)	(22/30)	RW
+xxxxx	3.58	5.69	(27/30)	(24/30)	RW
+xxxxx	3.77	8.41	(28/30)	(29/30)	RW
+xxxxx	5.07	5.00	(29/30)	(20/30)	RW
+xxxxx	7.76	7.94	(30/30)	(28/30)	RW
+xxxxx	N/A	N/A	N/A	N/A	RW
+xxxxx	N/A	N/A	N/A	N/A

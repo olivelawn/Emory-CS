@@ -1,0 +1,9 @@
+/* File cs355.Mux-mxn in project-help directory */
+Switch aa sw1[3] ZERO; Switch aa sw1[2] ZERO;
+Switch aa sw1[1] ZERO; Switch aa sw1[0] ZERO;
+Switch ca sw2[3] ZERO; Switch ca sw2[2] ZERO;
+Switch ca sw2[1] ZERO; Switch ca sw2[0] ZERO;
+Switch ea Sel ZERO;
+Mux-mxn ab-cb sw1[3-0] sw2[3-0] Sel | out[3-0];
+Probe ac-cc out[3]; Probe ac-cc out[2];
+Probe ac-cc out[1]; Probe ac-cc out[0];

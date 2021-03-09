@@ -1,0 +1,24 @@
+append([], Y, Y).
+append([H|X], Y, [H|Z]) :- append(X,Y,Z).
+
+
+sum([], 0).
+sum([H|T], Z) :- sum(T, L1), Z is L1 + H.
+
+
+
+max([], Msum, Tsum, Mlist, Clist) :- write(Msum), write(Mlist).
+
+max([H|T], Msum, Tsum) :- L is Tsum + H,	  %copy the current
+			  L >= Msum,
+			  max(T, L, L).
+
+max([H|T], Msum, Tsum) :- L is Tsum + H,
+			  L < 0,
+			  max(T, Msum, 0).
+
+max([H|T], Msum, Tsum) :- L is Tsum + H,
+			  L >= 0,
+			  max(T, Msum, L).
+
+

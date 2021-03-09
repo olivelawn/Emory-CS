@@ -1,0 +1,27 @@
+
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+
+range of S1 is supplier
+range of J1 is project
+range of P1 is part
+range of A1 is spj
+
+
+retrieve (S.sname)
+
+where  count (J.jnum by S.snum where
+	      J.city=S.city) =
+
+       count (J.jnum by S.snum where
+	      J.city=S.city and
+	      J.jnum=A.jnum and
+	      S.snum=A.snum)
+
+and    count (J.jnum by S.snum where   
+              J.city=S.city) > 0
+
+
+

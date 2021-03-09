@@ -1,0 +1,73 @@
+/* --- help-DataPath --- James Doran, cs355 1996, adapted by Cheung ---- */
+#include "basic.h"
+
+/* -------------- **** You provide these files **** -------------- */
+#include "clock.h"
+#include "comm.h"
+/* -------------- **** You provide these files **** -------------- */
+
+Switch "0:Tick" aa Tick ZERO;
+Switch "1:reset" aa Reset ZERO;
+
+Four-Phase-Clock ab Reset Tick | Phase[4-1];
+Probe "Ph1" ac Phase[1];
+Probe "Ph2" ad Phase[2];
+Probe "Ph3" ae Phase[3];
+Probe "Ph4" af Phase[4];
+
+Switch "2:Rd"  ba-bb RDc ZERO;
+Switch "3:Wr"  bc-bd WRc ZERO;
+Switch "4:MAR" ca-cb MARc ZERO;
+Switch "5:MBR" cc-cd MBRc ZERO;
+
+/* Some dummy values */
+/* 1100 1100 1100 1100 */
+Define Dummy1 | d[15-0];
+  Or aa ONE d[15]; Or aa ONE d[14]; Or aa ZERO d[13]; Or aa ZERO d[12];
+  Or aa ONE d[11]; Or aa ONE d[10]; Or aa ZERO d[9]; Or aa ZERO d[8];
+  Or aa ONE d[7]; Or aa ONE d[6]; Or aa ZERO d[5]; Or aa ZERO d[4];
+  Or aa ONE d[3]; Or aa ONE d[2]; Or aa ZERO d[1]; Or aa ZERO d[0];
+Endef;
+/* 1010 1010 1010 1010 */
+Define Dummy2 | d[15-0];
+  Or aa ONE d[15]; Or aa ZERO d[14]; Or aa ONE d[13]; Or aa ZERO d[12];
+  Or aa ONE d[11]; Or aa ZERO d[10]; Or aa ONE d[9]; Or aa ZERO d[8];
+  Or aa ONE d[7]; Or aa ZERO d[6]; Or aa ONE d[5]; Or aa ZERO d[4];
+  Or aa ONE d[3]; Or aa ZERO d[2]; Or aa ONE d[1]; Or aa ZERO d[0];
+Endef;
+/* 1001 1001 1001 1001 */
+Define Dummy3 | d[15-0];
+  Or aa ONE d[15]; Or aa ZERO d[14]; Or aa ZERO d[13]; Or aa ONE d[12];
+  Or aa ONE d[11]; Or aa ZERO d[10]; Or aa ZERO d[9]; Or aa ONE d[8];
+  Or aa ONE d[7]; Or aa ZERO d[6]; Or aa ZERO d[5]; Or aa ONE d[4];
+  Or aa ONE d[3]; Or aa ZERO d[2]; Or aa ZERO d[1]; Or aa ONE d[0];
+Endef;
+
+Dummy1 ah | MARData[15-0];
+Byte-probe-h "MAR Data" ai-al MARData[15-8];
+Byte-probe-h "MAR Data" am-ap MARData[7-0];
+
+Dummy2 bh | DataBusIn[15-0];
+Byte-probe-h "DataBus In" bi-bl DataBusIn[15-8];
+Byte-probe-h "DataBus In" bm-bp DataBusIn[7-0];
+
+Dummy3 ch | C[15-0];
+Byte-probe-h "C" ci-cl C[15-8];
+Byte-probe-h "C" cm-cp C[15-8];
+
+Comm dd Phase[4-1] RDc WRc MARc MBRc MARData[15..0] DataBusIn[15-0] C[15..0] | 
+ MReq READ AddrBus[15..0] DataBusOut[15..0] MBROutput[15..0];
+
+
+Probe "MReq" ea MReq;
+Probe "Read" eb READ;
+
+Byte-probe-h "DataBus Out" fa-fh DataBusOut[15-8]; 
+Byte-probe-h "DataBus Out" fi-fp DataBusOut[7-0]; 
+        
+Byte-probe-h "AddrBus" ga-gh AddrBus[15-8];
+Byte-probe-h "AddrBus" gi-gp AddrBus[7-0];
+
+Byte-probe-h "MBROutput" ha-hh MBROutput[15-8];
+Byte-probe-h "MBROutput" hi-hp MBROutput[7-0];
+

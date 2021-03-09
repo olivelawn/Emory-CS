@@ -1,0 +1,58 @@
+; Prof Chodrow-
+; I wrote two different programs and I am handing both of them in.
+; The first program is foolproof.  It works every time for any sequence.
+; 
+; The second program, however, is not perfect.  I am handing it in just
+; to show you that I tried to build the max-sub-sequence cleverly  with each recursive
+; call.  This is the way I think you expected us to solve the problem. I
+; struggled with it for several (15+ hrs) and came really damn close to getting 
+; it (just check my cs470/hw3/ for all of the different versions).  If this    
+; is the way that you solved it, I would be really interested in seeing how you
+; you did it.
+;
+; parker johnson
+; monday april 13
+; maximum sequence sum in sceme
+
+(define (first x) (car x))         ; redefinition of car & cdr for LISP folks
+(define (rest x) (cdr x))
+(define (empty? x) (null? x))      ; redefinition of empty 
+(define (back x y) (append y (list x)))  ; adds an element to back of list
+(define (add x) (if (empty? x) '0 (+ (first x) (add (rest x)))))  ; computes the sum of a list
+
+; mss takes in a sequence and calls test which returns the maximum sum.
+; mss also calls function max_seq with the sequence, an empty list (that
+; eventually returns the max-sub-sequence), and the value of the max sum. 
+; when the two functions return, the results are cons'd together for output.
+
+(define (mss seq) (cons (test seq 0 0) (list (max_seq seq '() (test seq 0 0)))))
+
+
+; test finds the maximum sum of the sequence.  It takes in a sequence and
+; two values, this_sum and max_sum which are "initialized" to O by function mss
+; the function returns the maximum sum as an element.
+
+(define (test x this_sum max_sum)
+  (cond ((empty? x) max_sum )
+        (else (let* ((tmp_this_sum (+ (first x) this_sum))) 
+		(if (> tmp_this_sum max_sum) (test (rest x) tmp_this_sum tmp_this_sum)
+		  (if (< tmp_this_sum 0) (test (rest x) 0 max_sum)
+		    (test (rest x) tmp_this_sum max_sum)))))))
+
+
+; max_seq finds the maximum sub sequence.  It takes in from mss the original list,
+; an empty list, and the the_max_sum returned by test.  It works a lot like test.
+; It builds a list seq2 from seq1 and compares the sum of the  elements to see if 
+; they equal the_max_sum.  If so (it is fail proof!) it returns them.  In the case 
+; that two subsequences equal the max_sum, then the first sub-sequence is returned.
+
+(define (max_seq seq1 seq2 the_max_sum)
+  (cond ((= (add (cons (first seq1) seq2)) the_max_sum) (back (first seq1) seq2))
+	((< (add (cons (first seq1) seq2)) 0) (max_seq (rest seq1) '() the_max_sum))
+	(else (max_seq (rest seq1) (back (first seq1) seq2) the_max_sum))))
+
+
+
+
+
+

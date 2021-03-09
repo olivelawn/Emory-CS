@@ -1,0 +1,4 @@
+retrieve (D.dname, n=count(E.ssn by E.dno))
+where (count (E.ssn by E.dno) >=3 
+       and E.salary>40000
+       and E.dno=D.dnumber)

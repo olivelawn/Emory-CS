@@ -1,0 +1,8 @@
+select E.ssn
+from employee E
+where E.dno=5 and 
+E.ssn in 	(select W.essn
+		from project J, works_on W, employee E1 
+	 	where J.dnum=4 and
+	        W.pno=J.pnumber and
+		E1.ssn=W.essn) 

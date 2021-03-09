@@ -1,0 +1,107 @@
+Script started on Mon Apr 13 03:24:43 1998
+h:w$ cat best_so_far
+; Prof Chodrow-
+; This program is not perfect, but it is pretty darn close.
+; parker johnson
+; monday april 13
+; maximum sequence sum in sceme
+
+
+(define (first x) (car x))     ; redefinition of car & cdr for LISP folk 
+(define (rest x) (cdr x))
+(define (empty? x) (null? x))  ; redefinition of empty  
+(define (back x y) (append y (list x)))  ; adds an element to back of list
+
+; mss sets up the test function
+
+(define (mss seq) (test seq 0 0 '() '() 0 -999) )
+
+; test takes in the following arguments from mss.  a sequence, this_sum, max_sum
+; (both initialized by mss to be 0) a seq1 and a seq2 (both initialized to be empty lists
+; by mss) a flag var (init to 0 by mss) and a value which I used for tracing purposes
+; when trying to debug this messy thing.  There are 4 different conditionals which call 
+; test recursively.  seq1 contains the sequence which we want to contan the max-sub-seq
+; when we exit from test.  seq2 is a tmp list which is built in the case that a negative
+; num is found such that tmp_this_sum < 0.  If such a number is found and a larger max_sum
+; is found after the first one, than the two lists are swapped and the seq2 list is sent
+; an empty list '()  (see func # 3--last arg to test!).  If the flag = 1 then there is the
+; possibility of a swap -- if max_sum is later changed.  If no number numbers are found it
+; just continues build ing the list.
+
+(define (test x this_sum max_sum seq1 seq2 flag which)
+  (cond ((empty? x) (cons max_sum (list seq1)))
+        (else (let* ((tmp_this_sum (+ (car x) this_sum)))
+         (cond ((and (> tmp_this_sum max_sum) (= flag 0)) (test (rest x) tmp_this_sum tmp_this_sum (back (car x) seq1 ) (back (car x) seq2) flag 1))
+	       ((and (> tmp_this_sum max_sum) (= flag 1)) (test (rest x) tmp_this_sum tmp_this_sum (back (car x) seq2) '() 0 2))
+	       (else (if (< tmp_this_sum 0) (test (rest x) 0 max_sum seq1 '() 1 3)
+		       	  (test (rest x) tmp_this_sum max_sum seq1 (back (car x) seq2) 1 4))))))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+h:w$ scsh
+Scsh 0.4
+> (load "best_so_far" )
+best_so_far ......
+> (mss '(1 2 3 4) )
+'(10 (1 2 3 4))
+> (mss '(10 -1000 20) )
+'(20 (20))
+> (mss '(20 -1000 10) )
+'(20 (20))
+> (mss '(20 -100 40 -100) )
+'(40 (40))
+> (mss '(500 500 500 -1200 500 500 500) )
+'(1800 (500 500 500 -1200 500 500 500))
+> (mss '(-200 -800 600 300 100 -500) )
+'(1000 (600 300 100))
+> 
+> (mss '(-500 300 -600 100 -400 -400 -800 200 100 300) )
+'(600 (200 100 300))
+> (mss '(600 -400 500 -1000 -2000 600 800 100) )
+'(1500 (600 800 100))
+> (mss '(-3000 100 -6000 100 300) )
+'(400 (100 300))
+> (mss '(-3000 200 200 -6000 100 300) )
+'(400 (200 200))
+> (mss '(-3000 200 200 -6000 100 200) )
+'(400 (200 200))
+> (mss '(500 500 -1000 500 500) )
+'(1000 (500 500))
+> (mss '(600 500 -1000 500 500) )
+'(1100 (600 500))
+> (mss '(600 500 -1000 400 500) )
+'(1100 (600 500))
+> (mss '(20 100 -300 400 -50 400 ) )
+'(750 (-50 400))
+> ; this does  n't work!!!
+> (mss '(234 -24 2345 -534 -52 235 5653 254 -356 65463 3466 -3566 -563 354))
+'(76684 (254 -356 65463 3466))
+> ( + 254 -356 65463 3466 )
+68827
+> ; this doed sn't work !!!
+> (mss '(345 56 35 2345 245 -243 -45 2345 -234 -2435 2345 54 4567 67 -67) )
+'(9447 (-234 -2435 2345 54 4567 67))
+> ( + -234 -2435 2345 54 4567 67)
+4364
+> ; this doesn't work !!!
+> 4 (mss '(3456 654 -23 -245 -356 85 356 -3356 35665 856 -34563) )
+'(37092 (3456 654 -23 -245 -356 85 356 -3356 35665 856))
+> ( + 3456 654 -23 -245 -356 85 356 -3356 35665 856 )
+37092
+> ; wh  phew !
+> ^D
+Exit the Scheme Shell (y/n)? y
+h:w$ ^D
+
+script done on Mon Apr 13 03:28:26 1998

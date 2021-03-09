@@ -1,0 +1,13 @@
+#include "reg"
+/* File cs355.MyRom1x16 in project-help directory */
+ 
+ 
+/* How to use MyRom1x16 */
+R15 ab-cb | D[15-0];
+Probe ac-cc D[15]; Probe ac-cc D[14]; Probe ac-cc D[13];
+Probe ac-cc D[12]; Probe ac-cc D[11]; Probe ac-cc D[10];
+Probe ac-cc D[9]; Probe ac-cc D[8]; Probe ac-cc D[7];
+Probe ac-cc D[6]; Probe ac-cc D[5]; Probe ac-cc D[4];
+Probe ac-cc D[3]; Probe ac-cc D[2]; Probe ac-cc D[1];
+Probe ac-cc D[0];
+

@@ -1,0 +1,6 @@
+Grade= 100
+
+Comments:
+
+compute:  does not clean up shared memory if passed 128000
+		  does not check for more than 20 computes

@@ -1,0 +1,14 @@
+
+Switch aa D ZERO;
+Not da D nD;
+
+Switch ca CLK ZERO;
+
+Nand ab D CLK 01;
+Nand cb nD CLK 02;
+
+Nand ac 01 Q Qbar;
+Nand cc 02 Qbar Q;
+
+Probe ad Qbar;
+Probe cd Q;

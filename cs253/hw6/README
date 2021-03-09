@@ -1,0 +1,51 @@
+Your goal is to add static hashing to file hw6.C (see Chapter 8).
+In particular, it should work well with words5.dat as its dictionary.
+
+The program *already* solves the following problem: given a pair of
+words, find a shortest path from one to another by changing a single
+letter at a time.  However, it uses a very slow method to convert the
+words to integer vertex labels (it uses a "single bucket": one big
+linked list).  Right now, it is only practical to use on words3.dat (a
+file of 3-letter words).
+
+Note:  you start the program like this:
+
+	hw6 words3.dat
+or
+	hw6 words5.dat
+
+or you can make up your own dictionary file, with one word per line.
+
+Your goal is to add hashing to this program, to make it run as fast as
+possible.  In particular, it should run on words5.dat.  Basically you
+want to spread the words out among many buckets; within each bucket,
+you can use the code I have already written for you.
+
+Although hw6.C is a fairly long program by our standards, you do not
+need to modify much of it.  Basically, you should modify the
+SymbolTable class to use multiple buckets instead of just one List.
+You will need to raise some constants to accommodate the larger
+dictionary.
+
+In particular, you will need a hash function, maybe as a member
+of the Word class.  w.hash(n) or hash(w,n) should map the Word w to a
+bucket in the range 0 to n-1.  A possible function could do some
+arithmetic like this, accumulating the characters in an integer and
+then taking its remainder mod n.  This is not necessarily the best
+possible function, see the book for more ideas on hash functions:
+
+int hash(const char *s, const int n) {
+  int i=0, r=0;
+  while (*s) r = r*17 + *s++;
+  return abs(r%n);
+}
+
+Note: your work will speed up the "initialization" phase of hw6.C,
+when it reads in a file of words.  Once the file is read in, the
+hashing won't help much, because the BST is still done on the integer
+representation of the graph, and does not use hashing at all.
+
+hw6.C is fairly long and has several tricks in it, please feel free
+to ask questions about its operation.
+
+The due-date is Monday, April 15.

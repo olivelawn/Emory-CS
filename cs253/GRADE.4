@@ -1,0 +1,123 @@
+grader: Grading pjohn07
+// cs253 project turnin from pjohn07, file `bstrev.cpp' as assignment 4
+// GRADER: added early test for root==0
+// GRADER PENALTY: 5%
+
+-rw-rwx---   1 pjohn07  cs          9716 Apr 19 09:03 pjohn07.4
+-r--r--r--   1 cs253000 cs             0 Mar 21 00:00 duedate.4
+-rw-rwx---   1 cs253000 cs          9627 Mar 18 22:51 pjohn07.4.orig
+Checking date: 2 days early, 10% early bonus
+
+
+Build a little tree:
+Insert(2) yields TRUE, good
+Insert(1) yields TRUE, good
+Insert(3) yields TRUE, good
+Tree Size is 3, as expected
+
+Here is the tree:
+
+      3
+   2
+      1
+
+
+Try to delete things not there ...
+Delete(4) yields FALSE, good
+Delete(0) yields FALSE, good
+Tree Size is 3, as expected
+
+Here is the tree:
+
+      3
+   2
+      1
+
+
+Destroy tree, root first:
+Delete(2) yields TRUE, good
+Delete(1) yields TRUE, good
+Delete(3) yields TRUE, good
+Tree Size is 0, as expected
+
+Build it up again:
+Insert(2) yields TRUE, good
+Insert(1) yields TRUE, good
+Insert(3) yields TRUE, good
+Tree Size is 3, as expected
+
+Here is the tree:
+
+      3
+   2
+      1
+
+
+Destroy tree again, leaves first:
+Delete(1) yields TRUE, good
+Delete(3) yields TRUE, good
+Delete(2) yields TRUE, good
+Tree Size is 0, as expected
+
+Build a bigger tree:
+Insert(6) yields TRUE, good
+Insert(4) yields TRUE, good
+Insert(5) yields TRUE, good
+Insert(8) yields TRUE, good
+Insert(7) yields TRUE, good
+Insert(1) yields TRUE, good
+Insert(2) yields TRUE, good
+Insert(9) yields TRUE, good
+
+Tree Size is 8, as expected
+
+Here is the tree:
+
+         9
+      8
+         7
+   6
+         5
+      4
+            2
+         1
+
+
+Delete root, with two children:
+Delete(6) yields TRUE, good
+Delete(6) yields FALSE, good
+
+Delete non-roots with children ...
+Delete(4) yields TRUE, good
+Delete(8) yields TRUE, good
+Tree Size is 5, as expected
+
+Here is the tree:
+
+      9
+   7
+      5
+            2
+         1
+
+Delete(1) yields TRUE, good
+Delete(2) yields TRUE, good
+Delete(7) yields TRUE, good
+Delete(5) yields TRUE, good
+Delete(9) yields TRUE, good
+Tree Size is 0, as expected
+Delete from empty tree:
+Delete(1) yields FALSE, good
+
+Delete solitary root node:
+Insert(1) yields TRUE, good
+Delete(1) yields TRUE, good
+Tree Size is 0, as expected
+
+Exiting with grade == 100
+
+Raw total: 100/100
+After grader penalty (5%), 95/100...
+After any early/late adjustments (-10%)...
+(the max is 100)
+GRADE: 100/100

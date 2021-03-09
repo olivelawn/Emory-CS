@@ -1,0 +1,80 @@
+#.VERSION "1.0"
+#.DECLARE "stack_main.o" : "stack_main.C"
+#.DECLARE "__0oFStack7l_cti" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0oFStack7c_cti" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7c_DAddRCc" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7l_DAddRCl" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7c_GDeleteRc" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7l_GDeleteRl" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "Infix.o" : "Infix.C"
+#.DECLARE "__0fFStack7l_KStackEmptyv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7l_JStackFullv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7c_JStackFullv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7c_KStackEmptyv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7l_Fprintv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7c_Fprintv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7l_GOutputv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "__0fFStack7c_GOutputv" : "/home/pjohn07/cs253/hw2/Stack.C"
+#.DECLARE "stack.o" : "stack.cpp"
+#.DECLARE "__0oFStack7i_cti" : "/home/pjohn07/cs253/hw2/stack.cpp"
+#.DECLARE "__0fFStack7i_GOutputv" : "/home/pjohn07/cs253/hw2/stack.cpp"
+#.DECLARE "__0fFStack7i_DAddRCi" : "/home/pjohn07/cs253/hw2/stack.cpp"
+#.DECLARE "__0fFStack7i_GDeleteRi" : "/home/pjohn07/cs253/hw2/stack.cpp"
+#.OPTIONS "__0oFStack7l_cti" : "-xs  "
+#.OPTIONS "__0oFStack7c_cti" : "-xs  "
+#.OPTIONS "__0fFStack7c_DAddRCc" : "-xs  "
+#.OPTIONS "__0fFStack7l_DAddRCl" : "-xs  "
+#.OPTIONS "__0fFStack7c_GDeleteRc" : "-xs  "
+#.OPTIONS "__0fFStack7l_GDeleteRl" : "-xs  "
+#.OPTIONS "__0fFStack7l_KStackEmptyv" : "-xs     "
+#.OPTIONS "__0fFStack7l_JStackFullv" : "-xs     "
+#.OPTIONS "__0fFStack7c_JStackFullv" : "-xs     "
+#.OPTIONS "__0fFStack7c_KStackEmptyv" : "-xs     "
+#.OPTIONS "__0fFStack7l_Fprintv" : "-xs                   "
+#.OPTIONS "__0fFStack7c_Fprintv" : "-xs                   "
+#.OPTIONS "__0fFStack7l_GOutputv" : "-xs                                                          "
+#.OPTIONS "__0fFStack7c_GOutputv" : "-xs                                                          "
+#.OPTIONS "__0oFStack7i_cti" : "-xs                                                                       "
+#.OPTIONS "__0fFStack7i_GOutputv" : "-xs                                                                       "
+#.OPTIONS "__0fFStack7i_DAddRCi" : "-xs                                                                       "
+#.OPTIONS "__0fFStack7i_GDeleteRi" : "-xs                                                                       "
+#.DEPEND "__0oFStack7l_cti" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0oFStack7c_cti" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7c_DAddRCc" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7l_DAddRCl" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7c_GDeleteRc" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7l_GDeleteRl" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7l_KStackEmptyv" : "/home/pjohn07/cs253/hw2/stack_main.C" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7l_JStackFullv" : "/home/pjohn07/cs253/hw2/stack_main.C" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7c_JStackFullv" : "/home/pjohn07/cs253/hw2/stack_main.C" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7c_KStackEmptyv" : "/home/pjohn07/cs253/hw2/stack_main.C" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7l_Fprintv" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7c_Fprintv" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7l_GOutputv" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0fFStack7c_GOutputv" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw2/Stack.C" 
+#.DEPEND "__0oFStack7i_cti" : "/home/pjohn07/cs253/hw2/stack.cpp" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" 
+#.DEPEND "__0fFStack7i_GOutputv" : "/home/pjohn07/cs253/hw2/stack.cpp" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" 
+#.DEPEND "__0fFStack7i_DAddRCi" : "/home/pjohn07/cs253/hw2/stack.cpp" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" 
+#.DEPEND "__0fFStack7i_GDeleteRi" : "/home/pjohn07/cs253/hw2/stack.cpp" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" 
+#.TEMPLATE "stack_main.C" : "__0fFStack7c_GOutputv" "__0fFStack7l_GOutputv" "__0fFStack7c_Fprintv" "__0fFStack7l_Fprintv" "__0fFStack7c_KStackEmptyv" "__0fFStack7c_JStackFullv" "__0fFStack7l_JStackFullv" "__0fFStack7l_KStackEmptyv" "__0fFStack7l_GDeleteRl" "__0fFStack7c_GDeleteRc" "__0fFStack7l_DAddRCl" "__0fFStack7c_DAddRCc" "__0oFStack7c_cti" "__0oFStack7l_cti" 
+#.TEMPLATE "__0fFStack7c_GOutputv" : 
+#.TEMPLATE "__0fFStack7l_GOutputv" : 
+#.TEMPLATE "__0fFStack7c_Fprintv" : 
+#.TEMPLATE "__0fFStack7l_Fprintv" : 
+#.TEMPLATE "__0fFStack7c_KStackEmptyv" : 
+#.TEMPLATE "__0fFStack7c_JStackFullv" : 
+#.TEMPLATE "__0fFStack7l_JStackFullv" : 
+#.TEMPLATE "__0fFStack7l_KStackEmptyv" : 
+#.TEMPLATE "__0fFStack7l_GDeleteRl" : 
+#.TEMPLATE "__0fFStack7c_GDeleteRc" : 
+#.TEMPLATE "__0fFStack7l_DAddRCl" : 
+#.TEMPLATE "__0fFStack7c_DAddRCc" : 
+#.TEMPLATE "__0oFStack7c_cti" : 
+#.TEMPLATE "__0oFStack7l_cti" : 
+#.TEMPLATE "Infix.C" : "__0fFStack7l_GDeleteRl" "__0fFStack7c_GDeleteRc" "__0fFStack7l_DAddRCl" "__0fFStack7c_DAddRCc" "__0oFStack7c_cti" "__0oFStack7l_cti" 
+#.TEMPLATE "stack.cpp" : "__0fFStack7i_GDeleteRi" "__0fFStack7i_DAddRCi" "__0fFStack7i_GOutputv" "__0oFStack7i_cti" 
+#.TEMPLATE "__0fFStack7i_GDeleteRi" : 
+#.TEMPLATE "__0fFStack7i_DAddRCi" : 
+#.TEMPLATE "__0fFStack7i_GOutputv" : 
+#.TEMPLATE "__0oFStack7i_cti" : 
+#.PROGRAM "a.out"

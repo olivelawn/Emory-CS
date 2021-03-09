@@ -1,0 +1,36 @@
+/* File cs355.Rom64x32 in project-help directory */
+Switch aa addr5 ZERO; Switch aa addr4 ZERO;
+Switch aa addr3 ZERO; Switch aa addr2 ZERO;
+Switch aa addr1 ZERO; Switch aa addr0 ZERO;
+
+
+Rom64x32 ab-bb addr5 addr4 addr3 addr2 addr1 addr0 ZERO D[31..0]
+    /* These numbers are the content of the 64 memory locations */
+    /* Notice there are 64 groups of 4 digits. Each digit       */
+    /* represents one byte location                             */
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  0 0 0 6
+    0 0 0 5   0 0 0 4  0 0 0 3  0 0 0 2  0 0 0 1
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  0 0 0 6
+    0 0 0 5   0 0 0 4  0 0 0 3  0 0 0 2  0 0 0 1
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  0 0 0 6
+    0 0 0 5   0 0 0 4  0 0 0 3  0 0 0 2  0 0 0 1
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  0 0 0 6
+    0 0 0 5   0 0 0 4  0 0 0 3  0 0 0 2  0 0 0 1
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  0 0 0 6
+    0 0 0 5   0 0 0 4  0 0 0 3  0 0 0 2  0 0 0 1
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  0 0 0 6
+    0 0 0 5   0 0 0 4  0 0 0 3  0 0 0 2  0 0 0 1
+    0 0 0 10  0 0 0 9  0 0 0 8  0 0 0 7  ;
+
+Probe ac-bc D[31]; Probe ac-bc D[30]; Probe ac-bc D[29];
+Probe ac-bc D[28]; Probe ac-bc D[27]; Probe ac-bc D[26];
+Probe ac-bc D[25]; Probe ac-bc D[24]; Probe ac-bc D[23];
+Probe ac-bc D[22]; Probe ac-bc D[21]; Probe ac-bc D[20];
+Probe ac-bc D[19]; Probe ac-bc D[18]; Probe ac-bc D[17];
+Probe ac-bc D[16]; Probe ac-bc D[15]; Probe ac-bc D[14];
+Probe ac-bc D[13]; Probe ac-bc D[12]; Probe ac-bc D[11];
+Probe ac-bc D[10]; Probe ac-bc D[9]; Probe ac-bc D[8];
+Probe ac-bc D[7]; Probe ac-bc D[6]; Probe ac-bc D[5];
+Probe ac-bc D[4]; Probe ac-bc D[3]; Probe ac-bc D[2];
+Probe ac-bc D[1]; Probe ac-bc D[0];
+

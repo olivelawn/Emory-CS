@@ -1,0 +1,16 @@
+/* File cs355.Dec4x16 in project-help directory */
+Switch aa I[3] ZERO;
+Switch aa I[2] ZERO;
+Switch aa I[1] ZERO;
+Switch aa I[0] ZERO;
+Switch ca Enable ZERO;
+ 
+Dec4x16 ab-cb I[3-0] Enable D[15-0];
+ 
+Probe ac-cc D[15]; Probe ac-cc D[14]; Probe ac-cc D[13];
+Probe ac-cc D[12]; Probe ac-cc D[11]; Probe ac-cc D[10];
+Probe ac-cc D[9]; Probe ac-cc D[8]; Probe ac-cc D[7];
+Probe ac-cc D[6]; Probe ac-cc D[5]; Probe ac-cc D[4];
+Probe ac-cc D[3]; Probe ac-cc D[2]; Probe ac-cc D[1];
+Probe ac-cc D[0];
+

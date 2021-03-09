@@ -1,0 +1,4 @@
+The source is start.c
+compile with:
+cc -g start.c -o puzzle -lXm -lXt -lX11 -lm
+

@@ -1,0 +1,2 @@
+hw3fix.C and Stack.C are the 2 files used to print out a infix expression 
+into its properly parenthesized notation.  Uses a binary tree

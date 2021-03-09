@@ -1,0 +1,64 @@
+#.VERSION "1.0"
+#.DECLARE "skel.o" : "skel.C"
+#.DECLARE "__0fMListIterator7c_HNotNullv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0oFStack7i_cti" : "/home/pjohn07/cs253/hw5/Stack.C"
+#.DECLARE "__0fMListIterator7c_FFirstv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fEList7i_GInserti" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fMListIterator7c_ENextv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fMListIterator7c_LNextNotNullv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fMListIterator7i_HNotNullv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fFStack7i_DAddRCi" : "/home/pjohn07/cs253/hw5/Stack.C"
+#.DECLARE "__0fMListIterator7i_FFirstv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fMListIterator7i_LNextNotNullv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fMListIterator7i_ENextv" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fFStack7i_GDeleteRi" : "/home/pjohn07/cs253/hw5/Stack.C"
+#.DECLARE "__0oIListNode7i_cti" : "/home/pjohn07/cs253/hw5/skel.C"
+#.DECLARE "__0fFStack7i_KStackEmptyv" : "/home/pjohn07/cs253/hw5/Stack.C"
+#.DECLARE "__0fFStack7i_JStackFullv" : "/home/pjohn07/cs253/hw5/Stack.C"
+#.OPTIONS "__0fMListIterator7c_HNotNullv" : "-xs  "
+#.OPTIONS "__0oFStack7i_cti" : "-xs  "
+#.OPTIONS "__0fMListIterator7c_FFirstv" : "-xs  "
+#.OPTIONS "__0fEList7i_GInserti" : "-xs  "
+#.OPTIONS "__0fMListIterator7c_ENextv" : "-xs  "
+#.OPTIONS "__0fMListIterator7c_LNextNotNullv" : "-xs  "
+#.OPTIONS "__0fMListIterator7i_HNotNullv" : "-xs  "
+#.OPTIONS "__0fFStack7i_DAddRCi" : "-xs  "
+#.OPTIONS "__0fMListIterator7i_FFirstv" : "-xs  "
+#.OPTIONS "__0fMListIterator7i_LNextNotNullv" : "-xs  "
+#.OPTIONS "__0fMListIterator7i_ENextv" : "-xs  "
+#.OPTIONS "__0fFStack7i_GDeleteRi" : "-xs  "
+#.OPTIONS "__0oIListNode7i_cti" : "-xs  "
+#.OPTIONS "__0fFStack7i_KStackEmptyv" : "-xs            "
+#.OPTIONS "__0fFStack7i_JStackFullv" : "-xs            "
+#.DEPEND "__0fMListIterator7c_HNotNullv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0oFStack7i_cti" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" 
+#.DEPEND "__0fMListIterator7c_FFirstv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fEList7i_GInserti" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fMListIterator7c_ENextv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fMListIterator7c_LNextNotNullv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fMListIterator7i_HNotNullv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fFStack7i_DAddRCi" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" 
+#.DEPEND "__0fMListIterator7i_FFirstv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fMListIterator7i_LNextNotNullv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fMListIterator7i_ENextv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fFStack7i_GDeleteRi" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" 
+#.DEPEND "__0oIListNode7i_cti" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fFStack7i_KStackEmptyv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.DEPEND "__0fFStack7i_JStackFullv" : "/home/pjohn07/cs253/hw5/Stack.C" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw5/skel.C" 
+#.TEMPLATE "skel.C" : "__0fFStack7i_JStackFullv" "__0fFStack7i_KStackEmptyv" "__0oIListNode7i_cti" "__0fFStack7i_GDeleteRi" "__0fMListIterator7i_ENextv" "__0fMListIterator7i_LNextNotNullv" "__0fMListIterator7i_FFirstv" "__0fFStack7i_DAddRCi" "__0fMListIterator7i_HNotNullv" "__0fMListIterator7c_LNextNotNullv" "__0fMListIterator7c_ENextv" "__0fEList7i_GInserti" "__0fMListIterator7c_FFirstv" "__0oFStack7i_cti" "__0fMListIterator7c_HNotNullv" 
+#.TEMPLATE "__0fFStack7i_JStackFullv" : 
+#.TEMPLATE "__0fFStack7i_KStackEmptyv" : 
+#.TEMPLATE "__0oIListNode7i_cti" : 
+#.TEMPLATE "__0fFStack7i_GDeleteRi" : "__0fFStack7i_KStackEmptyv" 
+#.TEMPLATE "__0fMListIterator7i_ENextv" : 
+#.TEMPLATE "__0fMListIterator7i_LNextNotNullv" : 
+#.TEMPLATE "__0fMListIterator7i_FFirstv" : 
+#.TEMPLATE "__0fFStack7i_DAddRCi" : "__0fFStack7i_JStackFullv" 
+#.TEMPLATE "__0fMListIterator7i_HNotNullv" : 
+#.TEMPLATE "__0fMListIterator7c_LNextNotNullv" : 
+#.TEMPLATE "__0fMListIterator7c_ENextv" : 
+#.TEMPLATE "__0fEList7i_GInserti" : "__0oIListNode7i_cti" 
+#.TEMPLATE "__0fMListIterator7c_FFirstv" : 
+#.TEMPLATE "__0oFStack7i_cti" : 
+#.TEMPLATE "__0fMListIterator7c_HNotNullv" : 
+#.PROGRAM "a.out"

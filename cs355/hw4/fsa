@@ -1,0 +1,21 @@
+Switch fa set ONE;
+Switch fa clear ONE;
+Switch "reset" aa reset ZERO;
+Not aa reset not_reset;
+Switch "clock" ca clk   ZERO;
+
+
+Xor ba q1        q0 01;
+And bb not_reset 01 02;
+Dff bc ONE 02 clk ONE q1 q1';
+Not bd q1 not_q1;
+
+
+And be not_reset not_q1 not_q0 03;
+And bf not_reset q1 not_q0 04;
+Or  bg 03 04 05;
+Dff bh ONE 05 clk ONE q0 q0';
+Not bi q0 not_q0;
+
+Probe cc q1;
+Probe cf q0;

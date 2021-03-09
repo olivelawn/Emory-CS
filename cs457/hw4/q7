@@ -1,0 +1,18 @@
+select J.jnum, J.jname
+from project J
+where  (select count(*)
+	from part P
+	where P.pnum in 
+			(select A.pnum
+			from supplier S, spj A
+			where S.snum='s1' and
+			S.snum=A.snum)		
+	and P.pnum not in
+			(select B.pnum
+		       	from spj B
+		       	where B.jnum=J.jnum)
+		)=1
+			
+
+
+

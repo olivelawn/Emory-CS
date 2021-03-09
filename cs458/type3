@@ -1,0 +1,257 @@
+Script started on Tue Sep 09 19:41:09 1997
+h:w$ kcl
+KCl (Kyoto Common Lisp)  Nov 13, 1990
+
+;;   ------------------ 3.1.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;problem 3-1 EXCHANGE.  returns the elements of a two element
+;list in reverse order
+
+(defun exchange (a)
+  (reverse a) )
+
+;example input
+;(setf sinners '(adam eve))
+;(exchange sinners)
+
+>(load "3.1.l")
+Loading 3.1.l
+Finished loading 3.1.l
+T
+
+>(setf sinners '(adam eve))
+(ADAM EVE)
+
+>(exchange sinners)
+(EVE ADAM)
+
+;;   ------------------ 3.2.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;problem 3-2 CONSTRUCT.  imitates construct
+
+(defun construct (a b)
+  (cons a b) )
+
+;example input
+;(setf first '(a b c))
+;(setf second '(x y z))
+;(construct first second)
+;(construct 'a '(b c))
+;(construct '(a) '(b c))
+
+
+
+>load (3.2.l)
+
+Error: The variable LOAD is unbound.
+Error signalled by EVAL.
+
+Broken at EVAL.  Type :H for Help.
+>>
+Error: The function |3.2.L| is undefined.
+Error signalled by EVALHOOK.
+Backtrace:  > EVALHOOK
+
+Broken at EVAL.
+>>(load "3.2.l")_ 
+Loading 3.2.l
+Finished loading 3.2.l
+T
+
+>>(setf first '(a b c))
+(A B C)
+
+>>(setf second '(x y z))
+(X Y Z)
+
+>>(construct 'a '(b c))
+(A B C)
+
+>>(construct first second)
+((A B C) X Y Z)
+
+>>(construct '(a) '(b c))
+((A) B C)
+
+;;   ------------------ 3.3.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;problem 3-3 ROTATE-LEFT.  Takes a list as input and returns a
+;new list in which the former first element becomes the last
+
+(defun rotate-left (a)
+  (append (rest a) (list (first a) )))
+
+;example input
+;(setf abc-list '(a b c))
+;(rotate-left abc-list)
+;(rotate-left '(a b c))
+
+
+
+>>(load "3.3.l")
+Loading 3.3.l
+Finished loading 3.3.l
+T
+
+>>(setf abc-list '(a b c))
+(A B C)
+
+>>(rotate-left abc-list)
+(B C A)
+
+>>(rotate-left '(a b c))
+(B C A)
+
+;;   ------------------ 3.4.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;problem 3-3 ROTATE-RIGHT.  Takes a list as input and returns a
+;new list in which the former last element becomes the first
+
+(defun rotate-right (a)
+  (append (last a) (butlast a) ))
+
+;example input
+;(setf abc-list '(a b c))
+;(rotate-right abc-list)
+;(rotate-right '(a b c))
+;(rotate-right (rotate-right '(a b c)))
+
+
+
+
+>>(loas d "3.4.l")
+Loading 3.4.l
+Finished loading 3.4.l
+T
+
+>>(setf abc-list '(a b c))
+(A B C)
+
+>>(rotate-right abc-list)
+(C A B)
+
+>>(rotate-right '(a b c))
+(C A B)
+
+>>(rotate-right (rotate-right '(a b c)))
+(B C A)
+
+;;   ------------------ 3.5.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;problem 3-5 PALINDROME.  takes in a list of elements and returns
+; a palindrome
+
+(defun palindrome (a)
+  (append a (reverse a) ))
+
+;sample input
+;(palindrome '(h o m e))
+;(palindrome '(f o r))
+;(palindrome '(a b l e w a s I e r))
+
+
+>>(lod 3.5.l       ad "3.5.l")
+Loading 3.5.l
+Finished loading 3.5.l
+T
+
+>>(palindrome '(h o m e))
+(H O M E E M O H)
+
+>>(palindrome '(f o r))
+(F O R R O F)
+
+>>(palindrome '(a b l e w a s I e r))
+(A B L E W A S I E R R E I S A W E L B A)
+
+;;   ------------------ 3.6.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;problem 3-6 F-TO-C and C-TO-F.  makes celcius to farenheight conversions
+; and vice versa
+
+;farenheight to celcius
+(defun f-to-c (f)
+  (- (* (+ 40 f) (/ 5 9)) 40 ) ) )
+
+;sample input
+;(f-to-c 32)
+
+;celcius to farenheight
+(defun c-to-f (c)  
+  (- (* (+ 40 c) (/ 9 5)) 40 ) ) )
+
+;sample input
+;(c-to-f 0)
+
+
+
+>>(load "3.6.l")
+Loading 3.6.l
+Finished loading 3.6.l
+T
+
+>>(f-to-c 32)
+0
+
+>>(c-to-f 0)
+32
+
+>>(bye)
+Bye.
+h:w$ ^D
+
+script done on Tue Sep 09 19:46:48 1997

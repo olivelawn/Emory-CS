@@ -1,0 +1,24 @@
+#include "mir.h"
+#include "basic.h"
+
+Switch aa 01 ZERO;
+Switch aa 02 ZERO;
+Switch aa 03 ZERO;
+Switch aa 04 ZERO;
+Switch aa 05 ZERO;
+Switch aa 06 ZERO;
+Switch aa 07 ZERO;
+Switch aa 08 ZERO;
+
+
+INCR ab 08 07 06 05 04 03 02 01 | out[7..0];
+
+Probe ac out[0]; 
+Probe ac out[1]; 
+Probe ac out[2]; 
+Probe ac out[3]; 
+Probe ac out[4]; 
+Probe ac out[5]; 
+Probe ac out[6]; 
+Probe ac out[7]; 
+

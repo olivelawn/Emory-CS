@@ -1,0 +1,33 @@
+/* --- help-MIR --- James Doran, cs355 Spring 1996, adapted by Cheung ----- */
+
+#include "basic.h"
+
+/* -------------- *** You provide these files *** -------------- */
+#include "clock.h"
+#include "mir.h"
+/* -------------- *** You provide these files *** -------------- */
+
+
+Switch "0:Tick" aa Tick ZERO;
+Switch "1:reset" aa Reset ZERO;
+
+Four-Phase-Clock ab Reset Tick | Phase[4-1];
+Probe "Ph1" ac Phase[1];
+Probe "Ph2" ad Phase[2];
+Probe "Ph3" ae Phase[3];
+Probe "Ph4" af Phase[4];
+
+
+Switch "2:N" ba-bb N ZERO;
+Switch "3:Z" bc-bd Z ZERO;
+
+ 
+MIR-Comp dd Reset N Z Phase[4-1] | MIR[31-0] MPC[7-0];
+ 
+Byte-probe-h "MPC" fa-fc MPC[7-0];
+
+Byte-probe-h "MIR 31-24" ga-gc MIR[31..24];
+Byte-probe-h "23-16"     gd-gf MIR[23..16];
+Byte-probe-h "15-8"      gg-gi MIR[15..8];
+Byte-probe-h "7-0"       gj-gl MIR[7..0];
+

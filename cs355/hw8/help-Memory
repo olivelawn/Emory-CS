@@ -1,0 +1,66 @@
+/* ------- help-Memory, James Doran, cs355 1996, adapted by Cheung ----- */
+#include "basic.h"
+
+/* -------------- You provide this file -------------- */
+#include "mem.h"
+/* -------------- You provide this file -------------- */
+
+Switch "0:MREQ" ba-bb MReq ZERO;
+Switch "1:READ" bc-bd Read ZERO;
+
+Or ad ZERO Addr[15]; Or ad ZERO Addr[14]; 
+Or ad ZERO Addr[13]; Or ad ZERO Addr[12];
+Or ad ZERO Addr[11]; Or ad ZERO Addr[10];
+Or ad ZERO Addr[9]; Or ad ZERO Addr[8];
+Or ad ZERO Addr[7]; 
+Or ad ZERO Addr[5]; Or ad ZERO Addr[4];
+Or ad ZERO Addr[3];
+
+Probe "A15" ca Addr[15]; Probe cb Addr[14];
+Probe cc Addr[13]; Probe cd Addr[12];
+Probe ce Addr[11]; Probe cf Addr[10];
+Probe cg Addr[9]; Probe ch Addr[8];
+Probe ci Addr[7];
+Switch "2:A7" cj Addr[6] ZERO;		/* Select ROM/RAM */
+Probe ck Addr[5];
+Probe cl Addr[4]; Probe cm Addr[3];
+Switch "3:A2" cn Addr[2] ZERO;
+Switch "4:A1" co Addr[1] ZERO;
+Switch "5:A0" cp Addr[0] ZERO;
+
+Or ad ZERO Data[15]; Or ad ZERO Data[14]; 
+Or ad ZERO Data[13]; Or ad ZERO Data[12];
+Probe "D15" da Data[15]; Probe db Data[14];
+Probe dc Data[13]; Probe dd Data[12];
+Switch "6:D11" de Data[11] ZERO;
+Switch "7:D10" df Data[10] ZERO;
+Switch "8:D9" dg Data[9] ZERO;
+Switch "9:D8" dh Data[8] ZERO;
+
+Or ad ZERO Data[7]; Or ad ZERO Data[6];
+Or ad ZERO Data[5]; Or ad ZERO Data[4];
+Probe di Data[7]; Probe dj Data[6];
+Probe dk Data[5]; Probe dl Data[4];
+Switch "::D3" dm Data[3] ZERO;
+Switch ";:D2" dn Data[2] ZERO;
+Switch "<:D1" do Data[1] ZERO;
+Switch "=:D0" dp Data[0] ZERO;
+
+Memory ea-gi MReq Read Addr[15-0] Data[15..0] | DataBus[15..0] ;
+
+Probe "d15" ha DataBus[15];
+Probe "d14" hb DataBus[14];
+Probe "d13" hc DataBus[13];
+Probe "d12" hd DataBus[12];
+Probe "d11" he DataBus[11];
+Probe "d10" hf DataBus[10];
+Probe "d9"  hg DataBus[9];
+Probe "d8"  hh DataBus[8];
+Probe "d7"  hi DataBus[7];
+Probe "d6"  hj DataBus[6];
+Probe "d5"  hk DataBus[5];
+Probe "d4"  hl DataBus[4];
+Probe "d3"  hm DataBus[3];
+Probe "d2"  hn DataBus[2];
+Probe "d1"  ho DataBus[1];
+Probe "d0"  hp DataBus[0];

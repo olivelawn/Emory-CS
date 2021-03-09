@@ -1,0 +1,35 @@
+
+recompute_structure(xbox, ybox, dist, dirv)
+int xbox;
+int ybox;
+int dist;
+int dirv;
+{
+
+int xdst, ydst;
+xdst=xempty;
+ydst=yempty;
+
+    if ((dist<0)&&(dirv==1))	/* tile above */
+
+       while (dist>0){
+	     swap_struct(xbox++, ybox++, xdst, ydst);
+	     --dist;
+		     }
+}
+
+
+swap_struct(xbox, ybox, xdst, ydst)
+int xbox;
+int ybox;
+int xdst;
+int ydst;
+{
+
+int tmp_index;
+
+tmp_index=tile[xdst][ydst].index;
+tile[xdst][ydst].index=tile[xbox][ybox].index;
+tile[xbox][ybox].index=tmp_index;
+}
+

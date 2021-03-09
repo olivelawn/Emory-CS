@@ -1,0 +1,523 @@
+===============================================================
+Theme: demonstrate the effect of SIMPLE aggregate functions
+===============================================================
+
+
+
+Q: Find sum, max, min of salary of all employees
+================= ================= ================= =================
+
+
+range of e is employee
+
+retrieve (sumsal = sum(e.salary),
+	  maxsal = max(e.salary),
+	  minsal = min(e.salary),
+	  countsal = count(e.salary))
+
+|sumsal    |maxsal    |minsal    |countsal     |
+|----------------------------------------------|
+|281000.000| 55000.000| 25000.000|            8|
+|----------------------------------------------|
+(1 tuple)
+
+===============================================================================
+Theme: demonstrate the ``local'' evaluation effect of aggregate functions
+
+Key to understanding: aggregate functions in QUEL operates very much
+		      like functions in programming languages.
+		      It performs evaluation on its input and
+		      different aggregate functions are completely independent
+===============================================================================
+
+
+Q: Find sum, max, min of salaries for employees in Research Dept.
+============== ============== ============== ==============
+
+range of e is employee
+range of d is department
+
+**** The ``natural'' solution:
+
+retrieve (sumsal = sum(e.salary),
+	  maxsal = max(e.salary),
+	  minsal = min(e.salary),
+	  countsal = count(e.salary))
+where e.dno = d.dnumber
+  and d.dname = "Research"
+
+But not what you expect:
+========================
+
+|sumsal    |maxsal    |minsal    |countsal     |
+|----------------------------------------------|
+|281000.000| 55000.000| 25000.000|            8|
+|----------------------------------------------|
+
+
+
+
+***** Demo what's going on inside ingres:
+
+retrieve (sumsal = sum(e.salary),
+	  maxsal = max(e.salary),
+	  minsal = min(e.salary),
+	  countsal = count(e.salary))
+where e.dno = 4
+(Only 1 tuple is printed because of Quel's optimization)
+
+|sumsal    |maxsal    |minsal    |countsal     |
+|----------------------------------------------|
+|281000.000| 55000.000| 25000.000|            8|
+|----------------------------------------------|
+
+
+***** Demo more what's going on inside ingres:
+
+retrieve (e.ssn, e.fname, e.lname,
+	  sumsal = sum(e.salary),
+	  maxsal = max(e.salary),
+	  minsal = min(e.salary),
+	  countsal = count(e.salary))
+where e.dno = 4
+(Only 3 tuples are printed because Quel realise there are multiple answers)
+
+|ssn      |fname     |lname     |sumsal    |maxsal    |minsal    |countsal     |
+|------------------------------------------------------------------------------|
+|987654321|Jennifer  |Wallace   |281000.000| 55000.000| 25000.000|            8|
+|987987987|Ahmad     |Jabbar    |281000.000| 55000.000| 25000.000|            8|
+|999887777|Alicia    |Zelaya    |281000.000| 55000.000| 25000.000|            8|
+|------------------------------------------------------------------------------|
+(3 tuples)
+
+
+
+***** Demo the effect of a where condition that is always false:
+
+retrieve (sumsal = sum(e.salary),
+	  maxsal = max(e.salary),
+	  minsal = min(e.salary),
+	  countsal = count(e.salary))
+where e.dno = 8
+(No tuples are printed because condition e.dno = 8 is not satisfied)
+
+|sumsal    |maxsal    |minsal    |countsal     |
+|----------------------------------------------|
+|----------------------------------------------|
+(0 tuples)
+
+
+
+>>>>>>> Correct solution:
+
+retrieve (sumsal=sum(e.salary where e.dno = d.dnumber and d.dname = "Research"),
+	  maxsal=max(e.salary where e.dno = d.dnumber and d.dname = "Research"),
+	  minsal=min(e.salary where e.dno = d.dnumber and d.dname = "Research"),
+	  countsal=count(e.salary where e.dno = d.dnumber 
+				    and d.dname = "Research"))
+
+|sumsal    |maxsal    |minsal    |countsal     |
+|----------------------------------------------|
+|133000.000| 40000.000| 25000.000|            4|
+|----------------------------------------------|
+(1 tuple)
+
+===============================================================
+Theme: demonstrate the effect of COMPOUND aggregate functions
+
+Key to understanding: compound aggregate functions returns a set of values
+		      group by the grouping attributes. The set of values
+		      forms a new relation.
+		      The grouping attributes present themselves as
+		      HIDDEN attributes of the new relation.
+===============================================================
+
+
+
+Q: Find sum, max, min of salaries for employees in Research Dept.
+============== ============== ============== ==============
+
+range of e is employee
+range of d is department
+
+**** Demo the effect of grouping by a grouping attribute:
+
+retrieve (sumsal = sum(e.salary by e.dno),
+	  maxsal = max(e.salary by e.dno),
+	  minsal = min(e.salary by e.dno),
+	  countsal = count(e.salary by e.dno))
+
+|sumsal    |maxsal    |minsal    |countsal     |
+|----------------------------------------------|
+|133000.000| 40000.000| 25000.000|            4|
+| 55000.000| 55000.000| 55000.000|            1|
+| 93000.000| 43000.000| 25000.000|            3|
+|----------------------------------------------|
+(3 tuples)
+
+
+**** Try adding the department number:
+
+retrieve (e.dno,
+	  sumsal = sum(e.salary by e.dno),
+	  maxsal = max(e.salary by e.dno),
+	  minsal = min(e.salary by e.dno),
+	  countsal = count(e.salary by e.dno))
+
+|dno          |sumsal    |maxsal    |minsal    |countsal     |
+|------------------------------------------------------------|
+|            5|133000.000| 40000.000| 25000.000|            4|
+|            1| 55000.000| 55000.000| 55000.000|            1|
+|            4| 93000.000| 43000.000| 25000.000|            3|
+|------------------------------------------------------------|
+(3 tuples)
+
+
+**** Try adding the department number another way:
+
+retrieve (d.dnumber,
+	  sumsal = sum(e.salary by e.dno),
+	  maxsal = max(e.salary by e.dno),
+	  minsal = min(e.salary by e.dno),
+	  countsal = count(e.salary by e.dno))
+
+|dnumber      |sumsal    |maxsal    |minsal    |countsal     |
+|------------------------------------------------------------|
+|            1|133000.000| 40000.000| 25000.000|            4|
+|            1| 55000.000| 55000.000| 55000.000|            1|
+|            1| 93000.000| 43000.000| 25000.000|            3|
+|            4|133000.000| 40000.000| 25000.000|            4|
+|            4| 55000.000| 55000.000| 55000.000|            1|
+|            4| 93000.000| 43000.000| 25000.000|            3|
+|            5|133000.000| 40000.000| 25000.000|            4|
+|            5| 55000.000| 55000.000| 55000.000|            1|
+|            5| 93000.000| 43000.000| 25000.000|            3|
+|------------------------------------------------------------|
+(9 tuples)
+
+
+	??????????? What when wrong ???????????
+	Answer:
+
+	retrieve (sumsal = sum(e.salary by e.dno),
+	  	maxsal = max(e.salary by e.dno),
+	  	minsal = min(e.salary by e.dno),
+	  	countsal = count(e.salary by e.dno))
+
+	made this relation:
+
+	HIDDEN
+	|e.dno |sumsal    |maxsal    |minsal    |countsal     |
+	|------|----------------------------------------------|
+	|     5|133000.000| 40000.000| 25000.000|            4|
+	|     1| 55000.000| 55000.000| 55000.000|            1|
+	|     4| 93000.000| 43000.000| 25000.000|            3|
+	|------|----------------------------------------------|
+
+
+	retrieve (d.dnumber,
+	  	sumsal = sum(e.salary by e.dno),
+	  	maxsal = max(e.salary by e.dno),
+	  	minsal = min(e.salary by e.dno),
+	  	countsal = count(e.salary by e.dno))
+
+	made a CARTESIAN PRODUCT because d.dnumber and e.dno are not the
+	same attribute.
+
+	Othe the other hand:
+
+	retrieve (e.dno,
+	  	sumsal = sum(e.salary by e.dno),
+	  	maxsal = max(e.salary by e.dno),
+	  	minsal = min(e.salary by e.dno),
+	  	countsal = count(e.salary by e.dno))
+
+	made a NATURAL JOIN because e.dno and e.dno are
+	the SAME attribute.
+
+
+**** Once you realise this, you can fix the query by making the CARTESIAN
+**** PRODUCT into a join as follows:
+
+retrieve (d.dnumber,
+	  sumsal = sum(e.salary by e.dno),
+	  maxsal = max(e.salary by e.dno),
+	  minsal = min(e.salary by e.dno),
+	  countsal = count(e.salary by e.dno))
+where d.dnumber = e.dno
+
+
+|dnumber      |sumsal    |maxsal    |minsal    |countsal     |
+|------------------------------------------------------------|
+|            1| 55000.000| 55000.000| 55000.000|            1|
+|            4| 93000.000| 43000.000| 25000.000|            3|
+|            5|133000.000| 40000.000| 25000.000|            4|
+|------------------------------------------------------------|
+(3 tuples)
+
+
+
+**** To get dept. name is now a piece of cake:
+
+retrieve (d.dname,
+	  sumsal = sum(e.salary by e.dno),
+	  maxsal = max(e.salary by e.dno),
+	  minsal = min(e.salary by e.dno),
+	  countsal = count(e.salary by e.dno))
+where d.dnumber = e.dno
+
+|dname          |sumsal    |maxsal    |minsal    |countsal     |
+|--------------------------------------------------------------|
+|Headquarters   | 55000.000| 55000.000| 55000.000|            1|
+|Administration | 93000.000| 43000.000| 25000.000|            3|
+|Research       |133000.000| 40000.000| 25000.000|            4|
+|--------------------------------------------------------------|
+(3 tuples)
+
+===============================================================
+Theme: more COMPOUND aggregate functions
+ 
+Use join operation inside aggregate functions
+===============================================================
+ 
+
+
+Q: Find # dependents for employees
+============== ============== ============== ==============
+
+range of e is employee
+range of d is department
+range of dep is dependent
+
+**** Finding # dependents:
+
+	retrieve ( n = count(dep.dependname by dep.essn) )
+
+|n            |
+|-------------|
+|            3|
+|            3|
+|            1|
+|-------------|
+(3 tuples)
+
+
+**** First solution:
+
+	retrieve (dep.essn,  n = count(dep.dependname by dep.essn) )
+
+|essn     |n            |
+|-----------------------|
+|123456789|            3|
+|333445555|            3|
+|987654321|            1|
+|-----------------------|
+(3 tuples)
+
+
+**** Refined solution:
+
+	retrieve (e.fname, e.lname,  n = count(dep.dependname by dep.essn) )
+	where e.ssn = dep.essn
+
+|fname     |lname     |n            |
+|-----------------------------------|
+|John      |Smith     |            3|
+|Franklin  |Wong      |            3|
+|Jennifer  |Wallace   |            1|
+|-----------------------------------|
+(3 tuples)
+
+
+>>>>> Alternate solution:
+
+First check out:
+
+	retrieve (n = count(dep.dependname by e.ssn where e.ssn = dep.essn) )
+
+|n            |
+|-------------|
+|            3|
+|            3|
+|            0|
+|            0|
+|            0|
+|            1|
+|            0|
+|            0|
+|-------------|
+(8 tuples)
+
+
+Note: this solution is wrong because it creates a cartesian product:
+
+	retrieve (n = count(dep.dependname by e.ssn) )
+
+|n            |
+|-------------|
+|            7|		(7 because there are 7 tuples in dependents)
+|            7|
+|            7|
+|            7|
+|            7|
+|            7|
+|            7|
+|            7|
+|-------------|
+(8 tuples)
+
+
+Alternate solution:
+
+	retrieve (e.ssn,
+		  n = count(dep.dependname by e.ssn where e.ssn = dep.essn) )
+
+|ssn      |n            |
+|-----------------------|
+|123456789|            3|
+|333445555|            3|
+|453453453|            0|
+|666884444|            0|
+|888665555|            0|
+|987654321|            1|
+|987987987|            0|
+|999887777|            0|
+|-----------------------|
+(8 tuples)
+
+  or if you want fname, lname:
+
+	retrieve (e.fname, e.lname,
+		  n = count(dep.dependname by e.ssn where e.ssn = dep.essn) )
+
+|fname     |lname     |n            |
+|-----------------------------------|
+|John      |Smith     |            3|
+|Franklin  |Wong      |            3|
+|Joyce     |English   |            0|
+|Ramesh    |Narayan   |            0|
+|James     |Borg      |            0|
+|Jennifer  |Wallace   |            1|
+|Ahmad     |Jabbar    |            0|
+|Alicia    |Zelaya    |            0|
+|-----------------------------------|
+(8 tuples)
+
+
+
+===============================================================
+Theme: Another example of COMPOUND aggregate functions
+===============================================================
+
+
+
+Q: For each project, find proj#, proj name, and # emp's working on project
+============== ============== ============== ==============
+
+range of e is employee
+range of d is department
+range of p is project
+range of w is works_on
+
+**** Finding # employees working on project:
+
+	retrieve ( n = count(w.essn by w.pno) )
+
+|n            |
+|-------------|
+|            2|
+|            3|		(It's correct, but no info on who works on what...)
+|            3|
+|            4|
+|            4|
+|            4|
+|-------------|
+(6 tuples)
+
+
+**** Solution:
+
+	retrieve (w.pno, n = count(w.essn by w.pno) )
+
+|pno          |n            |
+|---------------------------|
+|            1|            2|
+|            2|            3|
+|            3|            3|
+|           10|            4|
+|           20|            4|
+|           30|            4|
+|---------------------------|
+(6 tuples)
+
+
+**** Alternate Solution:
+
+	retrieve (p.pnumber,
+		  n = count(w.essn by w.pno) )
+	where p.pnumber = w.pno
+
+|pnumber      |n            |
+|---------------------------|
+|            1|            2|
+|            2|            3|
+|            3|            3|
+|           10|            4|
+|           20|            4|
+|           30|            4|
+|---------------------------|
+(6 tuples)
+
+**** If you want pname as well, it is now easy as 1-2-3::
+
+
+	retrieve (p.pnumber, p.pname,
+		  n = count(w.essn by w.pno) )
+	where p.pnumber = w.pno
+
+
+|pnumber      |pname          |n            |
+|-------------------------------------------|
+|            1|ProductX       |            2|
+|            2|ProductY       |            3|
+|            3|ProductZ       |            3|
+|           10|Computerization|            4|
+|           20|Reorganization |            4|
+|           30|Newbenefits    |            4|
+|-------------------------------------------|
+(6 tuples)
+
+
+***  Alternate solution - moving the join inside the count function:
+
+	retrieve (p.pnumber,
+		  n = count(w.essn by p.pnumber where p.pnumber = w.pno) )
+
+|pnumber      |n            |
+|---------------------------|
+|            1|            2|
+|            2|            3|
+|            3|            3|
+|           10|            4|
+|           20|            4|
+|           30|            4|
+|---------------------------|
+(6 tuples)
+
+
+**** Getting pname is easy too:
+
+	retrieve (p.pnumber, p.pname,
+		  n = count(w.essn by p.pnumber where p.pnumber = w.pno) )
+
+|pnumber      |pname          |n            |
+|-------------------------------------------|
+|            1|ProductX       |            2|
+|            2|ProductY       |            3|
+|            3|ProductZ       |            3|
+|           10|Computerization|            4|
+|           20|Reorganization |            4|
+|           30|Newbenefits    |            4|
+|-------------------------------------------|
+(6 tuples)
+

@@ -1,0 +1,144 @@
+labss4h:/home/cs457000/sql-answers$ runsql sql1.1
+Get part numbers of parts supplied by a supplier in London to
+a project in London.
+ 
+ pnum  
+ ----- 
+ p1    
+ p3    
+ p7    
+ 
+(3 rows affected)
+
+-------------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.2
+Get part numbers of parts supplied to some project by a supplier
+in the same city as that project.
+ 
+ pnum  
+ ----- 
+ p1    
+ p2    
+ p3    
+ p5    
+ p6    
+ p7    
+ 
+(6 rows affected)
+
+------------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.3
+Get part numbers for parts supplied to some project in Paris.
+ 
+ pnum  
+ ----- 
+ p2    
+ p3    
+ p4    
+ p5    
+ p6    
+ 
+(5 rows affected)
+
+-------------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.4
+Get part numbers for parts that are not supplied to any project in Paris.
+ 
+ pnum  
+ ----- 
+ p1    
+ p7    
+ p8    
+ 
+(3 rows affected)
+
+-----------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.5
+Get project numbers for projects that use at least one part
+that is available from supplier s4.
+ 
+ jnum  
+ ----- 
+ j1    
+ j2    
+ j3    
+ j4    
+ j5    
+ j6    
+ j7    
+ j9    
+ 
+(8 rows affected)
+
+----------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.6
+Find name of suppliers who do not supply any part heavier than 18.
+ 
+ sname      
+ ---------- 
+ Smith      
+ Jones      
+ Blake      
+ 
+(3 rows affected)
+
+----------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.7
+Find name of suppliers that supplies a Nut.
+ 
+ sname      
+ ---------- 
+ Adams      
+ Brown      
+ Jones      
+ Smith      
+ 
+(4 rows affected)
+
+---------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.8
+Find name of suppliers who do not supply any Nuts.
+ 
+ sname      
+ ---------- 
+ Blake      
+ Clark      
+ 
+(2 rows affected)
+
+--------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.9
+Find jnum of projects that do not use any locally made parts.
+ 
+ jnum  
+ ----- 
+ j10   
+ j3    
+ j5    
+ j6    
+ j7    
+ j9    
+ 
+(6 rows affected)
+
+---------------------------------------------------------------------
+
+labss4h:/home/cs457000/sql-answers$ runsql sql1.10
+Find jnum for projects that do not use any red parts.
+ 
+ jnum  
+ ----- 
+ j10   
+ j6    
+ j9    
+ 
+(3 rows affected)
+

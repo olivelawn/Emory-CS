@@ -1,0 +1,390 @@
+
+SIM  v 24.0  7-14-92 (MSU)
+Reading the input file(s)...
+INPUT FILE -- test:
+#include "mir.h"INPUT FILE -- mir.h:
+/* ----
+   The following ROM contains the micro program from Tanenbaum Fig 4-20
+   on page 200 - 201
+   ---- */
+Define MIC2 a[7..0] | d[31..0];
+   Rom128x32 aa a[6..0] ZERO d[31..0]
+	/* 1 */ 16 192 0 0 1 80 96 0 176 19 0 28 36 20 51 19 52 20 4 11
+	/* 2 */ 48 0 4 9 16 192 48 0 1 64 0 0 240 17 0 0 17 160 49 0
+	/* 3 */ 112 32 0 0 48 0 4 15 16 192 48 0 16 64 0 0 224 17 16 0
+	/* 4 */ 16 192 48 0 0 81 97 0 152 26 0 0 96 17 161 0 52 20 4 25
+	/* 5 */ 48 0 4 23 48 0 1 27 104 16 131 0 80 0 1 22 112 0 0 0
+	/* 6 */ 48 0 4 27 104 16 131 0 104 17 131 0 36 20 51 40 52 20 4 35
+	/* 7 */ 48 0 4 33 0 26 35 0 112 192 160 7 0 26 35 0 113 160 161 10
+	/* 8 */ 48 0 4 38 0 26 35 0 112 192 160 13 0 26 35 0 112 192 160 16
+	/* 9 */ 52 20 4 46 48 0 4 44 48 0 1 22 112 0 0 0 80 0 1 0
+	/*10 */ 104 16 131 0 52 20 4 50 0 18 114 0 17 160 32 0 104 48 131 0
+	/*11 */ 52 20 4 65 52 20 4 59 48 0 4 56 16 192 16 0 0 82 114 0
+	/*12 */ 112 160 32 10 0 210 98 0 16 64 0 0 112 160 16 10 48 0 4 62
+	/*13 */ 0 18 114 0 113 160 33 10 0 210 98 0 16 64 0 0 240 17 0 0
+	/*14 */ 52 20 4 73 48 0 4 70 0 210 98 0 16 64 0 0 240 16 0 0
+	/*15 */ 16 26 1 0 16 17 2 0 112 18 10 0 48 0 4 76 8 26 147 0
+	/*16 */ 96 18 162 0 8 26 147 0 24 26 10 0 96 26 106 75 0 0 0 0
+	/*17 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*18 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*19 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*20 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*21 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*22 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*23 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*24 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*25 */ 0 0 0 0    0 0 0 0   0 0 0 0   0 0 0 0   0 0 0 0
+	/*26 */ 0 0 0 0    0 0 0 0   0 0 0 0   ;
+Endef;
+
+
+/*
+MIC2 aa ZERO ZERO ZERO ZERO ZERO ZERO ZERO ZERO | d[31..0];
+Probe ab d[31]; Probe ab d[30]; Probe ab d[29]; Probe ab d[28]; Probe ab d[27];
+Probe ab d[26]; Probe ab d[25]; Probe ab d[24]; Probe ab d[23]; Probe ab d[22];
+Probe ab d[21]; Probe ab d[20]; Probe ab d[19]; Probe ab d[18]; Probe ab d[17];
+Probe ab d[16]; Probe ab d[15]; Probe ab d[14]; Probe ab d[13]; Probe ab d[12];
+Probe ab d[11]; Probe ab d[10]; Probe ab d[9]; Probe ab d[8]; Probe ab d[7];
+Probe ab d[6]; Probe ab d[5]; Probe ab d[4]; Probe ab d[3]; Probe ab d[2];
+Probe ab d[1]; Probe ab d[0];
+*/
+
+
+Define MSL n z c1 c0 | MSLOUT;
+Not aa n nn;
+Not aa z nz;
+Not aa c1 nc1;
+Not aa c0 nc2;
+
+And aa nc1 c0 n nz 01;
+And aa nc1 c0 n z 02;
+And aa c1 nc0 nn z 03;
+And aa c1 nc0 n z 04;
+And aa c1 c0 nn nz 05;
+And aa c1 c0 nn z 06;
+And aa c1 c0 n nz 07;
+And aa c1 c0 n z 08;
+Or aa 01 02 03 04 05 06 07 08 MSLOUT;
+Endef;
+
+Define MPC i[7..0] TICK RESET | o[7..0] nq[7..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+Endef;
+
+Define INCR in[7..0] | INCROUT[7..0];
+Full_Adder aa in[0] ZERO ONE    | c-out1 INCROUT[0];
+Full_Adder aa in[1] ZERO c-out1 | c-out2 INCROUT[1];
+Full_Adder aa in[2] ZERO c-out2 | c-out3 INCROUT[2];
+Full_Adder aa in[3] ZERO c-out3 | c-out4 INCROUT[3];
+Full_Adder aa in[4] ZERO c-out4 | c-out5 INCROUT[4];
+Full_Adder aa in[5] ZERO c-out5 | c-out6 INCROUT[5];
+Full_Adder aa in[6] ZERO c-out6 | c-out7 INCROUT[6];
+Full_Adder aa in[7] ZERO c-out7 | c-out8 INCROUT[7];
+Endef;
+
+
+Define MIR-Comp Reset N Z Phase[4..1] | MIR[31..0] MPC[7..0];
+Not bb Phase[1] nTick;
+
+MPC aa MMUXOUT[7..0] Phase[4] Reset | MPC[7..0];
+
+INCR ab MPC[7..0] | INCROUT[7..0];
+
+Mux-mxn ac INCROUT[7..0] MIR[7..0] MSLOUT | MMUXOUT[7..0];
+
+MSL ad N Z MIR[30] MIR[29] | MSLOUT;
+
+MIC2 ba MPC[7..0] | MPS[31..0];
+
+Register bb MPS[31..0] nTick | MIR[31..0];
+
+Endef;
+
+#include "basic.h"INPUT FILE -- basic.h:
+/* -----------------------------------------------------------
+   Basic circuits made available for the CS355 class project
+   ----------------------------------------------------------- */
+
+/* Full adder.
+   Syntax: Full_Adder a b c-in | c-out s;
+   Effect: Adds binary numbers a + b with carry.
+*/
+Define Full_Adder CarryIn a b | CarryOut Sum;
+  Xor aa a b x;
+  Xor ab x CarryIn Sum;
+  And bb a b y;
+  And cb CarryIn x z;
+  Or bc-cc y z CarryOut;
+Endef;
+
+/* 2x4 Decoder
+   Syntax: Decoder2x4 <x,y> c[1..0] | s[3..0];
+*/
+Define Decoder2x4 c[1..0] | s[3..0];
+ Not 1a c[1] not-c1; Not 2a c[0] not-c0;
+ And 2a c[1] c[0] s[3];
+ And 2b c[1] not-c0 s[2];
+ And 2c not-c1 c[0] s[1];
+ And 2d not-c1 not-c0 s[0];
+Endef;
+
+
+Switch aa ZERO 01;
+Switch aa ZERO 02;
+Switch aa ZERO 03;
+Switch aa ZERO 04;
+Switch aa ZERO 05;
+Switch aa ZERO 06;
+Switch aa ZERO 07;
+Switch aa ZERO 08;
+
+
+INCR ab 08 07 06 05 04 03 02 01 | out[7..0];
+
+Probe ac out[0]; 
+Probe ac out[1]; 
+Probe ac out[2]; 
+Probe ac out[3]; 
+Probe ac out[4]; 
+Probe ac out[5]; 
+Probe ac out[6]; 
+Probe ac out[7]; 
+
+Alias 08 07 06 05 04 03 02 01 out[7] out[6] out[5] out[4] out[3] out[2] out[1] out[0] | ZZ0in[7] ZZ0in[6] ZZ0in[5] ZZ0in[4] ZZ0in[3] ZZ0in[2] ZZ0in[1] ZZ0in[0] ZZ0INCROUT[7] ZZ0INCROUT[6] ZZ0INCROUT[5] ZZ0INCROUT[4] ZZ0INCROUT[3] ZZ0INCROUT[2] ZZ0INCROUT[1] ZZ0INCROUT[0]  ;
+Module  "INCR"  ab ZZ0in[7] ZZ0in[6] ZZ0in[5] ZZ0in[4] ZZ0in[3] ZZ0in[2] ZZ0in[1] ZZ0in[0] | ZZ0INCROUT[7] ZZ0INCROUT[6] ZZ0INCROUT[5] ZZ0INCROUT[4] ZZ0INCROUT[3] ZZ0INCROUT[2] ZZ0INCROUT[1] ZZ0INCROUT[0]  ;
+Alias ZZ0in[0] ZERO ONE ZZ0c-out1 ZZ0INCROUT[0] | ZZ1CarryIn ZZ1a ZZ1b ZZ1CarryOut ZZ1Sum  ;
+Module  "Full_Adder"  ab.aa ZZ1CarryIn ZZ1a ZZ1b | ZZ1CarryOut ZZ1Sum  ;
+  Xor "Xor" ab.aa.aa ZZ1a 
+ZZ1b ZZ1x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ1x 
+ZZ1CarryIn ZZ1Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ1a 
+ZZ1b ZZ1y 
+
+ ;
+  And "And" ab.aa.cb ZZ1CarryIn 
+ZZ1x ZZ1z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ1y 
+ZZ1z ZZ1CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[1] ZERO ZZ0c-out1 ZZ0c-out2 ZZ0INCROUT[1] | ZZ2CarryIn ZZ2a ZZ2b ZZ2CarryOut ZZ2Sum  ;
+Module  "Full_Adder"  ab.aa ZZ2CarryIn ZZ2a ZZ2b | ZZ2CarryOut ZZ2Sum  ;
+  Xor "Xor" ab.aa.aa ZZ2a 
+ZZ2b ZZ2x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ2x 
+ZZ2CarryIn ZZ2Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ2a 
+ZZ2b ZZ2y 
+
+ ;
+  And "And" ab.aa.cb ZZ2CarryIn 
+ZZ2x ZZ2z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ2y 
+ZZ2z ZZ2CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[2] ZERO ZZ0c-out2 ZZ0c-out3 ZZ0INCROUT[2] | ZZ3CarryIn ZZ3a ZZ3b ZZ3CarryOut ZZ3Sum  ;
+Module  "Full_Adder"  ab.aa ZZ3CarryIn ZZ3a ZZ3b | ZZ3CarryOut ZZ3Sum  ;
+  Xor "Xor" ab.aa.aa ZZ3a 
+ZZ3b ZZ3x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ3x 
+ZZ3CarryIn ZZ3Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ3a 
+ZZ3b ZZ3y 
+
+ ;
+  And "And" ab.aa.cb ZZ3CarryIn 
+ZZ3x ZZ3z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ3y 
+ZZ3z ZZ3CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[3] ZERO ZZ0c-out3 ZZ0c-out4 ZZ0INCROUT[3] | ZZ4CarryIn ZZ4a ZZ4b ZZ4CarryOut ZZ4Sum  ;
+Module  "Full_Adder"  ab.aa ZZ4CarryIn ZZ4a ZZ4b | ZZ4CarryOut ZZ4Sum  ;
+  Xor "Xor" ab.aa.aa ZZ4a 
+ZZ4b ZZ4x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ4x 
+ZZ4CarryIn ZZ4Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ4a 
+ZZ4b ZZ4y 
+
+ ;
+  And "And" ab.aa.cb ZZ4CarryIn 
+ZZ4x ZZ4z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ4y 
+ZZ4z ZZ4CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[4] ZERO ZZ0c-out4 ZZ0c-out5 ZZ0INCROUT[4] | ZZ5CarryIn ZZ5a ZZ5b ZZ5CarryOut ZZ5Sum  ;
+Module  "Full_Adder"  ab.aa ZZ5CarryIn ZZ5a ZZ5b | ZZ5CarryOut ZZ5Sum  ;
+  Xor "Xor" ab.aa.aa ZZ5a 
+ZZ5b ZZ5x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ5x 
+ZZ5CarryIn ZZ5Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ5a 
+ZZ5b ZZ5y 
+
+ ;
+  And "And" ab.aa.cb ZZ5CarryIn 
+ZZ5x ZZ5z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ5y 
+ZZ5z ZZ5CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[5] ZERO ZZ0c-out5 ZZ0c-out6 ZZ0INCROUT[5] | ZZ6CarryIn ZZ6a ZZ6b ZZ6CarryOut ZZ6Sum  ;
+Module  "Full_Adder"  ab.aa ZZ6CarryIn ZZ6a ZZ6b | ZZ6CarryOut ZZ6Sum  ;
+  Xor "Xor" ab.aa.aa ZZ6a 
+ZZ6b ZZ6x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ6x 
+ZZ6CarryIn ZZ6Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ6a 
+ZZ6b ZZ6y 
+
+ ;
+  And "And" ab.aa.cb ZZ6CarryIn 
+ZZ6x ZZ6z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ6y 
+ZZ6z ZZ6CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[6] ZERO ZZ0c-out6 ZZ0c-out7 ZZ0INCROUT[6] | ZZ7CarryIn ZZ7a ZZ7b ZZ7CarryOut ZZ7Sum  ;
+Module  "Full_Adder"  ab.aa ZZ7CarryIn ZZ7a ZZ7b | ZZ7CarryOut ZZ7Sum  ;
+  Xor "Xor" ab.aa.aa ZZ7a 
+ZZ7b ZZ7x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ7x 
+ZZ7CarryIn ZZ7Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ7a 
+ZZ7b ZZ7y 
+
+ ;
+  And "And" ab.aa.cb ZZ7CarryIn 
+ZZ7x ZZ7z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ7y 
+ZZ7z ZZ7CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ0in[7] ZERO ZZ0c-out7 ZZ0c-out8 ZZ0INCROUT[7] | ZZ8CarryIn ZZ8a ZZ8b ZZ8CarryOut ZZ8Sum  ;
+Module  "Full_Adder"  ab.aa ZZ8CarryIn ZZ8a ZZ8b | ZZ8CarryOut ZZ8Sum  ;
+  Xor "Xor" ab.aa.aa ZZ8a 
+ZZ8b ZZ8x 
+
+ ;
+  Xor "Xor" ab.aa.ab ZZ8x 
+ZZ8CarryIn ZZ8Sum 
+
+ ;
+  And "And" ab.aa.bb ZZ8a 
+ZZ8b ZZ8y 
+
+ ;
+  And "And" ab.aa.cb ZZ8CarryIn 
+ZZ8x ZZ8z 
+
+ ;
+  Or "Or" ab.aa.bc-cc ZZ8y 
+ZZ8z ZZ8CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+ End ; /* INCR */
+There are 65 components.
+There are 52 nodes including ZERO, HI-Z, UNKNOWN, and ONE.
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Outputs connected together at node ZERO
+ Module at ab, Input signal  08  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  07  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  06  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  05  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  04  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  03  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  02  unconnected; UNKNOWN assumed.
+ Module at ab, Input signal  01  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  01  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  01  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  01  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  02  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  02  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  02  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  03  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  03  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  03  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  04  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  04  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  04  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  05  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  05  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  05  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  06  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  06  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  06  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  07  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  07  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  07  unconnected; UNKNOWN assumed.
+ Module at ab.aa, Input signal  08  unconnected; UNKNOWN assumed.
+ Xor at ab.aa.ab, Input signal  08  unconnected; UNKNOWN assumed.
+ And at ab.aa.cb, Input signal  08  unconnected; UNKNOWN assumed.
+Total number of activations = 128  for  52  nodes.
+ Fatal errors, can't continue.

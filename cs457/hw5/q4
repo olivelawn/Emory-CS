@@ -1,0 +1,18 @@
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+ 
+retrieve (S.sname)
+where (countu (J.jnum by S.snum where
+			  J.city="Rome" and
+			  J.jnum=A.jnum and
+			  S.snum=A.snum) <
+
+	  countu (J.jnum where
+			  J.city="Rome"))
+			 
+and countu (J.jnum by S.snum where
+			J.city="Rome" and
+			J.jnum=A.jnum and
+			S.snum=A.snum)>=1

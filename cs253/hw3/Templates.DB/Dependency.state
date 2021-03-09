@@ -1,0 +1,30 @@
+#.VERSION "1.0"
+#.DECLARE "hw3fix.o" : "hw3fix.C"
+#.DECLARE "__0fFStack7P6ITreeNode_GDeleteRP6ITreeNode" : "/home/pjohn07/cs253/hw3/Stack.C"
+#.DECLARE "__0oFStack76FToken_cti" : "/home/pjohn07/cs253/hw3/Stack.C"
+#.DECLARE "__0oFStack7P6ITreeNode_cti" : "/home/pjohn07/cs253/hw3/Stack.C"
+#.DECLARE "__0fFStack7P6ITreeNode_DAddRCP6ITreeNode" : "/home/pjohn07/cs253/hw3/Stack.C"
+#.DECLARE "__0fFStack76FToken_DAddRC6FToken" : "/home/pjohn07/cs253/hw3/Stack.C"
+#.DECLARE "__0fFStack76FToken_GDeleteR6FToken" : "/home/pjohn07/cs253/hw3/Stack.C"
+#.DECLARE "hw3.o" : "hw3.C"
+#.OPTIONS "__0fFStack7P6ITreeNode_GDeleteRP6ITreeNode" : "-xs  "
+#.OPTIONS "__0oFStack76FToken_cti" : "-xs  "
+#.OPTIONS "__0oFStack7P6ITreeNode_cti" : "-xs  "
+#.OPTIONS "__0fFStack7P6ITreeNode_DAddRCP6ITreeNode" : "-xs  "
+#.OPTIONS "__0fFStack76FToken_DAddRC6FToken" : "-xs  "
+#.OPTIONS "__0fFStack76FToken_GDeleteR6FToken" : "-xs  "
+#.DEPEND "__0fFStack7P6ITreeNode_GDeleteRP6ITreeNode" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw3/hw3fix.C" "/home/pjohn07/cs253/hw3/Stack.C" 
+#.DEPEND "__0oFStack76FToken_cti" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw3/hw3fix.C" "/home/pjohn07/cs253/hw3/Stack.C" 
+#.DEPEND "__0oFStack7P6ITreeNode_cti" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw3/hw3fix.C" "/home/pjohn07/cs253/hw3/Stack.C" 
+#.DEPEND "__0fFStack7P6ITreeNode_DAddRCP6ITreeNode" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw3/hw3fix.C" "/home/pjohn07/cs253/hw3/Stack.C" 
+#.DEPEND "__0fFStack76FToken_DAddRC6FToken" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw3/hw3fix.C" "/home/pjohn07/cs253/hw3/Stack.C" 
+#.DEPEND "__0fFStack76FToken_GDeleteR6FToken" : "/usr/include/sys/feature_tests.h" "/usr/include/stdlib.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw3/hw3fix.C" "/home/pjohn07/cs253/hw3/Stack.C" 
+#.TEMPLATE "hw3fix.C" : "__0fFStack76FToken_GDeleteR6FToken" "__0fFStack76FToken_DAddRC6FToken" "__0fFStack7P6ITreeNode_DAddRCP6ITreeNode" "__0oFStack7P6ITreeNode_cti" "__0oFStack76FToken_cti" "__0fFStack7P6ITreeNode_GDeleteRP6ITreeNode" 
+#.TEMPLATE "__0fFStack76FToken_GDeleteR6FToken" : 
+#.TEMPLATE "__0fFStack76FToken_DAddRC6FToken" : 
+#.TEMPLATE "__0fFStack7P6ITreeNode_DAddRCP6ITreeNode" : 
+#.TEMPLATE "__0oFStack7P6ITreeNode_cti" : 
+#.TEMPLATE "__0oFStack76FToken_cti" : 
+#.TEMPLATE "__0fFStack7P6ITreeNode_GDeleteRP6ITreeNode" : 
+#.TEMPLATE "hw3.C" : "__0fFStack76FToken_GDeleteR6FToken" "__0fFStack76FToken_DAddRC6FToken" "__0fFStack7P6ITreeNode_DAddRCP6ITreeNode" "__0oFStack7P6ITreeNode_cti" "__0oFStack76FToken_cti" "__0fFStack7P6ITreeNode_GDeleteRP6ITreeNode" 
+#.PROGRAM "a.out"

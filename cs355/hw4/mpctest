@@ -1,0 +1,7 @@
+#include "clock.h"
+
+Switch "reset" aa reset ZERO;
+Switch "clock" aa clock ZERO;
+
+MPC-With-Reset ba-zz reset clock | 0 1 2 3 4 5 6 7;
+

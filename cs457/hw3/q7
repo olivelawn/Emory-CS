@@ -1,0 +1,8 @@
+select distinct P.pnum, P.pname
+from part P
+where P.pnum in (
+	select A.pnum
+	from spj A
+	group by A.pnum, A.jnum
+	having count (distinct A.snum)>=3
+		 )

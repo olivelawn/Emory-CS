@@ -1,0 +1,11 @@
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+range of P1 is part 
+  
+retrieve unique(P.pnum, P.pname, P.color, P.weight)
+
+where max(P.weight where
+		  P.weight != max(P1.weight))=P.weight
+			   

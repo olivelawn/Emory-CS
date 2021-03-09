@@ -1,0 +1,9 @@
+select E.ssn
+from employee E
+where E.ssn in   (select W.essn
+		  from project J, works_on W
+		  where E.ssn=W.essn and
+			W.pno=J.pnumber and
+			J.dnum=5
+		  group by W.essn
+		  having count(*)>=2)

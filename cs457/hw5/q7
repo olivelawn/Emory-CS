@@ -1,0 +1,10 @@
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+ 
+  
+retrieve unique(P.pnum, P.pname)
+
+where countu (A.snum by A.jnum, A.pnum) >=3
+and P.pnum=A.pnum

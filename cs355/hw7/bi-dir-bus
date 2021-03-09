@@ -1,0 +1,34 @@
+/* File: bi-dir-bus.cs355
+
+   Implements a one-bit bi-directional bus.
+   Toggles: Set1: Fill memory bit 1 with 1
+	    Clear1: Fill memory bit 1 with 0
+	    Rd1: Make memory 1 output bit of Data bus
+	    Wr1: Make memory 1 input bit from Data bus
+
+	    Set2, Clear2, Rd2, Wr2 are corresponding toggles for mem 2
+*/
+
+Define BitMemory Set Clear Rd Wr DataBus | Value;
+  Dff ba Set DataBus Wr Clear Value Not-Value;
+  Probe "Val" aa Value;
+  Tri-state-buffer bb Value Rd | DataBus;
+  Probe "DataOut" ab DataBus;
+Endef;
+
+Switch "0:Set1" aa.aa Set1 ONE;
+Switch "1:Clr1" aa.ab Clear1 ONE;
+Switch "2:Out1" aa.ac Rd1 ONE;
+Switch "3:Wr1" aa.ad Wr1 ONE;
+
+Switch "4:Set2" ac.aa Set2 ONE;
+Switch "5:Clr2" ac.ab Clear2 ONE;
+Switch "6:Out2" ac.ac Rd2 ONE;
+Switch "7:Wr2" ac.ad Wr2 ONE;
+
+BitMemory ba Set1 Clear1 Rd1 Wr1 DataBus | Value1;
+BitMemory bc Set2 Clear2 Rd2 Wr2 DataBus | Value2;
+
+Probe "Val1" ca Value1;
+Probe "Val2" cc Value2;
+Probe "Data" cb DataBus;

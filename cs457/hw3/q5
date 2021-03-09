@@ -1,0 +1,10 @@
+select X.snum, X.sname
+from supplier X
+where X.snum in (	
+	select A.snum
+	from project J, spj A
+	where J.city='Rome' and
+	      J.jnum=A.jnum 
+	group by A.snum
+	having count (distinct A.jnum)>=2 and
+	       count (distinct A.jnum)<4 )

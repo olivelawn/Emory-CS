@@ -1,0 +1,137 @@
+labss6f:/home/cs457000/quel-answers$ run quel1.1
+Get names of suppliers who supply at least 3 parts to project j4
+ 
+|sname     |
+|----------|
+|Smith     |
+|Adams     |
+|Klein     |
+|----------|
+(3 tuples)
+
+-----------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.2
+Get names of suppliers who supply to project j4 with
+at least three parts that are also available from supplier s6
+ 
+|sname     |
+|----------|
+|Adams     |
+|Klein     |
+|----------|
+(2 tuples)
+
+----------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.3
+Find names of suppliers who do not supply any blue parts
+
+|sname     |
+|----------|
+|Smith     |
+|----------|
+(1 tuple)
+
+----------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.4
+Get name for suppliers that supply to some projects
+in Rome but not to all projects in Rome
+ 
+|sname     |
+|----------|
+|Smith     |
+|Jones     |
+|Brown     |
+|Green     |
+|----------|
+(4 tuples)
+
+-----------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.5
+Get name for suppliers that supply to at least 2 projects
+in Rome but not to 4 or more projects in Rome
+ 
+|sname     |
+|----------|
+|Brown     |
+|Green     |
+|----------|
+(2 tuples)
+
+------------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.6
+Find names of suppliers who supply the same part
+to at least three different projects
+
+|sname     |
+|----------|
+|Smith     |
+|Jones     |
+|Clark     |
+|Adams     |
+|Brown     |
+|Green     |
+|Johnson   |
+|----------|
+(7 tuples)
+
+-------------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.7
+Find part number and names of parts that are used in the same project
+but supplied by at least 3 different suppliers
+ 
+|pnum  |pname     |
+|-----------------|
+|p1    |Nut       |
+|p3    |Screw     |
+|-----------------|
+(2 tuples)
+
+------------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.8
+Find the part number, part name, color and the weight of
+the heaviest part in each category
+ 
+|pnum  |pname     |color     |weight       |
+|------------------------------------------|
+|p1    |Nut       |Red       |           12|
+|p2    |Bolt      |Green     |           17|
+|p3    |Screw     |Blue      |           17|
+|p6    |Cog       |Red       |           19|
+|p8    |Cam       |Pink      |           15|
+|------------------------------------------|
+(5 tuples)
+
+-------------------------------------------------------------------
+
+labss6f:/home/cs457000/quel-answers$ run quel1.9
+Find the part number, name and weight of the second heaviest parts
+
+|pnum  |pname     |weight       |
+|-------------------------------|
+|p2    |Bolt      |           17|
+|p3    |Screw     |           17|
+|-------------------------------|
+(2 tuples)
+
+------------------------------------------------------------------
+
+Find names of projects that use all parts that are used in project j3
+ 
+|jnum  |jname     |
+|-----------------|
+|j1    |Sorter    |
+|j2    |Punch     |
+|j3    |Reader    |
+|j4    |Console   |
+|j5    |Collator  |
+|j7    |Tape      |
+|-----------------|
+(6 tuples)
+

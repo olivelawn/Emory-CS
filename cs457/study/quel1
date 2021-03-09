@@ -1,0 +1,5 @@
+retrieve (E.fname, E.lname, n=count (P.pnumber by E.ssn where
+				     E.ssn=W.ssn and
+				     W.pno=P.pnumber and
+				     P.dnum=5))\e
+

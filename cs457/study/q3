@@ -1,0 +1,2 @@
+retrieve (P.pname, W.pno, count(W.essn by W.pno))
+where P.pnumber=W.pno

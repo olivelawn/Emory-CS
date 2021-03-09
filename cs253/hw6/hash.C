@@ -1,0 +1,306 @@
+#include <fstream.h>		// iostream + file reading
+#include <stdlib.h>		// exit()
+#include <string.h>		// strcmp()
+void exit_err(char *msg) { cerr << msg << endl; exit(1); }
+
+
+const int WordBufSize = 8;	// max length, plus one
+struct Word {
+  char text[WordBufSize];	// the word itself, null-terminated
+  Word() { text[0]='\0'; }	// empty string, just in case...
+  int Hash(int b) const{
+   	int r=0;
+	for(int i=0; text[i]; i++) r=r*17+text[i];
+	return abs (r%b);
+			  } 
+};
+ostream& operator<<(ostream& os, const Word& w) { return os << w.text; }
+istream& operator>>(istream& is, Word& w) {
+  is.get(w.text,WordBufSize,'\n'); // read up to a newline
+  // now gobble any remaining chars up to the newline:
+  char c; while (is.get(c)) if (c=='\n') break;
+  return is;
+}
+int operator==(const Word& x, const Word &y) { // compare for equality
+  return !strcmp(x.text,y.text);
+}
+
+//// List<T>: a list of T's (with related Node and Iterator classes).
+// Our adjacency lists are List<int>'s, and a List<Word> is searched
+// to translate Word's to their vertex id's.
+template <class T> struct Node {
+  friend class List<T>; friend class ListIter<T>;
+  T data; Node<T>* link;	// usual stuff here
+public:
+  Node(const T& k, Node<T>* l=0): data(k), link(l) {}
+  // ~Node() { cout << "Node gone" << endl; } -- for debugging
+};
+template <class T> class List {
+  friend class ListIter<T>;
+  Node<T>* first;
+public:
+  List(): first(0) {}
+  ~List() {			// destructor, delete all nodes
+    Node<T>* p;
+    while (first) { p=first; first=first->link; delete p; }
+  }
+  void Insert(const T& k) { first = new Node<T>(k,first); } // a copy of k
+};
+template <class T> class ListIter {
+  Node<T>* current;
+public:
+  ListIter<T>(List<T> &l) { current = l.first; }
+  T& Val() { return current->data; } //  return current value (l-value)
+  int Done() { return current==0; } // are we done yet? (0/1)
+  void Next() { if (current) current=current->link; } // take a step
+};
+
+
+
+template <class T> class Queue {
+  T *buf; int n;		// circular buffer and its size
+  int entry, exit;		// where items enter and exit
+public:
+  Queue(int sz=10): n(sz) { buf = new T[n]; entry=exit=0; }
+  ~Queue() { delete [] buf; }
+  void Insert(const T& k) {
+    int next = (entry+1)%n;
+    if (next==exit) exit_err("intQueue: overflow");
+    buf[entry]=k;
+    entry=next;
+  }
+  int Empty() { return entry==exit; }
+  int Peek() {			// what would we Delete next?
+    if (Empty()) exit_err("intQueue: underflow");
+    return buf[exit];
+  }
+  int Delete() { T ret = Peek(); exit = (exit+1)%n; return ret; }
+};
+
+
+//// Graph: a graph whose n vertices are the integers 0 to n-1.
+class Graph {
+  List<int> *Adj;		// adjacency lists (HeadNodes in book)
+protected:			// make n accessible to SymGraph (below):
+  int n;			// number of vertices
+public:
+  Graph(int sz): n(sz) { Adj = new List<int>[n]; }
+  ~Graph() { delete [] Adj; }
+  void AddDiEdge(int i, int j) { Adj[i].Insert(j); }
+  void AddEdge(int i, int j) { AddDiEdge(i,j); AddDiEdge(j,i); }
+  int PathBFS(int,int,List<int>&);
+};
+
+int Graph::PathBFS(int s, int t, List<int> &path)
+{
+  int *parent = new int[n];	// does double-duty as "visited" array
+  for (int i=0; i<n; i++) parent[i]=-1; // -1 means unvisited
+  parent[s]=s;
+  Queue<int> queue(n);
+  queue.Insert(s);
+  int v, w;
+  while (!queue.Empty() && parent[t]<0) {
+    v = queue.Delete();
+    for (ListIter<int> it(Adj[v]); !it.Done(); it.Next()) {
+      w = it.Val();
+      if (parent[w]<0) { parent[w]=v; queue.Insert(w); }
+    }
+  }
+  int ret = (parent[t]>=0);	// did we find a path?
+  if (ret) {
+    for (v=t; parent[v] != v; v=parent[v]) path.Insert(v);
+    path.Insert(v);
+  }
+  delete [] parent;
+  return ret;
+}
+
+
+//// Symbol: a (Name,Attribute) pair
+// We use Name==Word and Attribute==int.
+// The idea is that these will be stored in a SymbolTable.
+// A Symbol in the table asserts the mapping of Name to Attribute.
+template <class Name, class Attribute> struct Symbol {
+  Name name; Attribute attr;
+  Symbol() {}
+  Symbol(const Name& n, Attribute a): name(n), attr(a) {}
+};
+
+
+//// SymbolTable<Name,Attribute>: a collection of Symbol's
+// with distinct Name's.  The SymbolTable defines a mapping
+// from Name's to Attribute's.
+//
+// This ought to use hashing, but it does not.  This version
+// just uses one big list of Symbol's (like hashing to one bucket).
+//
+// We need: Name's must be comparable with ==.
+// For the hashing version, the Name's should probably
+// have a .hash(n) function.
+//
+// You need to reimplement this to use many buckets, instead of
+// just one big bucket.
+
+template <class Name, class Attribute>
+class SymbolTable
+{
+public:
+  // Then you will want to declare an array of buckets (List<int>'s).
+  SymbolTable(int b) : buckets(b) {
+    cout<<"the num of buckets is... "<<buckets<<endl;
+    chain= new List<Symbol<Name, Attribute> > [buckets];
+		}
+
+  Symbol<Name,Attribute>* SymFind(const Name& name) {
+    // Return pointer to Symbol, or 0 if Name is not matched.
+    int element=name.Hash(buckets);
+    //cout<<"Got here"<<endl;
+    ListIter<Symbol<Name,Attribute> > li(chain[element]);
+    for (; !li.Done(); li.Next())
+      if (name == li.Val().name) return &(li.Val());
+    return 0;
+  }
+  Symbol<Name,Attribute>* Insert(const Name&, Attribute);
+
+
+private:
+  int buckets;
+  List<Symbol<Name,Attribute> > *chain;
+};
+
+template <class Name, class Attribute>
+Symbol<Name,Attribute>*
+SymbolTable<Name,Attribute>::Insert (const Name& name, Attribute attr)
+{ 
+  // Modify an existing symbol entry, or add a new one:
+  Symbol<Name,Attribute>* s = SymFind(name);
+  if (s)
+    s->attr = attr;
+  else {
+    int element=name.Hash(buckets);
+    Symbol<Name,Attribute> newsym(name,attr);
+    chain[element].Insert(newsym);	// put copy of newsym at front of list
+    s = SymFind(name);
+  }
+  return s;
+}
+
+
+//// SymGraph<Name>: a graph whose vertices are Name's  (for us, Name==Word)
+// This is basically a Graph plus three things:
+// (1) a SymbolTable to translate Name's to int's (vertex id's)
+// (2) an array to tranlate int's back to Name's
+// (3) a counter of the number of known vertices
+
+template <class Name> class SymGraph: public Graph {
+  SymbolTable<Name,int> *Name2Id; // maps Names to vertex ids
+  Symbol<Name,int> **Id2Sym;	// maps vertex ids back to Symbols
+  int nextid;			// next free vertex id
+public:
+  SymGraph(int);		// constructor
+  ~SymGraph() { delete Name2Id; delete [] Id2Sym; }
+  Name& Id2Name(int id) { return Id2Sym[id]->name; }
+  int Size() { return nextid; }	// number of allocated id's
+  int GetId(const Name&, int);
+  void AddEdge(const Name& x, const Name& y) {
+    Graph::AddEdge(GetId(x),GetId(y));
+  }
+};
+
+template <class Name> SymGraph<Name>::SymGraph(int sz): Graph(sz)
+{
+  nextid = 0;
+  Name2Id = new SymbolTable<Name,int>(sz);
+  Id2Sym = new Symbol<Name,int>* [sz];
+  for (int i=0; i<sz; i++) Id2Sym[i]=0; // no real need
+}
+
+template <class Name> int SymGraph<Name>::GetId(const Name& name, int soft=0)
+{
+  // Return the id associated with name by the SymbolTable.
+  // If `soft' is non-zero and the Name is new, return -1 (not a valid id).
+  // Otherwise, allocate a new id for this name and return it.
+  Symbol<Name,int>* sp = Name2Id->SymFind(name);
+  if (sp) return sp->attr;
+  if (soft) return -1;
+  if (nextid >= n) exit_err("SymGraph: ran out of free vertices");
+  Name2Id->Insert(name,nextid);
+  Id2Sym[nextid] = Name2Id->SymFind(name);
+  return nextid++;
+}
+
+
+//// The main program.
+
+const int MaxGraphSize = 27000;  // upper bound on number of vertices
+// Note: words3.dat needs only 1201 vertices, but
+// words5.dat needs many more: about 6000 5-letter words, plus
+// the five "*" variations added for each word.
+// Conceivably, you may want a smaller parameter for the number of
+// buckets you use for hashing.
+
+SymGraph<Word> WordGraph(MaxGraphSize);
+
+void AddWord(const Word &w, int noisy=0)
+{
+  // Add w and all its "*-variations" to the WordGraph.  For example,
+  // if w=="foo", then w2 runs through "*oo", "f*o", and "fo*".
+  int oldsize = WordGraph.Size();
+  WordGraph.GetId(w);
+  if (oldsize < WordGraph.Size()) {
+    // A new word:
+    if (noisy) cout << "Adding Word `" << w << "' to the WordGraph" << endl;
+    Word w2; strcpy(w2.text,w.text); // a copy of w
+    for (int i=0; w.text[i]; i++) {
+      w2.text[i]='*';
+      WordGraph.AddEdge(w,w2);
+      w2.text[i]=w.text[i];
+    }
+  }
+}
+
+// argc, argv: gives us access to the command line.
+// From the shell, you do "a.out wordfile", where wordfile
+// is a file of words, with one word per line.
+int main(int argc, char *argv[])
+{
+  if (argc != 2) exit_err("usage: give a single input filename argument");
+  ifstream from(argv[1]);
+  if (!from) exit_err("could not open file");
+  Word w1, w2;
+  int wordcount=0, w1_id, w2_id;
+  cout << "Reading words from file: " << argv[1] << endl;
+  while (!from.eof()) {
+    from >> w1;
+    if (!w1.text[0]) continue;	// empty line, or maybe eof?
+    //cout << '.' << flush;
+    if (!(++wordcount%50)) cout << ' ' << wordcount << endl;
+    AddWord(w1);
+  }
+  cout << "\nRead " << wordcount << " words, the WordGraph has "
+       << WordGraph.Size() << " vertices." << endl;
+  do {
+    cout << "\nEnter two words, each terminated by newline:" << endl;
+    cin >> w1;
+    if (cin.eof()) break;
+    cin >> w2;
+    // Add them to the graph (be noisy if they are new words):
+    AddWord(w1,1);
+    AddWord(w2,1);
+    // Ok, use BFS to find the shortest path between these words:
+    List<int> answer;
+    if (WordGraph.PathBFS(WordGraph.GetId(w1), WordGraph.GetId(w2), answer)) {
+      // Print the path, converting int ids back to Words.
+      // Print every other node, so we do not see the intermediaries.
+      ListIter<int> it(answer);
+      cout << "Shortest path: ";
+      while (!it.Done()) {
+	cout << ' ' << WordGraph.Id2Name(it.Val());
+	it.Next();
+	it.Next();
+      }
+      cout << endl;
+    } else
+      cout << "There is no path between those words." << endl;
+  } while (!cin.eof());
+}

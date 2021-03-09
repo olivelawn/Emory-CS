@@ -1,0 +1,166 @@
+Script started on Fri Sep 19 11:48:47 1997
+h:w$ kcl
+KCl (Kyoto Common Lisp)  Nov 13, 1990
+
+Comment: expressions entered in same order as on stapled sheet
+minus number 5 as it is similar to number 4
+
+>(= 4 4)
+T
+
+>(eq 4 4)
+T
+
+>(eql 4 4)
+T
+
+>(equal 4 4)
+T
+
+>(= () () )
+
+Error: NIL is not of type NUMBER.
+Error signalled by =.
+
+Broken at =.  Type :H for Help.
+>>(eq () () )
+T
+
+>>(eql () () )
+T
+
+>>(equal () () )
+T
+
+>>(setf r 4)
+4
+
+>>(setf s 4)
+4
+
+>>(= r s)
+T
+
+>>(eq r s)
+T
+
+>>(eql r s)
+T
+
+>>(equal r s)
+T
+
+>>(setf x '(a b))
+(A B)
+
+>>(setf y '(a b))
+(A B)
+
+>>(setf z y)
+(A B)
+
+>>(= y z)   
+
+Error: (A B) is not of type NUMBER.
+Error signalled by =.
+Backtrace:  > evalhook > =
+
+Broken at =.
+>>(eq y z)  
+T
+
+>>(eql y z)
+T
+
+>>(equal y z)
+T
+
+>>(= 'same 'same)
+
+Error: SAME is not of type NUMBER.
+Error signalled by =.
+Backtrace:  > evalhook > =
+
+Broken at =.
+>>(eq 'same 'same)
+T
+
+>>(eql 'same 'same)
+T
+
+>>(equal 'same 'same)
+T
+
+>>(= 101 101)
+T
+
+>>(eq 101 101)
+T
+
+>>(eql 101 101)
+T
+
+>>(equal 101 101)
+T
+
+>>(= 4.0 4)
+T
+
+>>(eq 4.0 4)
+NIL
+
+>>(eql 4.0 4)
+NIL
+
+>>(equal 4.0 4)
+NIL
+
+>>(= 4 4)
+T
+
+>>(eq 4 4)
+T
+
+>>(eql 4 4)
+T
+
+>>(equal 4 4)
+T
+
+>>(= '(   same   ) '(same))
+
+Error: (SAME) is not of type NUMBER.
+Error signalled by =.
+Backtrace:  > evalhook > =
+
+Broken at =.
+>>(eq '(   same   ) '(same))
+NIL
+
+>>(eql '(   same   ) '(same))
+NIL
+
+>>(equal '(   same   ) '(same))
+T
+
+>>(= '(a) 'a)
+
+Error: (A) is not of type NUMBER.
+Error signalled by =.
+Backtrace:  > evalhook > =
+
+Broken at =.
+>>(eq '(a) 'a)
+NIL
+
+>>(eql '(a) 'a)
+NIL
+
+>>(equal '(a) 'a)
+NIL
+
+>>(bye)
+Bye.
+h:w$ ^D
+
+script done on Fri Sep 19 11:52:08 1997

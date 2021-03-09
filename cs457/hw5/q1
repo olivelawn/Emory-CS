@@ -1,0 +1,11 @@
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+ 
+ retrieve (S.sname)
+
+ where count(A.pnum by S.snum
+		     where A.jnum="j4" and
+			 A.snum=S.snum) >= 3
+

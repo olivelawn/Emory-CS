@@ -1,0 +1,5 @@
+select DISTINCT A.pnum
+from supplier S, project J, spj A
+where S.city=J.city and
+      A.snum=S.snum and
+      A.jnum=J.jnum

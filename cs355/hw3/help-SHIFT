@@ -1,0 +1,44 @@
+/* ----------------------------------------------
+   help-SHIFT: help file for the shifter project
+   ---------------------------------------------- */
+#include "basic.h"
+#include "shifter16.h-nowork"
+#include "rom16.h"
+
+
+/* inputs to select ROM */
+Switch "0:a3" ba.aa a3 ZERO;
+Switch "0:a2" ba.ab a2 ZERO;
+Switch "0:a1" ba.ac a1 ZERO;
+Switch "0:a0" ba.ad a0 ZERO;
+
+/* the ROM itself */
+TestRom1 cb a3 a2 a1 a0 | a[15..0];
+
+/* probing ROM outputs */
+Probe bb.aa a[15]; Probe bb.ab a[14];
+Probe bb.ac a[13]; Probe bb.ad a[12];
+Probe bb.ae a[11]; Probe bb.af a[10];
+Probe bb.ag a[9]; Probe bb.ah a[8];
+Probe bc.aa a[7]; Probe bc.ab a[6];
+Probe bc.ac a[5]; Probe bc.ad a[4];
+Probe bc.ae a[3]; Probe bc.af a[2];
+Probe bc.ag a[1]; Probe bc.ah a[0];
+
+
+/* inputs to select shifter function */
+Switch "4:c1" fa x ZERO;
+Switch "5:c0" fa y ZERO;
+
+/* shifter */
+SHIFTER16 cd a[15..0] x y | c[15..0] ;
+
+/* probing shifter's outputs */
+Probe be.aa c[15]; Probe be.ab c[14];
+Probe be.ac c[13]; Probe be.ad c[12];
+Probe be.ae c[11]; Probe be.af c[10];
+Probe be.ag c[9]; Probe be.ah c[8];
+Probe bf.aa c[7]; Probe bf.ab c[6];
+Probe bf.ac c[5]; Probe bf.ad c[4];
+Probe bf.ae c[3]; Probe bf.af c[2];
+Probe bf.ag c[1]; Probe bf.ah c[0];

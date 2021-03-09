@@ -1,0 +1,218 @@
+grader: Grading pjohn07
+// cs253 project turnin from pjohn07, file `hash.C' as assignment 6
+
+-rw-r--r--   1 cs253000 cs             0 Apr 16 00:00 duedate.6
+-rw-rwx---   1 pjohn07  cs          9999 Apr  9 23:54 pjohn07.6
+Checking date: 6 days early, 6% early bonus
+
+Hash Function:
+
+  int Hash(int b) const{
+   	int r=0;
+	for(int i=0; text[i]; i++) r=r*17+text[i];
+	return abs (r%b);
+			  }
+
+MIC: this hash looks good (no penalty)
+
+Running...
+
+Testing: words5.dat with Input.1
+--------------------------------
+straw
+there
+watch
+write
+plane
+clock
+
+Output for Input.1:
+the num of buckets is... 27000
+Reading words from file: words5.dat
+Read 5757 words, the WordGraph has 26616 vertices.
+
+Enter two words, each terminated by newline:
+Shortest path:  straw strap strop stoop stoup stout shout short shore whore where there
+
+Enter two words, each terminated by newline:
+Shortest path:  watch witch winch wench tench tenth tents teats thats whats whits white write
+
+Enter two words, each terminated by newline:
+Shortest path:  plane plank clank clack clock
+
+Enter two words, each terminated by newline:
+
+Testing: words3.dat with Input.2
+--------------------------------
+cat
+dog
+fox
+met
+new
+job
+
+Output for Input.2:
+the num of buckets is... 27000
+Reading words from file: words3.dat
+Read 576 words, the WordGraph has 1201 vertices.
+
+Enter two words, each terminated by newline:
+Shortest path:  cat cot cog dog
+
+Enter two words, each terminated by newline:
+Shortest path:  fox fop mop mot met
+
+Enter two words, each terminated by newline:
+Shortest path:  new now nob job
+
+Enter two words, each terminated by newline:
+
+Time Check:
+--------------------------------
+the num of buckets is... 27000
+Reading words from file: words5.dat
+Read 5757 words, the WordGraph has 26616 vertices.
+
+Enter two words, each terminated by newline:
+Shortest path:  straw strap strop stoop stoup stout shout short shore whore where there
+
+Enter two words, each terminated by newline:
+Shortest path:  watch witch winch wench tench tenth tents teats thats whats whits white write
+
+Enter two words, each terminated by newline:
+Shortest path:  plane plank clank clack clock
+
+Enter two words, each terminated by newline:
+
+
+Time Check:
+the num of buckets is... 27000
+Reading words from file: words5.dat
+ 50
+ 100
+ 150
+ 200
+ 250
+ 300
+ 350
+ 400
+ 450
+ 500
+ 550
+ 600
+ 650
+ 700
+ 750
+ 800
+ 850
+ 900
+ 950
+ 1000
+ 1050
+ 1100
+ 1150
+ 1200
+ 1250
+ 1300
+ 1350
+ 1400
+ 1450
+ 1500
+ 1550
+ 1600
+ 1650
+ 1700
+ 1750
+ 1800
+ 1850
+ 1900
+ 1950
+ 2000
+ 2050
+ 2100
+ 2150
+ 2200
+ 2250
+ 2300
+ 2350
+ 2400
+ 2450
+ 2500
+ 2550
+ 2600
+ 2650
+ 2700
+ 2750
+ 2800
+ 2850
+ 2900
+ 2950
+ 3000
+ 3050
+ 3100
+ 3150
+ 3200
+ 3250
+ 3300
+ 3350
+ 3400
+ 3450
+ 3500
+ 3550
+ 3600
+ 3650
+ 3700
+ 3750
+ 3800
+ 3850
+ 3900
+ 3950
+ 4000
+ 4050
+ 4100
+ 4150
+ 4200
+ 4250
+ 4300
+ 4350
+ 4400
+ 4450
+ 4500
+ 4550
+ 4600
+ 4650
+ 4700
+ 4750
+ 4800
+ 4850
+ 4900
+ 4950
+ 5000
+ 5050
+ 5100
+ 5150
+ 5200
+ 5250
+ 5300
+ 5350
+ 5400
+ 5450
+ 5500
+ 5550
+ 5600
+ 5650
+ 5700
+ 5750
+
+Read 5757 words, the WordGraph has 26616 vertices.
+
+Enter two words, each terminated by newline:
+
+real	0m4.37s
+user	0m2.61s
+sys	0m0.37s
+
+Grade: 100/100
+Comments: great! early bonus not needed ...
+
+pjohn07.log:	2.61	good  (12/33)

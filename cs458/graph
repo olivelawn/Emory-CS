@@ -1,0 +1,55 @@
+(= 4 4)
+(eq 4 4)
+(eql 4 4)
+(equal 4 4)
+
+(= () () )
+(eq () () )
+(eql () () )
+(equal () () )
+
+(setf r 4)
+(setf s 4)
+(= r s)
+(eq r s)
+(eql r s)
+(equal r s)
+
+(setf x '(a b))
+(setf y '(a b))
+(setf z y)
+(= y z)
+(eq y z)
+(eql y z)
+(equal y z)
+
+(= 'same 'same)
+(eq 'same 'same)
+(eql 'same 'same)
+(equal 'same 'same)
+
+(= 101 101)
+(eq 101 101)
+(eql 101 101)
+(equal 101 101)
+
+(= 4.0 4)
+(eq 4.0 4)
+(eql 4.0 4)
+(equal 4.0 4)
+
+(= 4 4)
+(eq 4 4)
+(eql 4 4)
+(equal 4 4)
+
+(= '(   same   ) '(same))
+(eq '(   same   ) '(same))
+(eql '(   same   ) '(same))
+(equal '(   same   ) '(same))
+
+(= '(a) 'a)
+(eq '(a) 'a)
+(eql '(a) 'a)
+(equal '(a) 'a)
+

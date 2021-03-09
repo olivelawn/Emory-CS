@@ -1,0 +1,62 @@
+#include "basic.h"
+#include "alu16.h"
+#include "rom16.h"
+
+
+/* Test alu16.h
+*/
+
+/* Switches controling selection of ROM 1 */
+Switch "0:a3" ba.aa a3 ZERO;
+Switch "1:a2" ba.ab a2 ZERO;
+Switch "2:a1" ba.ac a1 ZERO;
+Switch "3:a0" ba.ad a0 ZERO;
+
+TestRom1 cb a3 a2 a1 a0 | a[15..0];
+
+Probe bb.aa a[15]; Probe bb.ab a[14];
+Probe bb.ac a[13]; Probe bb.ad a[12];
+Probe bb.ae a[11]; Probe bb.af a[10];
+Probe bb.ag a[9]; Probe bb.ah a[8];
+Probe bc.aa a[7]; Probe bc.ab a[6];
+Probe bc.ac a[5]; Probe bc.ad a[4];
+Probe bc.ae a[3]; Probe bc.af a[2];
+Probe bc.ag a[1]; Probe bc.ah a[0];
+
+
+/* Switches controling selection of ROM 2 */
+Switch "4:b3" da.aa b3 ZERO;
+Switch "5:b2" da.ab b2 ZERO;
+Switch "6:b1" da.ac b1 ZERO;
+Switch "7:b0" da.ad b0 ZERO;
+
+TestRom2 cc b3 b2 b1 b0 | b[15..0];
+
+Probe db.aa b[15]; Probe db.ab b[14];
+Probe db.ac b[13]; Probe db.ad b[12];
+Probe db.ae b[11]; Probe db.af b[10];
+Probe db.ag b[9]; Probe db.ah b[8];
+Probe dc.aa b[7]; Probe dc.ab b[6];
+Probe dc.ac b[5]; Probe dc.ad b[4];
+Probe dc.ae b[3]; Probe dc.af b[2];
+Probe dc.ag b[1]; Probe dc.ah b[0];
+
+Switch "8:Ctl1" fa x ZERO;
+Switch "9:Ctl0" fa y ZERO;
+
+ALU16 cd a[15..0] b[15..0] x y | s[15..0] N Z;
+
+Probe be.aa s[15]; Probe be.ab s[14];
+Probe be.ac s[13]; Probe be.ad s[12];
+Probe be.ae s[11]; Probe be.af s[10];
+Probe be.ag s[9]; Probe be.ah s[8];
+Probe bf.aa s[7]; Probe bf.ab s[6];
+Probe bf.ac s[5]; Probe bf.ad s[4];
+Probe bf.ae s[3]; Probe bf.af s[2];
+Probe bf.ag s[1]; Probe bf.ah s[0];
+
+Probe bd N;
+Probe bd Z;
+
+
+

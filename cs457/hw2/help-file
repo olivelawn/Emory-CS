@@ -1,0 +1,101 @@
+1> select * 
+2> from supplier
+3> go
+ snum  sname      status      city       
+ ----- ---------- ----------- ---------- 
+ s1    Smith               20 London     
+ s2    Jones               10 Paris      
+ s3    Blake               30 London     
+ s4    Clark               20 Paris      
+ s5    Adams               30 Athens     
+ s6    Brown               20 Rome       
+ 
+------------------------------------------
+
+1> select *
+2> from part
+3> 
+4> go
+ pnum  pname      color      weight      city       
+ ----- ---------- ---------- ----------- ---------- 
+ p1    Nut        Red                 12 London     
+ p2    Bolt       Green               17 Paris      
+ p3    Screw      Blue                17 Rom        
+ p4    Screw      Red                 14 London     
+ p5    Cam        Blue                12 Paris      
+ p6    Cog        Red                 19 London     
+ p7    Nut        Pink                10 Rome       
+ p8    Cam        Pink                15 Athens     
+ 
+-----------------------------------------------------
+
+
+1> select *
+2> from project
+3> 
+4> go
+ jnum  jname      city       
+ ----- ---------- ---------- 
+ j1    Sorter     London     
+ j2    Punch      Paris      
+ j3    Reader     Paris      
+ j4    Console    London     
+ j5    Collator   Athens     
+ j6    Terminal   London     
+ j7    Tape       Athens     
+ j8    Tape       Rome       
+ j9    Modem      Rome       
+ j10   Scanner    London     
+ 
+----------------------------------------------------
+
+1> select *
+2> from spj
+3> 
+4> go
+ snum  pnum  jnum  qty         
+ ----- ----- ----- ----------- 
+ s1    p1    j1            200 
+ s1    p1    j4            100 
+ s1    p7    j4            100 
+ s2    p3    j1            200 
+ s2    p3    j2            200 
+ s2    p3    j3            200 
+ s2    p3    j4            500 
+ s2    p3    j5            600 
+ s2    p3    j6            400 
+ s2    p3    j7            800 
+ s2    p5    j2            100 
+ s3    p3    j1            200 
+ s3    p4    j2            500 
+ s4    p6    j3            300 
+ s4    p6    j7            300 
+ s5    p2    j2            200 
+ s5    p2    j4            100 
+ s5    p5    j5            500 
+ s5    p5    j7            100 
+ s5    p6    j2            200 
+ s5    p1    j4            700 
+ s5    p3    j4            200 
+ s5    p4    j4            800 
+ s5    p5    j4            400 
+ s5    p6    j4            500 
+ s1    p2    j2            300 
+ s1    p1    j8            200 
+ s2    p7    j8            300 
+ s4    p3    j2            300 
+ s5    p1    j5            500 
+ s5    p1    j7            100 
+ s6    p1    j8            500 
+ s6    p2    j8            400 
+ s6    p2    j9            400 
+ s6    p3    j9            500 
+ s6    p2    j1            500 
+ s6    p3    j1            500 
+ s6    p3    j3            500 
+ s6    p6    j3            500 
+ s6    p3    j5            500 
+ s6    p5    j5            500 
+ s2    p7    j10           300 
+ 
+

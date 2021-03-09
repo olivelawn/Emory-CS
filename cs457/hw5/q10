@@ -1,0 +1,19 @@
+
+range of J is project
+range of P is part
+range of A is spj
+range of A1 is spj
+range of A2 is spj
+  
+retrieve (J.jnum, J.jname)
+
+where countu (A.pnum by J.jnum where
+			  A.jnum=J.jnum and
+			  A1.pnum=A.pnum and
+			  A1.jnum="j3") =
+
+	  countu (A2.pnum where
+			  A2.jnum="j3") 
+
+
+    and A.jnum=J.jnum

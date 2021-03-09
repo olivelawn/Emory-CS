@@ -1,0 +1,16 @@
+/* find names of projects worked on by more than 2 employee from
+   departments other than the controlling department of the project */
+
+
+range of E is employee
+range of D is department
+range of P is project
+range of W is works_on
+range of DEP is dependent
+
+retrieve (P.pname)
+
+where count (	E.ssn by W.pno where
+		E.ssn = W.essn and
+		W.pno = P.pnumber and 
+		E.dno != P.pnumber ) > 2

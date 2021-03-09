@@ -1,0 +1,20 @@
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+
+range of S1 is supplier
+range of J1 is project
+range of P1 is part
+range of A1 is spj
+
+retrieve (J.jnum, J.jname)
+
+where countu (P.pnum where P.weight > 15 ) =
+  
+      countu (	P.pnum by J.jnum where
+	      	P.weight > 15 and 
+	  	P.pnum = A.pnum and
+		J.jnum = A.jnum )
+
+and J.jnum = A.jnum 

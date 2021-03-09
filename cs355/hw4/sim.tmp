@@ -1,0 +1,333 @@
+Alias Reset Tick Phase[4] Phase[3] Phase[2] Phase[1] | ZZ0Reset ZZ0Tick ZZ0Phase1 ZZ0Phase2 ZZ0Phase3 ZZ0Phase4  ;
+Module  "Four-Phase-Clock"  ab ZZ0Reset ZZ0Tick | ZZ0Phase1 ZZ0Phase2 ZZ0Phase3 ZZ0Phase4  ;
+  Not "Not" ab.aa ZZ0Reset 
+ZZ0not_reset 
+
+ ;
+  Xor "Xor" ab.ba ZZ0q1 
+ZZ0q0 01 
+
+ ;
+  And "And" ab.bb ZZ0not_reset 
+01 02 
+
+ ;
+  Dff "Dff" ab.bc ONE 
+02 ZZ0Tick ONE ZZ0q1 ZZ0q1' 
+
+ ;
+  Not "Not" ab.bd ZZ0q1 
+ZZ0not_q1 
+
+ ;
+  And "And" ab.be ZZ0not_reset 
+ZZ0not_q1 ZZ0not_q0 03 
+
+ ;
+  And "And" ab.bf ZZ0not_reset 
+ZZ0q1 ZZ0not_q0 04 
+
+ ;
+  Or "Or" ab.bg 03 
+04 05 
+
+ ;
+  Dff "Dff" ab.bh ONE 
+05 ZZ0Tick ONE ZZ0q0 ZZ0q0' 
+
+ ;
+  Not "Not" ab.bi ZZ0q0 
+ZZ0not_q0 
+
+ ;
+  Probe "Probe" ab.ca ZZ0q1 
+
+
+ ;
+  Probe "Probe" ab.cb ZZ0q0 
+
+
+ ;
+Alias ZZ0q1 ZZ0q0 ZZ0Phase1 ZZ0Phase2 ZZ0Phase3 ZZ0Phase4 | ZZ1c[1] ZZ1c[0] ZZ1s[3] ZZ1s[2] ZZ1s[1] ZZ1s[0]  ;
+Module  "Decoder2x4"  ab.da ZZ1c[1] ZZ1c[0] | ZZ1s[3] ZZ1s[2] ZZ1s[1] ZZ1s[0]  ;
+  Not "Not" ab.da.1a ZZ1c[1] 
+ZZ1not-c1 
+
+ ;
+  Not "Not" ab.da.2a ZZ1c[0] 
+ZZ1not-c0 
+
+ ;
+  And "And" ab.da.2a ZZ1c[1] 
+ZZ1c[0] ZZ1s[3] 
+
+ ;
+  And "And" ab.da.2b ZZ1c[1] 
+ZZ1not-c0 ZZ1s[2] 
+
+ ;
+  And "And" ab.da.2c ZZ1not-c1 
+ZZ1c[0] ZZ1s[1] 
+
+ ;
+  And "And" ab.da.2d ZZ1not-c1 
+ZZ1not-c0 ZZ1s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+ End ; /* Four-Phase-Clock */
+Alias Reset Phase[1] MPC[7] MPC[6] MPC[5] MPC[4] MPC[3] MPC[2] MPC[1] MPC[0] | ZZ2Reset ZZ2Tick ZZ2MPC[7] ZZ2MPC[6] ZZ2MPC[5] ZZ2MPC[4] ZZ2MPC[3] ZZ2MPC[2] ZZ2MPC[1] ZZ2MPC[0]  ;
+Module  "MPC-With-Reset"  cb-db ZZ2Reset ZZ2Tick | ZZ2MPC[7] ZZ2MPC[6] ZZ2MPC[5] ZZ2MPC[4] ZZ2MPC[3] ZZ2MPC[2] ZZ2MPC[1] ZZ2MPC[0]  ;
+  Not "Not" cb-db.aa ZZ2Reset 
+ZZ2not_reset 
+
+ ;
+  Dff "Dff" cb-db.ca ONE 
+ZZ2out7 ZZ2Tick ZZ2not_reset ZZ2MPC[7] ZZ2q8' 
+
+ ;
+  Dff "Dff" cb-db.cb ONE 
+ZZ2out6 ZZ2Tick ZZ2not_reset ZZ2MPC[6] ZZ2q7' 
+
+ ;
+  Dff "Dff" cb-db.cc ONE 
+ZZ2out5 ZZ2Tick ZZ2not_reset ZZ2MPC[5] ZZ2q6' 
+
+ ;
+  Dff "Dff" cb-db.cd ONE 
+ZZ2out4 ZZ2Tick ZZ2not_reset ZZ2MPC[4] ZZ2q5' 
+
+ ;
+  Dff "Dff" cb-db.ce ONE 
+ZZ2out3 ZZ2Tick ZZ2not_reset ZZ2MPC[3] ZZ2q4' 
+
+ ;
+  Dff "Dff" cb-db.cf ONE 
+ZZ2out2 ZZ2Tick ZZ2not_reset ZZ2MPC[2] ZZ2q3' 
+
+ ;
+  Dff "Dff" cb-db.cg ONE 
+ZZ2out1 ZZ2Tick ZZ2not_reset ZZ2MPC[1] ZZ2q2' 
+
+ ;
+  Dff "Dff" cb-db.ch ONE 
+ZZ2out0 ZZ2Tick ZZ2not_reset ZZ2MPC[0] ZZ2q1' 
+
+ ;
+Alias ZZ2cout6 ZERO ZZ2MPC[7] ZZ2cout7 ZZ2out7 | ZZ3CarryIn ZZ3a ZZ3b ZZ3CarryOut ZZ3Sum  ;
+Module  "Full_Adder"  cb-db.db ZZ3CarryIn ZZ3a ZZ3b | ZZ3CarryOut ZZ3Sum  ;
+  Xor "Xor" cb-db.db.aa ZZ3a 
+ZZ3b ZZ3x 
+
+ ;
+  Xor "Xor" cb-db.db.ab ZZ3x 
+ZZ3CarryIn ZZ3Sum 
+
+ ;
+  And "And" cb-db.db.bb ZZ3a 
+ZZ3b ZZ3y 
+
+ ;
+  And "And" cb-db.db.cb ZZ3CarryIn 
+ZZ3x ZZ3z 
+
+ ;
+  Or "Or" cb-db.db.bc-cc ZZ3y 
+ZZ3z ZZ3CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ2cout5 ZERO ZZ2MPC[6] ZZ2cout6 ZZ2out6 | ZZ4CarryIn ZZ4a ZZ4b ZZ4CarryOut ZZ4Sum  ;
+Module  "Full_Adder"  cb-db.dc ZZ4CarryIn ZZ4a ZZ4b | ZZ4CarryOut ZZ4Sum  ;
+  Xor "Xor" cb-db.dc.aa ZZ4a 
+ZZ4b ZZ4x 
+
+ ;
+  Xor "Xor" cb-db.dc.ab ZZ4x 
+ZZ4CarryIn ZZ4Sum 
+
+ ;
+  And "And" cb-db.dc.bb ZZ4a 
+ZZ4b ZZ4y 
+
+ ;
+  And "And" cb-db.dc.cb ZZ4CarryIn 
+ZZ4x ZZ4z 
+
+ ;
+  Or "Or" cb-db.dc.bc-cc ZZ4y 
+ZZ4z ZZ4CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ2cout4 ZERO ZZ2MPC[5] ZZ2cout5 ZZ2out5 | ZZ5CarryIn ZZ5a ZZ5b ZZ5CarryOut ZZ5Sum  ;
+Module  "Full_Adder"  cb-db.dd ZZ5CarryIn ZZ5a ZZ5b | ZZ5CarryOut ZZ5Sum  ;
+  Xor "Xor" cb-db.dd.aa ZZ5a 
+ZZ5b ZZ5x 
+
+ ;
+  Xor "Xor" cb-db.dd.ab ZZ5x 
+ZZ5CarryIn ZZ5Sum 
+
+ ;
+  And "And" cb-db.dd.bb ZZ5a 
+ZZ5b ZZ5y 
+
+ ;
+  And "And" cb-db.dd.cb ZZ5CarryIn 
+ZZ5x ZZ5z 
+
+ ;
+  Or "Or" cb-db.dd.bc-cc ZZ5y 
+ZZ5z ZZ5CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ2cout3 ZERO ZZ2MPC[4] ZZ2cout4 ZZ2out4 | ZZ6CarryIn ZZ6a ZZ6b ZZ6CarryOut ZZ6Sum  ;
+Module  "Full_Adder"  cb-db.de ZZ6CarryIn ZZ6a ZZ6b | ZZ6CarryOut ZZ6Sum  ;
+  Xor "Xor" cb-db.de.aa ZZ6a 
+ZZ6b ZZ6x 
+
+ ;
+  Xor "Xor" cb-db.de.ab ZZ6x 
+ZZ6CarryIn ZZ6Sum 
+
+ ;
+  And "And" cb-db.de.bb ZZ6a 
+ZZ6b ZZ6y 
+
+ ;
+  And "And" cb-db.de.cb ZZ6CarryIn 
+ZZ6x ZZ6z 
+
+ ;
+  Or "Or" cb-db.de.bc-cc ZZ6y 
+ZZ6z ZZ6CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ2cout2 ZERO ZZ2MPC[3] ZZ2cout3 ZZ2out3 | ZZ7CarryIn ZZ7a ZZ7b ZZ7CarryOut ZZ7Sum  ;
+Module  "Full_Adder"  cb-db.df ZZ7CarryIn ZZ7a ZZ7b | ZZ7CarryOut ZZ7Sum  ;
+  Xor "Xor" cb-db.df.aa ZZ7a 
+ZZ7b ZZ7x 
+
+ ;
+  Xor "Xor" cb-db.df.ab ZZ7x 
+ZZ7CarryIn ZZ7Sum 
+
+ ;
+  And "And" cb-db.df.bb ZZ7a 
+ZZ7b ZZ7y 
+
+ ;
+  And "And" cb-db.df.cb ZZ7CarryIn 
+ZZ7x ZZ7z 
+
+ ;
+  Or "Or" cb-db.df.bc-cc ZZ7y 
+ZZ7z ZZ7CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ2cout1 ZERO ZZ2MPC[2] ZZ2cout2 ZZ2out2 | ZZ8CarryIn ZZ8a ZZ8b ZZ8CarryOut ZZ8Sum  ;
+Module  "Full_Adder"  cb-db.dg ZZ8CarryIn ZZ8a ZZ8b | ZZ8CarryOut ZZ8Sum  ;
+  Xor "Xor" cb-db.dg.aa ZZ8a 
+ZZ8b ZZ8x 
+
+ ;
+  Xor "Xor" cb-db.dg.ab ZZ8x 
+ZZ8CarryIn ZZ8Sum 
+
+ ;
+  And "And" cb-db.dg.bb ZZ8a 
+ZZ8b ZZ8y 
+
+ ;
+  And "And" cb-db.dg.cb ZZ8CarryIn 
+ZZ8x ZZ8z 
+
+ ;
+  Or "Or" cb-db.dg.bc-cc ZZ8y 
+ZZ8z ZZ8CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ2cout0 ZERO ZZ2MPC[1] ZZ2cout1 ZZ2out1 | ZZ9CarryIn ZZ9a ZZ9b ZZ9CarryOut ZZ9Sum  ;
+Module  "Full_Adder"  cb-db.dh ZZ9CarryIn ZZ9a ZZ9b | ZZ9CarryOut ZZ9Sum  ;
+  Xor "Xor" cb-db.dh.aa ZZ9a 
+ZZ9b ZZ9x 
+
+ ;
+  Xor "Xor" cb-db.dh.ab ZZ9x 
+ZZ9CarryIn ZZ9Sum 
+
+ ;
+  And "And" cb-db.dh.bb ZZ9a 
+ZZ9b ZZ9y 
+
+ ;
+  And "And" cb-db.dh.cb ZZ9CarryIn 
+ZZ9x ZZ9z 
+
+ ;
+  Or "Or" cb-db.dh.bc-cc ZZ9y 
+ZZ9z ZZ9CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ONE ZERO ZZ2MPC[0] ZZ2cout0 ZZ2out0 | ZZ10CarryIn ZZ10a ZZ10b ZZ10CarryOut ZZ10Sum  ;
+Module  "Full_Adder"  cb-db.di ZZ10CarryIn ZZ10a ZZ10b | ZZ10CarryOut ZZ10Sum  ;
+  Xor "Xor" cb-db.di.aa ZZ10a 
+ZZ10b ZZ10x 
+
+ ;
+  Xor "Xor" cb-db.di.ab ZZ10x 
+ZZ10CarryIn ZZ10Sum 
+
+ ;
+  And "And" cb-db.di.bb ZZ10a 
+ZZ10b ZZ10y 
+
+ ;
+  And "And" cb-db.di.cb ZZ10CarryIn 
+ZZ10x ZZ10z 
+
+ ;
+  Or "Or" cb-db.di.bc-cc ZZ10y 
+ZZ10z ZZ10CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+  Probe "Probe" cb-db.ea ZZ2MPC[7] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[6] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[5] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[4] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[3] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[2] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[1] 
+
+
+ ;
+  Probe "Probe" cb-db.ea ZZ2MPC[0] 
+
+
+ ;
+ End ; /* MPC-With-Reset */

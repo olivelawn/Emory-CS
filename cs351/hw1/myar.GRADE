@@ -1,0 +1,22 @@
+Grade= 95
+
+Comments:
+creating new archive:  no message given
+
+append:  works well for even, odd and large files
+
+listing:  no spacing between user owner and group owner
+	  size is not displayed
+
+extract:  works for first and middle files
+
+error checking:  checks for existence of archive
+		 checks for special archive file
+		 if appending non-existent file, archive is created with
+			special magic string
+
+changing info for extract:  does not use chown or chmod
+
+suggestions:  check out what ar does for listing info
+			  file copying should not be done one byte at a time,
+				a while loop until read = 0 is good.

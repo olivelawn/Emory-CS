@@ -1,0 +1,9 @@
+select DISTINCT X.jnum
+from project X
+where X.jnum not in 
+	(select A.jnum
+ 	from part P, project J, spj A
+ 	where P.city=J.city and
+  	      A.jnum=J.jnum and
+  	      A.pnum=P.pnum )
+

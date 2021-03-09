@@ -1,0 +1,36 @@
+(define (first x) (car x))
+(define (rest x) (cdr x))
+(define (empty? x) (null? x))
+(define (back x y) (append y (list x)))
+
+
+(define (mss seq) (test seq 0 0 '() '() 0 -999) )
+
+
+
+;(define (test x this_sum max_sum seq flag)
+ ; (cond ((empty? x) (cons max_sum (list seq)))
+  ;      (else (let* ((tmp_this_sum (+ (car x) this_sum))) 
+	;	(if (and 
+		;     (> tmp_this_sum max_sum)
+		 ;    (= flag 0)) 
+		  ;(if (< tmp_this_sum 0) (test (rest x) 0 max_sum '() 1)
+		   ; (test (rest x) tmp_this_sum max_sum (back (car x) seq) 3)))))))		    
+
+
+
+(define (test x this_sum max_sum seq1 seq2 flag which)
+  (cond ((empty? x) (cons max_sum (list seq1)))
+        (else (let* ((tmp_this_sum (+ (car x) this_sum)))
+         (cond ((and (> tmp_this_sum max_sum) (= flag 0)) (test (rest x) tmp_this_sum tmp_this_sum (back (car x) seq1 ) (back (car x) seq2) flag 1))
+	       ((and (>= tmp_this_sum max_sum) (= flag 1)) (test (rest x) tmp_this_sum tmp_this_sum (back (car x) seq2) seq1 0 2))
+	       (else (if (< tmp_this_sum 0) (test (rest x) 0 max_sum seq1 '() 1 3)
+		       	  (test (rest x) tmp_this_sum max_sum seq1 (back (car x) seq2) 1 4))))))))
+
+
+
+
+
+
+
+

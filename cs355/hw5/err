@@ -1,0 +1,244 @@
+
+SIM  v 24.0  7-14-92 (MSU)
+Reading the input file(s)...
+INPUT FILE -- help-DataPath:
+/* --- help-DataPath --- Cheung ----------------- */
+
+#include "basic.h"INPUT FILE -- basic.h:
+/* -----------------------------------------------------------
+   Basic circuits made available for the CS355 class project
+   ----------------------------------------------------------- */
+
+/* Full adder.
+   Syntax: Full_Adder a b c-in | c-out s;
+   Effect: Adds binary numbers a + b with carry.
+*/
+Define Full_Adder CarryIn a b | CarryOut Sum;
+  Xor aa a b x;
+  Xor ab x CarryIn Sum;
+  And bb a b y;
+  And cb CarryIn x z;
+  Or bc-cc y z CarryOut;
+Endef;
+
+/* 2x4 Decoder
+   Syntax: Decoder2x4 <x,y> c[1..0] | s[3..0];
+*/
+Define Decoder2x4 c[1..0] | s[3..0];
+ Not 1a c[1] not-c1; Not 2a c[0] not-c0;
+ And 2a c[1] c[0] s[3];
+ And 2b c[1] not-c0 s[2];
+ And 2c not-c1 c[0] s[1];
+ And 2d not-c1 not-c0 s[0];
+Endef;
+
+
+/* -------------- **** You provide these files **** -------------- */
+#include "clock.h"INPUT FILE -- clock.h:
+Define Four-Phase-Clock r t | Phase[3..0];
+ Switch aa set ONE;
+ Switch aa reset ONE;
+
+ Dff aa ONE sw1 t ONE q1 q1x;
+ Dff aa ONE sw2 t ONE q2 q2x;
+
+ Not aa r not-r;
+ Xor aa q1 q2 q1-xor-q2;
+
+ And aa not-r q1-xor-q2 sw1;
+
+ And aa q2x not-r sw2;
+
+ And aa q1x q2x Phase[0];
+ And aa q1x q2 Phase[1];
+ And aa q1 q2x Phase[2];
+ And aa q1 q2 Phase[3];
+ 
+Endef;
+
+
+
+#include "datapath.h"INPUT FILE -- datapath.h:
+
+/* ---------------  START OF SHIFTER -------------- */
+
+Define Bit-shifter l c r c1 c0 | z;
+ 
+Decoder2x4 bd c1 c0 | s3 s2 s1 s0;
+ 
+And ae s2 r right;
+And be s1 l center;
+And ce s0 c left;
+ 
+Or bg right center left z;
+ 
+Endef;
+ 
+ 
+Define SHIFTER16 a[15..0] c1 c0 | s[15..0] ;
+ 
+  Bit-shifter aa ZERO  a[15] a[14] c1 c0 | s[15];
+  Bit-shifter ab a[15] a[14] a[13] c1 c0 | s[14];
+  Bit-shifter ac a[14] a[13] a[12] c1 c0 | s[13];
+  Bit-shifter ad a[13] a[12] a[11] c1 c0 | s[12];
+  Bit-shifter ae a[12] a[11] a[10] c1 c0 | s[11];
+  Bit-shifter af a[11] a[10] a[9]  c1 c0 | s[10];
+  Bit-shifter ag a[10] a[9]  a[8]  c1 c0 | s[9];
+  Bit-shifter ah a[9]  a[8]  a[7]  c1 c0 | s[8];
+  Bit-shifter ai a[8]  a[7]  a[6]  c1 c0 | s[7];
+  Bit-shifter aj a[7]  a[6]  a[5]  c1 c0 | s[6];
+  Bit-shifter ak a[6]  a[5]  a[4]  c1 c0 | s[5];
+  Bit-shifter al a[5]  a[4]  a[3]  c1 c0 | s[4];
+  Bit-shifter am a[4]  a[3]  a[2]  c1 c0 | s[3];
+  Bit-shifter an a[3]  a[2]  a[1]  c1 c0 | s[2];
+  Bit-shifter ao a[2]  a[1]  a[0]  c1 c0 | s[1];
+  Bit-shifter ap a[1]  a[0]  ZERO  c1 c0 | s[0];
+ 
+Endef;
+
+/* -------------- END OF SHIFTER ------------------- */
+/* -------------- START OF ALU --------------------- */
+Define One_Bit_ALU a b c-in s[1..0] | z c-out;
+ And 1a a b Out-And2;
+ Not 1a a Out-Not;   
+ Full_Adder 1a a b c-in | c-out1 Out-Sum;
+ Decoder2x4 2a s[1] s[0] | l3 l2 l1 l0;  
+ And 2c l3 Out-Not Out-Not1;
+ And 2c l2 a Out-a;
+ And 2c l1 Out-And2 Out-And1;
+ And 2c l0 Out-Sum Out-Sum1; 
+ And 2c l0 c-out1 c-out;
+ 
+ Or 2c  Out-Not1 Out-a Out-And1 Out-Sum1 z;
+Endef;
+ 
+ 
+Define ALU16 a[15..0] b[15..0] s[1] s[0] | z[15..0] N Z;
+        One_Bit_ALU aa a[0] b[0] ZERO s[1] s[0] | z[0] out0;
+        One_Bit_ALU ab a[1] b[1] out0 s[1] s[0] | z[1] out1;
+        One_Bit_ALU ac a[2] b[2] out1 s[1] s[0] | z[2] out2;
+        One_Bit_ALU ad a[3] b[3] out2 s[1] s[0] | z[3] out3;
+        One_Bit_ALU ae a[4] b[4] out3 s[1] s[0] | z[4] out4;
+        One_Bit_ALU af a[5] b[5] out4 s[1] s[0] | z[5] out5;
+        One_Bit_ALU ag a[6] b[6] out5 s[1] s[0] | z[6] out6;
+        One_Bit_ALU ah a[7] b[7] out6 s[1] s[0] | z[7] out7;
+        One_Bit_ALU ai a[8] b[8] out7 s[1] s[0] | z[8] out8;
+        One_Bit_ALU aj a[9] b[9] out8 s[1] s[0] | z[9] out9;
+        One_Bit_ALU ak a[10] b[10] out9 s[1] s[0] | z[10] out10;
+        One_Bit_ALU al a[11] b[11] out10 s[1] s[0] | z[11] out11;
+        One_Bit_ALU am a[12] b[12] out11 s[1] s[0] | z[12] out12;
+        One_Bit_ALU an a[13] b[13] out12 s[1] s[0] | z[13] out13;
+        One_Bit_ALU ao a[14] b[14] out13 s[1] s[0] | z[14] out14;
+        One_Bit_ALU ap a[15] b[15] out14 s[1] s[0] | z[15] out15;
+        
+        And da z[15] ONE N;
+        Nor da z[0] z[1] z[2] z[3] z[4] z[5] z[6] z[7] z[8] z[9] z[10] z[11] z[12] z[13] z[14] z[15] Z;
+Endef;
+/* ------------------ END OF ALU --------------- */
+
+
+Define R0 i[15..0] TICK RESET | o[15..0] nq[15..0];
+   Dff aa ONE i[0] TICK RESET o[0] nq[0];
+   Dff aa ONE i[1] TICK RESET o[1] nq[1];
+   Dff aa ONE i[2] TICK RESET o[2] nq[2];
+   Dff aa ONE i[3] TICK RESET o[3] nq[3];
+   Dff aa ONE i[4] TICK RESET o[4] nq[4];
+   Dff aa ONE i[5] TICK RESET o[5] nq[5];
+   Dff aa ONE i[6] TICK RESET o[6] nq[6];
+   Dff aa ONE i[7] TICK RESET o[7] nq[7];
+   Dff aa ONE i[8] TICK RESET o[8] nq[8];
+   Dff aa ONE i[9] TICK RESET o[9] nq[9];
+   Dff aa ONE i[10] TICK RESET o[10] nq[10];
+   Dff aa ONE i[11] TICK RESET o[11] nq[11];
+   Dff aa ONE i[12] TICK RESET o[12] nq[12];
+   Dff aa ONE i[13] TICK RESET o[13] nq[13];
+   Dff aa ONE i[14] TICK RESET o[14] nq[14];
+   Dff aa ONE i[15] TICK RESET o[15] nq[15];
+Endef;
+    
+
+Define R5 | D[15-0] ;
+   Or aa ZERO D[15]; Or aa ZERO D[14]; Or aa ZERO D[13];
+   Or aa ZERO D[12]; Or aa ZERO D[11]; Or aa ZERO D[10];
+   Or aa ZERO D[9];  Or aa ZERO D[8];  Or aa ZERO D[7];
+   Or aa ZERO D[6];  Or aa ZERO D[5];  Or aa ZERO D[4];
+   Or aa ZERO D[3];  Or aa ZERO D[2];  Or aa ZERO D[1];
+   Or aa ZERO D[0];
+Endef;
+
+Define R6 | D[15-0] ;
+   Or aa ZERO D[15]; Or aa ZERO D[14]; Or aa ZERO D[13];
+   Or aa ZERO D[12]; Or aa ZERO D[11]; Or aa ZERO D[10];
+   Or aa ZERO D[9];  Or aa ZERO D[8];  Or aa ZERO D[7];
+   Or aa ZERO D[6];  Or aa ZERO D[5];  Or aa ZERO D[4];
+   Or aa ZERO D[3];  Or aa ZERO D[2];  Or aa ZERO D[1];
+   Or aa ONE D[0];
+Endef;
+
+Define R7 | D[15-0] ;
+   Or aa ONE  D[15]; Or aa ONE  D[14]; Or aa ONE  D[13];
+   Or aa ONE  D[12]; Or aa ONE  D[11]; Or aa ONE  D[10];
+   Or aa ONE  D[9];  Or aa ONE  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+
+Define R8 | D[15-0] ;
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ONE  D[11]; Or aa ONE  D[10];
+   Or aa ONE  D[9];  Or aa ONE  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R9 | D[15-0] ;
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ONE  D[7];
+   Or aa ONE  D[6];  Or aa ONE  D[5];  Or aa ONE  D[4];
+   Or aa ONE  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R10 | D[15-0] ;
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ZERO  D[7];
+   Or aa ZERO  D[6];  Or aa ZERO  D[5];  Or aa ZERO  D[4];
+   Or aa ZERO  D[3];  Or aa ONE  D[2];  Or aa ONE  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R11 | D[15-0] ;
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ZERO  D[7];
+   Or aa ZERO  D[6];  Or aa ZERO  D[5];  Or aa ZERO  D[4];
+   Or aa ONE  D[3];  Or aa ZERO  D[2];  Or aa ZERO  D[1];
+   Or aa ZERO D[0];
+Endef;
+ 
+Define R12 | D[15-0] ;
+   Or aa ZERO  D[15]; Or aa ZERO  D[14]; Or aa ZERO  D[13];
+   Or aa ZERO  D[12]; Or aa ZERO  D[11]; Or aa ZERO  D[10];
+   Or aa ZERO  D[9];  Or aa ZERO  D[8];  Or aa ZERO  D[7];
+   Or aa ZERO  D[6];  Or aa ZERO  D[5];  Or aa ZERO  D[4];
+   Or aa ONE  D[3];  Or aa ZERO  D[2];  Or aa ZERO  D[1];
+   Or aa ONE D[0];
+Endef;
+ 
+Define R13 | D[15-0] ;
+   Or aa ONE D[15]; Or aa ZERO D[14]; Or aa ONE D[13];
+   Or aa ZERO D[12]; Or aa ONE D[11]; Or aa ZERO D[10];
+   Or aa ONE D[9];  Or aa ZERO D[8];  Or aa ONE D[7];
+   Or aa ZERO D[6];  Or aa ONE D[5];  Or aa ZERO D[4];
+   Or aa ONE D[3];  Or aa ZERO D[2];  Or aa ONE D[1];
+   Or aa ZERO D[0];
+Endef;
+
+Define R14 | D[15-0] ;
+   Or aa ONE  D[15]; Or aa ONE  D[14]; Or aa ONE  D[13];
+   Or aa ONE  D[12]; Or aa ONE  D[11]; Or aa ONE  D[10];
+   Or aa ONE  D[9];  Or aa ONE  D[8]

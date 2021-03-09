@@ -1,0 +1,106 @@
+#include "clock.h"
+#include "basic.h"
+#include "comm.h"
+#include "datapath.h"
+#include "mir.h"
+#include "mem.h"
+
+Switch "0:Tick" aa Tick ZERO;
+Switch "1:reset" aa Reset ZERO;
+ 
+Four-Phase-Clock ab Reset Tick | Phase[4-1];
+Probe "Ph1" ac Phase[1];
+Probe "Ph2" ad Phase[2];
+Probe "Ph3" ae Phase[3];
+Probe "Ph4" af Phase[4];
+
+
+DataPath "DataPath" ba MIR[31..0] MBROutput [15..0] Phase[4..1] Reset |
+	R0[15..0] R1[15..0] R2[15..0] R3[15..0] R4[15..0] R5[15..0]
+	R6[15..0] R7[15..0] R8[15..0] R9[15..0] R10[15..0] R11[15..0]
+	R12[15..0] R13[15..0] R14[15..0] R15[15..0] 
+	A[15..0] B[15..0] AMUX[15..0] C[15..0] N Z ;
+Probe "N" aj N;	
+Probe "Z" ak Z;
+
+Byte-probe-h "R0" ce-cg R0[15..8]; Byte-probe-h "R0" ch-cj R0[7..0];
+Byte-probe-h "R1" de-dg R1[15..8]; Byte-probe-h "R1" dh-dj R1[7..0];
+Byte-probe-h "R2" ee-eg R2[15..8]; Byte-probe-h "R2" eh-ej R2[7..0];
+Byte-probe-h "R3" fe-fg R3[15..8]; Byte-probe-h "R3" fh-fj R3[7..0];
+Byte-probe-h "R4" ge-gg R4[15..8]; Byte-probe-h "R4" gh-gj R4[7..0];
+Byte-probe-h "R5" he-hg R5[15..8]; Byte-probe-h "R5" hh-hj R5[7..0];
+Byte-probe-h "R6" ie-ig R6[15..8]; Byte-probe-h "R6" ih-ij R6[7..0];
+Byte-probe-h "R7" je-jg R7[15..8]; Byte-probe-h "R7" jh-jj R7[7..0];
+Byte-probe-h "R8"  cl-cn R8[15..8];  Byte-probe-h "R8"  co-cq R8[7..0];
+Byte-probe-h "R9"  dl-dn R9[15..8];  Byte-probe-h "R9"  do-dq R9[7..0];
+Byte-probe-h "R10" el-en R10[15..8]; Byte-probe-h "R10" eo-eq R10[7..0];
+Byte-probe-h "R11" fl-fn R11[15..8]; Byte-probe-h "R11" fo-fq R11[7..0];
+Byte-probe-h "R12" gl-gn R12[15..8]; Byte-probe-h "R12" go-gq R12[7..0];
+Byte-probe-h "R13" hl-hn R13[15..8]; Byte-probe-h "R13" ho-hq R13[7..0];
+Byte-probe-h "R14" il-in R14[15..8]; Byte-probe-h "R14" io-iq R14[7..0];
+Byte-probe-h "R15" jl-jn R15[15..8]; Byte-probe-h "R15" jo-jq R15[7..0];
+	
+Byte-probe-h "A"     le-lg A[15..8]; Byte-probe-h "A"     lh-lj A[7..0];
+Byte-probe-h "B/MAR" ll-ln B[15..8]; Byte-probe-h "B/MAR" lo-lq B[7..0];
+ 
+Byte-probe-h "AMUX" me-mg AMUX[15..8]; Byte-probe-h "AMUX" mh-mj AMUX[7..0];
+Byte-probe-h "C"    ml-mn C[15..8];    Byte-probe-h "C"    mo-mq C[7..0];   
+ 
+
+MIR-Comp "MIR-Comp" bc Reset N Z Phase[4..1] | MIR[31..0] MPC[7..0];
+
+Byte-probe-h "MPC" na-nc MPC[7-0];
+ 
+/* Byte-probe-h "MIR 31-24" oa-oc MIR[31..24];
+   Byte-probe-h "23-16"     od-of MIR[23..16];
+   Byte-probe-h "15-8"      og-oi MIR[15..8];
+   Byte-probe-h "7-0"       oj-ol MIR[7..0];  */
+
+Probe "AMUX"  oa MIR[31];
+Probe "COND1" ob MIR[30];
+Probe "COND0" oc MIR[29];
+Probe "ALU1"  od MIR[28];
+Probe "ALU0"  oe MIR[27];
+Probe "SH1"   of MIR[26];
+Probe "SH0"   og MIR[25];
+Probe "MBR"   oh MIR[24];
+Probe "MAR"   oi MIR[23];
+Probe "RD"    oj MIR[22];
+Probe "WR"    ok MIR[21];
+Probe "ENC"   ol MIR[20];
+Probe "C"     om MIR[19];
+Probe "C"     on MIR[18];
+Probe "C"     oo MIR[17];
+Probe "C"     op MIR[16];
+Probe "B"     oq MIR[15];
+Probe "B"     or MIR[14];
+Probe "B"     os MIR[13];
+Probe "B"     ot MIR[12];
+Probe "A"     ou MIR[11];
+Probe "A"     ov MIR[10];
+Probe "A"     ow MIR[9];
+Probe "A"     ox MIR[8];
+
+Byte-probe-h "ADDR"    oy-oz MIR[7..0]; 
+
+
+Comm "Comm" ba Phase[4..1] MIR[22] MIR[21] MIR[23] MIR[24] B[15..0]
+DataOut[15..0] C[15..0] | MReq READ AddrBus[15..0] DataBusOut[15..0] 
+MBROutput[15..0];
+ 
+Probe "MReq" al MReq;
+Probe "Read" am READ;
+ 
+Byte-probe-h "Com-DataOut" qa-qh DataBusOut[15-8];
+Byte-probe-h "Com-DataOut" qi-qp DataBusOut[7-0];
+ 
+Byte-probe-h "AddrBus" ra-rh AddrBus[15-8];
+Byte-probe-h "AddrBus" ri-rp AddrBus[7-0];
+
+
+Memory "Memory" be MReq READ AddrBus[15..0] DataBusOut[15..0] | DataOut[15..0];
+
+Byte-probe-h "Mem-DataOut" ta-th DataOut[15-8];
+Byte-probe-h "Mem-DataOut" ti-tp DataOut[7-0];
+ 
+

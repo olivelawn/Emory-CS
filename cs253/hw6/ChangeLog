@@ -1,0 +1,13 @@
+Fri Apr  5 18:18:57 1996  Michelangelo Grigni  <mic@mathcs.emory.edu>
+
+	* hw6.C: rearranged Graph::PathBFS() so that the caller provides a
+ 	List<int>&, rather than returning a List<int>.  The old version
+ 	was actually deallocating the linked list twice: before and after
+ 	it was printed out (a consequence of copying an object with a
+ 	destructor and external references).
+
+Fri Apr  5 12:00:00 1996  Michelangelo Grigni  <mic@mathcs.emory.edu>
+
+	* hw6.C: original version, described in class.
+
+

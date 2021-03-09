@@ -1,0 +1,4 @@
+source is puzzle.c
+compile with:
+cc -g puzzle.c -o puzzle -lX11
+

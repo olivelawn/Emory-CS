@@ -1,0 +1,8 @@
+select distinct S.snum, S.sname
+from supplier S
+where S.snum in (
+	select A.snum
+	from spj A
+	group by A.snum, A.pnum
+	having count (*)>=3
+		 )

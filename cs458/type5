@@ -1,0 +1,368 @@
+Script started on Tue Sep 16 18:55:12 1997
+h:w$ kcl
+KCl (Kyoto Common Lisp)  Nov 13, 1990
+
+;;   ------------------ 5.1.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+; 5-1  skip-first-n
+
+(defun skip-first-n (n l)
+  (if (zerop n)
+	l
+	(skip-first-n (- n 1) (rest l) )))
+
+
+;sample input:
+;(skip-first-n 3 '(A B C D E F G H I) )
+;(skip-first-n 3 '(A B C l i s p) )
+;(skip-first-n 10 '(A B C l i s p) )
+;(skip-first-n 0 '(A B C l i s p) )
+   
+
+
+>(load "5.1.l")
+Loading 5.1.l
+Finished loading 5.1.l
+T
+
+>(skip-first-n 3 '(A B C D E F G H I) )
+(D E F G H I)
+
+>(skip-first-n 3 '(A B C l i s p) )
+(L I S P)
+
+>(skip-first-n 10 '(A B C l i s p) )
+NIL
+
+>(skip-first-n 0 '(A B C l i s p) )
+(A B C L I S P)
+
+;;   ------------------ 5.3.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;5-3 keep-first-n-cleverly and keep-first-n-cleverly-aux
+
+(defun keep-first-n-cleverly (n l)
+  (keep-first-n-cleverly-aux n l nil))
+
+(defun keep-first-n-cleverly-aux (n l result)
+  (if (zerop n)
+	(reverse result)
+	(keep-first-n-cleverly-aux (- n 1) (rest l) (cons (first l) result))))
+
+;sample input:
+;(keep-first-n-cleverly 3 '(a b c d e f) )
+;(keep-first-n-cleverly 0 '(a b c d e f) )
+;(keep-first-n-cleverly 10 '(a b c d e f) )
+;(keep-first-n-cleverly 1 '(a b c d e f) )
+
+
+
+>>(load "5.3.l")
+Loading 5.3.l
+Finished loading 5.3.l
+T
+
+>>(keep-first-n-cleverly 3 '(a b c d e f) )
+(A B C)
+
+>>T
+T
+
+>>(keep-first-n-cleverly 0 '(a b c d e f) )
+NIL
+
+>>(keep-first-n-cleverly 10 '(a b c d e f) )
+(A B C D E F NIL NIL NIL NIL)
+
+>>(keep-first-n-cleverly 1 '(a b c d e f) )
+(A)
+
+;;   ------------------ 5.5.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;5-5 towers of hanoi
+
+(defun towers-of-hanoi (disks)
+  (if (endp disks)
+      0
+        (+ (towers-of-hanoi (rest disks)) 1 (towers-of-hanoi (rest disks)))))
+
+;sample input:
+;(towers-of-hanoi '(1))
+;(towers-of-hanoi '(2 1))
+;(towers-of-hanoi '(3 2 1))
+;(towers-of-hanoi '(4 3 2 1))
+;(towers-of-hanoi '(5 4 3 2 1))
+
+
+
+>>(load "5.5.l")
+Loading 5.5.l
+Finished loading 5.5.l
+T
+
+>>(towers-of-hanoi '(1))
+1
+
+>>(towers-of-hanoi '(2 1))
+3
+
+>>(towers-of-hanoi '(3 2 1))
+7
+
+>>(towers-of-hanoi '(4 3 2 1))
+15
+
+>>(towers-of-hanoi '(5 4 3 2 1))
+31
+
+;;   ------------------ 5.7.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;5-7 strange
+
+(defun strange (l)
+  (cond ((null l) nil)
+        ((atom l) l)
+        (t (cons (strange (first l))
+		 (strange (rest l))))))
+
+;comment: function strange checks to see if list is empty
+; if so it returns nil.  If the list contains a single atom
+; it returns that atom.  Otherwise, the list is recusively
+; decomposed and put together to replicate the inputed list
+
+;;   ------------------ 5.9.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+;5-9  squash
+
+(defun squash (l)
+  (cond ((null l) nil)
+        ((atom l) (list l))
+        ( t (append (squash (first l))
+		    (squash (rest l))))))
+
+
+
+;sample input:
+;(squash '(a (a (a (a b))) (((a b) b) b) b))
+;(squash '(a b c))
+;(squash '( ))
+;(squash '( (a) (b) (c) (d) ))
+
+
+
+>>(load "5.9.l")
+Loading 5.9.l
+Finished loading 5.9.l
+T
+
+>>(squash '(a (a (a (a b))) (((a b) b) b) b))
+(A A A A B A B B B B)
+
+>>(squash '(a b c))
+(A B C)
+
+>>(squash '( ))
+NIL
+
+>>(squash '( (a) (b) (c) (d) ))
+(A B C D)
+
+;;   ------------------ 5.11.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;5-11  punctuate
+
+(defun punctuate-w-o (l &optional (mark 'period))
+   (append l (list mark) ) )
+
+;sample input:
+;(punctuate-w-o '(this is an example))
+;(punctuate-w-o '(this is an example) 'question-mark)
+
+
+
+>>(load "5.11.l")
+Loading 5.11.l
+Finished loading 5.11.l
+T
+
+>>(punctuate-w-o '(this is an example))
+(THIS IS AN EXAMPLE PERIOD)
+
+>>(punctuate-w-o '(this is an example) 'question-mark)
+(THIS IS AN EXAMPLE QUESTION-MARK)
+
+;;   ------------------ 5.13.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;5-13  tail-recursive-expt
+
+(defun tail-recursive-expt (m n &optional (c 1))
+  (if (zerop n)
+ 	c
+      (tail-recursive-expt m (- n 1) (* m c)) ) )
+
+;sample input:
+;(tail-recursive-expt 2 3)
+;(tail-recursive-expt 2 3 4)
+
+;comment:  assumming initial invocation with 2 args
+
+
+>>(load "5.13.l")
+Loading 5.13.l
+Finished loading 5.13.l
+T
+
+>>(tail-recursive-expt 2 3)
+8
+
+>>(tail-recursive-expt 2 3 4)
+32
+
+;;   ------------------ 5.15.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;5-15  clever-count-atoms
+
+(defun clever-count-atoms (l &optional (sum 0))
+   (cond ((null l) sum)
+	 ((atom l) (+ sum 1))
+	 (t (clever-count-atoms (rest l) (clever-count-atoms (first l) sum )))))
+
+;sample input:
+;(clever-count-atoms '(1 2 3 4) 0)
+;(clever-count-atoms '(sqrt (expt x 2) (expt y 2))))
+
+
+
+>>(load "5.15.l")
+Loading 5.15.l
+Finished loading 5.15.l
+T
+
+>>(clever-count-atoms '(1 2 3 4) 0)
+4
+
+>>(clever-count-atoms '(sqrt (expt x 2) (expt y 2))))
+7
+
+;;   ------------------ 5.17.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;5-17 user-defined-nthcdr
+
+(defun user-defined-nthcdr (n l)
+  (if (zerop n) l
+  (user-defined-nthcdr (- n 1) (rest l))))
+
+;sample input:
+;(user-defined-nthcdr 2 '(A B C D))
+;(user-defined-nthcdr 2 '((A B) C D))
+;(user-defined-nthcdr 2 '((A B) (C D) E))
+
+
+
+>>(load "5.17.l")
+Loading 5.17.l
+Finished loading 5.17.l
+T
+
+>>(user-defined-nthcdr 2 '(A B C D))
+(C D)
+
+>>(user-defined-nthcdr 2 '((A B) C D))
+(D)
+
+>>(user-defined-nthcdr 2 '((A B) (C D) E))
+(E)
+
+>>(bye)
+Bye.
+h:w$ ^D
+
+script done on Tue Sep 16 19:03:26 1997

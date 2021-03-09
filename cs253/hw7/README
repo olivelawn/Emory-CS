@@ -1,0 +1,7 @@
+in This assignment we were to make a spell checker.  The program 
+speller.C takes in two files via the command line.  The first file is a 
+dictionary file dict, and the second file can be any text file.  
+Basically I used a hash table to store the data and then using a iterator 
+I iterate through the table looking for the text word.
+
+example input would be a.out dict text.

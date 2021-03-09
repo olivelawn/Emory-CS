@@ -1,0 +1,30 @@
+!Maxsum methodsFor: 'compute the Maxsum'!
+compute
+   
+     | ii jj this_sum |
+
+     ii:=0. jj:=0. max_sum=0.
+     this_sum=0.   
+
+     1 to: 20 do: [:jj|
+         this_sum:= (this_sum + (sarray at: jj))
+  
+         (this_sum > max_sum)
+             ifTrue: [ max_sum:= this_sum ]
+             ifFalse: [ (this_sum < 0)
+                           ifTrue: [ ii:= (jj +1)
+                                     this_sum:=0  ]
+                      ]
+                  ]
+
+      ^ max_sum.
+!!
+
+
+
+
+
+
+
+
+

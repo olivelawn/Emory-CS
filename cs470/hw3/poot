@@ -1,0 +1,30 @@
+(define (first x) (car x))
+(define (rest x) (cdr x))
+(define (empty? x) (null? x))
+
+(define (flatten x)
+  (cond ((null? x) x)
+        ((not (pair? x)) (list x))
+        (else (append (flatten (car x))
+		      (flatten (cdr x)) ))))
+
+(define (bind-all keys values env)
+  (append (map list keys values) env) )
+
+
+(define (mss seq) (max seq 0 0) )
+
+
+
+(define (max x this_sum max_sum)
+
+(if (empty? x) max_sum)
+
+(let* ((this_sum (car x))))       
+    
+(if (> this_sum max_sum)
+
+       ; (let* ((max_sum this_sum)		;if statement true        
+
+))))
+

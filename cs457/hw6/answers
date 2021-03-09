@@ -1,0 +1,142 @@
+labss6a:/home/cs457000/quel-answers$ run quel2.1
+Find names for all suppliers who supply to all projects
+in the city they live in that has projects.
+ 
+|sname     |
+|----------|
+|Jones     |
+|Clark     |
+|Adams     |
+|Green     |
+|----------|
+(4 tuples)
+
+-----------------------------------------------------------
+
+labss6a:/home/cs457000/quel-answers$ run quel2.2
+Find names for all suppliers who have 3 or more shipments
+to all projects in the city they live in that has projects.
+ 
+|sname     |
+|----------|
+|Green     |
+|----------|
+(1 tuple)
+
+-----------------------------------------------------------
+
+labss6a:/home/cs457000/quel-answers$ run quel2.3
+Find names for all suppliers who supply to at least one project
+in every city that has projects
+ 
+|sname     |
+|----------|
+|Jones     |
+|Brown     |
+|Green     |
+|----------|
+(3 tuples)
+
+------------------------------------------------------------
+
+labss6a:/home/cs457000/quel-answers$ run quel2.4
+Find names for all suppliers who have at least 3 shipments
+to at least one project in every city that has projects
+ 
+|sname     |
+|----------|
+|Brown     |
+|Green     |
+|----------|
+(2 tuples)
+ 
+-------------------------------------------------------------
+
+labss6a:/home/cs457000/quel-answers$ run quel2.5
+Find names for all suppliers who supply at least one same part
+to all projects in the city they live in that has projects.
+ 
+|snum  |sname     |
+|-----------------|
+|s2    |Jones     |
+|s4    |Clark     |
+|s5    |Adams     |
+|s8    |Green     |
+|-----------------|
+(4 tuples)
+
+---------------------------------------------------------------
+
+labss6a:/home/cs457000/quel-answers$ run quel2.6
+Find snum and sname for all suppliers who supply
+at least 2 same parts to all projects in the city they live in
+that has projects
+ 
+|snum  |sname     |
+|-----------------|
+ 
+|s4    |Clark     |
+|s5    |Adams     |
+|s8    |Green     |
+|-----------------|
+(3 tuples)
+ 
+-----------------------------------------------------------------
+
+labss6a:/home/cs457000/sql-answers$ runsql sql3.7
+Find names for all projects supplied with all but one parts
+that are available from supplier s1.
+ 
+ jnum  jname      
+ ----- ---------- 
+ j1    Sorter     
+ j11   CPU        
+ j12   Printer    
+ j2    Punch      
+ j5    Collator   
+ 
+(5 rows affected)
+
+-----------------------------------------------------------------
+
+labss6a:/home/cs457000/sql-answers$ runsql sql3.8
+Find project numbers and names for all projects that
+uses only parts that are available from supplier s1.
+ 
+ jnum  jname      
+ ----- ---------- 
+ j10   Scanner    
+ j11   CPU        
+ j12   Printer    
+ j13   Disk       
+ 
+(4 rows affected)
+
+ -----------------------------------------------------------------
+
+labss6a:/home/cs457000/sql-answers$ runsql sql3.9
+Find names of all projects that uses all parts that are heavier
+than 15.
+ 
+ jnum  jname      
+ ----- ---------- 
+ j1    Sorter     
+ j2    Punch      
+ j4    Console    
+ j5    Collator   
+ 
+(4 rows affected)
+
+ -----------------------------------------------------------------
+
+labss6a:/home/cs457000/sql-answers$ runsql sql3.10
+Find names of all suppliers that only supplies parts that
+are heavier than 12
+ 
+ snum  sname      
+ ----- ---------- 
+ s3    Blake      
+ s4    Clark      
+ 
+(2 rows affected)
+

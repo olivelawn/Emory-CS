@@ -1,0 +1,17 @@
+select distinct J.jnum, J.jname
+from project J 
+where not exists (
+	      select *
+	      from part P
+	      where P.pnum in 
+			(select A.pnum
+			 from spj A
+			 where A.jnum='j3')
+
+	            and P.pnum not in
+			(select B.pnum
+			 from spj B
+			 where B.jnum=J.jnum)
+		 )
+
+		

@@ -1,0 +1,11 @@
+
+recompute_structure(xbox, ybox, dist, dirv)
+int xbox;
+int ybox;
+int dist;
+int dirv;
+{
+
+int xdst, ydst;
+
+

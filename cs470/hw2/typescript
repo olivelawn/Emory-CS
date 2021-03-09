@@ -1,0 +1,163 @@
+Script started on Fri Mar 27 12:36:45 1998
+h:w$ cat Maxsum.st
+
+
+
+
+"***************************************************************"
+"***************************************************************"
+"Parker Johnson							"
+"CS470  3-25-98							"
+"Maxsum.st							"
+"This code was written by me and me only  -parker johnson	"
+"***************************************************************"
+"***************************************************************"
+
+"Myarray is a subclass of Object.  It contains two variables	"
+"sarray and rng.  sarray will be initialized to be bound to an	"
+"array which is already built into the pre-existing heirarchy	"
+"rng is a varaible which will be bound to a random number object"
+
+
+
+Object subclass: #Myarray
+     instanceVariableNames: 'sarray rng'
+     classVariableNames: ''
+     poolDictionaries: ''
+     category: nil !
+
+"This is the comment for Myarray"
+
+Myarray comment: 'This is an array to be filled with rand numbers' !
+
+!Myarray class methodsFor: 'instance creation'!
+new
+
+     | r |		"This is the Myarray new method, here 	"
+			"Object creates the Myarray object then	"
+     r:= super new.	"the initialization routine is called on"
+     r init.		"r and then finally returned.  This is	"
+     ^ r.		"similar to the constructor in C++	"
+
+!!
+
+
+!Myarray methodsFor: 'instance initialization'!
+init
+
+     sarray:=Array new: 20.	"this is the initialization routine"
+     rng:=ParkMillerRNG new.	"then a loop is used to initialize "
+     				"the array w/ -100<nums<100	   "
+
+     1 to: 20 do: [:ii| sarray at: ii put: ((rng nextInteger)rem: 100)].
+
+!!
+
+
+!Myarray methodsFor: 'printing'!	"this is the print routine"
+printOn: aStream
+     super printOn: aStream.
+     'sarray has contents' printOn: aStream.
+     sarray printOn: aStream.
+!!
+
+
+
+
+"******************************************************************"
+
+"This object Maxsum is a subclass of Myarray.  The reason being	"
+"is that it need to inherit the sarray found in Myarray.  	"
+"There is only one instance variable, max.  max stores the	"
+"maximum sum of the subsequence in sarray.  Because it is only	"
+"used in the Maxsum method compute, it could have been declared	"
+"locally to that method.  I declared it as a private member to	"
+"be consistent with the themes of o-o programming.		"
+
+
+Myarray subclass: #Maxsum
+     instanceVariableNames: 'max start end'
+     classVariableNames: ''
+     poolDictionaries: ''
+     category: nil !  
+
+"here is my Maxsum comment"
+
+Maxsum comment: 'This object computes the Maxsum of a sequence' !
+
+!Maxsum class methodsFor: 'instance creation'!
+new
+
+     | s |		"This is the Maxsum new method, here    "
+			"Myarray creates the Maxsum object then "
+     s:= super new.	"the initialization routine is called on"
+     s init.		"s and then finally returned.  This is  "
+     ^ s.		"similar to the constructor in C++      "
+
+!!
+
+
+!Maxsum methodsFor: 'instance initialization'!
+init
+     
+     max:= 0.		"This is actually trivial"
+     ^ super init.	"This is crucial to initializing the	"
+			"parent object.  Maxsum needs to do this"
+!!			"to have the sarray.			"
+
+
+!Maxsum methodsFor: 'compute the Maxsum'!  
+compute
+
+     | ii jj kk this |		"this nasty chunck of code finds"
+                       		"the maximimum sum and sets the	"
+     ii:=0. max:=0. this:= 0.	"indices of the sarray.  Start	"
+				"points to the start of the seq "
+				"and end to the end of the seq.	"
+
+     1 to: 20 do: [:ii| jj := ii.
+	jj to: 20 do: [:jj | this:= 0. kk := ii.
+	    kk to: jj do: [:kk | this := (this + (sarray at: kk)) ].
+
+            (this > max) ifTrue: [  max := this. start:= ii. end:=jj ].  
+		      ].
+		  ].
+
+      ^ max.
+!!
+
+
+!Maxsum methodsFor: 'printing'!
+printOn: aStream
+     				"this is the print method for the"
+				"Maxsum object.  It uses the vars"
+				"sarray, which it inherits from	 "
+				"parent, and the subclass vars	 "
+				"start, end, and maxsum		 "
+
+     ('The Sequence Generated Is:') printNl.
+     1 to: 20 do: [:ii| (sarray at: ii) print. ' ' print. ].
+     ('') printNl.
+     ('Max Subsequence is:') printNl.
+     start to: end do: [:ii| (sarray at: ii) print. ' ' print. ].
+     ('') printNl.
+     'Maxsum is ' printOn: aStream.
+     max printOn: aStream.
+!!
+
+
+h:w$ /usr/local/smalltalk/bin/gst -q
+Smalltalk 1.1.5 Ready
+
+st> FileStream fileIn: 'Maxsum.st' !
+st> Smalltalk at: #x put: (Maxsum new) !
+st> x compute !
+st> x printNl !
+'The Sequence Generated Is:'
+28' '-19' '19' '-74' '-61' '-66' '48' '13' '2' '-30' '76' '89' '29' '7' '-33' '-55' '93' '10' '32' '-99' '''
+'Max Subsequence is:'
+48' '13' '2' '-30' '76' '89' '29' '7' '-33' '-55' '93' '10' '32' '''
+'Maxsum is '281
+st> ^Dh:w$ ^D
+
+script done on Fri Mar 27 12:37:43 1998

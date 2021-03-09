@@ -1,0 +1,18 @@
+#.VERSION "1.0"
+#.DECLARE "hash.o" : "hash.C"
+#.DECLARE "__0oISymGraph76EWord_cti" : "/home/pjohn07/cs253/hw6/hash.C"
+#.DECLARE "__0fLSymbolTable76EWordi_GInsertRC6EWordi" : "/home/pjohn07/cs253/hw6/hash.C"
+#.DECLARE "__0fISymGraph76EWord_FGetIdRC6EWordi" : "/home/pjohn07/cs253/hw6/hash.C"
+#.DECLARE "hw6.o" : "hw6.C"
+#.OPTIONS "__0oISymGraph76EWord_cti" : "-xs  "
+#.OPTIONS "__0fLSymbolTable76EWordi_GInsertRC6EWordi" : "-xs  "
+#.OPTIONS "__0fISymGraph76EWord_FGetIdRC6EWordi" : "-xs  "
+#.DEPEND "__0oISymGraph76EWord_cti" : "/opt/SUNWspro/SC3.0.1/include/CC/fstream.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/usr/include/string.h" "/home/pjohn07/cs253/hw6/hash.C" 
+#.DEPEND "__0fLSymbolTable76EWordi_GInsertRC6EWordi" : "/opt/SUNWspro/SC3.0.1/include/CC/fstream.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/usr/include/string.h" "/home/pjohn07/cs253/hw6/hash.C" 
+#.DEPEND "__0fISymGraph76EWord_FGetIdRC6EWordi" : "/opt/SUNWspro/SC3.0.1/include/CC/fstream.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/usr/include/stdlib.h" "/usr/include/sys/feature_tests.h" "/usr/include/string.h" "/home/pjohn07/cs253/hw6/hash.C" 
+#.TEMPLATE "hash.C" : "__0fISymGraph76EWord_FGetIdRC6EWordi" "__0fLSymbolTable76EWordi_GInsertRC6EWordi" "__0oISymGraph76EWord_cti" 
+#.TEMPLATE "__0fISymGraph76EWord_FGetIdRC6EWordi" : "__0fLSymbolTable76EWordi_GInsertRC6EWordi" 
+#.TEMPLATE "__0fLSymbolTable76EWordi_GInsertRC6EWordi" : 
+#.TEMPLATE "__0oISymGraph76EWord_cti" : 
+#.TEMPLATE "hw6.C" : "__0fISymGraph76EWord_FGetIdRC6EWordi" "__0fLSymbolTable76EWordi_GInsertRC6EWordi" "__0oISymGraph76EWord_cti" 
+#.PROGRAM "a.out"

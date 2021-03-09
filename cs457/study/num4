@@ -1,0 +1,7 @@
+select E.ssn
+from employee E
+where E.ssn not in (select W.essn
+		    from works_on W, project J
+		    where E.ssn=W.essn and
+		    J.pnumber=W.pno and
+		    J.plocation='Houston')

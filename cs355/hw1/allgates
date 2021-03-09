@@ -1,0 +1,25 @@
+        /*  allgates netlist */
+
+        Switch 1a sw0 ZERO;
+        Switch 1a sw1 ONE;
+
+        And 1b sw0 sw1 and;
+        Probe 1c and;
+
+        Or 1b sw0 sw1 or;
+        Probe 1c or;
+
+        Not 1b sw0  not;
+        Probe 1c not;
+
+        Nand 1b sw0 sw1 nand;
+        Probe 1c nand   ;
+
+        Nor 1b sw0 sw1 nor;
+        Probe 1c nor;
+
+        Xor 1b sw0 sw1 xor;
+        Probe 1c xor;
+
+        Xnor 1b sw0 sw1 xnor;
+        Probe 1c xnor;

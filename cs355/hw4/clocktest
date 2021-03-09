@@ -1,0 +1,13 @@
+#include "clock.h"
+
+Switch "reset" aa reset ZERO;
+Switch "clock" aa clock ZERO;
+
+
+Four-Phase-Clock ab-cd reset clock | out1 out2 out3 out4;
+
+Probe ea out1;
+Probe eb out2;
+Probe ec out3;
+Probe ed out4;
+

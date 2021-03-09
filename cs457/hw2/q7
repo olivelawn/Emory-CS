@@ -1,0 +1,10 @@
+
+select S.sname
+from supplier S
+where S.snum in
+(
+select A.snum
+from part P, spj A
+where P.pname='Nut' and
+P.pnum=A.pnum)
+order by S.sname

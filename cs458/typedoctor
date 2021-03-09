@@ -1,0 +1,307 @@
+Script started on Wed Oct 08 09:05:06 1997
+h:w$ kcl
+KCl (Kyoto Common Lisp)  Nov 13, 1990
+
+;;   ------------------ doctor.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: oct 8 10:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+
+(defun youmemap (lst)
+  (mapcar (function youme) lst) )
+(defun youme (w)
+  (cond  ((eq w 'i)    'you)
+         ((eq w 'my)   'your)
+         ((eq w 'mine) 'yours)
+         ((eq w 'me)   'you)
+         ((eq w 'you)  'me)
+         ((eq w 'your) 'my)
+         ((eq w 'yours) 'mine)
+         ((eq w 'am)   'are)
+                 ((eq w 'myself) 'yourself)
+                 ((eq w 'yourself) 'myself)
+                 (t w) ) )
+
+
+(defun  match  (A B)
+   (cond
+      ((null A)  (null B))
+      ((or  (atom A)  (atom B))  nil)
+      ((equal  (first A)  (first B))
+         (match  (rest A)  (rest B)))
+      ((and
+            (not (atom (first A)))
+            (equal  (length (first A)) 2)
+            (eq (caar A)  '?)
+            (match (cdr A)  (cdr B)))
+         (set (cadar  A)  (car B)) T)
+      ((and
+            (not (atom (first A)))
+            (equal  (length (first A)) 2)
+            (eq (caar A)  '*))
+         (cond
+            ((match (cdr A) B)
+               (set (cadar A) nil) t)
+            ((and A (match (rest A) (rest B)))
+               (set (cadar A) (list (car B))) t)
+            ((and A (match A (cdr B)))
+               (set (cadar A) (cons (car B) (eval (cadar A))) ) t)
+       (t nil))) ))
+
+(defun rand_default ()
+		(setf num1 (random 5))
+		(cond
+		  ((= num1 0) (print '(Dr\.  --What exactly do you mean?)))
+		  ((= num1 1) (print '(Dr\.  --What are you trying to say?)))
+		  ((= num1 2) (print '(Dr\.  --I'm not sure I understand what you mean please reiterate\.)))
+		  ((= num1 3) (print '(Dr\.  --Could you rephrase that please\.)))
+		  ((= num1 4) (print '(Dr\.  --What are you trying to tell me?)))))
+
+(defun rand_yupreply ()
+		(setf num2 (random 3))
+		(cond
+		  ((= num2 0) '(DR\. --What happend then?))
+		  ((= num2 1) '(DR\. --And what did you do then?))
+		  ((= num2 2) '(DR\. --O.K. then what?))))
+
+(defun rand_good ()
+		(setf num3 (random 3))
+		(cond
+		  ((= num3 0) '(DR\. --Great! good to hear\.))
+		  ((= num3 1) '(DR\. --Wow I'm glad to hear that\.))
+		  ((= num3 2) '(DR\. --Swell!))))
+
+
+(defun rand_no ()
+		(setf num4 (random 2))
+		(cond
+		  ((= num4 0) '(DR\. --Alright suit youself\.))
+		  ((= num4 1) '(DR\. --I think you should leave now\.))))
+
+
+
+(defun exit ()
+		(print '(DR\. --Thank you for visiting and please speak to my secretary about payment before leaving\.))
+		(terpri)
+		(return T))
+
+(defun doctor ()
+  	    (print '(--- You are going to talk to a psychiatrist\. Type in your statement inside) )
+        (terpri)
+        (print '(--- parentheses like (i am very sad) or (what do you mean) with all) )
+        (terpri)
+        (print '(--- characters in lower case\. To say nothing type nothing inside parentheses\.) )
+        (terpri)
+        (print '(--- Don't use commas\. Don't use parentheses inside the enclosing))
+        (terpri)
+        (print '(--- parentheses\.  Try to use complete sentences to get better))
+        (terpri)
+        (print '(--- responses\. Be honest to your doctor\. Don't be shy\. If you get) )
+        (terpri)
+        (print '(--- frustrated you may type in something like (go to hell) or whatever))
+        (terpri)
+        (print '(--- you want to say to the doctor\. To terminate type (bye) simply\. ) )
+        (terpri)
+        (print '(--- CNTRL Z will get you out at any time to the operating system lelevl \. ))
+        (terpri)
+        (print '(--- --- --- Now the session starts\. Type in your response))
+		(terpri)
+
+(loop
+	(terpri)
+	(terpri)
+    (setq s (youmemap (read)))
+    (cond ((match '(bye) s) (exit) )
+		  ((match '() s) (print '(DR\. --Please speak up I cannot hear you )))
+		  ((match '(go to hell (* x)) s) (print '(DR\.  --Please do not be fresh with me...I want to help you...let me help you\.)))
+		  ((match '(no) s)  (print (rand_no)))
+		  ((or (match '(good) s) (match '(great) s)) (print (rand_good)))
+          ((match '(you are (* x)) s) (print (append '(DR\.---please tell me why you are) x)))
+		  ((match '(how are me (* x)) s) (print '(DR\. --I am doing alright and yourself?)))
+		  ((match '(your (* x) died (* y)) s)  (print (append (append (append '(DR.\. --I'm sorry your) x) '(died) y) '(what happend?))))
+          ((match '(you have (* x)) s) (print (append '(DR\.--- how long have you had) x)))
+          ((match '(because (* x)) s) (print '(DR\.--- is that really the reason) ))
+	      ((match '((* y) are me going (* x)) s) (print (append (append '(Dr\.--- i dont know if) y) '(i am going) x))) 
+          ((match '(are me (* x)) s) (print '(Dr\.--- hey you know it\.  ) ) ) 
+		  ((match '((* x) exploded (* y)) s) (print (append (append '(DR/. -- ) (append x '(exploded))) (append y '(...really?))))) 
+		  ((match '((* x) played (* y)) s) (print (append (append (append '(DR\. --) x) '(played)) (append y '(huh?...did it relieve stress?)))))
+		  ((match '(you ate (* x)) s) (print (append (append '(DR\. -- how did the) (list (first x))) '(taste?))))  
+		  ((match '(since last (* x)) s) (print (append (append '(Dr\. -- What happend last) x) '(?))))
+		  ((and (equal (first s) 'me) (member 'optimistic s)) (print '(DR\. -- I just think you are overly pessimistic)))
+		  ((or (match '(yeah) s) (match '(yup) s) (match '(yes) s)) (print (append '(DR\. I see...) (rand_yupreply))))
+		  ((or (member 'car s) (member 'cars s)) (print '(DR\. --Sounds like trouble to me.)))
+		  ((or (member 'problem s) (member 'problems s)) (print '(DR\. --I know...that is why i am here...how can I help you?)))
+		  (t (rand_default)))
+
+) ;end of loop
+) ;end of doctor function
+
+;sample input:
+;(load "doctor.l")
+;(doctor)
+;(how are you doc)
+;(are you a certified psychiatrist)
+;(i got problems doc)
+;(i am very sad)
+;(i have a guilty conscience)
+;(since last saturday)
+;(my dog died last saturday afternoon)   
+;(bubba exploded because i fed him too much food)
+;(yeah)
+;(yeah)
+;(yeah)
+;(i ate frankfurters at the convenience mart)
+;(i ate corndogs there too)
+;(great)
+;(great)
+;(good)
+;(good)
+;(you are a way overly optimistic doctor)
+;(you happen to be the most optimistic fellow I have ever known)
+;(go to hell doctor)
+;(no)  
+;(no)  
+;(bye)
+
+		  
+		  
+
+>(load "doctor.l"
+)
+Loading doctor.l
+Finished loading doctor.l
+T
+
+>(doctor)
+
+(--- YOU ARE GOING TO TALK TO A PSYCHIATRIST. TYPE IN YOUR STATEMENT
+     INSIDE)
+
+(--- PARENTHESES LIKE (I AM VERY SAD) OR (WHAT DO YOU MEAN) WITH ALL)
+
+(--- CHARACTERS IN LOWER CASE. TO SAY NOTHING TYPE NOTHING INSIDE
+     PARENTHESES.)
+
+(--- DON 'T USE COMMAS. DON 'T USE PARENTHESES INSIDE THE ENCLOSING)
+
+(--- PARENTHESES. TRY TO USE COMPLETE SENTENCES TO GET BETTER)
+
+(--- RESPONSES. BE HONEST TO YOUR DOCTOR. DON 'T BE SHY. IF YOU GET)
+
+(--- FRUSTRATED YOU MAY TYPE IN SOMETHING LIKE (GO TO HELL) OR
+     WHATEVER)
+
+(--- YOU WANT TO SAY TO THE DOCTOR. TO TERMINATE TYPE (BYE) SIMPLY.)
+
+(--- CNTRL Z WILL GET YOU OUT AT ANY TIME TO THE OPERATING SYSTEM
+     LELEVL |.|)
+
+(--- --- --- NOW THE SESSION STARTS. TYPE IN YOUR RESPONSE)
+
+(how are you doc)
+
+(DR. --I AM DOING ALRIGHT AND YOURSELF?)
+
+(are you a certified psychiatrist)
+
+(DR.--- HEY YOU KNOW IT.)
+
+(i got problems doc)
+
+(DR. --I KNOW...THAT IS WHY I AM HERE...HOW CAN I HELP YOU?)
+
+(i am very sad)
+
+(DR.---PLEASE TELL ME WHY YOU ARE VERY SAD)
+
+(i have a guilty conscience)
+
+(DR.--- HOW LONG HAVE YOU HAD A GUILTY CONSCIENCE)
+
+(since last saturday)
+
+(DR. -- WHAT HAPPEND LAST SATURDAY ?)
+
+(my dog died last saturday afternoon)
+
+(DR.. --I 'M SORRY YOUR DOG DIED LAST SATURDAY AFTERNOON WHAT HAPPEND?)
+
+(bubba exploded because i fed him too much food)
+
+(DR/. -- BUBBA EXPLODED BECAUSE YOU FED HIM TOO MUCH FOOD ...REALLY?)
+
+(yeah)
+
+(DR. I SEE... DR. --WHAT HAPPEND THEN?)
+
+(yeah)
+
+(DR. I SEE... DR. --WHAT HAPPEND THEN?)
+
+(yeah)
+
+(DR. I SEE... DR. --AND WHAT DID YOU DO THEN?)
+
+(i ate frankfurters at the convenience mart)
+
+(DR. -- HOW DID THE FRANKFURTERS TASTE?)
+
+(i ate corndogs there too)
+
+(DR. -- HOW DID THE CORNDOGS TASTE?)
+
+(great)
+
+(DR. --WOW I 'M GLAD TO HEAR THAT.)
+
+(great)
+
+(DR. --SWELL!)
+
+(great)
+
+(DR. --WOW I 'M GLAD TO HEAR THAT.)
+
+(good) 
+
+(DR. --GREAT! GOOD TO HEAR.)
+
+(you are a way overly optimistic doctor)
+
+(DR. -- I JUST THINK YOU ARE OVERLY PESSIMISTIC)
+
+(you happen to be the most optimistic fellow I have ever known)
+
+(DR. -- I JUST THINK YOU ARE OVERLY PESSIMISTIC)
+
+(go to hell doctor)
+
+(DR. --PLEASE DO NOT BE FRESH WITH ME...I WANT TO HELP YOU...LET ME
+     HELP YOU.)
+
+(no)  
+
+(DR. --ALRIGHT SUIT YOUSELF.)
+
+(no)  
+
+(DR. --I THINK YOU SHOULD LEAVE NOW.)
+
+(bye)
+
+(DR. --THANK YOU FOR VISITING AND PLEASE SPEAK TO MY SECRETARY ABOUT
+     PAYMENT BEFORE LEAVING.)
+
+>>(bye)
+Bye.
+h:w$ ^D
+
+script done on Wed Oct 08 09:09:17 1997

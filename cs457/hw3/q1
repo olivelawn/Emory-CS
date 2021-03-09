@@ -1,0 +1,6 @@
+select S.sname
+from supplier S, spj A
+where A.snum=S.snum and
+      A.jnum= 'j4'
+group by S.sname
+having count (*) >= 3

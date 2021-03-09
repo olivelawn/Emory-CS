@@ -1,0 +1,2 @@
+The homework file is bitmap2.c
+compile with "cc bitmap.c -o bitmap -lX11 -lm"

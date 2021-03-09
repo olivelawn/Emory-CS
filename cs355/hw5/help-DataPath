@@ -1,0 +1,108 @@
+/* --- help-DataPath --- Cheung ----------------- */
+
+#include "basic.h"
+
+/* -------------- **** You provide these files **** -------------- */
+#include "clock.h"
+#include "datapath.h"
+/* -------------- **** You provide these files **** -------------- */
+
+/* ----
+   Reset and Clk tick switches
+   ---- */
+Switch "0:Tick" aa Tick ZERO;
+Switch "1:Reset" ba Reset ONE;
+
+/* -----
+   Clock 
+   ----- */
+Four-Phase-Clock ac-bd Reset Tick | Phase[4..1];
+
+/* ----
+   Probe the outputs of the clock component
+   ---- */
+Probe "Ph4" ae Phase[4];
+Probe "Ph3" af Phase[3];
+Probe "Ph2" ag Phase[2];
+Probe "Ph1" ah Phase[1];
+
+
+/* ----
+   Switches to select a micro-instruction from the MIR ROM
+   ---- */
+Switch "2:A5" da Addr[5] ZERO;
+Switch "3:A4" ea Addr[4] ZERO;
+Switch "4:A3" fa Addr[3] ZERO;
+Switch "5:A2" ga Addr[2] ZERO;
+Switch "6:A1" ha Addr[1] ZERO;
+Switch "7:A0" ia Addr[0] ZERO;
+
+/* MIR (it's a ROM in this project, will change to RAM later project) */
+MIR cb-jb Addr[5..0] | mir[31..0];
+
+Byte-probe-h "MI" oa-od mir[31-24];
+Byte-probe-h "MI" oe-oh mir[23-16];
+Byte-probe-h "MI" oi-ol mir[15-8];
+Byte-probe-h "MI" om-op mir[7-0];
+
+/* --
+   Dummy MBR input to DataPath
+   -- */
+Define MBR | MBR-out[15-0];
+   Or aa ONE MBR-out[15]; Or aa ONE MBR-out[14];
+   Or aa ZERO MBR-out[13]; Or aa ZERO MBR-out[12];
+   Or aa ONE MBR-out[11]; Or aa ONE MBR-out[10];
+   Or aa ZERO MBR-out[9]; Or aa ZERO MBR-out[8];
+   Or aa ONE MBR-out[7]; Or aa ONE MBR-out[6];
+   Or aa ZERO MBR-out[5]; Or aa ZERO MBR-out[4];
+   Or aa ONE MBR-out[3]; Or aa ONE MBR-out[2];
+   Or aa ZERO MBR-out[1]; Or aa ZERO MBR-out[0];
+Endef;
+
+MBR lc | mbr[15-0];
+
+Byte-probe "MBR" cc-jc mbr[15-8];
+Byte-probe "MBR" cc-jc mbr[7-0];
+
+
+
+/* DataPath */
+DataPath cd-jd mir[31..0] mbr[15-0] Phase [4-1] Reset | 
+	R0[15..0] R1[15..0] R2[15..0] R3[15..0] R4[15..0] R5[15..0] 
+	R6[15..0] R7[15..0] R8[15..0] R9[15..0] R10[15..0] R11[15..0]
+	R12[15..0] R13[15..0] R14[15..0] R15[15..0]
+	A[15-0] B[15-0] AMUX[15-0] C[15-0] N Z;
+
+
+/* ----
+   Probe the outputs of the N and Z flags
+   ---- */
+Probe "N" be N;
+Probe "Z" be Z;
+
+/* ---
+   Probes for registers: 8 x 2 matrix of registers
+   --- */
+Byte-probe-h "R0" ce-cg R0[15..8]; Byte-probe-h "R0" ch-cj R0[7..0]; 
+Byte-probe-h "R1" de-dg R1[15..8]; Byte-probe-h "R1" dh-dj R1[7..0]; 
+Byte-probe-h "R2" ee-eg R2[15..8]; Byte-probe-h "R2" eh-ej R2[7..0]; 
+Byte-probe-h "R3" fe-fg R3[15..8]; Byte-probe-h "R3" fh-fj R3[7..0]; 
+Byte-probe-h "R4" ge-gg R4[15..8]; Byte-probe-h "R4" gh-gj R4[7..0]; 
+Byte-probe-h "R5" he-hg R5[15..8]; Byte-probe-h "R5" hh-hj R5[7..0]; 
+Byte-probe-h "R6" ie-ig R6[15..8]; Byte-probe-h "R6" ih-ij R6[7..0]; 
+Byte-probe-h "R7" je-jg R7[15..8]; Byte-probe-h "R7" jh-jj R7[7..0]; 
+
+Byte-probe-h "R8"  cl-cn R8[15..8];  Byte-probe-h "R8"  co-cq R8[7..0]; 
+Byte-probe-h "R9"  dl-dn R9[15..8];  Byte-probe-h "R9"  do-dq R9[7..0]; 
+Byte-probe-h "R10" el-en R10[15..8]; Byte-probe-h "R10" eo-eq R10[7..0]; 
+Byte-probe-h "R11" fl-fn R11[15..8]; Byte-probe-h "R11" fo-fq R11[7..0]; 
+Byte-probe-h "R12" gl-gn R12[15..8]; Byte-probe-h "R12" go-gq R12[7..0]; 
+Byte-probe-h "R13" hl-hn R13[15..8]; Byte-probe-h "R13" ho-hq R13[7..0]; 
+Byte-probe-h "R14" il-in R14[15..8]; Byte-probe-h "R14" io-iq R14[7..0]; 
+Byte-probe-h "R15" jl-jn R15[15..8]; Byte-probe-h "R15" jo-jq R15[7..0]; 
+
+Byte-probe-h "A"     le-lg A[15..8]; Byte-probe-h "A"     lh-lj A[7..0]; 
+Byte-probe-h "B/MAR" ll-ln B[15..8]; Byte-probe-h "B/MAR" lo-lq B[7..0]; 
+
+Byte-probe-h "AMUX" me-mg AMUX[15..8]; Byte-probe-h "AMUX" mh-mj AMUX[7..0]; 
+Byte-probe-h "C"    ml-mn C[15..8];    Byte-probe-h "C"    mo-mq C[7..0]; 

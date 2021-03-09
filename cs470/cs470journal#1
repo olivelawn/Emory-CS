@@ -1,0 +1,72 @@
+								Parker Johnson
+								Homework#1
+								Commentary
+
+	My first reaction to Pascal was frustration.  The language is very
+
+restrictive in that the language restricts variable declarations, procedure
+
+definitions, type definitions to specific places in the source text.  This
+
+eliminates variable declarations declared on the fly, anywhere in the text,
+
+which, for the traditional C++ programmer is annoying.  Another frustration I
+
+encountered with Pascal was with "begin" and "end(;.)" statement.  The use of
+
+words instead of symbols (i.e. {}) makes the text unreadable for a programmer
+
+versed in C.  The idea of a "begin" starting the main function in pascal was
+
+initially bewildering.  When there are procedures declared it is difficult to
+
+find where the main procedure starts.  C's explicit "main()" is much more
+
+clear.  The "end" statement is also highly confusing.  It appears that whenever end
+
+is to delimited a previous begin it is supposed to be terminated with a ";".  
+
+However, if the "end" is delimiting the main procedures "begin" then the "end"
+
+is to be delimited with a ".".  To make things more confusing if the
+
+programmer accidently confuses the two and puts a ";" where a "." should be,
+
+or vice-versa, the compiler reports an error stating that it has corrected your
+
+mistake for you and then continues to create an a.out file.  Why have a "." or
+
+";" at all?  
+
+	Initially I wrote this program with out any procedures.  It was
+
+monolithic.  I had a difficult time trying to modularize it.  The most
+
+difficult thing for me was determing where to declare my variables.  Coming
+
+from C, I was concerned that if I declared them after the "Type" section and
+
+above the main "begin" that I would be declaring them as global variables. 
+
+I figured out that this was in fact the only place I could declare them. 
+
+One thing that I particularly liked about Pascal and procedures was the way
+
+in which call by reference is done.  The word "var" in the declaration of
+
+the formal parameters is better than C's often confusing symbol "&" in that
+
+in C the symbol "&" can also be used to assign an address to a pointer. 
+
+Pascal's "var" simply eliminates any ambiguity; we know it means call by
+
+reference.  Overall, I feel much more comfortable with C.  I feel Pascal
+
+would be too restrictive for solving problems more complex than Max-Sum. 
+
+With previous programming experience in languages like C, C++, the bash
+
+shell, and perl, my programming practices are unfortunately "hackish" and
+
+Pascal is intolerant to this tendency.
+

@@ -1,0 +1,39 @@
+Using seed: 1
+With 100 nodes, tree Height is 13 and the ratio height/log2n=1.95669
+With 500 nodes, tree Height is 20 and the ratio height/log2n=2.2307
+With 1000 nodes, tree Height is 22 and the ratio height/log2n=2.20755
+With 2000 nodes, tree Height is 24 and the ratio height/log2n=2.18863
+With 3000 nodes, tree Height is 26 and the ratio height/log2n=2.25094
+With 4000 nodes, tree Height is 26 and the ratio height/log2n=2.17286
+With 5000 nodes, tree Height is 28 and the ratio height/log2n=2.2787
+With 6000 nodes, tree Height is 29 and the ratio height/log2n=2.31062
+With 7000 nodes, tree Height is 30 and the ratio height/log2n=2.34868
+With 8000 nodes, tree Height is 31 and the ratio height/log2n=2.39091
+With 9000 nodes, tree Height is 31 and the ratio height/log2n=2.35998
+With 10000 nodes, tree Height is 31 and the ratio height/log2n=2.33298
+Using seed: 5
+With 100 nodes, tree Height is 12 and the ratio height/log2n=1.80618
+With 500 nodes, tree Height is 18 and the ratio height/log2n=2.00763
+With 1000 nodes, tree Height is 20 and the ratio height/log2n=2.00687
+With 2000 nodes, tree Height is 23 and the ratio height/log2n=2.09743
+With 3000 nodes, tree Height is 25 and the ratio height/log2n=2.16436
+With 4000 nodes, tree Height is 26 and the ratio height/log2n=2.17286
+With 5000 nodes, tree Height is 28 and the ratio height/log2n=2.2787
+With 6000 nodes, tree Height is 28 and the ratio height/log2n=2.23094
+With 7000 nodes, tree Height is 28 and the ratio height/log2n=2.1921
+With 8000 nodes, tree Height is 29 and the ratio height/log2n=2.23666
+With 9000 nodes, tree Height is 29 and the ratio height/log2n=2.20772
+With 10000 nodes, tree Height is 29 and the ratio height/log2n=2.18247
+Using seed: 62
+With 100 nodes, tree Height is 12 and the ratio height/log2n=1.80618
+With 500 nodes, tree Height is 19 and the ratio height/log2n=2.11917
+With 1000 nodes, tree Height is 22 and the ratio height/log2n=2.20755
+With 2000 nodes, tree Height is 24 and the ratio height/log2n=2.18863
+With 3000 nodes, tree Height is 25 and the ratio height/log2n=2.16436
+With 4000 nodes, tree Height is 27 and the ratio height/log2n=2.25643
+With 5000 nodes, tree Height is 27 and the ratio height/log2n=2.19732
+With 6000 nodes, tree Height is 27 and the ratio height/log2n=2.15127
+With 7000 nodes, tree Height is 28 and the ratio height/log2n=2.1921
+With 8000 nodes, tree Height is 29 and the ratio height/log2n=2.23666
+With 9000 nodes, tree Height is 30 and the ratio height/log2n=2.28385
+With 10000 nodes, tree Height is 30 and the ratio height/log2n=2.25772

@@ -1,0 +1,91 @@
+Object subclass: #Account
+          instanceVariableNames: 'balance'
+          classVariableNames: ''
+          poolDictionaries: ''
+          category: nil !
+
+
+Account comment: 'I represent a place to deposit and withdraw money' !
+
+!Account class methodsFor: 'instance creation'!
+
+     new
+          | r |
+
+          r := super new.
+          r init.
+          ^r
+     !!
+
+ !Account methodsFor: 'instance initialization'!
+     init
+          balance := 0
+     !!
+
+ Smalltalk at: #a put: (Account new) !
+
+!Account methodsFor: 'printing'!
+     printOn: stream
+          super printOn: stream.
+          ' with balance: ' printOn: stream.
+          balance printOn: stream
+     !!
+
+!Account methodsFor: 'moving money'!
+     spend: amount
+          balance := balance - amount
+     !
+     deposit: amount
+          balance := balance + amount
+     !!
+
+ Account subclass: #Savings
+          instanceVariableNames: 'interest'
+          classVariableNames: ''
+          poolDictionaries: ''
+          category: nil !
+
+!Savings methodsFor: 'interest'!
+     interest: amount
+          interest := interest + amount.
+          self deposit: amount
+     !
+     clearInterest
+          | oldinterest |
+
+          oldinterest := interest.
+          interest := 0.
+          ^oldinterest
+     !!
+
+Account subclass: #Checking
+          instanceVariableNames: 'checknum checksleft'
+          classVariableNames: ''
+          poolDictionaries: ''
+          category: nil !
+
+  !Checking methodsFor: 'Initialization'!
+     init
+          checksleft := 0.
+          ^super init
+     !!
+
+  
+!Checking methodsFor: 'spending'!
+     newChecks: number count: checkcount
+          checknum := number.
+          checksleft := checkcount
+     !
+
+     writeCheck: amount
+          | num |
+
+          num := checknum.
+          checknum := checknum + 1.
+          checksleft := checksleft - 1.
+          self spend: amount.
+          ^ num
+     !!
+
+
+

@@ -1,0 +1,4 @@
+This assignment required that we modify file bst.cpp.  I modified it to 
+be bstrev.cpp and that is the file that I included my delete function.  
+The program is to delete a binary tree node and rearrange the tree so 
+that it remains as a binary search tree.

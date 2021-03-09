@@ -1,0 +1,7 @@
+select S.sname
+from supplier S
+where S.snum not in
+	(select A.snum
+	 from part P, spj A
+	 where P.weight > 18 and
+	 A.pnum=P.pnum )

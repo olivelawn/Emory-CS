@@ -1,0 +1,18 @@
+select S.sname
+from supplier S
+where not exists
+	(select *
+	 from project J
+	 where J.jnum in (select J1.jnum
+	    	   from project J1
+		   where S.city=J1.city)
+
+	 and J.jnum not in (select A.jnum
+		     from spj A
+		     where A.snum=S.snum
+		     group by A.jnum
+	             having count(A.pnum) >= 3  )
+	)
+and exists	  (select *
+		   from project X
+		   where S.city=X.city)

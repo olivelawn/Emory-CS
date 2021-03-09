@@ -1,0 +1,16 @@
+/* find the employees who do not work for any projects in houston */
+
+
+range of E is employee
+range of E2 is employee
+range of D is department
+range of P is project
+range of W is works_on
+range of DEP is dependent
+
+retrieve (E.ssn)
+
+where count ( 	P.pnumber by E.ssn where
+		P.pnumber = W.pno and
+		E.ssn = W.essn and
+		P.plocation = "Houston" ) = 0

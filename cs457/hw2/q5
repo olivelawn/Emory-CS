@@ -1,0 +1,6 @@
+select DISTINCT A.jnum
+from spj A
+where A.pnum in
+	  (select B.pnum
+	   from spj B
+	   where B.snum='s4'	) 

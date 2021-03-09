@@ -1,0 +1,169 @@
+Script started on Sun Sep 21 22:12:07 1997
+h:w$ kcl
+KCl (Kyoto Common Lisp)  Nov 13, 1990
+
+;;   ------------------ 6.1.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+;6-1  find-book-bytitle-words program finds book titles using subsetp
+
+(defun book-title (book)
+  (first book))
+
+(defun find-book-bytitle-words (words books)
+   (cond ((endp books) nil)
+         ((subsetp words (second (book-title (first books)))) (first books))
+	 (t (find-book-bytitle-words words (rest books)))))
+
+(defun make-book (title author classification)
+   (list (list 'title title)
+	 (list 'author author)
+	 (list 'classification classification)))
+
+(setf books
+  (list
+     (make-book '(artificial intelligence)
+		'(patrick henry winston)
+		'(technical ai))
+     (make-book '(common lisp)
+		'(guy l steele)
+		'(technical lisp))
+     (make-book '(moby dick)
+		'(herman melville)
+		'(fiction))
+     (make-book '(tom sawyer)
+		'(mark twain)
+		'(fiction))
+     (make-book '(the black orchid)
+		'(rex stout)
+		'(fiction mystery))))
+
+;sample input:
+;(find-book-bytitle-words '(artificial) books)
+;(find-book-bytitle-words '(intelligence) books)
+;(find-book-bytitle-words '(orchid) books)
+;(find-book-bytitle-words '(black orchid) books)
+;(find-book-bytitle-words '(blue orchid) books)
+
+
+
+>(load "6.1.l")
+Loading 6.1.l
+Finished loading 6.1.l
+T
+
+>(defun make-book (title author classification)
+   (list (list 'title title)
+         (list 'author author)
+         (list 'classification classification)))
+
+MAKE-BOOK
+
+>(setf books
+  (list
+     (make-book '(artificial intelligence)
+                '(patrick henry winston)
+                '(technical ai))
+     (make-book '(common lisp)
+                '(guy l steele)
+                '(technical lisp))
+     (make-book '(moby dick)
+                '(herman melville)
+                '(fiction))   
+     (make-book '(tom sawyer) 
+                '(mark twain)
+                '(fiction))
+     (make-book '(the black orchid)
+                '(rex stout)
+                '(fiction mystery))))
+(((TITLE (ARTIFICIAL INTELLIGENCE)) (AUTHOR (PATRICK HENRY WINSTON))
+  (CLASSIFICATION (TECHNICAL AI)))
+ ((TITLE (COMMON LISP)) (AUTHOR (GUY L STEELE))
+  (CLASSIFICATION (TECHNICAL LISP)))
+ ((TITLE (MOBY DICK)) (AUTHOR (HERMAN MELVILLE))
+  (CLASSIFICATION (FICTION)))
+ ((TITLE (TOM SAWYER)) (AUTHOR (MARK TWAIN))
+  (CLASSIFICATION (FICTION)))
+ ((TITLE (THE BLACK ORCHID)) (AUTHOR (REX STOUT))
+  (CLASSIFICATION (FICTION MYSTERY))))
+
+>(defun book-title (book)
+  (first book))
+BOOK-TITLE
+
+>(defun find-book-bytitle-words (words books)
+   (cond ((endp books) nil)
+         ((subsetp words (second (book-title (first books)))) (first books))
+         (t (find-book-bytitle-words words (rest books)))))
+                
+FIND-BOOK-BYTITLE-WORDS
+
+>(find-book-bytitle-words '(artificial) books)
+((TITLE (ARTIFICIAL INTELLIGENCE)) (AUTHOR (PATRICK HENRY WINSTON))
+ (CLASSIFICATION (TECHNICAL AI)))
+
+>(find-book-bytitle-words '(intelligence) books)
+((TITLE (ARTIFICIAL INTELLIGENCE)) (AUTHOR (PATRICK HENRY WINSTON))
+ (CLASSIFICATION (TECHNICAL AI)))
+
+>(find-book-bytitle-words '(orchid) books)
+((TITLE (THE BLACK ORCHID)) (AUTHOR (REX STOUT))
+ (CLASSIFICATION (FICTION MYSTERY)))
+
+>(find-book-bytitle-words '(black orchid) books)
+((TITLE (THE BLACK ORCHID)) (AUTHOR (REX STOUT))
+ (CLASSIFICATION (FICTION MYSTERY)))
+
+>(find-book-bytitle-words '(blue orchid) books)
+NIL
+
+;;   ------------------ 6.2.l ------------------
+;;
+;;				created by: parker johnson
+;;				date completed: sept 17 4:00 a.m.
+;;
+;;   HONOR PLEDGE:
+;;		    I, parker johnson, pledge that this and confirms
+;;		    to SPCA.
+;;					parker johnson
+;;
+;;-------------------------------------------------
+
+; 6-2 my-length program counts # of atoms in an expression
+
+(defun my-length (l &optional (sum 0))
+   (cond ((null l) sum)
+	 ((atom l) (+ sum 1))
+	 (t (my-length (rest l) (my-length (first l) sum )))))
+
+;sample input:
+;(my-length '(1 2 3 4) 0)
+;(my-length '(sqrt (expt x 2) (expt y 2))))
+
+
+
+>(load "6.2.l")
+Loading 6.2.l
+Finished loading 6.2.l
+T
+
+>(my-length '(1 2 3 4) 0)
+4
+
+>(my-length '(sqrt (expt x 2) (expt y 2))))
+7
+
+>(bye)
+Bye.
+h:w$ ^D
+
+script done on Sun Sep 21 22:14:43 1997

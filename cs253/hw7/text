@@ -1,0 +1,68 @@
+
+
+                                  LEDA
+
+             A Library of Efficient Data Types and Algorithms
+
+
+                             Stefan Naeher
+                   Max-Planck-Institut fuer Informatik
+                  Im Stadtwald, 6600 Saarbruecken, FRG     
+
+                         stefan@mpi-sb.mpg.de
+  
+
+The LEDA library of efficient data types and algorithms is now available
+via anonymous ftp.
+
+SITE:  sbsvax.cs.uni-sb.de (134.96.252.31)
+
+FILE:  /pub/LEDA/LEDA-<version>.tar.Z   (compressed tar file)
+
+
+The distribution contains the following files and sub-directories:
+
+        README            this file
+        INSTALL           installation instructions
+        Changes           most recent changes
+        incl/             header files 
+        src/              C++ sources
+        prog/             example programs
+        man/              user manual (TeX)
+        report/           technical report (TeX)
+
+
+LEDA currently can be used with the following C++ compilers:
+
+AT&T  cfront 2.0
+AT&T  cfront 2.1
+GNU   g++-1.37.1  
+GNU   g++-1.40.3  (NOT g++-1.39)
+
+TURBO   C++        Due to space limitations only parts of the library  
+BORLAND C++        can be compiled with TC++ or BC++ (all basic data types,
+                   dictionaries, priority queues, graphs, most of the graph
+                   algorithms, basic geometric objects), see INSTALL.dos for
+                   details.
+
+
+
+IMPORTANT:
+
+a) LEDA is not in the public domain, but you can use and distribute 
+   it freely for research and teaching purposes.
+
+b) Do not distribute modified sources. Please report discovered bugs, 
+   critics, suggestions, and any changes you make to stefan@cs.uni-sb.de.
+
+c) If you like LEDA and want to use it we ask you to transfer a handling charge 
+   of DM 100 to the following bank account:
+
+          Postscheckamt Saarbruecken 
+          account 926 28-663 
+          bank code 590 100 66 
+
+d) If you want to be on the LEDA user mailing list please write to 
+   stefan@mpi-sb.mpg.de
+
+

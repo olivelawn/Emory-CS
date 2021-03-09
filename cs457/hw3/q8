@@ -1,0 +1,8 @@
+select P.pnum, P.pname, P.color, P.weight
+from part P
+where P.weight in (select max(P1.weight)
+	           from part P1
+		   where P1.pname=P.pname)
+
+
+

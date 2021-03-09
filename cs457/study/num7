@@ -1,0 +1,7 @@
+select E.ssn, E.lname
+from employee E
+where E.dno in (select E.dno
+		from project J
+		where J.dnum=E.dno
+		group by J.dnum
+		having count (*)>=2)

@@ -1,0 +1,27 @@
+range of S is supplier
+range of J is project
+range of P is part
+range of A is spj
+
+range of S1 is supplier
+range of J1 is project
+range of P1 is part
+range of A1 is spj
+
+retrieve unique (S.sname)
+
+where 	countu (J.city by A.snum where
+	       	J.jnum=A.jnum) =
+
+	countu (J.city)
+
+and S.snum=A.snum
+
+and    countu (P.pnum by S.snum, J.jnum where
+              J.city=S.city and
+              J.jnum=A.jnum and
+              P.pnum=A.pnum and
+              S.snum=A.snum) >= 3
+              
+
+

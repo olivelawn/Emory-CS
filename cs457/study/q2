@@ -1,0 +1,2 @@
+retrieve (D.dname, D.dnumber, n=count(E.ssn by E.dno), s=avg(E.salary by E.dno))
+where D.dnumber=E.dno

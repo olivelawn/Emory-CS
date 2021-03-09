@@ -1,0 +1,28 @@
+#.VERSION "1.0"
+#.DECLARE "rand-bst.o" : "rand-bst.C"
+#.DECLARE "__0fHBstNode7i_GHeightv" : "/home/pjohn07/cs253/hw4/bst.cpp"
+#.DECLARE "__0fDBST7i_GInsertRC6HElement7i_" : "/home/pjohn07/cs253/hw4/bst.cpp"
+#.DECLARE "bstrev.o" : "bstrev.cpp"
+#.DECLARE "__0fHBstNode7i_Jtreeprinti" : "/home/pjohn07/cs253/hw4/bstrev.cpp"
+#.DECLARE "__0fDBST7i_GDeleteRC6HElement7i_" : "/home/pjohn07/cs253/hw4/bstrev.cpp"
+#.DECLARE "bst.o" : "bst.cpp"
+#.DECLARE "__0fDBST7i_FSplitiR6DBST7i_TCR6HElement7i_" : "/home/pjohn07/cs253/hw4/bst.cpp"
+#.OPTIONS "__0fHBstNode7i_GHeightv" : "-xs  "
+#.OPTIONS "__0fDBST7i_GInsertRC6HElement7i_" : "-xs  "
+#.OPTIONS "__0fHBstNode7i_Jtreeprinti" : "-xs         "
+#.OPTIONS "__0fDBST7i_GDeleteRC6HElement7i_" : "-xs         "
+#.OPTIONS "__0fDBST7i_FSplitiR6DBST7i_TCR6HElement7i_" : "-xs                                                                                                        "
+#.DEPEND "__0fHBstNode7i_GHeightv" : "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/usr/include/math.h" "/usr/include/floatingpoint.h" "/usr/include/stdio.h" "/usr/include/sys/feature_tests.h" "/usr/include/sys/ieeefp.h" "/home/pjohn07/cs253/hw4/bst.cpp" 
+#.DEPEND "__0fDBST7i_GInsertRC6HElement7i_" : "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/usr/include/math.h" "/usr/include/floatingpoint.h" "/usr/include/stdio.h" "/usr/include/sys/feature_tests.h" "/usr/include/sys/ieeefp.h" "/home/pjohn07/cs253/hw4/bst.cpp" 
+#.DEPEND "__0fHBstNode7i_Jtreeprinti" : "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw4/bstrev.cpp" 
+#.DEPEND "__0fDBST7i_GDeleteRC6HElement7i_" : "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/home/pjohn07/cs253/hw4/bstrev.cpp" 
+#.DEPEND "__0fDBST7i_FSplitiR6DBST7i_TCR6HElement7i_" : "/opt/SUNWspro/SC3.0.1/include/CC/rlocks.h" "/opt/SUNWspro/SC3.0.1/include/CC/iostream.h" "/home/pjohn07/cs253/hw4/bst.cpp" 
+#.TEMPLATE "rand-bst.C" : "__0fDBST7i_GInsertRC6HElement7i_" "__0fHBstNode7i_GHeightv" 
+#.TEMPLATE "__0fDBST7i_GInsertRC6HElement7i_" : 
+#.TEMPLATE "__0fHBstNode7i_GHeightv" : 
+#.TEMPLATE "bstrev.cpp" : "__0fDBST7i_GDeleteRC6HElement7i_" "__0fHBstNode7i_Jtreeprinti" "__0fDBST7i_GInsertRC6HElement7i_" 
+#.TEMPLATE "__0fDBST7i_GDeleteRC6HElement7i_" : 
+#.TEMPLATE "__0fHBstNode7i_Jtreeprinti" : 
+#.TEMPLATE "bst.cpp" : "__0fDBST7i_FSplitiR6DBST7i_TCR6HElement7i_" "__0fHBstNode7i_Jtreeprinti" "__0fDBST7i_GInsertRC6HElement7i_" 
+#.TEMPLATE "__0fDBST7i_FSplitiR6DBST7i_TCR6HElement7i_" : 
+#.PROGRAM "a.out"

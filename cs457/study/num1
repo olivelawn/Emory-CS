@@ -1,0 +1,11 @@
+select E.fname, E.lname
+from employee E
+where not exists (select *
+		  from project J
+		  where J.pnumber in (select J1.pnumber
+				      from project J1
+				      where J1.dum=5)
+		  and J.pnumber not in (select W.pno
+					from works_on W
+					where E.ssn=W.essn)
+		 )

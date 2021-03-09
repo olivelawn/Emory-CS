@@ -1,0 +1,23 @@
+select E.ssn
+from employee E
+where E.ssn in (select A.essn
+		from works_on A, project B
+		where A.pno=B.pnumber and
+		      B.plocation='Houston' and
+		      A.essn=E.ssn )
+
+  and  E.ssn not in (select E1.ssn
+		    from employee E1
+		    where not exists (
+			select *
+			from project J
+			where J.pnumber in 
+					    (select J1.pnumber
+					    from project J1
+					    where J1.plocation='Houston')
+			and J.pnumber not in
+					    (select W.pno
+					     from works_on W
+					     where E1.ssn=W.essn)
+				     )    
+			)

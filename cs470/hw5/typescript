@@ -1,0 +1,102 @@
+Script started on Thu Apr 23 00:20:39 1998
+h:w$ cat maxsum
+%Parker Johnson
+%Maximum Sub-Sequence in Prolog
+
+append([], Y, Y).
+append([H|X], Y, [H|X]) :- append(X, Y, Z).
+
+%this fact adds an element to the head of a list
+etol(X, Y, [X|Y]).
+
+%this set of rules was copied from "Prolog User's Handbook."  Since putting elements on
+%the back of the list is too hard.  I put the elements on the head and then reverse it afterwards.
+reverse(X, Y) :- revconc(X, [], Y).
+revconc([], L, L).
+revconc([X|L1], L2, L3) :- revconc(L1, [X|L2], L3).
+
+%this is the "base case."  When the list is 'cdred' down to the empty list, since the maxsum
+%and Sub-Sequence has been built on the fly, then the values are ready to print.
+mss([], Msum, Tsum, Mlist, Clist) :- write(Msum),
+				     reverse(Mlist, Z),
+				     write(Z).
+
+
+%this is the case that this_sum is greater than or equal to than the max_sum.  This_sum is
+%sent as both this_sum and max_sum.  The head is etol'd to the current list and then the
+%current list is sent as both the current list and the maximumlist.
+mss([X|A], Msum, Tsum, Mlist, Clist) :- L is Tsum + X,
+				       L >= Msum,
+				       etol(X, Clist, Z),
+				       mss(A, L, L, Z, Z).
+
+%this is the case where this_sum is less than 0.  Max_sum is retained, This_sum is set to 0,
+%the maximum list is retained, the empty list is sent as the current list.
+mss([X|A], Msum, Tsum, Mlist, Clist) :- L is Tsum + X,
+				       L < 0,
+				       mss(A, Msum, 0, Mlist, []).
+
+%this is the case where this_sum is greater than zero, but this_sum is not greater than max_sum.
+%i.e. this_sum is >= 0.   The head is etol'd to the current list.  The maximum list is sent as the
+%maximum list and the new current listis sent as the current list.
+mss([X|A], Msum, Tsum, Mlist, Clist) :- L is Tsum + X,
+				       L >= 0,
+				       etol(X, Clist, Z),
+				       mss(A, Msum, L, Mlist, Z).
+
+h:w$ prolog
+C-Prolog version 1.5
+| ?- [maxsum].
+maxsum consulted 1156 bytes 1.86265e-09 sec.
+
+yes
+| ?- mss([1, 2, 3, 4], 0, 0, [], []).
+10[1,2,3,4]
+yes
+| ?- mss([10, -1000, 20], 0, 0, [], []).
+20[20]
+yes
+| ?- mss([20, -1000, 10], 0, 0, [], []).
+20[20]
+yes
+| ?- mss([500, 5000, 500, -1200, 500, 500, 500], 0, 0, [], []).
+6300[500,5000,500,-1200,500,500,500]
+yes
+| ?- mss([500, 500, 500, -1200, 500, 500, 500], 0, 0, [], []).
+1800[500,500,500,-1200,500,500,500]
+yes
+| ?- mss([-200, -800, 600, -400, -400, -600, -200, 13], 0, 0, [], []).
+600[600]
+yes
+| ?- mss([-3000, 100, -6000, 100, 300], 0, 0, [], []).
+400[100,300]
+yes
+| ?- mss([-3000, 200, 200, -6000, 100, 300], 0, 0, [], []).
+400[100,300]
+yes
+| ?- mss([600, 500, -1000, 500, 500], 0, 0, [], []).
+1100[600,500,-1000,500,500]
+yes
+| ?- mss([500, 500, -1000, 500, 500], 0, 0, [], []).
+1000[500,500,-1000,500,500]
+yes
+| ?- mss([600, 500, -1000, 400, 500], 0, 0, [], []).
+1100[600,500]
+yes
+| ?- mss([1, 2, 3, 4], 0, 0, [], []).
+10[1,2,3,4]
+yes
+| ?- mss([234, -24, 2345, -534, -52, 235, 5653, 254, -356, 65463, 3466, -3566,-563, 354], 0, 0, [], []).
+76684[234,-24,2345,-534,-52,235,5653,254,-356,65463,3466]
+yes
+| ?- mss([345, 56, 35, 2345, 245, -243, -45, 2345, -234, -2435, 2345, 54, 4567, 67, -67], 0, 0, [], []).
+9447[345,56,35,2345,245,-243,-45,2345,-234,-2435,2345,54,4567,67]
+yes
+| ?- mss([3456, 654, -23, -245, -356, 85, 356, -3356, 35665, 856, -34563], 0, 0, [], []).
+37092[3456,654,-23,-245,-356,85,356,-3356,35665,856]
+yes
+| ?- ^D
+[ Prolog execution halted ]
+h:w$ ^D
+
+script done on Thu Apr 23 00:23:43 1998

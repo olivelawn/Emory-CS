@@ -1,0 +1,9 @@
+select E3.lname
+from employee E3
+where E3.salary in (select max(E2.salary)
+		    from employee E2
+		    where E2.salary not in
+				(select max (E1.salary)
+				 from employee E1)
+		   )
+				 

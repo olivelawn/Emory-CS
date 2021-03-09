@@ -1,0 +1,7 @@
+select X.sname
+from supplier X
+where X.snum not in ( select S.snum
+		      from spj A, part P, supplier S
+		      where P.color='Blue' and
+		      P.pnum=A.pnum and
+		      S.snum=A.snum)

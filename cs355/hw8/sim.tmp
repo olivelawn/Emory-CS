@@ -1,0 +1,245 @@
+Alias MReq Read Addr[15] Addr[14] Addr[13] Addr[12] Addr[11] Addr[10] Addr[9] Addr[8] Addr[7] Addr[6] Addr[5] Addr[4] Addr[3] Addr[2] Addr[1] Addr[0] Data[15] Data[14] Data[13] Data[12] Data[11] Data[10] Data[9] Data[8] Data[7] Data[6] Data[5] Data[4] Data[3] Data[2] Data[1] Data[0] DataBus[15] DataBus[14] DataBus[13] DataBus[12] DataBus[11] DataBus[10] DataBus[9] DataBus[8] DataBus[7] DataBus[6] DataBus[5] DataBus[4] DataBus[3] DataBus[2] DataBus[1] DataBus[0] | ZZ0MReq ZZ0Read ZZ0Addr[15] ZZ0Addr[14] ZZ0Addr[13] ZZ0Addr[12] ZZ0Addr[11] ZZ0Addr[10] ZZ0Addr[9] ZZ0Addr[8] ZZ0Addr[7] ZZ0Addr[6] ZZ0Addr[5] ZZ0Addr[4] ZZ0Addr[3] ZZ0Addr[2] ZZ0Addr[1] ZZ0Addr[0] ZZ0DataIn[15] ZZ0DataIn[14] ZZ0DataIn[13] ZZ0DataIn[12] ZZ0DataIn[11] ZZ0DataIn[10] ZZ0DataIn[9] ZZ0DataIn[8] ZZ0DataIn[7] ZZ0DataIn[6] ZZ0DataIn[5] ZZ0DataIn[4] ZZ0DataIn[3] ZZ0DataIn[2] ZZ0DataIn[1] ZZ0DataIn[0] ZZ0DataOut[15] ZZ0DataOut[14] ZZ0DataOut[13] ZZ0DataOut[12] ZZ0DataOut[11] ZZ0DataOut[10] ZZ0DataOut[9] ZZ0DataOut[8] ZZ0DataOut[7] ZZ0DataOut[6] ZZ0DataOut[5] ZZ0DataOut[4] ZZ0DataOut[3] ZZ0DataOut[2] ZZ0DataOut[1] ZZ0DataOut[0]  ;
+Module  "Memory"  ea-gi ZZ0MReq ZZ0Read ZZ0Addr[15] ZZ0Addr[14] ZZ0Addr[13] ZZ0Addr[12] ZZ0Addr[11] ZZ0Addr[10] ZZ0Addr[9] ZZ0Addr[8] ZZ0Addr[7] ZZ0Addr[6] ZZ0Addr[5] ZZ0Addr[4] ZZ0Addr[3] ZZ0Addr[2] ZZ0Addr[1] ZZ0Addr[0] ZZ0DataIn[15] ZZ0DataIn[14] ZZ0DataIn[13] ZZ0DataIn[12] ZZ0DataIn[11] ZZ0DataIn[10] ZZ0DataIn[9] ZZ0DataIn[8] ZZ0DataIn[7] ZZ0DataIn[6] ZZ0DataIn[5] ZZ0DataIn[4] ZZ0DataIn[3] ZZ0DataIn[2] ZZ0DataIn[1] ZZ0DataIn[0] | ZZ0DataOut[15] ZZ0DataOut[14] ZZ0DataOut[13] ZZ0DataOut[12] ZZ0DataOut[11] ZZ0DataOut[10] ZZ0DataOut[9] ZZ0DataOut[8] ZZ0DataOut[7] ZZ0DataOut[6] ZZ0DataOut[5] ZZ0DataOut[4] ZZ0DataOut[3] ZZ0DataOut[2] ZZ0DataOut[1] ZZ0DataOut[0]  ;
+  Rom64x16 "Rom64x16" ea-gi.aa ZZ0Addr[5] 
+ZZ0Addr[4] ZZ0Addr[3] ZZ0Addr[2] ZZ0Addr[1] ZZ0Addr[0] ZERO ZZ0RomOut[15] ZZ0RomOut[14] ZZ0RomOut[13] ZZ0RomOut[12] ZZ0RomOut[11] ZZ0RomOut[10] ZZ0RomOut[9] ZZ0RomOut[8] ZZ0RomOut[7] ZZ0RomOut[6] 
+ZZ0RomOut[5] ZZ0RomOut[4] ZZ0RomOut[3] ZZ0RomOut[2] ZZ0RomOut[1] ZZ0RomOut[0] 10 4168 72 0 0 0 0 0 0 0 
+0 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 
+
+ ;
+Alias ZZ0MReq ZZ0Read ZZ0Addr[6] ZZ0tri-enable | ZZ1mem ZZ1read ZZ1line ZZ1OUT  ;
+Module  "Circuit1"  ea-gi.ba ZZ1mem ZZ1read ZZ1line | ZZ1OUT  ;
+  Not "Not" ea-gi.ba.aa ZZ1line 
+ZZ1nline 
+
+ ;
+  And "And" ea-gi.ba.aa ZZ1mem 
+ZZ1read ZZ1nline ZZ1out 
+
+ ;
+  Not "Not" ea-gi.ba.aa ZZ1out 
+ZZ1OUT 
+
+ ;
+ End ; /* Circuit1 */
+  Probe "1tri" ea-gi.ba ZZ0tri-enable 
+
+
+ ;
+Alias ZZ0RomOut[15] ZZ0RomOut[14] ZZ0RomOut[13] ZZ0RomOut[12] ZZ0RomOut[11] ZZ0RomOut[10] ZZ0RomOut[9] ZZ0RomOut[8] ZZ0RomOut[7] ZZ0RomOut[6] ZZ0RomOut[5] ZZ0RomOut[4] ZZ0RomOut[3] ZZ0RomOut[2] ZZ0RomOut[1] ZZ0RomOut[0] ZZ0tri-enable ZZ0DataOut[15] ZZ0DataOut[14] ZZ0DataOut[13] ZZ0DataOut[12] ZZ0DataOut[11] ZZ0DataOut[10] ZZ0DataOut[9] ZZ0DataOut[8] ZZ0DataOut[7] ZZ0DataOut[6] ZZ0DataOut[5] ZZ0DataOut[4] ZZ0DataOut[3] ZZ0DataOut[2] ZZ0DataOut[1] ZZ0DataOut[0] | ZZ2in[15] ZZ2in[14] ZZ2in[13] ZZ2in[12] ZZ2in[11] ZZ2in[10] ZZ2in[9] ZZ2in[8] ZZ2in[7] ZZ2in[6] ZZ2in[5] ZZ2in[4] ZZ2in[3] ZZ2in[2] ZZ2in[1] ZZ2in[0] ZZ2en ZZ2out[15] ZZ2out[14] ZZ2out[13] ZZ2out[12] ZZ2out[11] ZZ2out[10] ZZ2out[9] ZZ2out[8] ZZ2out[7] ZZ2out[6] ZZ2out[5] ZZ2out[4] ZZ2out[3] ZZ2out[2] ZZ2out[1] ZZ2out[0]  ;
+Module  "TRI1"  ea-gi.ab ZZ2in[15] ZZ2in[14] ZZ2in[13] ZZ2in[12] ZZ2in[11] ZZ2in[10] ZZ2in[9] ZZ2in[8] ZZ2in[7] ZZ2in[6] ZZ2in[5] ZZ2in[4] ZZ2in[3] ZZ2in[2] ZZ2in[1] ZZ2in[0] ZZ2en | ZZ2out[15] ZZ2out[14] ZZ2out[13] ZZ2out[12] ZZ2out[11] ZZ2out[10] ZZ2out[9] ZZ2out[8] ZZ2out[7] ZZ2out[6] ZZ2out[5] ZZ2out[4] ZZ2out[3] ZZ2out[2] ZZ2out[1] ZZ2out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[0] 
+ZZ2en 
+| ZZ2out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[1] 
+ZZ2en 
+| ZZ2out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[2] 
+ZZ2en 
+| ZZ2out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[3] 
+ZZ2en 
+| ZZ2out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[4] 
+ZZ2en 
+| ZZ2out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[5] 
+ZZ2en 
+| ZZ2out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[6] 
+ZZ2en 
+| ZZ2out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[7] 
+ZZ2en 
+| ZZ2out[7] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[8] 
+ZZ2en 
+| ZZ2out[8] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[9] 
+ZZ2en 
+| ZZ2out[9] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[10] 
+ZZ2en 
+| ZZ2out[10] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[11] 
+ZZ2en 
+| ZZ2out[11] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[12] 
+ZZ2en 
+| ZZ2out[12] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[13] 
+ZZ2en 
+| ZZ2out[13] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[14] 
+ZZ2en 
+| ZZ2out[14] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ab.aa ZZ2in[15] 
+ZZ2en 
+| ZZ2out[15] 
+
+ ;
+ End ; /* TRI1 */
+  Ram64x8 "Ram64x8" ea-gi.ac ZZ0DataIn[15] 
+ZZ0DataIn[14] ZZ0DataIn[13] ZZ0DataIn[12] ZZ0DataIn[11] ZZ0DataIn[10] ZZ0DataIn[9] ZZ0DataIn[8] ZZ0Addr[5] ZZ0Addr[4] ZZ0Addr[3] ZZ0Addr[2] ZZ0Addr[1] ZZ0Addr[0] ZZ0rw ZZ0outen ZZ0Data[15] 
+ZZ0Data[14] ZZ0Data[13] ZZ0Data[12] ZZ0Data[11] ZZ0Data[10] ZZ0Data[9] ZZ0Data[8] 
+
+ ;
+Alias ZZ0MReq ZZ0Read ZZ0Addr[6] ZZ0rw ZZ0outen ZZ0tri | ZZ3mem ZZ3read ZZ3line ZZ3rw ZZ3en ZZ3tri  ;
+Module  "Circuit2"  ea-gi.bc ZZ3mem ZZ3read ZZ3line | ZZ3rw ZZ3en ZZ3tri  ;
+  And "And" ea-gi.bc.aa ZZ3mem 
+ZZ3read ZZ3line ZZ3tri-tmp 
+
+ ;
+  Not "Not" ea-gi.bc.aa ZZ3tri-tmp 
+ZZ3tri 
+
+ ;
+  Or "Or" ea-gi.bc.aa ZERO 
+ZZ3read ZZ3rw 
+
+ ;
+  And "And" ea-gi.bc.aa ZZ3mem 
+ZZ3line ZZ3en-tmp 
+
+ ;
+  Not "Not" ea-gi.bc.aa ZZ3en-tmp 
+ZZ3en 
+
+ ;
+ End ; /* Circuit2 */
+  Probe "2rw" ea-gi.bc ZZ0rw 
+
+
+ ;
+  Probe "2en" ea-gi.bc ZZ0outen 
+
+
+ ;
+  Probe "2tri" ea-gi.bc ZZ0tri 
+
+
+ ;
+Alias ZZ0Data[15] ZZ0Data[14] ZZ0Data[13] ZZ0Data[12] ZZ0Data[11] ZZ0Data[10] ZZ0Data[9] ZZ0Data[8] ZZ0tri ZZ0DataOut[15] ZZ0DataOut[14] ZZ0DataOut[13] ZZ0DataOut[12] ZZ0DataOut[11] ZZ0DataOut[10] ZZ0DataOut[9] ZZ0DataOut[8] | ZZ4in[7] ZZ4in[6] ZZ4in[5] ZZ4in[4] ZZ4in[3] ZZ4in[2] ZZ4in[1] ZZ4in[0] ZZ4en ZZ4out[7] ZZ4out[6] ZZ4out[5] ZZ4out[4] ZZ4out[3] ZZ4out[2] ZZ4out[1] ZZ4out[0]  ;
+Module  "TRI2"  ea-gi.ad ZZ4in[7] ZZ4in[6] ZZ4in[5] ZZ4in[4] ZZ4in[3] ZZ4in[2] ZZ4in[1] ZZ4in[0] ZZ4en | ZZ4out[7] ZZ4out[6] ZZ4out[5] ZZ4out[4] ZZ4out[3] ZZ4out[2] ZZ4out[1] ZZ4out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[0] 
+ZZ4en 
+| ZZ4out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[1] 
+ZZ4en 
+| ZZ4out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[2] 
+ZZ4en 
+| ZZ4out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[3] 
+ZZ4en 
+| ZZ4out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[4] 
+ZZ4en 
+| ZZ4out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[5] 
+ZZ4en 
+| ZZ4out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[6] 
+ZZ4en 
+| ZZ4out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.ad.aa ZZ4in[7] 
+ZZ4en 
+| ZZ4out[7] 
+
+ ;
+ End ; /* TRI2 */
+  Ram64x8 "Ram64x8" ea-gi.ae ZZ0DataIn[7] 
+ZZ0DataIn[6] ZZ0DataIn[5] ZZ0DataIn[4] ZZ0DataIn[3] ZZ0DataIn[2] ZZ0DataIn[1] ZZ0DataIn[0] ZZ0Addr[5] ZZ0Addr[4] ZZ0Addr[3] ZZ0Addr[2] ZZ0Addr[1] ZZ0Addr[0] ZZ0rw ZZ0outen ZZ0Data[7] 
+ZZ0Data[6] ZZ0Data[5] ZZ0Data[4] ZZ0Data[3] ZZ0Data[2] ZZ0Data[1] ZZ0Data[0] 
+
+ ;
+Alias ZZ0Data[7] ZZ0Data[6] ZZ0Data[5] ZZ0Data[4] ZZ0Data[3] ZZ0Data[2] ZZ0Data[1] ZZ0Data[0] ZZ0tri ZZ0DataOut[7] ZZ0DataOut[6] ZZ0DataOut[5] ZZ0DataOut[4] ZZ0DataOut[3] ZZ0DataOut[2] ZZ0DataOut[1] ZZ0DataOut[0] | ZZ5in[7] ZZ5in[6] ZZ5in[5] ZZ5in[4] ZZ5in[3] ZZ5in[2] ZZ5in[1] ZZ5in[0] ZZ5en ZZ5out[7] ZZ5out[6] ZZ5out[5] ZZ5out[4] ZZ5out[3] ZZ5out[2] ZZ5out[1] ZZ5out[0]  ;
+Module  "TRI2"  ea-gi.af ZZ5in[7] ZZ5in[6] ZZ5in[5] ZZ5in[4] ZZ5in[3] ZZ5in[2] ZZ5in[1] ZZ5in[0] ZZ5en | ZZ5out[7] ZZ5out[6] ZZ5out[5] ZZ5out[4] ZZ5out[3] ZZ5out[2] ZZ5out[1] ZZ5out[0]  ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[0] 
+ZZ5en 
+| ZZ5out[0] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[1] 
+ZZ5en 
+| ZZ5out[1] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[2] 
+ZZ5en 
+| ZZ5out[2] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[3] 
+ZZ5en 
+| ZZ5out[3] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[4] 
+ZZ5en 
+| ZZ5out[4] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[5] 
+ZZ5en 
+| ZZ5out[5] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[6] 
+ZZ5en 
+| ZZ5out[6] 
+
+ ;
+  Tri-state-buffer "Tri-state-buffer" ea-gi.af.aa ZZ5in[7] 
+ZZ5en 
+| ZZ5out[7] 
+
+ ;
+ End ; /* TRI2 */
+ End ; /* Memory */

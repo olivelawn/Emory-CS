@@ -1,0 +1,10 @@
+#include "comm.h"
+
+Switch "RD" aa 01 ZERO;
+Switch "WR" aa 02 ZERO;
+
+
+SelectC ab 01 02 | 03;
+
+Probe ac 03;
+

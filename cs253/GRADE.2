@@ -1,0 +1,64 @@
+grader: grading pjohn07
+// cs253 project turnin from pjohn07, file `stack_main.C' as assignment 2
+Good: turned in on time
+template manager : Warning: No valid template database available.  Creating default repository "Templates.DB".
+
+2-1 = 1
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 1
+
+1+2+3 = 6
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 6
+
+3-2-1 = 0
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 0
+
+1+2*3 = 7
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 7
+
+1*2+3 = 5
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 5
+
+2^3 = 8
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 8
+
+2^2^3 = 256
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 256
+
+(1+2)*3 = 9
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 9
+
+1/0 = Error
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+grader[78]: 25725 Arithmetic Exception(coredump)
+
+(((1))) = 1
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 1
+
+1++2 = Error
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Error:Stack empty or user inputed neg exp
+
+3+5) = Error
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Error:Stack empty or user inputed neg exp
+
+9^(2^(2^5-2)-1) = Huge Number
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+Answer is: 954437177
+
+real	0m0.35s
+user	0m0.02s
+sys	0m0.08s
+
+Comments:  No error checking
+
+Grade:  90/100

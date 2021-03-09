@@ -1,0 +1,12 @@
+select distinct S.sname, S.snum  
+from spj A, supplier S, project J
+where S.city = J.city and
+      J.jnum=A.jnum and
+      S.snum=A.snum
+group by S.snum
+having count(distinct J.jnum) = (			
+		select count(distinct J1.jnum)
+	        from project J1 
+		where S.city=J1.city
+				  ) 
+/* and count (distinct J.jnum) >= 3 */

@@ -1,0 +1,15 @@
+select J.jnum, J.jname
+from project J
+where not exists (
+	select *
+	from part P
+	where P.pnum in 
+			(select P1.pnum
+		       	from part P1
+		       	where P1.weight>15)
+	and P.pnum not in
+			(select A.pnum
+			from spj A
+			where J.jnum=A.jnum)
+		)
+			

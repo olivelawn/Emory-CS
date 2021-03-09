@@ -1,0 +1,17 @@
+ range of S is supplier
+ range of J is project
+ range of P is part
+ range of A is spj
+   
+ range of S1 is supplier
+ range of J1 is project
+ range of P1 is part
+ range of A1 is spj
+    
+retrieve (J.jnum, J.jname)
+
+where count (A.pnum by A.jnum where
+	      A.pnum!=A1.pnum and
+	      A1.snum="s1") = 0
+
+and J.jnum=A.jnum

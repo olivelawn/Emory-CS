@@ -1,0 +1,11 @@
+select S.sname
+from supplier S
+where S.snum in (select B.snum
+		from spj B
+		where B.jnum='j4' and
+		B.pnum in (select A.pnum
+			   from spj A
+			   where A.snum='s6')
+		group by B.snum
+		having count(*)>=3
+		)

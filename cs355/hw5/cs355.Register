@@ -1,0 +1,7 @@
+/* File cs355.Register in project-help directory */
+Switch aa sw1 ZERO; Switch ba sw2 ZERO;
+Switch ca sw3 ZERO; Switch da sw4 ZERO;
+Switch fa Load ZERO;
+Register ab-db sw1 sw2 sw3 sw4 Load | o1 o2 o3 o4;
+Probe ac o1; Probe bc o2; Probe cc o3; Probe dc o4;
+

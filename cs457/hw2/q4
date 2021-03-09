@@ -1,0 +1,7 @@
+select DISTINCT P.pnum
+from part P
+where P.pnum not in
+	  (select A.pnum
+	   from project J, spj A
+	   where J.city='Paris' and
+	   A.jnum=J.jnum	) 

@@ -1,0 +1,1390 @@
+Alias a3 a2 a1 a0 a[15] a[14] a[13] a[12] a[11] a[10] a[9] a[8] a[7] a[6] a[5] a[4] a[3] a[2] a[1] a[0] | ZZ0a[3] ZZ0a[2] ZZ0a[1] ZZ0a[0] ZZ0d[15] ZZ0d[14] ZZ0d[13] ZZ0d[12] ZZ0d[11] ZZ0d[10] ZZ0d[9] ZZ0d[8] ZZ0d[7] ZZ0d[6] ZZ0d[5] ZZ0d[4] ZZ0d[3] ZZ0d[2] ZZ0d[1] ZZ0d[0]  ;
+Module  "TestRom1"  cb ZZ0a[3] ZZ0a[2] ZZ0a[1] ZZ0a[0] | ZZ0d[15] ZZ0d[14] ZZ0d[13] ZZ0d[12] ZZ0d[11] ZZ0d[10] ZZ0d[9] ZZ0d[8] ZZ0d[7] ZZ0d[6] ZZ0d[5] ZZ0d[4] ZZ0d[3] ZZ0d[2] ZZ0d[1] ZZ0d[0]  ;
+  Rom16x16 "Rom16x16" cb.aa ZZ0a[3] 
+ZZ0a[2] ZZ0a[1] ZZ0a[0] ZERO ZZ0d[15] ZZ0d[14] ZZ0d[13] ZZ0d[12] ZZ0d[11] ZZ0d[10] ZZ0d[9] ZZ0d[8] ZZ0d[7] ZZ0d[6] ZZ0d[5] ZZ0d[4] 
+ZZ0d[3] ZZ0d[2] ZZ0d[1] ZZ0d[0] 0 1 2 3 4 5 6 7 8 9 10 167 
+897 9876 14890 56789 
+
+ ;
+ End ; /* TestRom1 */
+Alias b3 b2 b1 b0 b[15] b[14] b[13] b[12] b[11] b[10] b[9] b[8] b[7] b[6] b[5] b[4] b[3] b[2] b[1] b[0] | ZZ1a[3] ZZ1a[2] ZZ1a[1] ZZ1a[0] ZZ1d[15] ZZ1d[14] ZZ1d[13] ZZ1d[12] ZZ1d[11] ZZ1d[10] ZZ1d[9] ZZ1d[8] ZZ1d[7] ZZ1d[6] ZZ1d[5] ZZ1d[4] ZZ1d[3] ZZ1d[2] ZZ1d[1] ZZ1d[0]  ;
+Module  "TestRom2"  cc ZZ1a[3] ZZ1a[2] ZZ1a[1] ZZ1a[0] | ZZ1d[15] ZZ1d[14] ZZ1d[13] ZZ1d[12] ZZ1d[11] ZZ1d[10] ZZ1d[9] ZZ1d[8] ZZ1d[7] ZZ1d[6] ZZ1d[5] ZZ1d[4] ZZ1d[3] ZZ1d[2] ZZ1d[1] ZZ1d[0]  ;
+  Rom16x16 "Rom16x16" cc.aa ZZ1a[3] 
+ZZ1a[2] ZZ1a[1] ZZ1a[0] ZERO ZZ1d[15] ZZ1d[14] ZZ1d[13] ZZ1d[12] ZZ1d[11] ZZ1d[10] ZZ1d[9] ZZ1d[8] ZZ1d[7] ZZ1d[6] ZZ1d[5] ZZ1d[4] 
+ZZ1d[3] ZZ1d[2] ZZ1d[1] ZZ1d[0] 1 2 4 8 16 32 64 128 256 512 1024 2048 
+4096 8192 16384 32768 
+
+ ;
+ End ; /* TestRom2 */
+Alias a[15] a[14] a[13] a[12] a[11] a[10] a[9] a[8] a[7] a[6] a[5] a[4] a[3] a[2] a[1] a[0] b[15] b[14] b[13] b[12] b[11] b[10] b[9] b[8] b[7] b[6] b[5] b[4] b[3] b[2] b[1] b[0] x y s[15] s[14] s[13] s[12] s[11] s[10] s[9] s[8] s[7] s[6] s[5] s[4] s[3] s[2] s[1] s[0] N Z | ZZ2a[15] ZZ2a[14] ZZ2a[13] ZZ2a[12] ZZ2a[11] ZZ2a[10] ZZ2a[9] ZZ2a[8] ZZ2a[7] ZZ2a[6] ZZ2a[5] ZZ2a[4] ZZ2a[3] ZZ2a[2] ZZ2a[1] ZZ2a[0] ZZ2b[15] ZZ2b[14] ZZ2b[13] ZZ2b[12] ZZ2b[11] ZZ2b[10] ZZ2b[9] ZZ2b[8] ZZ2b[7] ZZ2b[6] ZZ2b[5] ZZ2b[4] ZZ2b[3] ZZ2b[2] ZZ2b[1] ZZ2b[0] ZZ2s[1] ZZ2s[0] ZZ2z[15] ZZ2z[14] ZZ2z[13] ZZ2z[12] ZZ2z[11] ZZ2z[10] ZZ2z[9] ZZ2z[8] ZZ2z[7] ZZ2z[6] ZZ2z[5] ZZ2z[4] ZZ2z[3] ZZ2z[2] ZZ2z[1] ZZ2z[0] ZZ2N ZZ2Z  ;
+Module  "ALU16"  cd ZZ2a[15] ZZ2a[14] ZZ2a[13] ZZ2a[12] ZZ2a[11] ZZ2a[10] ZZ2a[9] ZZ2a[8] ZZ2a[7] ZZ2a[6] ZZ2a[5] ZZ2a[4] ZZ2a[3] ZZ2a[2] ZZ2a[1] ZZ2a[0] ZZ2b[15] ZZ2b[14] ZZ2b[13] ZZ2b[12] ZZ2b[11] ZZ2b[10] ZZ2b[9] ZZ2b[8] ZZ2b[7] ZZ2b[6] ZZ2b[5] ZZ2b[4] ZZ2b[3] ZZ2b[2] ZZ2b[1] ZZ2b[0] ZZ2s[1] ZZ2s[0] | ZZ2z[15] ZZ2z[14] ZZ2z[13] ZZ2z[12] ZZ2z[11] ZZ2z[10] ZZ2z[9] ZZ2z[8] ZZ2z[7] ZZ2z[6] ZZ2z[5] ZZ2z[4] ZZ2z[3] ZZ2z[2] ZZ2z[1] ZZ2z[0] ZZ2N ZZ2Z  ;
+Alias ZZ2a[0] ZZ2b[0] ZERO ZZ2s[1] ZZ2s[0] ZZ2z[0] ZZ2out0 | ZZ3a ZZ3b ZZ3c-in ZZ3s[1] ZZ3s[0] ZZ3z ZZ3c-out  ;
+Module  "One_Bit_ALU"  cd.aa ZZ3a ZZ3b ZZ3c-in ZZ3s[1] ZZ3s[0] | ZZ3z ZZ3c-out  ;
+  And "And" cd.aa.1a ZZ3a 
+ZZ3b ZZ3Out-And2 
+
+ ;
+  Not "Not" cd.aa.1a ZZ3a 
+ZZ3Out-Not 
+
+ ;
+Alias ZZ3a ZZ3b ZZ3c-in ZZ3c-out1 ZZ3Out-Sum | ZZ4CarryIn ZZ4a ZZ4b ZZ4CarryOut ZZ4Sum  ;
+Module  "Full_Adder"  cd.aa.1a ZZ4CarryIn ZZ4a ZZ4b | ZZ4CarryOut ZZ4Sum  ;
+  Xor "Xor" cd.aa.1a.aa ZZ4a 
+ZZ4b ZZ4x 
+
+ ;
+  Xor "Xor" cd.aa.1a.ab ZZ4x 
+ZZ4CarryIn ZZ4Sum 
+
+ ;
+  And "And" cd.aa.1a.bb ZZ4a 
+ZZ4b ZZ4y 
+
+ ;
+  And "And" cd.aa.1a.cb ZZ4CarryIn 
+ZZ4x ZZ4z 
+
+ ;
+  Or "Or" cd.aa.1a.bc-cc ZZ4y 
+ZZ4z ZZ4CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ3s[1] ZZ3s[0] ZZ3l3 ZZ3l2 ZZ3l1 ZZ3l0 | ZZ5c[1] ZZ5c[0] ZZ5s[3] ZZ5s[2] ZZ5s[1] ZZ5s[0]  ;
+Module  "Decoder2x4"  cd.aa.2a ZZ5c[1] ZZ5c[0] | ZZ5s[3] ZZ5s[2] ZZ5s[1] ZZ5s[0]  ;
+  Not "Not" cd.aa.2a.1a ZZ5c[1] 
+ZZ5not-c1 
+
+ ;
+  Not "Not" cd.aa.2a.2a ZZ5c[0] 
+ZZ5not-c0 
+
+ ;
+  And "And" cd.aa.2a.2a ZZ5c[1] 
+ZZ5c[0] ZZ5s[3] 
+
+ ;
+  And "And" cd.aa.2a.2b ZZ5c[1] 
+ZZ5not-c0 ZZ5s[2] 
+
+ ;
+  And "And" cd.aa.2a.2c ZZ5not-c1 
+ZZ5c[0] ZZ5s[1] 
+
+ ;
+  And "And" cd.aa.2a.2d ZZ5not-c1 
+ZZ5not-c0 ZZ5s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.aa.2c ZZ3l3 
+ZZ3Out-Not ZZ3Out-Not1 
+
+ ;
+  And "And" cd.aa.2c ZZ3l2 
+ZZ3a ZZ3Out-a 
+
+ ;
+  And "And" cd.aa.2c ZZ3l1 
+ZZ3Out-And2 ZZ3Out-And1 
+
+ ;
+  And "And" cd.aa.2c ZZ3l0 
+ZZ3Out-Sum ZZ3Out-Sum1 
+
+ ;
+  And "And" cd.aa.2c ZZ3l0 
+ZZ3c-out1 ZZ3c-out 
+
+ ;
+  Or "Or" cd.aa.2c ZZ3Out-Not1 
+ZZ3Out-a ZZ3Out-And1 ZZ3Out-Sum1 ZZ3z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[1] ZZ2b[1] ZZ2out0 ZZ2s[1] ZZ2s[0] ZZ2z[1] ZZ2out1 | ZZ6a ZZ6b ZZ6c-in ZZ6s[1] ZZ6s[0] ZZ6z ZZ6c-out  ;
+Module  "One_Bit_ALU"  cd.ab ZZ6a ZZ6b ZZ6c-in ZZ6s[1] ZZ6s[0] | ZZ6z ZZ6c-out  ;
+  And "And" cd.ab.1a ZZ6a 
+ZZ6b ZZ6Out-And2 
+
+ ;
+  Not "Not" cd.ab.1a ZZ6a 
+ZZ6Out-Not 
+
+ ;
+Alias ZZ6a ZZ6b ZZ6c-in ZZ6c-out1 ZZ6Out-Sum | ZZ7CarryIn ZZ7a ZZ7b ZZ7CarryOut ZZ7Sum  ;
+Module  "Full_Adder"  cd.ab.1a ZZ7CarryIn ZZ7a ZZ7b | ZZ7CarryOut ZZ7Sum  ;
+  Xor "Xor" cd.ab.1a.aa ZZ7a 
+ZZ7b ZZ7x 
+
+ ;
+  Xor "Xor" cd.ab.1a.ab ZZ7x 
+ZZ7CarryIn ZZ7Sum 
+
+ ;
+  And "And" cd.ab.1a.bb ZZ7a 
+ZZ7b ZZ7y 
+
+ ;
+  And "And" cd.ab.1a.cb ZZ7CarryIn 
+ZZ7x ZZ7z 
+
+ ;
+  Or "Or" cd.ab.1a.bc-cc ZZ7y 
+ZZ7z ZZ7CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ6s[1] ZZ6s[0] ZZ6l3 ZZ6l2 ZZ6l1 ZZ6l0 | ZZ8c[1] ZZ8c[0] ZZ8s[3] ZZ8s[2] ZZ8s[1] ZZ8s[0]  ;
+Module  "Decoder2x4"  cd.ab.2a ZZ8c[1] ZZ8c[0] | ZZ8s[3] ZZ8s[2] ZZ8s[1] ZZ8s[0]  ;
+  Not "Not" cd.ab.2a.1a ZZ8c[1] 
+ZZ8not-c1 
+
+ ;
+  Not "Not" cd.ab.2a.2a ZZ8c[0] 
+ZZ8not-c0 
+
+ ;
+  And "And" cd.ab.2a.2a ZZ8c[1] 
+ZZ8c[0] ZZ8s[3] 
+
+ ;
+  And "And" cd.ab.2a.2b ZZ8c[1] 
+ZZ8not-c0 ZZ8s[2] 
+
+ ;
+  And "And" cd.ab.2a.2c ZZ8not-c1 
+ZZ8c[0] ZZ8s[1] 
+
+ ;
+  And "And" cd.ab.2a.2d ZZ8not-c1 
+ZZ8not-c0 ZZ8s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ab.2c ZZ6l3 
+ZZ6Out-Not ZZ6Out-Not1 
+
+ ;
+  And "And" cd.ab.2c ZZ6l2 
+ZZ6a ZZ6Out-a 
+
+ ;
+  And "And" cd.ab.2c ZZ6l1 
+ZZ6Out-And2 ZZ6Out-And1 
+
+ ;
+  And "And" cd.ab.2c ZZ6l0 
+ZZ6Out-Sum ZZ6Out-Sum1 
+
+ ;
+  And "And" cd.ab.2c ZZ6l0 
+ZZ6c-out1 ZZ6c-out 
+
+ ;
+  Or "Or" cd.ab.2c ZZ6Out-Not1 
+ZZ6Out-a ZZ6Out-And1 ZZ6Out-Sum1 ZZ6z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[2] ZZ2b[2] ZZ2out1 ZZ2s[1] ZZ2s[0] ZZ2z[2] ZZ2out2 | ZZ9a ZZ9b ZZ9c-in ZZ9s[1] ZZ9s[0] ZZ9z ZZ9c-out  ;
+Module  "One_Bit_ALU"  cd.ac ZZ9a ZZ9b ZZ9c-in ZZ9s[1] ZZ9s[0] | ZZ9z ZZ9c-out  ;
+  And "And" cd.ac.1a ZZ9a 
+ZZ9b ZZ9Out-And2 
+
+ ;
+  Not "Not" cd.ac.1a ZZ9a 
+ZZ9Out-Not 
+
+ ;
+Alias ZZ9a ZZ9b ZZ9c-in ZZ9c-out1 ZZ9Out-Sum | ZZ10CarryIn ZZ10a ZZ10b ZZ10CarryOut ZZ10Sum  ;
+Module  "Full_Adder"  cd.ac.1a ZZ10CarryIn ZZ10a ZZ10b | ZZ10CarryOut ZZ10Sum  ;
+  Xor "Xor" cd.ac.1a.aa ZZ10a 
+ZZ10b ZZ10x 
+
+ ;
+  Xor "Xor" cd.ac.1a.ab ZZ10x 
+ZZ10CarryIn ZZ10Sum 
+
+ ;
+  And "And" cd.ac.1a.bb ZZ10a 
+ZZ10b ZZ10y 
+
+ ;
+  And "And" cd.ac.1a.cb ZZ10CarryIn 
+ZZ10x ZZ10z 
+
+ ;
+  Or "Or" cd.ac.1a.bc-cc ZZ10y 
+ZZ10z ZZ10CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ9s[1] ZZ9s[0] ZZ9l3 ZZ9l2 ZZ9l1 ZZ9l0 | ZZ11c[1] ZZ11c[0] ZZ11s[3] ZZ11s[2] ZZ11s[1] ZZ11s[0]  ;
+Module  "Decoder2x4"  cd.ac.2a ZZ11c[1] ZZ11c[0] | ZZ11s[3] ZZ11s[2] ZZ11s[1] ZZ11s[0]  ;
+  Not "Not" cd.ac.2a.1a ZZ11c[1] 
+ZZ11not-c1 
+
+ ;
+  Not "Not" cd.ac.2a.2a ZZ11c[0] 
+ZZ11not-c0 
+
+ ;
+  And "And" cd.ac.2a.2a ZZ11c[1] 
+ZZ11c[0] ZZ11s[3] 
+
+ ;
+  And "And" cd.ac.2a.2b ZZ11c[1] 
+ZZ11not-c0 ZZ11s[2] 
+
+ ;
+  And "And" cd.ac.2a.2c ZZ11not-c1 
+ZZ11c[0] ZZ11s[1] 
+
+ ;
+  And "And" cd.ac.2a.2d ZZ11not-c1 
+ZZ11not-c0 ZZ11s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ac.2c ZZ9l3 
+ZZ9Out-Not ZZ9Out-Not1 
+
+ ;
+  And "And" cd.ac.2c ZZ9l2 
+ZZ9a ZZ9Out-a 
+
+ ;
+  And "And" cd.ac.2c ZZ9l1 
+ZZ9Out-And2 ZZ9Out-And1 
+
+ ;
+  And "And" cd.ac.2c ZZ9l0 
+ZZ9Out-Sum ZZ9Out-Sum1 
+
+ ;
+  And "And" cd.ac.2c ZZ9l0 
+ZZ9c-out1 ZZ9c-out 
+
+ ;
+  Or "Or" cd.ac.2c ZZ9Out-Not1 
+ZZ9Out-a ZZ9Out-And1 ZZ9Out-Sum1 ZZ9z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[3] ZZ2b[3] ZZ2out2 ZZ2s[1] ZZ2s[0] ZZ2z[3] ZZ2out3 | ZZ12a ZZ12b ZZ12c-in ZZ12s[1] ZZ12s[0] ZZ12z ZZ12c-out  ;
+Module  "One_Bit_ALU"  cd.ad ZZ12a ZZ12b ZZ12c-in ZZ12s[1] ZZ12s[0] | ZZ12z ZZ12c-out  ;
+  And "And" cd.ad.1a ZZ12a 
+ZZ12b ZZ12Out-And2 
+
+ ;
+  Not "Not" cd.ad.1a ZZ12a 
+ZZ12Out-Not 
+
+ ;
+Alias ZZ12a ZZ12b ZZ12c-in ZZ12c-out1 ZZ12Out-Sum | ZZ13CarryIn ZZ13a ZZ13b ZZ13CarryOut ZZ13Sum  ;
+Module  "Full_Adder"  cd.ad.1a ZZ13CarryIn ZZ13a ZZ13b | ZZ13CarryOut ZZ13Sum  ;
+  Xor "Xor" cd.ad.1a.aa ZZ13a 
+ZZ13b ZZ13x 
+
+ ;
+  Xor "Xor" cd.ad.1a.ab ZZ13x 
+ZZ13CarryIn ZZ13Sum 
+
+ ;
+  And "And" cd.ad.1a.bb ZZ13a 
+ZZ13b ZZ13y 
+
+ ;
+  And "And" cd.ad.1a.cb ZZ13CarryIn 
+ZZ13x ZZ13z 
+
+ ;
+  Or "Or" cd.ad.1a.bc-cc ZZ13y 
+ZZ13z ZZ13CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ12s[1] ZZ12s[0] ZZ12l3 ZZ12l2 ZZ12l1 ZZ12l0 | ZZ14c[1] ZZ14c[0] ZZ14s[3] ZZ14s[2] ZZ14s[1] ZZ14s[0]  ;
+Module  "Decoder2x4"  cd.ad.2a ZZ14c[1] ZZ14c[0] | ZZ14s[3] ZZ14s[2] ZZ14s[1] ZZ14s[0]  ;
+  Not "Not" cd.ad.2a.1a ZZ14c[1] 
+ZZ14not-c1 
+
+ ;
+  Not "Not" cd.ad.2a.2a ZZ14c[0] 
+ZZ14not-c0 
+
+ ;
+  And "And" cd.ad.2a.2a ZZ14c[1] 
+ZZ14c[0] ZZ14s[3] 
+
+ ;
+  And "And" cd.ad.2a.2b ZZ14c[1] 
+ZZ14not-c0 ZZ14s[2] 
+
+ ;
+  And "And" cd.ad.2a.2c ZZ14not-c1 
+ZZ14c[0] ZZ14s[1] 
+
+ ;
+  And "And" cd.ad.2a.2d ZZ14not-c1 
+ZZ14not-c0 ZZ14s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ad.2c ZZ12l3 
+ZZ12Out-Not ZZ12Out-Not1 
+
+ ;
+  And "And" cd.ad.2c ZZ12l2 
+ZZ12a ZZ12Out-a 
+
+ ;
+  And "And" cd.ad.2c ZZ12l1 
+ZZ12Out-And2 ZZ12Out-And1 
+
+ ;
+  And "And" cd.ad.2c ZZ12l0 
+ZZ12Out-Sum ZZ12Out-Sum1 
+
+ ;
+  And "And" cd.ad.2c ZZ12l0 
+ZZ12c-out1 ZZ12c-out 
+
+ ;
+  Or "Or" cd.ad.2c ZZ12Out-Not1 
+ZZ12Out-a ZZ12Out-And1 ZZ12Out-Sum1 ZZ12z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[4] ZZ2b[4] ZZ2out3 ZZ2s[1] ZZ2s[0] ZZ2z[4] ZZ2out4 | ZZ15a ZZ15b ZZ15c-in ZZ15s[1] ZZ15s[0] ZZ15z ZZ15c-out  ;
+Module  "One_Bit_ALU"  cd.ae ZZ15a ZZ15b ZZ15c-in ZZ15s[1] ZZ15s[0] | ZZ15z ZZ15c-out  ;
+  And "And" cd.ae.1a ZZ15a 
+ZZ15b ZZ15Out-And2 
+
+ ;
+  Not "Not" cd.ae.1a ZZ15a 
+ZZ15Out-Not 
+
+ ;
+Alias ZZ15a ZZ15b ZZ15c-in ZZ15c-out1 ZZ15Out-Sum | ZZ16CarryIn ZZ16a ZZ16b ZZ16CarryOut ZZ16Sum  ;
+Module  "Full_Adder"  cd.ae.1a ZZ16CarryIn ZZ16a ZZ16b | ZZ16CarryOut ZZ16Sum  ;
+  Xor "Xor" cd.ae.1a.aa ZZ16a 
+ZZ16b ZZ16x 
+
+ ;
+  Xor "Xor" cd.ae.1a.ab ZZ16x 
+ZZ16CarryIn ZZ16Sum 
+
+ ;
+  And "And" cd.ae.1a.bb ZZ16a 
+ZZ16b ZZ16y 
+
+ ;
+  And "And" cd.ae.1a.cb ZZ16CarryIn 
+ZZ16x ZZ16z 
+
+ ;
+  Or "Or" cd.ae.1a.bc-cc ZZ16y 
+ZZ16z ZZ16CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ15s[1] ZZ15s[0] ZZ15l3 ZZ15l2 ZZ15l1 ZZ15l0 | ZZ17c[1] ZZ17c[0] ZZ17s[3] ZZ17s[2] ZZ17s[1] ZZ17s[0]  ;
+Module  "Decoder2x4"  cd.ae.2a ZZ17c[1] ZZ17c[0] | ZZ17s[3] ZZ17s[2] ZZ17s[1] ZZ17s[0]  ;
+  Not "Not" cd.ae.2a.1a ZZ17c[1] 
+ZZ17not-c1 
+
+ ;
+  Not "Not" cd.ae.2a.2a ZZ17c[0] 
+ZZ17not-c0 
+
+ ;
+  And "And" cd.ae.2a.2a ZZ17c[1] 
+ZZ17c[0] ZZ17s[3] 
+
+ ;
+  And "And" cd.ae.2a.2b ZZ17c[1] 
+ZZ17not-c0 ZZ17s[2] 
+
+ ;
+  And "And" cd.ae.2a.2c ZZ17not-c1 
+ZZ17c[0] ZZ17s[1] 
+
+ ;
+  And "And" cd.ae.2a.2d ZZ17not-c1 
+ZZ17not-c0 ZZ17s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ae.2c ZZ15l3 
+ZZ15Out-Not ZZ15Out-Not1 
+
+ ;
+  And "And" cd.ae.2c ZZ15l2 
+ZZ15a ZZ15Out-a 
+
+ ;
+  And "And" cd.ae.2c ZZ15l1 
+ZZ15Out-And2 ZZ15Out-And1 
+
+ ;
+  And "And" cd.ae.2c ZZ15l0 
+ZZ15Out-Sum ZZ15Out-Sum1 
+
+ ;
+  And "And" cd.ae.2c ZZ15l0 
+ZZ15c-out1 ZZ15c-out 
+
+ ;
+  Or "Or" cd.ae.2c ZZ15Out-Not1 
+ZZ15Out-a ZZ15Out-And1 ZZ15Out-Sum1 ZZ15z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[5] ZZ2b[5] ZZ2out4 ZZ2s[1] ZZ2s[0] ZZ2z[5] ZZ2out5 | ZZ18a ZZ18b ZZ18c-in ZZ18s[1] ZZ18s[0] ZZ18z ZZ18c-out  ;
+Module  "One_Bit_ALU"  cd.af ZZ18a ZZ18b ZZ18c-in ZZ18s[1] ZZ18s[0] | ZZ18z ZZ18c-out  ;
+  And "And" cd.af.1a ZZ18a 
+ZZ18b ZZ18Out-And2 
+
+ ;
+  Not "Not" cd.af.1a ZZ18a 
+ZZ18Out-Not 
+
+ ;
+Alias ZZ18a ZZ18b ZZ18c-in ZZ18c-out1 ZZ18Out-Sum | ZZ19CarryIn ZZ19a ZZ19b ZZ19CarryOut ZZ19Sum  ;
+Module  "Full_Adder"  cd.af.1a ZZ19CarryIn ZZ19a ZZ19b | ZZ19CarryOut ZZ19Sum  ;
+  Xor "Xor" cd.af.1a.aa ZZ19a 
+ZZ19b ZZ19x 
+
+ ;
+  Xor "Xor" cd.af.1a.ab ZZ19x 
+ZZ19CarryIn ZZ19Sum 
+
+ ;
+  And "And" cd.af.1a.bb ZZ19a 
+ZZ19b ZZ19y 
+
+ ;
+  And "And" cd.af.1a.cb ZZ19CarryIn 
+ZZ19x ZZ19z 
+
+ ;
+  Or "Or" cd.af.1a.bc-cc ZZ19y 
+ZZ19z ZZ19CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ18s[1] ZZ18s[0] ZZ18l3 ZZ18l2 ZZ18l1 ZZ18l0 | ZZ20c[1] ZZ20c[0] ZZ20s[3] ZZ20s[2] ZZ20s[1] ZZ20s[0]  ;
+Module  "Decoder2x4"  cd.af.2a ZZ20c[1] ZZ20c[0] | ZZ20s[3] ZZ20s[2] ZZ20s[1] ZZ20s[0]  ;
+  Not "Not" cd.af.2a.1a ZZ20c[1] 
+ZZ20not-c1 
+
+ ;
+  Not "Not" cd.af.2a.2a ZZ20c[0] 
+ZZ20not-c0 
+
+ ;
+  And "And" cd.af.2a.2a ZZ20c[1] 
+ZZ20c[0] ZZ20s[3] 
+
+ ;
+  And "And" cd.af.2a.2b ZZ20c[1] 
+ZZ20not-c0 ZZ20s[2] 
+
+ ;
+  And "And" cd.af.2a.2c ZZ20not-c1 
+ZZ20c[0] ZZ20s[1] 
+
+ ;
+  And "And" cd.af.2a.2d ZZ20not-c1 
+ZZ20not-c0 ZZ20s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.af.2c ZZ18l3 
+ZZ18Out-Not ZZ18Out-Not1 
+
+ ;
+  And "And" cd.af.2c ZZ18l2 
+ZZ18a ZZ18Out-a 
+
+ ;
+  And "And" cd.af.2c ZZ18l1 
+ZZ18Out-And2 ZZ18Out-And1 
+
+ ;
+  And "And" cd.af.2c ZZ18l0 
+ZZ18Out-Sum ZZ18Out-Sum1 
+
+ ;
+  And "And" cd.af.2c ZZ18l0 
+ZZ18c-out1 ZZ18c-out 
+
+ ;
+  Or "Or" cd.af.2c ZZ18Out-Not1 
+ZZ18Out-a ZZ18Out-And1 ZZ18Out-Sum1 ZZ18z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[6] ZZ2b[6] ZZ2out5 ZZ2s[1] ZZ2s[0] ZZ2z[6] ZZ2out6 | ZZ21a ZZ21b ZZ21c-in ZZ21s[1] ZZ21s[0] ZZ21z ZZ21c-out  ;
+Module  "One_Bit_ALU"  cd.ag ZZ21a ZZ21b ZZ21c-in ZZ21s[1] ZZ21s[0] | ZZ21z ZZ21c-out  ;
+  And "And" cd.ag.1a ZZ21a 
+ZZ21b ZZ21Out-And2 
+
+ ;
+  Not "Not" cd.ag.1a ZZ21a 
+ZZ21Out-Not 
+
+ ;
+Alias ZZ21a ZZ21b ZZ21c-in ZZ21c-out1 ZZ21Out-Sum | ZZ22CarryIn ZZ22a ZZ22b ZZ22CarryOut ZZ22Sum  ;
+Module  "Full_Adder"  cd.ag.1a ZZ22CarryIn ZZ22a ZZ22b | ZZ22CarryOut ZZ22Sum  ;
+  Xor "Xor" cd.ag.1a.aa ZZ22a 
+ZZ22b ZZ22x 
+
+ ;
+  Xor "Xor" cd.ag.1a.ab ZZ22x 
+ZZ22CarryIn ZZ22Sum 
+
+ ;
+  And "And" cd.ag.1a.bb ZZ22a 
+ZZ22b ZZ22y 
+
+ ;
+  And "And" cd.ag.1a.cb ZZ22CarryIn 
+ZZ22x ZZ22z 
+
+ ;
+  Or "Or" cd.ag.1a.bc-cc ZZ22y 
+ZZ22z ZZ22CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ21s[1] ZZ21s[0] ZZ21l3 ZZ21l2 ZZ21l1 ZZ21l0 | ZZ23c[1] ZZ23c[0] ZZ23s[3] ZZ23s[2] ZZ23s[1] ZZ23s[0]  ;
+Module  "Decoder2x4"  cd.ag.2a ZZ23c[1] ZZ23c[0] | ZZ23s[3] ZZ23s[2] ZZ23s[1] ZZ23s[0]  ;
+  Not "Not" cd.ag.2a.1a ZZ23c[1] 
+ZZ23not-c1 
+
+ ;
+  Not "Not" cd.ag.2a.2a ZZ23c[0] 
+ZZ23not-c0 
+
+ ;
+  And "And" cd.ag.2a.2a ZZ23c[1] 
+ZZ23c[0] ZZ23s[3] 
+
+ ;
+  And "And" cd.ag.2a.2b ZZ23c[1] 
+ZZ23not-c0 ZZ23s[2] 
+
+ ;
+  And "And" cd.ag.2a.2c ZZ23not-c1 
+ZZ23c[0] ZZ23s[1] 
+
+ ;
+  And "And" cd.ag.2a.2d ZZ23not-c1 
+ZZ23not-c0 ZZ23s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ag.2c ZZ21l3 
+ZZ21Out-Not ZZ21Out-Not1 
+
+ ;
+  And "And" cd.ag.2c ZZ21l2 
+ZZ21a ZZ21Out-a 
+
+ ;
+  And "And" cd.ag.2c ZZ21l1 
+ZZ21Out-And2 ZZ21Out-And1 
+
+ ;
+  And "And" cd.ag.2c ZZ21l0 
+ZZ21Out-Sum ZZ21Out-Sum1 
+
+ ;
+  And "And" cd.ag.2c ZZ21l0 
+ZZ21c-out1 ZZ21c-out 
+
+ ;
+  Or "Or" cd.ag.2c ZZ21Out-Not1 
+ZZ21Out-a ZZ21Out-And1 ZZ21Out-Sum1 ZZ21z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[7] ZZ2b[7] ZZ2out6 ZZ2s[1] ZZ2s[0] ZZ2z[7] ZZ2out7 | ZZ24a ZZ24b ZZ24c-in ZZ24s[1] ZZ24s[0] ZZ24z ZZ24c-out  ;
+Module  "One_Bit_ALU"  cd.ah ZZ24a ZZ24b ZZ24c-in ZZ24s[1] ZZ24s[0] | ZZ24z ZZ24c-out  ;
+  And "And" cd.ah.1a ZZ24a 
+ZZ24b ZZ24Out-And2 
+
+ ;
+  Not "Not" cd.ah.1a ZZ24a 
+ZZ24Out-Not 
+
+ ;
+Alias ZZ24a ZZ24b ZZ24c-in ZZ24c-out1 ZZ24Out-Sum | ZZ25CarryIn ZZ25a ZZ25b ZZ25CarryOut ZZ25Sum  ;
+Module  "Full_Adder"  cd.ah.1a ZZ25CarryIn ZZ25a ZZ25b | ZZ25CarryOut ZZ25Sum  ;
+  Xor "Xor" cd.ah.1a.aa ZZ25a 
+ZZ25b ZZ25x 
+
+ ;
+  Xor "Xor" cd.ah.1a.ab ZZ25x 
+ZZ25CarryIn ZZ25Sum 
+
+ ;
+  And "And" cd.ah.1a.bb ZZ25a 
+ZZ25b ZZ25y 
+
+ ;
+  And "And" cd.ah.1a.cb ZZ25CarryIn 
+ZZ25x ZZ25z 
+
+ ;
+  Or "Or" cd.ah.1a.bc-cc ZZ25y 
+ZZ25z ZZ25CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ24s[1] ZZ24s[0] ZZ24l3 ZZ24l2 ZZ24l1 ZZ24l0 | ZZ26c[1] ZZ26c[0] ZZ26s[3] ZZ26s[2] ZZ26s[1] ZZ26s[0]  ;
+Module  "Decoder2x4"  cd.ah.2a ZZ26c[1] ZZ26c[0] | ZZ26s[3] ZZ26s[2] ZZ26s[1] ZZ26s[0]  ;
+  Not "Not" cd.ah.2a.1a ZZ26c[1] 
+ZZ26not-c1 
+
+ ;
+  Not "Not" cd.ah.2a.2a ZZ26c[0] 
+ZZ26not-c0 
+
+ ;
+  And "And" cd.ah.2a.2a ZZ26c[1] 
+ZZ26c[0] ZZ26s[3] 
+
+ ;
+  And "And" cd.ah.2a.2b ZZ26c[1] 
+ZZ26not-c0 ZZ26s[2] 
+
+ ;
+  And "And" cd.ah.2a.2c ZZ26not-c1 
+ZZ26c[0] ZZ26s[1] 
+
+ ;
+  And "And" cd.ah.2a.2d ZZ26not-c1 
+ZZ26not-c0 ZZ26s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ah.2c ZZ24l3 
+ZZ24Out-Not ZZ24Out-Not1 
+
+ ;
+  And "And" cd.ah.2c ZZ24l2 
+ZZ24a ZZ24Out-a 
+
+ ;
+  And "And" cd.ah.2c ZZ24l1 
+ZZ24Out-And2 ZZ24Out-And1 
+
+ ;
+  And "And" cd.ah.2c ZZ24l0 
+ZZ24Out-Sum ZZ24Out-Sum1 
+
+ ;
+  And "And" cd.ah.2c ZZ24l0 
+ZZ24c-out1 ZZ24c-out 
+
+ ;
+  Or "Or" cd.ah.2c ZZ24Out-Not1 
+ZZ24Out-a ZZ24Out-And1 ZZ24Out-Sum1 ZZ24z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[8] ZZ2b[8] ZZ2out7 ZZ2s[1] ZZ2s[0] ZZ2z[8] ZZ2out8 | ZZ27a ZZ27b ZZ27c-in ZZ27s[1] ZZ27s[0] ZZ27z ZZ27c-out  ;
+Module  "One_Bit_ALU"  cd.ai ZZ27a ZZ27b ZZ27c-in ZZ27s[1] ZZ27s[0] | ZZ27z ZZ27c-out  ;
+  And "And" cd.ai.1a ZZ27a 
+ZZ27b ZZ27Out-And2 
+
+ ;
+  Not "Not" cd.ai.1a ZZ27a 
+ZZ27Out-Not 
+
+ ;
+Alias ZZ27a ZZ27b ZZ27c-in ZZ27c-out1 ZZ27Out-Sum | ZZ28CarryIn ZZ28a ZZ28b ZZ28CarryOut ZZ28Sum  ;
+Module  "Full_Adder"  cd.ai.1a ZZ28CarryIn ZZ28a ZZ28b | ZZ28CarryOut ZZ28Sum  ;
+  Xor "Xor" cd.ai.1a.aa ZZ28a 
+ZZ28b ZZ28x 
+
+ ;
+  Xor "Xor" cd.ai.1a.ab ZZ28x 
+ZZ28CarryIn ZZ28Sum 
+
+ ;
+  And "And" cd.ai.1a.bb ZZ28a 
+ZZ28b ZZ28y 
+
+ ;
+  And "And" cd.ai.1a.cb ZZ28CarryIn 
+ZZ28x ZZ28z 
+
+ ;
+  Or "Or" cd.ai.1a.bc-cc ZZ28y 
+ZZ28z ZZ28CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ27s[1] ZZ27s[0] ZZ27l3 ZZ27l2 ZZ27l1 ZZ27l0 | ZZ29c[1] ZZ29c[0] ZZ29s[3] ZZ29s[2] ZZ29s[1] ZZ29s[0]  ;
+Module  "Decoder2x4"  cd.ai.2a ZZ29c[1] ZZ29c[0] | ZZ29s[3] ZZ29s[2] ZZ29s[1] ZZ29s[0]  ;
+  Not "Not" cd.ai.2a.1a ZZ29c[1] 
+ZZ29not-c1 
+
+ ;
+  Not "Not" cd.ai.2a.2a ZZ29c[0] 
+ZZ29not-c0 
+
+ ;
+  And "And" cd.ai.2a.2a ZZ29c[1] 
+ZZ29c[0] ZZ29s[3] 
+
+ ;
+  And "And" cd.ai.2a.2b ZZ29c[1] 
+ZZ29not-c0 ZZ29s[2] 
+
+ ;
+  And "And" cd.ai.2a.2c ZZ29not-c1 
+ZZ29c[0] ZZ29s[1] 
+
+ ;
+  And "And" cd.ai.2a.2d ZZ29not-c1 
+ZZ29not-c0 ZZ29s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ai.2c ZZ27l3 
+ZZ27Out-Not ZZ27Out-Not1 
+
+ ;
+  And "And" cd.ai.2c ZZ27l2 
+ZZ27a ZZ27Out-a 
+
+ ;
+  And "And" cd.ai.2c ZZ27l1 
+ZZ27Out-And2 ZZ27Out-And1 
+
+ ;
+  And "And" cd.ai.2c ZZ27l0 
+ZZ27Out-Sum ZZ27Out-Sum1 
+
+ ;
+  And "And" cd.ai.2c ZZ27l0 
+ZZ27c-out1 ZZ27c-out 
+
+ ;
+  Or "Or" cd.ai.2c ZZ27Out-Not1 
+ZZ27Out-a ZZ27Out-And1 ZZ27Out-Sum1 ZZ27z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[9] ZZ2b[9] ZZ2out8 ZZ2s[1] ZZ2s[0] ZZ2z[9] ZZ2out9 | ZZ30a ZZ30b ZZ30c-in ZZ30s[1] ZZ30s[0] ZZ30z ZZ30c-out  ;
+Module  "One_Bit_ALU"  cd.aj ZZ30a ZZ30b ZZ30c-in ZZ30s[1] ZZ30s[0] | ZZ30z ZZ30c-out  ;
+  And "And" cd.aj.1a ZZ30a 
+ZZ30b ZZ30Out-And2 
+
+ ;
+  Not "Not" cd.aj.1a ZZ30a 
+ZZ30Out-Not 
+
+ ;
+Alias ZZ30a ZZ30b ZZ30c-in ZZ30c-out1 ZZ30Out-Sum | ZZ31CarryIn ZZ31a ZZ31b ZZ31CarryOut ZZ31Sum  ;
+Module  "Full_Adder"  cd.aj.1a ZZ31CarryIn ZZ31a ZZ31b | ZZ31CarryOut ZZ31Sum  ;
+  Xor "Xor" cd.aj.1a.aa ZZ31a 
+ZZ31b ZZ31x 
+
+ ;
+  Xor "Xor" cd.aj.1a.ab ZZ31x 
+ZZ31CarryIn ZZ31Sum 
+
+ ;
+  And "And" cd.aj.1a.bb ZZ31a 
+ZZ31b ZZ31y 
+
+ ;
+  And "And" cd.aj.1a.cb ZZ31CarryIn 
+ZZ31x ZZ31z 
+
+ ;
+  Or "Or" cd.aj.1a.bc-cc ZZ31y 
+ZZ31z ZZ31CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ30s[1] ZZ30s[0] ZZ30l3 ZZ30l2 ZZ30l1 ZZ30l0 | ZZ32c[1] ZZ32c[0] ZZ32s[3] ZZ32s[2] ZZ32s[1] ZZ32s[0]  ;
+Module  "Decoder2x4"  cd.aj.2a ZZ32c[1] ZZ32c[0] | ZZ32s[3] ZZ32s[2] ZZ32s[1] ZZ32s[0]  ;
+  Not "Not" cd.aj.2a.1a ZZ32c[1] 
+ZZ32not-c1 
+
+ ;
+  Not "Not" cd.aj.2a.2a ZZ32c[0] 
+ZZ32not-c0 
+
+ ;
+  And "And" cd.aj.2a.2a ZZ32c[1] 
+ZZ32c[0] ZZ32s[3] 
+
+ ;
+  And "And" cd.aj.2a.2b ZZ32c[1] 
+ZZ32not-c0 ZZ32s[2] 
+
+ ;
+  And "And" cd.aj.2a.2c ZZ32not-c1 
+ZZ32c[0] ZZ32s[1] 
+
+ ;
+  And "And" cd.aj.2a.2d ZZ32not-c1 
+ZZ32not-c0 ZZ32s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.aj.2c ZZ30l3 
+ZZ30Out-Not ZZ30Out-Not1 
+
+ ;
+  And "And" cd.aj.2c ZZ30l2 
+ZZ30a ZZ30Out-a 
+
+ ;
+  And "And" cd.aj.2c ZZ30l1 
+ZZ30Out-And2 ZZ30Out-And1 
+
+ ;
+  And "And" cd.aj.2c ZZ30l0 
+ZZ30Out-Sum ZZ30Out-Sum1 
+
+ ;
+  And "And" cd.aj.2c ZZ30l0 
+ZZ30c-out1 ZZ30c-out 
+
+ ;
+  Or "Or" cd.aj.2c ZZ30Out-Not1 
+ZZ30Out-a ZZ30Out-And1 ZZ30Out-Sum1 ZZ30z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[10] ZZ2b[10] ZZ2out9 ZZ2s[1] ZZ2s[0] ZZ2z[10] ZZ2out10 | ZZ33a ZZ33b ZZ33c-in ZZ33s[1] ZZ33s[0] ZZ33z ZZ33c-out  ;
+Module  "One_Bit_ALU"  cd.ak ZZ33a ZZ33b ZZ33c-in ZZ33s[1] ZZ33s[0] | ZZ33z ZZ33c-out  ;
+  And "And" cd.ak.1a ZZ33a 
+ZZ33b ZZ33Out-And2 
+
+ ;
+  Not "Not" cd.ak.1a ZZ33a 
+ZZ33Out-Not 
+
+ ;
+Alias ZZ33a ZZ33b ZZ33c-in ZZ33c-out1 ZZ33Out-Sum | ZZ34CarryIn ZZ34a ZZ34b ZZ34CarryOut ZZ34Sum  ;
+Module  "Full_Adder"  cd.ak.1a ZZ34CarryIn ZZ34a ZZ34b | ZZ34CarryOut ZZ34Sum  ;
+  Xor "Xor" cd.ak.1a.aa ZZ34a 
+ZZ34b ZZ34x 
+
+ ;
+  Xor "Xor" cd.ak.1a.ab ZZ34x 
+ZZ34CarryIn ZZ34Sum 
+
+ ;
+  And "And" cd.ak.1a.bb ZZ34a 
+ZZ34b ZZ34y 
+
+ ;
+  And "And" cd.ak.1a.cb ZZ34CarryIn 
+ZZ34x ZZ34z 
+
+ ;
+  Or "Or" cd.ak.1a.bc-cc ZZ34y 
+ZZ34z ZZ34CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ33s[1] ZZ33s[0] ZZ33l3 ZZ33l2 ZZ33l1 ZZ33l0 | ZZ35c[1] ZZ35c[0] ZZ35s[3] ZZ35s[2] ZZ35s[1] ZZ35s[0]  ;
+Module  "Decoder2x4"  cd.ak.2a ZZ35c[1] ZZ35c[0] | ZZ35s[3] ZZ35s[2] ZZ35s[1] ZZ35s[0]  ;
+  Not "Not" cd.ak.2a.1a ZZ35c[1] 
+ZZ35not-c1 
+
+ ;
+  Not "Not" cd.ak.2a.2a ZZ35c[0] 
+ZZ35not-c0 
+
+ ;
+  And "And" cd.ak.2a.2a ZZ35c[1] 
+ZZ35c[0] ZZ35s[3] 
+
+ ;
+  And "And" cd.ak.2a.2b ZZ35c[1] 
+ZZ35not-c0 ZZ35s[2] 
+
+ ;
+  And "And" cd.ak.2a.2c ZZ35not-c1 
+ZZ35c[0] ZZ35s[1] 
+
+ ;
+  And "And" cd.ak.2a.2d ZZ35not-c1 
+ZZ35not-c0 ZZ35s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ak.2c ZZ33l3 
+ZZ33Out-Not ZZ33Out-Not1 
+
+ ;
+  And "And" cd.ak.2c ZZ33l2 
+ZZ33a ZZ33Out-a 
+
+ ;
+  And "And" cd.ak.2c ZZ33l1 
+ZZ33Out-And2 ZZ33Out-And1 
+
+ ;
+  And "And" cd.ak.2c ZZ33l0 
+ZZ33Out-Sum ZZ33Out-Sum1 
+
+ ;
+  And "And" cd.ak.2c ZZ33l0 
+ZZ33c-out1 ZZ33c-out 
+
+ ;
+  Or "Or" cd.ak.2c ZZ33Out-Not1 
+ZZ33Out-a ZZ33Out-And1 ZZ33Out-Sum1 ZZ33z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[11] ZZ2b[11] ZZ2out10 ZZ2s[1] ZZ2s[0] ZZ2z[11] ZZ2out11 | ZZ36a ZZ36b ZZ36c-in ZZ36s[1] ZZ36s[0] ZZ36z ZZ36c-out  ;
+Module  "One_Bit_ALU"  cd.al ZZ36a ZZ36b ZZ36c-in ZZ36s[1] ZZ36s[0] | ZZ36z ZZ36c-out  ;
+  And "And" cd.al.1a ZZ36a 
+ZZ36b ZZ36Out-And2 
+
+ ;
+  Not "Not" cd.al.1a ZZ36a 
+ZZ36Out-Not 
+
+ ;
+Alias ZZ36a ZZ36b ZZ36c-in ZZ36c-out1 ZZ36Out-Sum | ZZ37CarryIn ZZ37a ZZ37b ZZ37CarryOut ZZ37Sum  ;
+Module  "Full_Adder"  cd.al.1a ZZ37CarryIn ZZ37a ZZ37b | ZZ37CarryOut ZZ37Sum  ;
+  Xor "Xor" cd.al.1a.aa ZZ37a 
+ZZ37b ZZ37x 
+
+ ;
+  Xor "Xor" cd.al.1a.ab ZZ37x 
+ZZ37CarryIn ZZ37Sum 
+
+ ;
+  And "And" cd.al.1a.bb ZZ37a 
+ZZ37b ZZ37y 
+
+ ;
+  And "And" cd.al.1a.cb ZZ37CarryIn 
+ZZ37x ZZ37z 
+
+ ;
+  Or "Or" cd.al.1a.bc-cc ZZ37y 
+ZZ37z ZZ37CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ36s[1] ZZ36s[0] ZZ36l3 ZZ36l2 ZZ36l1 ZZ36l0 | ZZ38c[1] ZZ38c[0] ZZ38s[3] ZZ38s[2] ZZ38s[1] ZZ38s[0]  ;
+Module  "Decoder2x4"  cd.al.2a ZZ38c[1] ZZ38c[0] | ZZ38s[3] ZZ38s[2] ZZ38s[1] ZZ38s[0]  ;
+  Not "Not" cd.al.2a.1a ZZ38c[1] 
+ZZ38not-c1 
+
+ ;
+  Not "Not" cd.al.2a.2a ZZ38c[0] 
+ZZ38not-c0 
+
+ ;
+  And "And" cd.al.2a.2a ZZ38c[1] 
+ZZ38c[0] ZZ38s[3] 
+
+ ;
+  And "And" cd.al.2a.2b ZZ38c[1] 
+ZZ38not-c0 ZZ38s[2] 
+
+ ;
+  And "And" cd.al.2a.2c ZZ38not-c1 
+ZZ38c[0] ZZ38s[1] 
+
+ ;
+  And "And" cd.al.2a.2d ZZ38not-c1 
+ZZ38not-c0 ZZ38s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.al.2c ZZ36l3 
+ZZ36Out-Not ZZ36Out-Not1 
+
+ ;
+  And "And" cd.al.2c ZZ36l2 
+ZZ36a ZZ36Out-a 
+
+ ;
+  And "And" cd.al.2c ZZ36l1 
+ZZ36Out-And2 ZZ36Out-And1 
+
+ ;
+  And "And" cd.al.2c ZZ36l0 
+ZZ36Out-Sum ZZ36Out-Sum1 
+
+ ;
+  And "And" cd.al.2c ZZ36l0 
+ZZ36c-out1 ZZ36c-out 
+
+ ;
+  Or "Or" cd.al.2c ZZ36Out-Not1 
+ZZ36Out-a ZZ36Out-And1 ZZ36Out-Sum1 ZZ36z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[12] ZZ2b[12] ZZ2out11 ZZ2s[1] ZZ2s[0] ZZ2z[12] ZZ2out12 | ZZ39a ZZ39b ZZ39c-in ZZ39s[1] ZZ39s[0] ZZ39z ZZ39c-out  ;
+Module  "One_Bit_ALU"  cd.am ZZ39a ZZ39b ZZ39c-in ZZ39s[1] ZZ39s[0] | ZZ39z ZZ39c-out  ;
+  And "And" cd.am.1a ZZ39a 
+ZZ39b ZZ39Out-And2 
+
+ ;
+  Not "Not" cd.am.1a ZZ39a 
+ZZ39Out-Not 
+
+ ;
+Alias ZZ39a ZZ39b ZZ39c-in ZZ39c-out1 ZZ39Out-Sum | ZZ40CarryIn ZZ40a ZZ40b ZZ40CarryOut ZZ40Sum  ;
+Module  "Full_Adder"  cd.am.1a ZZ40CarryIn ZZ40a ZZ40b | ZZ40CarryOut ZZ40Sum  ;
+  Xor "Xor" cd.am.1a.aa ZZ40a 
+ZZ40b ZZ40x 
+
+ ;
+  Xor "Xor" cd.am.1a.ab ZZ40x 
+ZZ40CarryIn ZZ40Sum 
+
+ ;
+  And "And" cd.am.1a.bb ZZ40a 
+ZZ40b ZZ40y 
+
+ ;
+  And "And" cd.am.1a.cb ZZ40CarryIn 
+ZZ40x ZZ40z 
+
+ ;
+  Or "Or" cd.am.1a.bc-cc ZZ40y 
+ZZ40z ZZ40CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ39s[1] ZZ39s[0] ZZ39l3 ZZ39l2 ZZ39l1 ZZ39l0 | ZZ41c[1] ZZ41c[0] ZZ41s[3] ZZ41s[2] ZZ41s[1] ZZ41s[0]  ;
+Module  "Decoder2x4"  cd.am.2a ZZ41c[1] ZZ41c[0] | ZZ41s[3] ZZ41s[2] ZZ41s[1] ZZ41s[0]  ;
+  Not "Not" cd.am.2a.1a ZZ41c[1] 
+ZZ41not-c1 
+
+ ;
+  Not "Not" cd.am.2a.2a ZZ41c[0] 
+ZZ41not-c0 
+
+ ;
+  And "And" cd.am.2a.2a ZZ41c[1] 
+ZZ41c[0] ZZ41s[3] 
+
+ ;
+  And "And" cd.am.2a.2b ZZ41c[1] 
+ZZ41not-c0 ZZ41s[2] 
+
+ ;
+  And "And" cd.am.2a.2c ZZ41not-c1 
+ZZ41c[0] ZZ41s[1] 
+
+ ;
+  And "And" cd.am.2a.2d ZZ41not-c1 
+ZZ41not-c0 ZZ41s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.am.2c ZZ39l3 
+ZZ39Out-Not ZZ39Out-Not1 
+
+ ;
+  And "And" cd.am.2c ZZ39l2 
+ZZ39a ZZ39Out-a 
+
+ ;
+  And "And" cd.am.2c ZZ39l1 
+ZZ39Out-And2 ZZ39Out-And1 
+
+ ;
+  And "And" cd.am.2c ZZ39l0 
+ZZ39Out-Sum ZZ39Out-Sum1 
+
+ ;
+  And "And" cd.am.2c ZZ39l0 
+ZZ39c-out1 ZZ39c-out 
+
+ ;
+  Or "Or" cd.am.2c ZZ39Out-Not1 
+ZZ39Out-a ZZ39Out-And1 ZZ39Out-Sum1 ZZ39z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[13] ZZ2b[13] ZZ2out12 ZZ2s[1] ZZ2s[0] ZZ2z[13] ZZ2out13 | ZZ42a ZZ42b ZZ42c-in ZZ42s[1] ZZ42s[0] ZZ42z ZZ42c-out  ;
+Module  "One_Bit_ALU"  cd.an ZZ42a ZZ42b ZZ42c-in ZZ42s[1] ZZ42s[0] | ZZ42z ZZ42c-out  ;
+  And "And" cd.an.1a ZZ42a 
+ZZ42b ZZ42Out-And2 
+
+ ;
+  Not "Not" cd.an.1a ZZ42a 
+ZZ42Out-Not 
+
+ ;
+Alias ZZ42a ZZ42b ZZ42c-in ZZ42c-out1 ZZ42Out-Sum | ZZ43CarryIn ZZ43a ZZ43b ZZ43CarryOut ZZ43Sum  ;
+Module  "Full_Adder"  cd.an.1a ZZ43CarryIn ZZ43a ZZ43b | ZZ43CarryOut ZZ43Sum  ;
+  Xor "Xor" cd.an.1a.aa ZZ43a 
+ZZ43b ZZ43x 
+
+ ;
+  Xor "Xor" cd.an.1a.ab ZZ43x 
+ZZ43CarryIn ZZ43Sum 
+
+ ;
+  And "And" cd.an.1a.bb ZZ43a 
+ZZ43b ZZ43y 
+
+ ;
+  And "And" cd.an.1a.cb ZZ43CarryIn 
+ZZ43x ZZ43z 
+
+ ;
+  Or "Or" cd.an.1a.bc-cc ZZ43y 
+ZZ43z ZZ43CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ42s[1] ZZ42s[0] ZZ42l3 ZZ42l2 ZZ42l1 ZZ42l0 | ZZ44c[1] ZZ44c[0] ZZ44s[3] ZZ44s[2] ZZ44s[1] ZZ44s[0]  ;
+Module  "Decoder2x4"  cd.an.2a ZZ44c[1] ZZ44c[0] | ZZ44s[3] ZZ44s[2] ZZ44s[1] ZZ44s[0]  ;
+  Not "Not" cd.an.2a.1a ZZ44c[1] 
+ZZ44not-c1 
+
+ ;
+  Not "Not" cd.an.2a.2a ZZ44c[0] 
+ZZ44not-c0 
+
+ ;
+  And "And" cd.an.2a.2a ZZ44c[1] 
+ZZ44c[0] ZZ44s[3] 
+
+ ;
+  And "And" cd.an.2a.2b ZZ44c[1] 
+ZZ44not-c0 ZZ44s[2] 
+
+ ;
+  And "And" cd.an.2a.2c ZZ44not-c1 
+ZZ44c[0] ZZ44s[1] 
+
+ ;
+  And "And" cd.an.2a.2d ZZ44not-c1 
+ZZ44not-c0 ZZ44s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.an.2c ZZ42l3 
+ZZ42Out-Not ZZ42Out-Not1 
+
+ ;
+  And "And" cd.an.2c ZZ42l2 
+ZZ42a ZZ42Out-a 
+
+ ;
+  And "And" cd.an.2c ZZ42l1 
+ZZ42Out-And2 ZZ42Out-And1 
+
+ ;
+  And "And" cd.an.2c ZZ42l0 
+ZZ42Out-Sum ZZ42Out-Sum1 
+
+ ;
+  And "And" cd.an.2c ZZ42l0 
+ZZ42c-out1 ZZ42c-out 
+
+ ;
+  Or "Or" cd.an.2c ZZ42Out-Not1 
+ZZ42Out-a ZZ42Out-And1 ZZ42Out-Sum1 ZZ42z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[14] ZZ2b[14] ZZ2out13 ZZ2s[1] ZZ2s[0] ZZ2z[14] ZZ2out14 | ZZ45a ZZ45b ZZ45c-in ZZ45s[1] ZZ45s[0] ZZ45z ZZ45c-out  ;
+Module  "One_Bit_ALU"  cd.ao ZZ45a ZZ45b ZZ45c-in ZZ45s[1] ZZ45s[0] | ZZ45z ZZ45c-out  ;
+  And "And" cd.ao.1a ZZ45a 
+ZZ45b ZZ45Out-And2 
+
+ ;
+  Not "Not" cd.ao.1a ZZ45a 
+ZZ45Out-Not 
+
+ ;
+Alias ZZ45a ZZ45b ZZ45c-in ZZ45c-out1 ZZ45Out-Sum | ZZ46CarryIn ZZ46a ZZ46b ZZ46CarryOut ZZ46Sum  ;
+Module  "Full_Adder"  cd.ao.1a ZZ46CarryIn ZZ46a ZZ46b | ZZ46CarryOut ZZ46Sum  ;
+  Xor "Xor" cd.ao.1a.aa ZZ46a 
+ZZ46b ZZ46x 
+
+ ;
+  Xor "Xor" cd.ao.1a.ab ZZ46x 
+ZZ46CarryIn ZZ46Sum 
+
+ ;
+  And "And" cd.ao.1a.bb ZZ46a 
+ZZ46b ZZ46y 
+
+ ;
+  And "And" cd.ao.1a.cb ZZ46CarryIn 
+ZZ46x ZZ46z 
+
+ ;
+  Or "Or" cd.ao.1a.bc-cc ZZ46y 
+ZZ46z ZZ46CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ45s[1] ZZ45s[0] ZZ45l3 ZZ45l2 ZZ45l1 ZZ45l0 | ZZ47c[1] ZZ47c[0] ZZ47s[3] ZZ47s[2] ZZ47s[1] ZZ47s[0]  ;
+Module  "Decoder2x4"  cd.ao.2a ZZ47c[1] ZZ47c[0] | ZZ47s[3] ZZ47s[2] ZZ47s[1] ZZ47s[0]  ;
+  Not "Not" cd.ao.2a.1a ZZ47c[1] 
+ZZ47not-c1 
+
+ ;
+  Not "Not" cd.ao.2a.2a ZZ47c[0] 
+ZZ47not-c0 
+
+ ;
+  And "And" cd.ao.2a.2a ZZ47c[1] 
+ZZ47c[0] ZZ47s[3] 
+
+ ;
+  And "And" cd.ao.2a.2b ZZ47c[1] 
+ZZ47not-c0 ZZ47s[2] 
+
+ ;
+  And "And" cd.ao.2a.2c ZZ47not-c1 
+ZZ47c[0] ZZ47s[1] 
+
+ ;
+  And "And" cd.ao.2a.2d ZZ47not-c1 
+ZZ47not-c0 ZZ47s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ao.2c ZZ45l3 
+ZZ45Out-Not ZZ45Out-Not1 
+
+ ;
+  And "And" cd.ao.2c ZZ45l2 
+ZZ45a ZZ45Out-a 
+
+ ;
+  And "And" cd.ao.2c ZZ45l1 
+ZZ45Out-And2 ZZ45Out-And1 
+
+ ;
+  And "And" cd.ao.2c ZZ45l0 
+ZZ45Out-Sum ZZ45Out-Sum1 
+
+ ;
+  And "And" cd.ao.2c ZZ45l0 
+ZZ45c-out1 ZZ45c-out 
+
+ ;
+  Or "Or" cd.ao.2c ZZ45Out-Not1 
+ZZ45Out-a ZZ45Out-And1 ZZ45Out-Sum1 ZZ45z 
+
+ ;
+ End ; /* One_Bit_ALU */
+Alias ZZ2a[15] ZZ2b[15] ZZ2out14 ZZ2s[1] ZZ2s[0] ZZ2z[15] ZZ2out15 | ZZ48a ZZ48b ZZ48c-in ZZ48s[1] ZZ48s[0] ZZ48z ZZ48c-out  ;
+Module  "One_Bit_ALU"  cd.ap ZZ48a ZZ48b ZZ48c-in ZZ48s[1] ZZ48s[0] | ZZ48z ZZ48c-out  ;
+  And "And" cd.ap.1a ZZ48a 
+ZZ48b ZZ48Out-And2 
+
+ ;
+  Not "Not" cd.ap.1a ZZ48a 
+ZZ48Out-Not 
+
+ ;
+Alias ZZ48a ZZ48b ZZ48c-in ZZ48c-out1 ZZ48Out-Sum | ZZ49CarryIn ZZ49a ZZ49b ZZ49CarryOut ZZ49Sum  ;
+Module  "Full_Adder"  cd.ap.1a ZZ49CarryIn ZZ49a ZZ49b | ZZ49CarryOut ZZ49Sum  ;
+  Xor "Xor" cd.ap.1a.aa ZZ49a 
+ZZ49b ZZ49x 
+
+ ;
+  Xor "Xor" cd.ap.1a.ab ZZ49x 
+ZZ49CarryIn ZZ49Sum 
+
+ ;
+  And "And" cd.ap.1a.bb ZZ49a 
+ZZ49b ZZ49y 
+
+ ;
+  And "And" cd.ap.1a.cb ZZ49CarryIn 
+ZZ49x ZZ49z 
+
+ ;
+  Or "Or" cd.ap.1a.bc-cc ZZ49y 
+ZZ49z ZZ49CarryOut 
+
+ ;
+ End ; /* Full_Adder */
+Alias ZZ48s[1] ZZ48s[0] ZZ48l3 ZZ48l2 ZZ48l1 ZZ48l0 | ZZ50c[1] ZZ50c[0] ZZ50s[3] ZZ50s[2] ZZ50s[1] ZZ50s[0]  ;
+Module  "Decoder2x4"  cd.ap.2a ZZ50c[1] ZZ50c[0] | ZZ50s[3] ZZ50s[2] ZZ50s[1] ZZ50s[0]  ;
+  Not "Not" cd.ap.2a.1a ZZ50c[1] 
+ZZ50not-c1 
+
+ ;
+  Not "Not" cd.ap.2a.2a ZZ50c[0] 
+ZZ50not-c0 
+
+ ;
+  And "And" cd.ap.2a.2a ZZ50c[1] 
+ZZ50c[0] ZZ50s[3] 
+
+ ;
+  And "And" cd.ap.2a.2b ZZ50c[1] 
+ZZ50not-c0 ZZ50s[2] 
+
+ ;
+  And "And" cd.ap.2a.2c ZZ50not-c1 
+ZZ50c[0] ZZ50s[1] 
+
+ ;
+  And "And" cd.ap.2a.2d ZZ50not-c1 
+ZZ50not-c0 ZZ50s[0] 
+
+ ;
+ End ; /* Decoder2x4 */
+  And "And" cd.ap.2c ZZ48l3 
+ZZ48Out-Not ZZ48Out-Not1 
+
+ ;
+  And "And" cd.ap.2c ZZ48l2 
+ZZ48a ZZ48Out-a 
+
+ ;
+  And "And" cd.ap.2c ZZ48l1 
+ZZ48Out-And2 ZZ48Out-And1 
+
+ ;
+  And "And" cd.ap.2c ZZ48l0 
+ZZ48Out-Sum ZZ48Out-Sum1 
+
+ ;
+  And "And" cd.ap.2c ZZ48l0 
+ZZ48c-out1 ZZ48c-out 
+
+ ;
+  Or "Or" cd.ap.2c ZZ48Out-Not1 
+ZZ48Out-a ZZ48Out-And1 ZZ48Out-Sum1 ZZ48z 
+
+ ;
+ End ; /* One_Bit_ALU */
+  And "And" cd.da ZZ2z[15] 
+ONE ZZ2N 
+
+ ;
+  Nor "Nor" cd.da ZZ2z[0] 
+ZZ2z[1] ZZ2z[2] ZZ2z[3] ZZ2z[4] ZZ2z[5] ZZ2z[6] ZZ2z[7] ZZ2z[8] ZZ2z[9] ZZ2z[10] ZZ2z[11] ZZ2z[12] ZZ2z[13] ZZ2z[14] ZZ2z[15] ZZ2Z 
+
+
+ ;
+ End ; /* ALU16 */

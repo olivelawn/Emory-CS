@@ -1,0 +1,26 @@
+CS253/553 Grades Summary:
+
+The following is a summary of your marks.  MT1, MT2, and FIN
+are the exams, and H1 through H7 (H4 in two parts) are the
+homeworks.  They are weighted so that:
+ * the seven homeworks count for 50% of your grade
+   (the first counts half, the others count equally)
+ * the exams count (equally) for the other 50%.
+
+Before averaging, the marks were renormalized so that the
+each maximum is effectively 100.  Rather than curve up the
+first midterm by 10 or so points, I effectively lowered the
+final grading curve slightly, and used the raw averages.
+Your final grade is in the "GR" column.
+
+Assign:  H1  H2 MT1  H3 H4W H4P  H5 MT2  H6  H7 FIN GR Full Q Name
+Max:    100 100 185 100 100 100 100 140 100 100 200 
+Weight:   3   6  13   6   3   3   6  13   6   6  13    [total==78]
+------- --- --- --- --- --- --- --- --- --- --- --- -- -----------
+pjohn07  90  90 111  97 100 100 110 136 100 120 157 A- Parker Lee Johnson
+
+If you see errors or omissions above, please contact me.
+
+Michelangelo Grigni <mic@mathcs.emory.edu>
+
+Overall average for pjohn07 == 90.0/100

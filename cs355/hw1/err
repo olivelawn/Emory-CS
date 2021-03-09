@@ -1,0 +1,254 @@
+
+SIM  v 24.0  7-14-92 (MSU)
+Reading the input file(s)...
+INPUT FILE -- hw1:
+/*  Parker Johnson  HW1  1-31-95   */
+
+Switch aa A ZERO;
+Not aa A nA;
+
+Switch ba A ZERO;
+Not ba A nA;
+
+Switch ca A ZERO;
+Not ca A nA;
+
+Switch da A ZERO;
+Not da A nA;
+
+Switch ea A ZERO;
+Not ea A nA;
+
+And bb nA B C D E 01;
+And bb A nB C D E 02;
+And bb A B nC D E 03;
+And bb A B C nD E 04;
+And bb A B C D nE 05;
+And bb A B C D E 06;
+
+Or bc 01 02 03 04 05 06 X;
+Probe cc X;
+
+And cb nA nB nC D E 07;
+And cb nA nB C nD E 08;
+And cb nA nB C D nE 09;
+And cb nA nB C D E 10;
+And cb nA B nC nD E 11;
+And cb nA B nC D nE 12;
+And cb nA B nC D E 13;
+And cb nA B C nD nE 14;
+And cb nA B C nD E 15;
+And cb nA B C D nE 16;
+And cb A nB nC nD E 17;
+And cb A nB nC D nE 18;
+And cb A nB nC D E 19;
+And cb A nB C nD nE 20;
+And cb A nB C nD E 21;
+And cb A nB C D nE 22;
+And cb A B nC nD nE 23;
+And cb A B nC nD E 24;
+And cb A B nC D nE 25;
+And cb A B C nD nE 26;
+
+Or cc 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 Y;
+Probe cd Y;
+
+And db nA nB nC nD E 27;
+And db nA nB nC D nE 28;
+And db nA nB C nD nE 29;
+And db nA nB C D E 30;
+And db nA B nC nD nE 31;
+And db nA B nC D E 32;
+And db nA B C nD E 33;
+And db nA B C D nE 34;
+And db A nB nC nD nE 35;
+And db A nB nC D E 36;
+And db A nB C nD E 37;
+And db A nB C D nE 38;
+And db A B nC nD E 39;
+And db A B nC D nE 40;
+And db A B C nD E 41;
+And db A B C D E 42;
+
+Or dc 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 Z;
+Probe dc Z;
+There are 58 components.
+There are 59 nodes including ZERO, HI-Z, UNKNOWN, and ONE.
+ Outputs connected together at node A
+ Outputs connected together at node nA
+ Outputs connected together at node A
+ Outputs connected together at node nA
+ Outputs connected together at node A
+ Outputs connected together at node nA
+ Outputs connected together at node A
+ Outputs connected together at node nA
+ And at bb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at bb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  E  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  D  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  B  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  C  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at cb, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nB  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nC  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nE  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  nD  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+ And at db, Input signal  B  unconnected; UNKNOWN assumed.
+ And at db, Input signal  C  unconnected; UNKNOWN assumed.
+ And at db, Input signal  D  unconnected; UNKNOWN assumed.
+ And at db, Input signal  E  unconnected; UNKNOWN assumed.
+Total number of activations = 265  for  59  nodes.
+ Fatal errors, can't continue.

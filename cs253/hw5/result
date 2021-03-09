@@ -1,0 +1,17 @@
+
+For Input.1
+Visiting order:
+ 0 1
+Cyclic Graph: 0 1
+
+
+For Input.2
+Visiting order:
+ 0 1 4 6 8 7 2 3 5
+Acyclic Graph in Topological Order: 0 3 5 2 1 4 7 6 8
+
+
+For Input.3
+Visiting order:
+ 0 3 1 6 2 4 5 7
+Acyclic Graph in Topological Order: 7 5 4 2 1 6 0 3

@@ -1,0 +1,7 @@
+select J.jnum
+from project J
+where J.jnum not in
+	(select A.jnum
+	 from part P, spj A
+	 where P.color='Red' and
+	 A.pnum=P.pnum)

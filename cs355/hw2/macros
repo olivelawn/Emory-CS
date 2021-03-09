@@ -1,0 +1,64 @@
+/* Full adder.
+   Syntax: Full_Adder a b c-in | c-out s;
+   Effect: Adds binary numbers a + b with carry.
+*/
+Define Full_Adder CarryIn a b | CarryOut Sum;
+  Xor aa a b x;
+  Xor ab x CarryIn Sum;
+  And bb a b y;
+  And cb CarryIn x z;
+  Or bc-cc y z CarryOut;
+Endef;
+
+/* D-latch
+   Syntax: D_Latch D Clock | Q-bar Q;
+*/
+Define D_Latch D Clk | q-bar q;
+ And 1d D Clk set;  Nor 1e set q q-bar;
+ Not 2c D Not-D;    And 2d Clk Not-D reset; Nor 2e q-bar reset q;
+Endef;
+
+/* D-flipflop
+   Syntax: D_Flipflop <x,y> D Clock | Q-bar Q;
+*/
+Define D_Flipflop D Clk | q-bar q;
+ And 1d D Clk set1;  Nor 1e set1 q1 q1-bar;
+ And 2d Clk Not-D reset1; Nor 2e q1-bar reset1 q1;
+ Not 2c D Not-D;    
+ And 1f q1-bar Not-Clk set2;  Nor 1g set2 q q-bar;
+ And 2f Not-Clk q1 reset2; Nor 2g q-bar reset2 q;
+ Not 2f Clk Not-Clk;    
+Endef;
+
+/* 2x4 Decoder
+   Syntax: Decoder2x4 <x,y> c[1..0] | s[3..0];
+*/
+Define Decoder2x4 c[1..0] | s[3..0];
+ Not 1a c[1] not-c1; Not 2a c[0] not-c0;
+ And 2a c[1] c[0] s[3];
+ And 2b c[1] not-c0 s[2];
+ And 2c not-c1 c[0] s[1];
+ And 2d not-c1 not-c0 s[0];
+Endef;
+
+/* 1 bit ALU
+   Syntax: One_Bit_ALU a b carry-in sel1 sel0 | z carry-out;
+   sel1 = 0, sel0 = 0 -> Add a, b carry-in
+   sel1 = 0, sel0 = 1 -> Not a
+   sel1 = 1, sel0 = 0 -> a Or b
+   sel1 = 1, sel0 = 1 -> a AND b
+*/
+Define One_Bit_ALU a b c-in s[1..0] | z c-out;
+ And 1a a b Out-And2;
+ Or 1a a b Out-Or;
+ Not 1a a Out-Not;
+ Full_Adder 1a a b c-in | c-out1 Out-Sum;
+ Decoder2x4 2a s[1] s[0] | l3 l2 l1 l0;
+ And 2c l3 Out-And2 Out-And1;
+ And 2c l2 Out-Or Out-Or1;
+ And 2c l1 Out-Not Out-Not1;
+ And 2c l0 Out-Sum Out-Sum1;
+ And 2c l0 c-out1  c-out;
+ Or 2c  Out-And1 Out-Or1 Out-Not1 Out-Sum1 z;
+Endef;
+

@@ -1,0 +1,19 @@
+(define (first x) (car x))
+(define (rest x) (cdr x))
+(define (empty? x) (null? x))
+(define (back x y) (append y (list x)))
+
+
+(define (mss seq) (test seq 0 0) )
+
+
+
+(define (test x this_sum max_sum)
+  (cond ((empty? x) max_sum )
+        (else (let* ((tmp_this_sum (+ (car x) this_sum))) 
+		(if (> tmp_this_sum max_sum) (test (rest x) tmp_this_sum tmp_this_sum)
+		  (if (< tmp_this_sum 0) (test (rest x) 0 max_sum)
+		    (test (rest x) tmp_this_sum max_sum)))))))
+
+
+

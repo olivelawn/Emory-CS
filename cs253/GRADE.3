@@ -1,0 +1,80 @@
+grader: Grading pjohn07
+// cs253 project turnin from pjohn07, file `hw3fix.C' as assignment 3
+// GRADER: needed StackEmpty and StackFull (just like in hw2!)
+// GRADER PENALTY: 8%
+
+-rw-rwx---   1 cs253000 cs          4560 Mar  8 05:35 pjohn07.3
+-rw-r--r--   1 cs253000 cs             0 Feb 28 23:59 duedate.3
+-rw-rwx---   1 cs253000 cs          4283 Feb 27 17:03 pjohn07.3.orig
+Checking date: 1 days early, 5% early bonus
+
+Testing: working program (50 points)
+ Expect: 1Q --> 1
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+1
+Right.
+
+Testing: multiple digits (5 points)
+ Expect: 0190Q --> 190
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+190
+Right.
+
+Testing: token/int bug (5 points)
+ Expect: 1358954496-587202560Q --> (1358954496-587202560)
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+(1358954496-587202560)
+Right.
+
+Testing: basic precedence (5 points)
+ Expect: 1+2*3Q --> (1+(2*3))
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+(1+(2*3))
+Right.
+
+Testing: basic precedence (5 points)
+ Expect: 1/2-3Q --> ((1/2)-3)
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+((1/2)-3)
+Right.
+
+Testing: simple parentheses (5 points)
+ Expect: (((1)))Q --> 1
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+1
+Right.
+
+Testing: subtraction L to R (5 points)
+ Expect: 1-2-3-4Q --> (((1-2)-3)-4)
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+(((1-2)-3)-4)
+Right.
+
+Testing: powering R to L (5 points)
+ Expect: 1^2^3^4Q --> (1^(2^(3^4)))
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+(1^(2^(3^4)))
+Right.
+
+Testing: medium example (5 points)
+ Expect: 1-(2*3)^4^(5+6)Q --> (1-((2*3)^(4^(5+6))))
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+(1-((2*3)^(4^(5+6))))
+Right.
+
+Testing: complex example (5 points)
+ Expect: 0+1-2*3^4^(5+6)/7*89Q --> ((0+1)-(((2*(3^(4^(5+6))))/7)*89))
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+((0+1)-(((2*(3^(4^(5+6))))/7)*89))
+Right.
+
+Testing: long addition (5 points)
+ Expect: 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1Q --> (((((((((((((((((((1+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)
+Infix Stack calculator: enter digits, (, ), ^, +, -, *, /, or q
+(((((((((((((((((((1+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)
+Right.
+
+Raw total: 100/100
+After grader penalty (8%), 92/100...
+After any early/late adjustments (max 100)...
+GRADE: 97/100

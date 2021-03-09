@@ -1,0 +1,18 @@
+select S.snum, S.sname
+from supplier S
+where not exists (
+	select *
+	from part P
+	where P.pnum in 
+			(select A.pnum
+			from spj A
+			where S.snum=A.snum)		
+	and P.pnum not in
+			(select P1.pnum
+		       	from part P1
+		       	where P1.weight>12)
+		)
+			
+
+
+
